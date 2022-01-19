@@ -1,0 +1,69 @@
+1. write function
+=> functionName(){//initial code..}
+=> function(variableName1 : dataType, variableName2 : any){// if u  dont knew dataType use  "any" keywords}
+2. Property binding:
+never used of Interpolation for data attribute for changed the value because boolean does not work due to convert string 
+<input type="text" [value]=variableName>
+interpolation : 
+<input type="text" value={{variableName}}>
+3. Interpolation : its a {{sajid}}, sajid variable value is declared in fileName.component.ts
+4. define id in html tab
+=><h1 #iAmId > </h1>
+
+5. ng if and ng if else statement
+show=true (this is part of ts.component variable)
+<h1 *ngIf="show else  elseMe"> // if variable 'show' true : condition true, else condition false 
+  condition true
+</h1>
+<ng-template #elseMe>
+  <h1> Condition false</h1>
+</ng-template>
+or
+<h1 *ngIf="show; then ifBlock else  elseBlock"></h1>
+
+<ng-template #ifBlock>
+  <h1> Condition true</h1>
+</ng-template>
+<ng-template #elseBlock>
+  <h1> Condition false</h1>
+</ng-template>
+or 
+<h1 *ngIf="show">
+  I am true
+</h1>
+or
+/// use else if statement like below said
+<ng-template [ngIf]="show">
+  <h1> I am true</h1>
+</ng-template>
+or
+color = 'red';
+<ng-template [ngIf]="color==='red'">
+  <h1> I am red</h1>
+</ng-template>
+
+6. if you have multiple condition in this case you switch statement.
+color = "blue" (this is part of ts.component variable)
+<h1 [ngSwitch]="color">
+  <h2 *ngSwitchCase="'red'">I am Red</h2>
+  <h2 *ngSwitchCase="'green'">I am green</h2>
+  <h2 *ngSwitchCase="'blue'">I am blue</h2>
+  <h2 *ngSwitchDefault>I am Default Switch Case </h2>
+</h1>
+7. loop with array
+users = ['rahul','kamina','kutta','ullu'];
+<h1  *ngFor="let name of users">
+  <p>{{name}}</p>
+</h1>
+8. array object with loop
+users = [
+      {name:'rahul', id:1},
+      {name:'kamina', id:2},
+      {name:'hello', id:3},
+      {name:'kem', id:4},
+      {name:'panipat', id:5},
+      {name:'luv', id:6}
+    ];
+<h1  *ngFor="let name of users">
+  <p>{{name.name}}-- {{name.id}}</p>
+</h1>

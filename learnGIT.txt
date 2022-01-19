@@ -1,0 +1,38 @@
+1. create branch
+git branch branchname
+2. enter branch
+git checkout branchname
+3. merge multiple or two branch/  go to current branch or main branch or create branch and merge
+git merge branchlocation or name
+4. ignore folder for push project
+touch .gitignore
+5. check origin where push the project
+git remote -v (before push set original 
+6. set origin 
+git push - u origin https://github.com/dontKnew/WMS.git
+7. check log of git/ changes all things commited
+git log
+8. change in file (after command write 'i' for enter the file)
+vim filename 
+9. create new repo whenever set origin for push to github
+git remote add origin git@github.com:alexpchin/<reponame>.git
+
+=> push to project in github
+1. git init : create git file 
+1.1. add all file and folders
+git add .
+2. add spesfic file or folder
+git add folderName/fileName
+3. commit your project or publish project
+git commit -m "initial project"
+4. push to origin 
+git push -u origin https://github.com/dontKnew/CheatSheet.git
+5. you can check origin of your github profile whereas your project will be pushing
+git remote -v
+6. now its time to push project in your github profile
+git push -u push origin branchname
+
+=> add collaborator for change in project. ( collaborators must be have github profile)
+1. github profile -> respository project -> settings -> manage access 
+
+
