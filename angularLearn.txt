@@ -67,4 +67,4 @@ users = [
 <h1  *ngFor="let name of users">
   <p>{{name.name}}-- {{name.id}}</p>
 </h1>
-8. 
+8.1
