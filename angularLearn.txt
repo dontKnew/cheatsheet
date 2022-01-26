@@ -248,7 +248,202 @@ constructor(private route:ActivatedRoute) { }
 path : 'admin/:id', component:Componentname, // routing file
 <a routerLink = 'admin/20'>adminUserId</a> 
 
-16. 
+16. Templete Refernce variable : we can access throughi this DOM by #id
+<input type="text" name="" #textValue id="" placeholder="Enter any things...">
+<button (click) = "changeVal(textValue.value)"> Change Value </button>
+// TS FILE
+changeVal(item:any) { // it can be also HTMLinputElement
+    console.log(item);
+  }	
+
+16. send data parent to child data
+//parent Component : 
+  // HTML FILE
+  <h1 style="color:red"> Hello Angular </h1>
+  <app-child [item]="data"> </app-child>
+  <button (click)="updateData()"> Update Data</button> 
+  // TS FILE
+   data = 10;
+  updateData(){
+    this.data = Math.floor(Math.random()*10);
+  }
+
+//CHILD Component : 
+  // HTML FILE
+<h2> Data from Parent {{item}}</h2>
+import { Component, OnInit, Input } from '@angular/core';
+	// TS FILE
+@Component({
+  selector: 'app-child',
+  templateUrl: './child.component.html',
+  styleUrls: ['./child.component.css']
+})
+export class ChildComponent implements OnInit {
+
+  constructor() { }
+  @Input()item = 0;
+  ngOnInit(): void {
+  }
+}
+
+17. sent data child to parent 
+//parent component 
+	html file 	
+<h1 style="color:red"> Hello Angular </h1>
+<h2> {{data}}</h2>
+<app-child (updateDataEvent)="updateData($event)" > </app-child>
+
+ts file
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'practiceJS';
+  data = "x";
+  updateData(item:string){
+    console.log(item);
+    this.data = item;
+  }
+}
+
+//child component
+<p>child works!</p>
+<input type="text" name="" #box id="">
+<button (click)="updateDataEvent.emit(box.value)" >Update</button>
+
+ts file
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  templateUrl: './child.component.html',
+  styleUrls: ['./child.component.css']
+})
+export class ChildComponent implements OnInit {
+
+  constructor() { }
+  @Output() updateDataEvent = new EventEmitter<string>();
+  ngOnInit(): void {
+  }
+
+}
+
+17. Service : service does not dependent to any module, dependencies etc. this is free to use at any file in angular
+=> services are the independent
+=> most of the time we call the api ins service
+command : ng g service foldername/filename
+lets an example : 
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserDataService {
+  constructor() { }
+  users(){
+    return [
+      {name:"Peter",age:20,email:"israfil23.sa@gmail.com"},
+      {name:"Rahul",age:30,email:"rahul.sa@gmail.com"},
+      {name:"kamina",age:10,email:"kamkna.sa@gmail.com"},
+      {name:"sarita",age:40,email:"sarita.sa@gmail.com"},
+      {name:"adarsh",age:25,email:"adarsh@gmail.com"},
+
+    ]
+  }
+}
+// added users details in above said service file, we can use this any componet at the whole project of angular
+how can i do ? lets check
+=> import { UserDataService } from './service/user-data.service'; add in ts file
+ts file 
+users:any; // inside AppComponent function in ts file
+  constructor(private userData:UserDataService){
+    console.warn(userData.users)
+    this.users = userData.users();
+  }
+
+// HTML FILE
+<li *ngFor="let user of users">
+    UserName : {{user.name}} ---
+    Age : {{user.age}} ---
+</li>
+note : you can call this any component through above said method.
+
+18. get data from API in angular 
+get data from server : component -> service - > http moudle -> server;
+=> import {HttpClient} from '@angular/common/http'; service file
+export class UserDataService {
+  url= "https://mocki.io/v1/21324d1a-f4c1-45ca-940c-a62f14622c71";
+  constructor(private  http:HttpClient) {}
+  users(){
+    return this.http.get(this.url)
+  }
+}
+=> HttpClientModule // add app.module.ts under import module section thereafter auto will added in header import { HttpClientModule } from '@angular/common/http';
+=> import { UserDataService } from './service/user-data.service'; // add component ts file 
+// TS FILE
+users:any; // under AppComponet class
+  constructor(private userData:UserDataService){
+    this.userData.users().subscribe((data)=>{
+      // console.warn("data", data);
+      this.users = data;
+    });
+//HTML FILE
+<li *ngFor="let user of users">
+    id : {{user.id}} <br>
+    Name : {{user.name}} <br>
+    Email : {{user.email}} <br> <br>
+</li>
+
+Note : above said method we can access data in any component file
+
+19. post data from angular to API Server
+post data from server : component -> service - > http moudle -> server;
+=> import {HttpClient} from '@angular/common/http'; service file
+export class UserDataService {
+  url= "https://mocki.io/v1/21324d1a-f4c1-45ca-940c-a62f14622c71";
+  constructor(private  http:HttpClient) {}
+  addUser(data:any){
+    return this.http.post(this.url,data);
+  }
+}
+=> HttpClientModule // add app.module.ts under import module section thereafter auto will added in header import { HttpClientModule } from '@angular/common/http';
+=> import { UserDataService } from './service/user-data.service'; // add component ts file 
+// TS FILE
+users:any; // under AppComponet class
+  constructor(private userData:UserDataService){
+    });
+  getFromData(data:any){
+    console.log(data);
+    this.userData.addUser(data).subscribe((result)=>{
+      console.warn(result);
+    })   
+  }
+//HTML FILE
+<form #formData="ngForm" (ngSubmit)="getFromData(formData.value)">
+    <input type="number" name="id" id="" placeholder="enter id" ngModel> <br>
+    <input type="text" name="name" id="" placeholder="enter name" ngModel> <br>
+    <input type="email" name="email" id="" placeholder="enter email" ngModel> <br>
+    <input type="number" name="age" id="" placeholder="enter age" ngModel> <br>
+    <button>Add User</button>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
