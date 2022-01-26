@@ -248,6 +248,8 @@ constructor(private route:ActivatedRoute) { }
 path : 'admin/:id', component:Componentname, // routing file
 <a routerLink = 'admin/20'>adminUserId</a> 
 
+16. 
+
 
 
 
