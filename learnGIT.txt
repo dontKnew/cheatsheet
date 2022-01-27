@@ -1,21 +1,34 @@
 1. create branch
 git branch branchname
+
 2. enter branch
 git checkout branchname
+
 3. merge multiple or two branch/  go to current branch or main branch or create branch and merge
 git merge branchlocation or name
+
 4. ignore folder for push project
 touch .gitignore
+
 5. check origin where push the project
 git remote -v (before push set original 
+
 6. set origin 
 git push - u origin https://github.com/dontKnew/cheatsheet.git
+
 7. check log of git/ changes all things commited
 git log
 8. change in file (after command write 'i' for enter the file)
+
 vim filename 
 9. create new repo whenever set origin for push to github
 git remote add origin git@github.com:alexpchin/<reponame>.git
+
+10. update project from github in computer
+git pull origin branchName
+
+11. restore from previous changed
+git restore --staged
 
 => push to project in github
 1. git init : create git file 

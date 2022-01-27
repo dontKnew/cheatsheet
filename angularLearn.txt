@@ -191,6 +191,35 @@ loginForm  = new FormGroup({
     <h2>  {{password}}</h2>
 </div>
 
+11.1.2 reactive form validation
+//ts file under class componennt
+loginForm  = new FormGroup({
+    name:new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z]+$')]),
+    password:new FormControl('',[Validators.required, Validators.minLength(4)])
+  })
+  loginUser(){
+    console.warn("Your Data is : " + this.loginForm.value);
+  } 
+  get user(){
+    return this.loginForm.get('name')
+  } 
+  get password(){
+    return this.loginForm.get('password')
+  } 
+
+// html file
+form  [formGroup]="loginForm" (ngSubmit)="loginUser()">
+    <input type="text" name="name" id="" placeholder="Enter Your Name" formControlName = 'name'>
+    <span style="color:red" *ngIf="user && user.invalid && user.touched">This is invaild input</span>
+    <br> 
+    <input type="password" name="password" id="" placeholder="Enter Your Password" formControlName="password"> 
+    <span style="color:red" *ngIf="password && password.invalid && password.touched">This is invaild password</span>
+    <br> <br>
+
+    <button [disabled]="loginForm.invalid">Login</button>
+</form>
+
+
 12. module : all component, services groups are called module, 
 generate new module : ng generate moudle admin-auth
 generate component in created module : ng g c admin-auth/dashboard // this dashboard component will auto import in admin-auth.module.ts for configuration
@@ -248,6 +277,7 @@ constructor(private route:ActivatedRoute) { }
 path : 'admin/:id', component:Componentname, // routing file
 <a routerLink = 'admin/20'>adminUserId</a> 
 
+<<<<<<< HEAD
 16. Templete Refernce variable : we can access throughi this DOM by #id
 <input type="text" name="" #textValue id="" placeholder="Enter any things...">
 <button (click) = "changeVal(textValue.value)"> Change Value </button>
@@ -445,6 +475,102 @@ users:any; // under AppComponet class
 
 
 
+=======
+16. Automation testing is three type : 1. UNIT TEST CASE 2. INTEGRATION 3. END TO END
+=> We have a large application
+=> Veriy useful to run test case before deploy our project on server
+=> When we just start making application, we should use mannual testing\
+=> We should not write a test case when a requirement changes rapidly in our project.
+	1. Protractor - Run Test Case on browser
+	2. Jasmine - Testing environment, Run Spec file for the case
+	3. Karma-Run test case in mutliple browser
+=> command : ng test
+=> all our testing will be in the current file component.spec.ts.
+
+Variable Test Example 1: title = "user" // add in Component class as an variable
+// lets check title equal to user or not in test case
+if("testing title", ()=>{
+expect(component.title).toBe("user")
+}); // if test is not title == "user", it will be given an error in angular ng test browser
+
+Function Test Example 2: sum(a,b) { return 100} // add in Component class 
+// lets check sum function return equal to 100 
+if("testing function", ()=>{
+expect(component.sum(40,60).toBe(100)
+}); // if sum(50,60), then it will given an error in angular ng test browser becuase, we were delcared our sum function return output is 100 
+
+
+Variable Test Example 2: <h1 class="some"> User </h1> // add in Component HTML 
+// lets check title equal to user or not in test case
+if("testing html element", ()=>{
+const data = fixture.nativeElement;
+expect(data.querySelector(".some").textContent).toContain('User');
+}); // if class "some" exits, there after textcontent should be "USER";
+
+17. Model and Interface : this is usefull whenever we need to decide data type
+=> create file fileName.ts // current folder component
+//fileName.ts 
+export interface dataType {
+name:string,
+id:number,
+Indian:boolean,
+address:any
+}
+// ts file 
+=> import {dataType} from './fileName';
+// under Class Component
+getData(){
+// if any data type mismatch from interface created, then this will be given an error, suppose Indian:"yes" , it will given ban error because we decided our indian vlaue is should be boolean and boolean value alwayas be true or false.
+	const data:dataType = {
+		name:"Sajdi",
+		id:5,
+		Indian:true,
+		address:Delhi, India
+	}
+	return data;
+}
+
+18. Create routing with model command : ng g m user --routing
+19. Lazy Component loading: Whenever our angular website loaded, thereafter component our wil not load until click button for load component
+=> This is usefull whenever 100-200 component in our project, it will take time to load our website if we have 100-200 component, so we use lazy component
+// HTML FILE
+<button (click)="loadComponent1()" >Load Component One</button>
+<button (click)="loadComponent2()" >Load Component Two </button
+// TS FILE
+=> import { Component, ViewContainerRef, ComponentFactoryResolver } from '@angular/core'; // add in current ts file 
+	// under Component data below:
+constructor(private vcr:ViewContainerRef, private cfr:ComponentFactoryResolver) { }
+  async loadComponent1(){
+    this.vcr.clear();
+    const {AdminComponent} = await import('./admin/admin.component');
+    this.vcr.createComponent(
+      this.cfr.resolveComponentFactory(AdminComponent)
+    )
+  }
+  async loadComponent2(){
+   this.vcr.clear();
+   const{AdminAboutComponent} =  await import('./admin-about/admin-about.component');
+   this.vcr.createComponent(this.cfr.resolveComponentFactory(AdminAboutComponent));
+  }
+
+19. Lazy Loading : 
+=> Create New Module with routing command : ng g m user --routing
+=> create two component under user module above said, commadnd : ng g c user/list, ng g c user/about
+=> import { UserModule } from './user/user.module'; // add to app.module.ts file
+=> import { AboutComponent } from './about/about.component';// add created moudle : user-routing.module 
+=> import { ListComponent } from './list/list.component';// add created moudle : user-routing.module 
+//user.routing.moudle  file
+const routes: Routes = [
+  {path:'about', component:AboutComponent},
+  {path:'list', component:ListComponent},
+];
+//app.routing.module file 
+{path:'user', loadChildren:()=>import('./user/user.module').then(mode=>mode.UserModule)} 
+// APP. HTML FILE
+<a href="" routerLink="user/about">User About</a> <br>
+<a href="" routerLink="user/list">User List</a>
+<router-outlet></router-outlet>
+>>>>>>> 672397e (nest js and angular update)
 
 
 
