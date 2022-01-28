@@ -1,0 +1,31 @@
+:JSON SERVER: this JSON SERVER we can make fake api for testing our application like angular react and other front end frameworks.
+1. npm install -g json-server // json server will be install in your computer globally.
+2. go to any folder and run command : json-server --watch  // run without file or json-server --watch db.json // run with file
+3. Singular Route : 
+GET    /profile
+POST   /profile
+PUT    /profile
+PATCH  /profile
+
+3.1 Plural Route
+GET    /posts
+GET    /posts/1
+POST   /posts
+PUT    /posts/1
+PATCH  /posts/1
+DELETE /posts/1
+
+learn more about json server for visit  this site : https://github.com/typicode/json-server
+
+3. lets our json server api in postmen, go to chrome extension install postmen
+4. open postmen and lets check start process
+GET => read data from server // mean our json server 
+http://localhost:3000/posts // click send button on postmen app you will see, you got an jsons server data from post section
+POST = > insert data // click raw and insert you data value josn formate data and send data with url  /http://localhost:3000/posts
+PUT AND PATCH => update data // http://localhost:3000/posts/8 , update section post under which have 8 id , and for update go to body section and under raw type ur updatation.
+DELETE = > delete data // http://localhost:3000/posts/8 ,here will be delete id number 8 from json server under section post.
+
+
+
+
+
