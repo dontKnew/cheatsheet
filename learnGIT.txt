@@ -1,7 +1,8 @@
 solved error
 1. ! [rejected]        master -> master (fetch first)
 error: failed to push some refs to 'git@github.com:zapnaa/abcappp.git'
-command: git fetch
+command: git fetch then git merge 
+
 
 
 1. create branch
@@ -41,6 +42,10 @@ git restore --staged
 
 12. git remote remove origin 
 remove origin link from current git file
+
+13. First fetch data from github then if u run merge command they will apply changes from github.com to locally computer
+Command : git fetch and git merge
+Note : Both command also called one command : git pull origin master
 `
 
 => push to project in github
