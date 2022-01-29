@@ -205,3 +205,37 @@ final class Fruit {
 class Strawberry extends Fruit {
   // some code
 }
+
+6. constant : like that an variabale, 
+=>once declared, cant be change value of this variable
+=> recommend variable should be in uppercase letter.
+=> it can be call the variable outside and inside of variable
+outside example :  className::variableName
+<?php
+class Goodbye {
+  const LEAVING_MESSAGE = "Thank you for visiting W3Schools.com!";
+}
+
+echo Goodbye::LEAVING_MESSAGE;
+?>
+
+Inside example self::VariableName
+<?php
+
+class Goodbye {
+
+  const LEAVING_MESSAGE = "Thank you for visiting W3Schools.com!";
+
+  public function byebye() {
+
+    echo self::LEAVING_MESSAGE;
+
+  }
+
+}
+
+$goodbye = new Goodbye();
+
+$goodbye->byebye();
+
+?>
