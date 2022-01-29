@@ -239,3 +239,46 @@ $goodbye = new Goodbye();
 $goodbye->byebye();
 
 ?>
+
+7. Abstruct class
+=> Abstract class always use inheritance mean extends keyword 
+=>If dont want to create object then u can make abstruct class
+=>make an abstruct class with abstruct keyword
+=> we can not define our method in abstruct class like that 
+abstruct  class Test{
+  //  This wrong
+   abstruct function getName() {
+    return "Rahul";
+// correct 
+abstruct function getNams();
+}
+=> in abstruct class, abstruct method name must be same in extends class methid
+=> you can not declared abstruct method without abstruct class, but abstruct class can be declare without abstruct method with normal method.
+=> abstruct class use for only information 
+
+An complete abstruct class example :
+<?php
+abstract class ParentClass {
+  // Abstract method with an argument
+  abstract protected function prefixName($name);
+} 
+
+class ChildClass extends ParentClass {
+  // The child class may define optional arguments that are not in the parent's abstract method
+  public function prefixName($name, $separator = ".", $greet = "Dear") {
+    if ($name == "John Doe") {
+      $prefix = "Mr";
+    } elseif ($name == "Jane Doe") {
+      $prefix = "Mrs";
+    } else {
+      $prefix = "";
+    }
+    return "{$greet} {$prefix}{$separator} {$name}";
+  }
+} 
+
+$class = new ChildClass;
+echo $class->prefixName("John Doe");
+echo "<br>";
+echo $class->prefixName("Jane Doe");
+?>
