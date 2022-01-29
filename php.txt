@@ -1,0 +1,143 @@
+PHP OOP  Concept 
+1. class and objects
+=> $this : this keyword refere to current and this available only inside of method.
+<?php
+class Fruit {
+  // Properties
+  public $name;
+  public $color;
+
+  // Methods
+  function set_name($name) {
+    $this->name = $name;
+  }
+  function get_name() {
+    return $this->name;
+  }
+}
+
+$apple = new Fruit();
+$banana = new Fruit();
+$apple->set_name('Apple');
+$banana->set_name('Banana');
+
+echo $apple->get_name();
+echo "<br>";
+echo $banana->get_name();
+?>
+
+=> we can change our property value by two method :
+	i). Inside the class (by adding a set_name() method and use $this):
+<?php
+class Fruit {
+//properties
+  public $name;
+
+//method
+  function set_name($name) {
+    $this->name = $name;
+  }
+}
+//objects
+$apple = new Fruit();
+$apple->set_name("Apple");
+
+echo $apple->name;
+?>
+
+	ii). Outside the class (by directly changing the property value):
+<?php
+class Fruit {
+  public $name;
+}
+// object
+$apple = new Fruit();
+$apple->name = "Apple";
+
+echo $apple->name;
+?>
+Note: In a class, variables are called properties and functions are called methods!	
+=> var_dump($apple instanceof Fruit);// instanct of : check apple class is belong to specific class
+
+2. __construct 
+=> construct function start with double underscore line like that : __construct
+=> construct function automatically called 
+=> construct like an parameter of function
+=> we can reduce amount code by using construct function lets take an example, 
+In first exampl function we used set_name()  function method, now construct take place instead of set_name() method
+ample
+<?php
+class Fruit {
+  public $name;
+  public $color;
+
+  function __construct($name, $color) {
+    $this->name = $name;
+    $this->color = $color;
+  }
+  function get_name() {
+    return $this->name;
+  }
+  function get_color() {
+    return $this->color;
+  }
+}
+
+$apple = new Fruit("Apple", "red");
+echo $apple->get_name();
+echo "<br>";
+echo $apple->get_color();
+?>
+
+3. __destructor
+=> destructor function start with double underscore line like that : __destructor
+=> destructor function will called end the of php script.
+=> we can reduce amount code by using destructor function lets take an example, 
+In above said construct function we used get_name() method in class for print our data,  now destructor take place instead of get_name() and get_color() method for print data
+<?php
+class Fruit {
+  public $name;
+  public $color;
+
+  function __construct($name) {
+    $this->name = $name;
+     $this-color = $color
+  }
+  function __destruct() {
+    echo "The fruit is {$this->name} and the color is {$this->color}.";
+  }
+}
+
+$apple = new Fruit("Apple", "red");
+?>
+
+4. Access Modifiers
+=> public : this is default and the property and method  can be accessed from everywhere.
+=> protected : property and method can be accessed within class and by class derived from that class
+=> private : property and method can be accessed within class 
+Example : 
+<?php
+class Fruit {
+  public $name;
+  public $color;
+  public $weight;
+
+  function set_name($n) {  // a public function (default)
+    $this->name = $n;
+  }
+  protected function set_color($n) { // a protected function
+    $this->color = $n;
+  }
+  private function set_weight($n) { // a private function
+    $this->weight = $n;
+  }
+}
+
+$mango = new Fruit();
+$mango->set_name('Mango'); // OK
+$mango->set_color('Yellow'); // FATAL ERROR
+$mango->set_weight('300'); // FATAL ERROR
+?>
+
+5. Inheritance : When a class derives from another class and An Class all method and properties also included protected properties transfer to other class using extends keywords.
+

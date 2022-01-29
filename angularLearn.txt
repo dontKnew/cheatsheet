@@ -403,7 +403,7 @@ users:any; // inside AppComponent function in ts file
 note : you can call this any component through above said method.
 
 18. get data from API in angular 
-get data from server : component -> service - > http moudle -> server;
+cycle : get data from server : component -> service - > http moudle -> server;
 => import {HttpClient} from '@angular/common/http'; service file
 export class UserDataService {
   url= "https://mocki.io/v1/21324d1a-f4c1-45ca-940c-a62f14622c71";
@@ -460,21 +460,6 @@ users:any; // under AppComponet class
     <input type="number" name="age" id="" placeholder="enter age" ngModel> <br>
     <button>Add User</button>
 </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 =======
 16. Automation testing is three type : 1. UNIT TEST CASE 2. INTEGRATION 3. END TO END
 => We have a large application

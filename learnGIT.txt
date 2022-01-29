@@ -1,3 +1,9 @@
+solved error
+1. ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'git@github.com:zapnaa/abcappp.git'
+command: git fetch
+
+
 1. create branch
 git branch branchname
 
