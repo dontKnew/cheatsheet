@@ -140,6 +140,7 @@ $mango->set_weight('300'); // FATAL ERROR
 ?>
 
 5. Inheritance : When a class derives from another class and An Class all method and properties also included protected properties transfer to other class using extends keywords.
+= inheritance can extension only one times from parent class
 => inheritance properties and method use own metod and also use parent class properitis and method.
 class Fruit {
   public $name;
