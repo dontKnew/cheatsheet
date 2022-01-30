@@ -600,8 +600,167 @@ echo "undefined method {$method}";
 greeting::welcome();
 
 
+15.4 __isset 
+=> isset()  : we can kenw , this function check value set or not , if value set return 1, else 0;
+=> whenever need to check private method have value set or not, we use __isset method.
+
+15.5 __unset or unset()
+=> we can unset any properties in class public or private method also..
+=> we can unset any properties using this magic method.
+example : 
+
+class check{
+    private $firstname;
+    private $lastname;
+    public function setName($f,$l){
+        $this->firstname = $f;
+        $this->lastname = $l;
+    }
+    public function __unset($property){
+        unset($this->property);
+        echo "Properties unset";
+    }
+}
+$obj =new check();
+$obj->setName("sajid","ali");
+unset($obj->firstname);
 
 
+15.5 __toString : make an custom error if user display object class;
+Example:
+class check{
+    public function __toString()
+    {
+        return "Object could not print Class " . __class__;
+    }
+}
+$obj = new check();
+echo $obj;
 
+15.6 __sleep
+=> we would not define directly an object to session, file and database, for solvethis problme we will be use sleep magic method.
+=> object to convert to array or serialize for save in session, file and database before we use sleep method lets take an example
+<?php
+class check{
+    public $name = "Sajid";
+    public $age = "22";
+    public $color = "brown";
+    public function __sleep()
+    {
+    return array("name","age");
+    }
+}
+$obj = new check();
+$test = serialize($obj);
+echo $test."<br>"; 
+print_r( unserialize($test));
+//output : O:5:"check":2:{s:4:"name";s:5:"Sajid";s:3:"age";s:2:"22";} , 
+// O = Object, s = stirng, number(1-100) = how many letter in words;
+?>
 
+15.6.1 __wakeup : this will auto called whenever we unserialize object;
+<?php
+class check{
+    public $name = "Sajid";
+    public $age = "22";
+    public $color = "brown";
+    public function __sleep()
+    {
+    return array("name","age");
+    }
+    public function __wakeup()
+    {
+        echo  "wakeup method called";
+    }
+}
+$obj = new check();
+$test = serialize($obj);
+echo $test."<br>"; 
+print_r( unserialize($test));
+?>
 
+15.7 __invoke 
+=> its help to call the object like function
+<?php
+class check{
+    public $aa;
+    public $bb;
+    public function __construct($a, $b)
+    {
+        $this->aa = $a;
+        $this->bb = $b; 
+    }
+
+    function __invoke(){
+        return $this->aa + $this->bb;
+    }
+}
+$obj = new check(10,5);
+	echo $obj();
+?>
+
+15.7 Magic constant 
+=> return line number, folder directory with file, 
+ 15.7.1 __LINE__ 
+ 15.7.3 __FILE__
+ 15.7.4 __DIR__
+ 15.7.5 __FUNCTION__
+ 15.7.6 __CLASS__ // return class name
+ 15.7.7 __METHOD__ // return methodname
+ 15.7.8 __NAMESPACE__
+ 15.7.9 __TRAIT__
+
+16. OOP conditional functions
+=> some function return boolean data type;
+	16.1 class_exists()
+	16.2 interface_exists()
+	16.3 method_exists()
+	16.4 trait_exists()
+	16.5 property_exists('ClassName', "propertyName") 
+	16.6 is_a(object,ClassName) // check particular object if related to class return true
+	16.7 is_subclass_of($objecName,'ClassName')  // check particular class if realted to sub class(extends class) return true
+exmaple :
+class Check{}
+//  if(class_exists('Check')){
+//     // some code
+// }else{
+//     some code 
+// }
+echo class_exists('Check');
+
+17.Get Function
+=> return name or boolean
+	17.1 get_class() // return  name of class, inside class get name : get_class($this), outside class: get_class($objectName);
+	17.2 get_parent_class() // like above 
+	17.3 get_class_methods() // like above
+	17.4 get_object_vars()
+	17.5 get_called_class()
+	17.6 get_declared_traits()
+	17.7 get_declared_interfaces()
+	17.8 get_declared_traits()
+	17.9 class_alias("currentClassName", "NeClassName") // now we can also get object by new class
+
+18. MYSQL Connect to database
+	18.1 connection 
+		18.1.1 Procdural Method : $conn = mysqli_connect()
+		18.1.2 Object Oriented Method: $conn = new mysqli()
+	18.2 Run Sql Query
+		18.1.1 Procdural Method : mysqli_query($connName, $SqlQuery)
+		18.1.2 Object Oriented Method:  $conn->query($SqlQuery);
+	18.3 Close Connection
+		18.1.1 Procdural Method : mysqli_close()
+		18.1.2 Object Oriented Method:  $conn->close();
+19. MYSQLi Functions 
+	19.1 Fetch Function
+		19.1.1 Procdural Method 
+			i. mysqli_fetch_assoc() ii. mysqli_fetch_array() iii. mysqli_fetch_row() iv. mysqli_fetch_all() v. mysqli_fetch_field()			
+		19.1.2 Object Oriented Method:  $result = $conn->query($SqlQuery); 
+			i. $resul->fetch_assoc() ii. $result->fetch_array() iii. $result->fetch_row() iv. $result->fetch_all() v. $result->fetch_field()
+	19.2 Affected Row Function
+		19.1.1 Procdural Method : mysqli_affected_rows()
+		19.1.2 Object Oriented Method:  First Step : $conn->query($SqlQuery); Second Step : $conn->affected_rows()
+	19.3 Error Function
+		19.1.1 Procdural Method 
+			i. mysqli_connect_error() ii. mysqli_connect_errorno() iii. mysqli_fetch_row() iv. mysqli_error() v. mysqli_error_list()			
+		19.1.2 Object Oriented Method:  $result = $conn->query($SqlQuery); 
+			i. $conn->connect_error() ii. $conn->connect_errorno() iii. $conn->fetch_row() iv. $conn->error() v. $conn->error_list()			
