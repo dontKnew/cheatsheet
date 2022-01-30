@@ -417,10 +417,191 @@ echo $domainW3 -> websiteName;
 => it can also be  access from child to parent class like above said last example of static method
 
 
-1. namespace : can be allowed to use same name more one class.
+
+11. namespace : can be allowed to use same name more one class.
 => namspace decalred at the top of php file
-Like that namespac HTML 
+Like that namespace fileName
 = can be assign  namespace HTML to other name  with use keyword
-use HTML as Ok
+use namespaceFileName as newNameSpace File 
+
 => also alias class name  with use keyword
-Example : use HTML\ClassName as shortNewClassName
+Example : use HTML\ClassName as shortNewClassName 
+
+Example :
+1. You  two file and therein file class name is same.
+2. Now use the those same class two file with using namespace in single single file
+1. first.php
+namspace  p{ 
+class Product {
+__construct(){
+echo " I am product page of class product";
+$obj = new \p\Product(); // use class under an class with same name class
+  }
+}
+} 
+
+2. Second. php
+namspace  test; 
+class Product {
+__construct(){
+echo " I am  test product page  of class product";
+}
+}
+3. Third file 
+
+$obj = new p\Product();
+$obj = new t\Product()
+=> if u run without name space class it will given error: could be not used already define class again.
+= u can use also same class in class with using name space syntax : $obj = new \p\Product(); 
+
+namespacs obj\v1\command; u can use like this namespace
+
+
+12. dia("error") => no next code run
+12.1 __class__ , when use this magic  varibale this get the current class name under current class  method or properties. 
+
+13. If u used OOP , use mysqli OOP, or PDO
+14. Use curly brace for declare variable with text echo
+
+
+
+15. Magic method 
+=> all magic method use with double underscore
+=> methods are called automatically  for some or some other function
+= __set for property_exits, _get for array_property_exts, _call for method
+=> some magic method use for the set value or access value from class private methods
+=> magic method always use public acces modifier 
+
+
+
+15.2  __autoload 
+=> we are using required or included function for add our file to current file , spouse we have 100 require/include file how can i do it ? 
+So we are using autoload function
+function __autoload ($class) {
+  required 'filePath/' .$class. ' .php
+}
+$obj = new ClassName(); // no need to include file which have class, __autoload directly autoload whenver u used any object in current file with autoload function
+15.2  __get
+=> instead of get error of class function , we can define custom error text.
+=> if class  or object have an error it will auto called and display our custome error text.
+Example 1. 
+We can knew access modifier properties have private or protected method can not be call out of class .
+class fruits(){
+private $name = "Krishma";
+function hello(){
+echo "hello $this->$name";
+}
+function __get(){
+echo "Private properties could not access or non existing";
+}
+}
+$obj = new fruits();
+$obj->hello(); // 
+$obj->hello1(); // 
+
+=> if u call undefined properties or method, it will also called get magic method function 
+=> we received an custom __get function error instead of fatel error.
+=> we can also access private properties by this get magic method function by under function $this->name; 
+
+15.3 __set Method : like that get method
+=> but get access value of private propertie which is define in class
+=we can set an private properties value using set method
+=> if you are not use set method and set the value of private properties, it will give u an fatal error., now can also define custom error instead of fatal error like get magic method. 
+
+Exmaple : 
+
+class fruits(){
+private $name; 
+
+function hello(){
+echo "hello $this->$name";
+}
+function __get(){
+echo "Private properties could not access or non existing";
+}
+function _set() {
+echo " private properties could not be set value";
+}
+}
+$obj = new fruits();
+$obj->name = "Sajid"; // give set method echo text; 
+
+Example 2. Lets check how can you assign an value of class priavte properties.
+class fruits(){
+private $name; 
+
+function hello(){ // property value has been define, now call print defined Property.
+echo "hello $this->$name";
+} 
+function __get(){
+echo "Private properties could not access or non existing";
+}
+function _set($property, $value) { // first parameter properties name, second paramter is value 
+if(property_exits($this, $property) {
+     $this->name = $value;
+} else {
+    echo "Property unrefined";
+}
+}
+}
+$obj = new fruits();
+$obj->name = "Sajid"; // if Property name is exist then set value else give u an custom error which is defined in set method function.
+$obj->hello(); 
+
+15.3 __call  
+=> like that set method , but they only working on method properties.
+=> lets set priavte method value from outside of class using __call method
+Exmaple 1. Like that get  magic method example 1
+Example 2. 
+class fruits(){
+private $firstname;
+private $lastname; 
+
+function hello(){ // property value has been define, now call print defined Property.
+echo "hello {$this->firstname} {$this->lastname}";
+} 
+function __get(){
+echo "Private properties could not access or non existing";
+}
+function setName($firstnams, $lastname) {
+  $this->$firstname = $firstname
+$this->$firstname = $firstname
+} // value set in private properties by using call magic method 
+
+function _call($method $args) { // first parameter  method namd, second paramter is arguments mean value which is use later  under call_user_func_array();
+if(method_exits($this, $method) {
+     call_user_func_array([$this, $method], $args); 
+} else {
+    echo "Property unrefined or non existing property.";
+}
+}
+}
+$obj = new fruits();
+$obj->name = "Sajid"; // if Property name is exist then set value else give u an custom error which is defined in set method function.
+$obj->hello(); 
+
+15.4 __callStatic method : this method use for only static method for call the private method and set the value of private method.
+=> if static method does not defined give u custom __callStatic method function error like __get and __set and call__ magic method 
+
+Example 1. Like that above said __get magic example  1. 
+
+Example 2 .
+class greeting {
+  private static function welcome($name) {
+    echo "Hello World! {$this->nams}";
+  }
+public static function __callStatic($method, $args) {
+if(method_exists(__class__, $method,) /* __class__ is returnt the current class name*/
+user_func_array([ __class__, $method],$args) // value has been defined in $name static private function parameters
+}else {
+echo "undefined method {$method}";
+}
+}
+greeting::welcome();
+
+
+
+
+
+
+
