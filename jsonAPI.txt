@@ -1,7 +1,0 @@
-$conn = mysqli_connect("localhost","root","","wms") or die("database failed to connect");
- $sql = 'SELECT * FROM student';
- $result = mysqli_query($conn, $sqli) or die ("SQL query failed");
- $output = mysqli_fetch_all($result, MYSQLI_ASSOC); //  MYSQLI_ASSOC function return the data into associate array ex. 
- $json = json_encode($output, JSON_PRETY_PRINT);
- $file_name = "my-".date("d-m-y").".json";
- if(file_put_contents(`json/{$file_name)`)
