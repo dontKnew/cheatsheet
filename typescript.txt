@@ -146,3 +146,8 @@ if (firstName === secondName) {
 // Can't ever happen
 }
 
+7.  typeof  : get an dataTypes from an variable.  Example : 
+function (s:string) {
+if(typeof s == "string"){ return true;}
+else { return false;} 
+}
