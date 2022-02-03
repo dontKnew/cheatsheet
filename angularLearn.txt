@@ -1,7 +1,9 @@
-1. install angular
+Angular
 => npm install -g @angular/cli
-2. update angular project
-=> ng update  @angular/cli @angular/core @angular/material --allow-dirty 
+=> update angular project
+	ng update  @angular/cli @angular/core @angular/material --allow-dirty 
+=> on click navigate router to another router
+	this.router.navigate(['routerName']);
 
 if you got error about  : 
 Node packages may not be installed. Try installing with 'npm install'.
