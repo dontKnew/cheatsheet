@@ -1,4 +1,17 @@
 PHP OOP  Concept 
+=> push array to array => $array = array(); array_push($array, $data);
+=> MYSQLI
+	1. get last inserted id  from tabel =>  mysqli->insert_id // this function work after query connected successfully..
+	2. check how much row is affected from update, insert, delete=>  mysqli->affected_rows// this function work after query connected successfully..
+	3. $query->fetch_all(MYSQLI_ASSOC);// MYSQLI_ASSOC: return an array with key and value(thats called associate array) 
+	4. JOIN TABLE : one table + another table,  result will be together : 
+
+=> display data using oop 
+	// when got result getResult(); now you can display the data using foreach function
+	//list() : this mentioned will be give an name(key) of value in associate array;  
+	// foreach($data->getResult() as list("key"=>"value", "key1"=>"value1", )){ echo  $value, $value1}
+
+
 1. class and objects
 => $this : this keyword refere to current and this available only inside of method.
 <?php
