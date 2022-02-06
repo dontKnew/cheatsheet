@@ -1,0 +1,118 @@
+Course Strcuture : 1. The basic 2. Components and databinds 3.  directives 4. services and dependency injections 4.  Routing 5.  Observables 6. Forms 7. Pipes 8.  HTTP 
+
+===> Basic of Angualr ?
+1.Angular is typecript based framework 2.its an Single Page Application 3. SPA mean, just content updated/loaded, other content still same 4. user will be not aware of backend data  API
+
+=> Angular JS vs Angular 2/4/5/6/7/8/9/10/11/12/13
+1. Angular JS  : frmaework released on 2010
+2.This framework worked on MVC(Model View Controller)
+
+3. Angular 2/4... complete rewrite of angularJS
+4. its based on typscript, released on 2016, develop by google
+
+=> Prerequisites 
+1. HTML, CSS, Javascript 
+2. Document Object Model (DOM)
+3. Javascript function, events and error handling
+4. Basics Typescript becuase you are going to write in angualr.
+
+=>Angular Setup 
+1. download node js from https://nodejs.org/en/
+2. npm install -g @angular/cli
+
+=> Typescript 
+1. superset of javascript 
+2. undefined variable or functino etc. will be given an error on ide before run code
+3. Data Types : 1. Any : support of any data type  2. Built in types : string, number, boolean, void, null undefined 3. user-defined types : inlcudes array, enums, classes, interface etc.
+
+=> setting up bootstrap 
+1. npm install --save bootstrap 
+2. angular.json under styles: "./node_modules/bootstrap/dist/css/bootstrap.min.css
+3.angular.json under script: "./node_modules/bootstrap/dist/js/bootstrap.min.js
+
+
+===> Components
+1. Each Have html, css, ts and one option spec.ts file(which is used for unit test, We will learn this file later)
+=> Mannual Create Component (have three file)
+1. componentFileName.component.html: we will be write html content on  this file
+2. componentFileName.component.css : we will be write css in this file
+3. componentFileName.component.ts : we will be write here all typescript or javascript related file 
+	3.1 first we have to import our component : import { Component } from '@angular/core';
+	3.2 @ -> decorator :  @Component have three metadata I.selector : file name for use component in other component II. templateUrl : html file name III. styleUrl: you set here multiple css file  in object [{'filename'},{'filename'}]
+=> Command line generate component
+1. We can generate above said three/fourfile with using command : ng generate component componentName or ng g c componentName
+
+===> Databinding 
+1. we can communication from ts to html for pass data by vica versa
+2. Output : pass data from typescript to html
+1. String Interpolation: we can pass data using interpolation inside of double crucly brace like that {{data}} in html file and ts file will declare your value of data under app component class data:string = "Hello Angular"
+2. Property binding : {TagPropertyAttributeName] = "varibleName", now ts file : varibleName:dataType = "Value"; 
+3. Event Binding : Eventbindinglike: thats an javascript functionlike onclick, onmouseover, oninput etc.)
+	3.1 Example : for input tag  (input) = "functionName($event)"
+	3.2. Example 2 : (click)="functionName(Parameter)// you define own logic at ts [file
+4. Two Way Binding: i. FormModule is responsible to enable two way databinding (ii). its combination of property binding and event binding  (iii) Syntax : [(ngModle)]
+	4.1 Exmaple : html file : <h3> {{DisplayData}}</h3> <input type="text" placeholder="enter any value" (input)="updateString($event)" [(ngModel)]="DisplayData"> | ts file : DisplayData:any = ""; updateString(event:any){console.warn(`Event Fetch ${event}`);this.DisplayData = event.target.value;}
+
+===> Directives 
+1. You can define custom directive : use decorator for define any class directive @Directive({})
+1.1 Directives are used to inform DOM about the structure
+1.2 directive are building block to build an angular app
+2. Two Type directive 
+	2.1 Built-in directive
+	2.2 user-defined directive
+3. Structual directive : The Directive that change the structural of html elements
+	3.1 use always '*' before use any structural directives
+	3.2 Built in structural Directives are 
+		3.2.1 NgIf : use for hide and show elements
+			3.2.1.1 Exmaple :  html file : <h3 *ngIf="HideProduct else noProduct"> Your Product : {{DisplayData}}</h3> <ng-template #noProduct> <span>Hello No Product found</span></ng-template> ts file :  HideProduct:boolean = false; updateString(event:any){ this.HideProduct = true; console.warn(`Event Fetch ${event}`);this.DisplayData = event.target.value;}
+		3.2.2 NgFor  : we can access array output like this  <h1 *NgFor = 'let newVariable as ArrayName'> {{newVariable}} </h1>
+		3.2.3 NgSwitch  : use for multiple condtion 
+			3.2.3.1 Example : // ts file color="blue" (this is part of ts.component variable)
+			// html file  :
+			<h1 [ngSwitch]="color">
+			  <h2 *ngSwitchCase="'red'">I am Red</h2>
+			  <h2 *ngSwitchCase="'green'">I am green</h2>
+			  <h2 *ngSwitchCase="'blue'">I am blue</h2>
+			  <h2 *ngSwitchDefault>I am Default Switch Case </h2>
+		 	</h1>
+
+4. Attribute directive : 
+	1. Does not effect DOM Behaviour, this is effecting  on class attribute etc.
+	2. changing the behaviour of elemnent (Element : An HTML element is defined by a start html tag, some content, and an html end tag, Example : <h1> Hello WOrld </h1>, this whole process is element)
+	3. You can do Add text, style change etc.
+	4. this directives attribute we can add to any html element.
+	5. Built-in attribute directive  are a:
+		5.1 Ng Style: You can add style in html element based on true or false or an function  syntax : [NgStyle] ="{cssPropertyName:valuebyFunctionName()}"
+			5.1.1 Example : //htmlfile <h2 [ngStyle]="{background:getColor()}"> {{DisplayData}}, Whatsup ?</h2> {{getColor()}} tsfile//  DisplayData:string = "Product Added";constructor() { this.DisplayData = Math.random()>0.5?"Product Added":"Product not yet added";}getColor(){ return  this.DisplayData === 'Product Added'?'green':'red';} 
+		5.2 NgModel : in Databinding para no. 4.1 have already define how can u use NgModel.
+		5.3 NgClass  : this is useful for add class and use as your based function or interpolation name syntax : [NgClass] = {{className:interpolation or boolean or function or condition display or not}}
+			5.3.1 : Example :  html file <h2 [ngStyle]="{background:getColor()}" [ngClass]="{fontColor:DisplayData==='Product Added'}"> {{DisplayData}}, Whatsup ?</h2> ts file : DisplayData:string = "Product Added";constructor() { this.DisplayData = Math.random()>0.5?"Product Added":"Product not yet added";}
+																							      getColor(){ return  this.DisplayData === 'Product Added'?'green':'red';}
+																							// css : .fontColor {color:white;}
+5. Custom Directive cli : ng g directive directiveName
+import { Directive, functionParameterName} from '@angular/core';
+@Directive({
+  selector: '[appRedElement]'
+})
+export class RedElementDirective {
+
+  constructor(el:functionParameterName) {
+    el.nativeElement.style.color = "red";
+    el.nativeElement.style.backgroundColor = "blue";
+    el.nativeElement.innerHTML = "Hello Angular";
+   }
+
+}
+=> you can use some javascript function like that el.nativeElement.innerHTML = "hello";
+<!-- HTML FILE -->
+<h1 appRedElement> </h1>
+
+===> Communication between component and component
+=>Splitting Components : Instead of dumping everything in one single component, Its alwayas better to split your component
+1. you can bind custom properites and emit events
+2. similarly you can use property binding and event binding in custom directives
+=> Input Data : pass data to component from parent component we causly use property binding
+1. Define the variable with @Input() decorator to make it accessbile from outside of the component
+2. You alias the name of input element in parent component : syntax : @input('ElementAliasName');
+
+
