@@ -561,7 +561,93 @@ const routes: Routes = [
 
 
 
+Angular 
 
+=> this.router.CreateUrlTree(['routerName']) // this is like an this.route.navigate(), but in these have an advance features 
+
+=> use router in ts file, inject router in constructor(private routerName: Router){}
+1. Install bootstrap 
+npm install bootstrap 
+Angular.json
+"styles": [ "node_modules/bootstrap/dist/css/bootstrap.min.css", "src/styles.css" ],
+"scripts": [ "node_modules/bootstrap/dist/js/jquery-3.3.1.min.js", "node_modules/bootstrap/dist/js/bootstrap.min.js" ] 
+
+2. Backend Angular
+=> import your servicr in app.module.ts under providers, now you can access the providers service from anywhere in components
+
+   2.1 ALWAYS IMPORT
+    => HttpClientModule // in app.module.ts @_/common/http
+    => Ovservable from "rxjs" // service file 
+
+    2.2 GET DATA
+      2.2.1 in service file
+       => inside of export class Service , method is :
+constructor(private _http:HttpClient) //  service file @_/common/http
+methodName:Observable<any>  {return this._http.get("url")}
+      2.2.2 in component ts file
+        => import your servicr and set in constructor (private  api:ServiceName){}
+=>under class  ____ implements OnInit  { 
+}  then inside of ngOnInt method : this.api.getServiceMethodNams.subscribe((result)=>{ 
+Console.log(result) // got an data in json or arrat or objecr format  from api url
+  })
+=> now display data in html file create an propertie  inside of class and outside of ngOnInt.
+PropertName:any = []// data will store in array.
+And  inside of susbcribe function :  this.PropertyName = result.keyName
+
+
+3 . Auth gaurd :help for secure without login  
+Create guard : ng g auth AuthguardName
+  3.1 CanDeactivated  
+   3.2 CanLoad
+    3.3 CanActivateChild
+    3.4 CanActivate / its make secure login 
+    => generate file guard inside of class AuthGuard you will see  , return true // thats mean user can not access the file
+Return false // anyone can acces this page
+=> routing page {path:"", canActivate:[AuthGaurd], component:CompName}  and import authgaurd  in routing page
+=> make logic for return true or false for login access 
+
+
+=>  AuthGaurd Logic 2 :  
+
+login(usrrCred:any){  return this.http.post(this.apiyourUrl, usrrCred) } // service file 
+
+
+=> ts file :
+//reactive form : login = new FormGroup({});  if(this.login.valid) {}
+Login() {  
+if(this.login.valid) {
+this.importerServiceName.ServiceMethodName(this.login.value).subscribe(result => { 
+if(result !=null) {
+This.responsedata = result;
+localStorage.setItem('tokeName' , this.responsedata.twt.Token);
+// if function true navigate to another route
+this.route.navigate(['routerName']);
+}
+})
+}
+} 
+
+=>  //service file :  again go to service and create method for use globally use this method
+isLoggedIn(){ return this.localStorage.getItem('generateTokenName') != null; } 
+
+
+=> // AuthGaurd  file : check here logged or not then return on behalf true or false
+0.1 next : and state you can remove unnecessary properties.
+1. constructor (private routeName:Router, private ServiceName:ServiceClassName )
+2. Import service also on top of header file 
+
+CanActivate() {
+if(this.service.isLoggedIn()){ 
+return true;
+}  else {
+  this.route.navigate(['outerName']);
+return false;
+}
+}
+=> routing page const routes:Routes = [ {path:"", canActivate:[AuthGaurd], component:CompName},   {path}, ], CanActivate:[AuthGaurd] 
+
+and import authgaurd  in routing page
+Result :now page our secured
 
 
 
