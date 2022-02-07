@@ -108,11 +108,49 @@ export class RedElementDirective {
 <h1 appRedElement> </h1>
 
 ===> Communication between component and component
-=>Splitting Components : Instead of dumping everything in one single component, Its alwayas better to split your component
-1. you can bind custom properites and emit events
-2. similarly you can use property binding and event binding in custom directives
-=> Input Data : pass data to component from parent component we causly use property binding
-1. Define the variable with @Input() decorator to make it accessbile from outside of the component
-2. You alias the name of input element in parent component : syntax : @input('ElementAliasName');
+=>Splitting Components : Instead of dumping everything in one single component, Its alwayas better to split your component, (i) you can bind custom properites and emit events (ii) similarly you can use property binding and event binding in custom directives
+
+1. Input Data : pass data to component from parent component we causly use property binding (parent to child component)
+	1.1. Define the variable with @Input() decorator to make it accessbile from outside of the component
+	1.2. You alias the name of input element in parent component : syntax : @Input('ElementAliasName');
+Example : Parent Componet ts file under class component--> Demotext:string = "Hello I am from Parent Componet"; & html file ; <app-demo [parentData] = "Demotext" ></app-demo> or <app-demo parentData = {{Demotext}} ></app-demo>
+Child Componet ts file under class --> @Input() parentData:string = ""; // data here blank , but data come from parent, Now html file {{parentData}}
+
+2. Output Data : pass data from the component to parent component we simply use event binding(child to parent)	
+	2.1. define variable EventEmitter to emit some data from the component Syntax : @Output()emitter = new EventEmitter();
+	2.2. You cam use event bidning to catch this event in parent component using () barckes
+	2.3. You alias the name of input element in parent component : syntax : @Output('ElementAliasName') emitter = new EventEmitter<>();
+	2.4  import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+Example: chlidComponet ts file under class -> @Output() childEmt  = new EventEmitter(); passToParent(){this.childEmt.emit("I am  from child component");} html file -> <button (click)="passToParent()"> Pass</button>
+parentComponent ts file under class -> childData:string = ""; html file -> <app-demo (childEmt)="childData=$event"></app-demo>
+
+helpful for inlcude all component styles,html elements, ts code to parent component(whereas inlcude component)
+=> View Encapsulation
+1. encapsulation:ViewEncapsulation.None  // add this under decorator component  (@component) // ts file
+2. Example : first component html file -> <h1> Hello First Component </h1>, second component html file -> <h1> Hello Second Component </h1>, if you write on first component ts file : encapsulation:ViewEncapsulation.None under component decorator.
+	Thereafter  if you are not define in h1 tag style color and in second componet,  so, first component will be auto catch styles from first componet h1 tag styles tag
+
+=> Accessing Element : We can access any element by using this method 
+
+firstMethod : 
+1.  we knew that access the element value by using like this <input type="text" name="" id=""  value="sajid" #firstname> {{firstname.value}}
+2. if you want  to get element property or value in ts file, So you can use @ViewChild('aliasName') firstname:ElementRef(); click(){alert(this.firstname.nativeElement.value) } // get the result
+3. import { Component, ElementRef, ViewChild } from '@angular/core';
+
+secondMethod: for access element by using <ng-content> </ng-content>
+1. You can access the element ref like above said first method  in ts file : @ContentChild('refName')refName:ElementRef; this.refname.nativeElement.value;
+2. How to Place ng content 
+Example : 1. userForm component html file : <ng-content></ng-content> ts file / @ContentChild('refName')refName:ElementRef; this.refname.nativeElement.value;
+	  2. parent Component html file : <app-userForm> <h1> I am from demoCOmponent through ng content</h1><input type="text" #name></app-userForm>
+
+=> Lifecycle
+1. ngOnChange - after a bound input property changes and this is the first method thatg gets called in the lifecycle of component
+2. ngOninit - when component gets initialize/render/genereated on browser and called after constructure gets executed
+3. ngDoChecks - runs very often whenever any change is detected and will be called after every single click or on any times gets executed
+4. ngAfterContentinit - after the ng-content gets added in view
+5. NgAfterContentChecked - calls everytime the added content gets checked
+6. NgAfterViewinit - whenever the HTML template gets rendered
+7. NgAfterViewChecked - when the initialized view get checked
+8. NgOnDestroy - the last method to be called before the component gets destoryed, you can unsubscribe or removed element for show short message.
 
 

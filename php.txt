@@ -1,4 +1,21 @@
-PHP OOP  Concept 
+===> Basic PHP
+1. Remove tag from line : strip_tags('text with html tag', optional) optiona : enter html tag which you dont want to remove
+2.htmlspecialchars("I love <b> india </b>") //output : i love &lt;b&gt india &lt;/b&gt
+& (ampersand) becomes &amp;
+" (double quote) becomes &quot;
+' (single quote) becomes &#039;
+< (less than) becomes &lt;
+> (greater than) becomes &gt;
+
+3. remove back slashes stripslashes("I love you \ baby");
+4. trim()//remove space
+5. parse_str(string,array) query string into variable, 
+	5.1 Example : parse_str("name=Sajid&age=43",$myArray);// convert into name and age into associates array;
+	5.2. if you do not give parameter after string, array name, then it will auto matic convert into variable 
+		5.2.1 Example : parse_str("name=Sajid&age=43");
+	
+
+===>PHP OOP  Concept 
 => push array to array => $array = array(); array_push($array, $data);
 => MYSQLI
 	1. get last inserted id  from tabel =>  mysqli->insert_id // this function work after query connected successfully..
