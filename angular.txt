@@ -89,7 +89,15 @@ Course Strcuture : 1. The basic 2. Components and databinds 3.  directives 4. se
 			5.3.1 : Example :  html file <h2 [ngStyle]="{background:getColor()}" [ngClass]="{fontColor:DisplayData==='Product Added'}"> {{DisplayData}}, Whatsup ?</h2> ts file : DisplayData:string = "Product Added";constructor() { this.DisplayData = Math.random()>0.5?"Product Added":"Product not yet added";}
 																							      getColor(){ return  this.DisplayData === 'Product Added'?'green':'red';}
 																							// css : .fontColor {color:white;}
-5. Custom Directive cli : ng g directive directiveName
+5. Custom Directive cli : ng g directive directiveName , after generate directive auto include app.moudle.ts file import { TestingDirective } from './testing.directive' under declaration 
+	5.1 custome directive can be decorator with @Director()
+	5.2 We can use directive at anywhere in component but (we have to inject in directive file constructor(private elemmentRef:ElementRef){})with metadata selector name : '[directiveName]';
+	5.3.We can use this directory many times in single or multicomponent
+	5.4 Custom directive have only ngOnInit lifecycle
+	5.5 In para 5.3 Instead of access element using ElementRef & injecing elementRef, you can use renderer.
+	5.6 renderer is best instead of use element ref(search google for more information)
+		
+Example 1. 
 import { Directive, functionParameterName} from '@angular/core';
 @Directive({
   selector: '[appRedElement]'
@@ -107,6 +115,177 @@ export class RedElementDirective {
 <!-- HTML FILE -->
 <h1 appRedElement> </h1>
 
+Example 2.1 using ElementRef
+import { Directive, ElementRef, OnInit } from '@angular/core';
+
+@Directive({
+  selector: '[appTesting]'
+})
+export class TestingDirective  implements OnInit{
+  constructor(private el:ElementRef){}   
+  ngOnInit(): void {
+    this.el.nativeElement.style.background  = "blue";   
+  }
+}
+or
+2.2 using Renderer2
+import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appTesting]'
+})
+export class TestingDirective  implements OnInit{
+  @Input()appTesting:string = "";
+  constructor(private el:ElementRef, private ren:Renderer2){}   
+  ngOnInit(): void {
+    this.ren.setStyle(this.el.nativeElement, 'background-color', 'blue')
+  }
+}
+<h1 appTesting> Hello Angular </h1> // background color is now blue
+
+Example 3.1 // get value from html  using input decorator with ElementRef
+import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+
+@Directive({
+  selector: '[appTesting]'
+})
+export class TestingDirective  implements OnInit{
+  @Input()appTesting:string = "";
+  constructor(private el:ElementRef){}   
+  ngOnInit(): void {
+    this.el.nativeElement.style.background  = this.appTesting;
+  }
+}
+3.2 using Renderer2
+import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appTesting]'
+})
+export class TestingDirective  implements OnInit{
+  @Input()appTesting:string = "";
+  constructor(private el:ElementRef, private ren:Renderer2){}   
+  ngOnInit(): void {
+    this.ren.setStyle(this.el.nativeElement, 'background-color', this.appTesting)
+  }
+}
+html file : <h1 [appTesting]="'grey'"> Hello Angular </h1>
+<h1 [appTesting]="'grey'" style="color:white"> Hello Angular </h1>
+
+	5.7 Host Listners & Host Binding
+		5.7.1 To make directives intertactive, Now need to listen/call the events thats are happen somthing dynamic like javascript events
+		5.7.2 @HostListener() like an javascript event
+Example 1
+import { Directive, ElementRef, Host, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appTesting]'
+})
+export class TestingDirective  implements OnInit{
+  @Input()appTesting:string = "";
+  constructor(private el:ElementRef, private ren:Renderer2){}   
+  ngOnInit(): void {
+    // this.ren.setStyle(this.el.nativeElement, 'background-color', this.appTesting)
+  }
+  @HostListener('mouseover') //@HostListener('mouseleave')
+  mouseEnter(){
+    // alert("mouse enter");
+    this.ren.setStyle(this.el.nativeElement, 'background-color', this.appTesting)
+  }
+}
+
+<h1 [appTesting] ="'blue'"> I love Angular </h1> html file //
+
+		5.7.3 @HostBinding() :  @HostBinding('style.color')color:string = "";
+Example : 
+import { Directive, ElementRef, Host, HostBinding, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appTesting]'
+})
+export class TestingDirective  implements OnInit{
+  @Input()appTesting:string = "";
+  @HostBinding('style.color')color:string = "";
+  constructor(private el:ElementRef, private ren:Renderer2){}   
+  
+  ngOnInit(): void {
+    this.color = this.appTesting;
+or 
+//    this.color = 'blue'; 
+    }
+}
+<h1 [appTesting] ="'green'"> I love Angular </h1> // 
+or 
+<h1 appTesting> I love Angular </h1> // in this caste you do not required @Input in directives.
+	
+	5.8 Custom Property Binding : In previous para 5.7 we only define one custom property binding, but in this case we can also define multiple custom binding property just using input 	lets see an example 
+Example 1. 
+import { Directive, ElementRef, Host, HostBinding, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appTesting]'
+})
+export class TestingDirective  implements OnInit{
+  @Input()appTesting:string = "";
+  @Input()bgColor:string = "";
+  @HostBinding('style.color')color:string = "";
+  @HostBinding('style.backgroundColor')bgcolor:string = "";
+  constructor(private el:ElementRef, private ren:Renderer2){}   
+  
+  ngOnInit(): void {
+    this.color = this.appTesting;
+    this.bgcolor = this.bgColor;
+    }
+}
+
+html file: <h1 [appTesting] ="'white'" [bgColor]="'red'"> I love Angular </h1>
+
+Example 3 
+import { Directive, ElementRef, Host, HostBinding, HostListener, Input, OnInit, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[appTesting]'
+})
+export class TestingDirective  implements OnInit{
+  @Input()color:string = "";
+  @Input()bgColor:string = "";
+
+  @HostListener('mouseover')
+  mouseExits(){
+    this.ren.setStyle(this.el.nativeElement, 'background-color', this.bgColor)
+    this.ren.setStyle(this.el.nativeElement, 'color', this.color)
+  }
+
+  constructor(private el:ElementRef, private ren:Renderer2){}   
+  
+  ngOnInit(): void {}
+}
+<h1 appTesting [color] ="'white'" [bgColor]="'red'"> I love Angular </h1> //  first we are define directive name thereafter i have access the property of @input
+	
+	5.9 Custom Structural Directive:lets make an directive like *ngIf
+		5.9.1 add @Input to get the condition as property
+		5.9.2 You need to access the template as here the DOM get modified in constructor 1. temName:TemplateRef<dataType>  viewName:ViewContinerRef
+Example 
+import { Directive,  Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
+
+@Directive({
+  selector: '[appUnless]'
+})
+export class TestingDirective  implements OnInit{
+  constructor(public tempRef:TemplateRef<any>, private viewRef:ViewContainerRef ){}     
+  @Input() set
+  appUnless(condition:boolean){
+    if(!condition){
+      this.viewRef.createEmbeddedView(this.tempRef);
+    }else{
+      this.viewRef.clear();
+    }
+  }
+  ngOnInit(): void {}
+}
+
+
+<div *appUnless="true"><span> Condition is fullfiled </span></div> // in true content will hide and in false content will be show
 ===> Communication between component and component
 =>Splitting Components : Instead of dumping everything in one single component, Its alwayas better to split your component, (i) you can bind custom properites and emit events (ii) similarly you can use property binding and event binding in custom directives
 
@@ -152,5 +331,24 @@ Example : 1. userForm component html file : <ng-content></ng-content> ts file / 
 6. NgAfterViewinit - whenever the HTML template gets rendered
 7. NgAfterViewChecked - when the initialized view get checked
 8. NgOnDestroy - the last method to be called before the component gets destoryed, you can unsubscribe or removed element for show short message.
+
+
+===> Services
+1. this is an typescript class with narrow well defined purpose used for method function, type anywhere in component.
+2. services data, function method etc. can not share with parent and child relationship
+3. You can create service by mannual, service-file-name.service.ts
+4. Create method function in service and used anywhere in component excpet parent-child relationship
+5. app.module.ts file you provides your service and this is much better for use anywhere  with parent-child relationship
+6. import you serivice to ts file  under class component two way : 1. const ObjectName = new ClassServiceName(); ObjectNamej.methodName(); 2. constructure(private serviceName:ClassServiceName){} and you use anywhere in derived(current or inside class)  class
+=> Dependency Injector :its something that our call the any class function instantly with using constructor(private newName: Serivde)
+	1. To create instance of serivce we need to provide this service in @Component({providers:[ServiceClassName]})
+=> HIerarchical Injector : Injectors work in hierachy in angular application(Hierachy : thats inject in different place angular
+1.App Module : If you provide serivce in app module, you can access from anywhere component
+2.App Component : 
+3.Any Component : if you provide service in any app component you can use service in any component excpet parent-child
+Note : not clear
+4. if you want to use on first serivce inside of second service, So you have to @Injectable() on the top of your secondService and impot(Injectable) fromm '@angular/core'
+	4.1 Injectable(): like an class we can use all first service method function whereas declared decorator injectable (in case example secondService)
+Note : good practice to @injectable() in all service irrespective
 
 
