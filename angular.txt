@@ -352,3 +352,10 @@ Note : not clear
 Note : good practice to @injectable() in all service irrespective
 
 
+===> Routing (not code)
+1. Without reload page, changing the content of your web page called routing
+2. You define our routers at routing.moudle.ts file Syntax : const routes: Routes = [{path:'routeName', component:DemoComponent  }, {path:'routeName2', component:DemoComponent2  }]; and import routing at app.module.ts.
+3. AppRoutingModule in import section and app.module.ts file: import { AppComponent } from './app.component';
+4. <router-outlet> </router-outlet> : where you want to show your componet.
+
+
