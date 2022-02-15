@@ -126,7 +126,7 @@ export class TestingDirective  implements OnInit{
   ngOnInit(): void {
     this.el.nativeElement.style.background  = "blue";   
   }
-}
+}	
 or
 2.2 using Renderer2
 import { Directive, ElementRef, Input, OnInit, Renderer2 } from '@angular/core';
@@ -180,7 +180,7 @@ import { Directive, ElementRef, Host, HostListener, Input, OnInit, Renderer2 } f
 
 @Directive({
   selector: '[appTesting]'
-})
+x})
 export class TestingDirective  implements OnInit{
   @Input()appTesting:string = "";
   constructor(private el:ElementRef, private ren:Renderer2){}   
@@ -352,10 +352,104 @@ Note : not clear
 Note : good practice to @injectable() in all service irrespective
 
 
-===> Routing (not code)
-1. Without reload page, changing the content of your web page called routing
-2. You define our routers at routing.moudle.ts file Syntax : const routes: Routes = [{path:'routeName', component:DemoComponent  }, {path:'routeName2', component:DemoComponent2  }]; and import routing at app.module.ts.
-3. AppRoutingModule in import section and app.module.ts file: import { AppComponent } from './app.component';
-4. <router-outlet> </router-outlet> : where you want to show your componet.
+===> Routing
+1. Without reload the page change the content of webisate and url
+2. mannual Generate Routing
+	2.1 create file app.routing.moudle.ts
+	2.2 import import { NgModule } from '@angular/core'; import { RouterModule, Routes } from '@angular/router';
+	2.3.const routes: Routes = [  {path:"RouterName", component:ComponentName},{},{} ]
+	2.4 Import all component which want to create routes
+	2.5 @NgModule({ imports: [RouterModule.forRoot(routes)], exports: [RouterModule]}) export class AppRoutingModule { }
+	2.6 AppRoutingModule in app.module.ts file under import
+	2.7 everything is done.
+3. Display Routes 
+	3.1 <a href ='/routerName'></a> // if you use router link like this, this will be reload the browser
+	3.2 <button routerLink  = '/routerName' [routerLink]=["/routerName"]>Home </button> // without reload link has been generated.
+	3.3 <router-outlet> </router-outlet> : this is an special directives provided by angular for result of router Component without reload page, whereas you define this your content will be loaded there.
+	4.4 for Stylish check which link is active, use routerLinkActive = '{exact:true}'
+4. Ts file : You can also use an router in ts file as make click event for call the routerLink	
+	4.1 inject the route : import { Router, ActivatedRoute  } from '@angular/router'; Activate route get current route 
+	4.2 define on under class inside of constructor(private newRouteName:Router, private currentRoute:ActivateRoute){} goToHome(){ this.newRouteName.navigate(['/routerName']); or this.newRouteName.navigate(['/routerName'], {relativeTo:this.currentRoute});}	
+	4.3 Relative: this is mean current ts file route after we have called route will be url : currentRouteName/naviagateRouterName 
 
+5. Parameters in Route : like in php $_GET['id'] method, we can also get anything from routes link.
+	5.1 one paramter and multiple paramter: {path:'RouterName/:id/:name', component:ComponentName}
+	5.2 for get id dynamic, first we have to inject(import from angular/route) ActivatedRoute  in ts file : constructor(private currentR:ActivatedRoute); this.currentR.snapshot.params['id']; this.currentR.snapshot.params['name']
+	5.3 Params is the observable that is provided by angular so its destroys this subscription when the component gets destroyed (mean component call through router link, whenever we change our routers, so defined current routes component it will be destroyed automatic)
+	5.4 sub:Subscription; this.sub  = this.route.params.subscribe((params:Params)=>{console.log(params['id'])} result same like para 5.2
+	5.5 Once Subscription has been lodged, then you have to destroyed the subscription whenever navigate to another route/destroy component: NgOnDestroy(){ this.sub.unsubscribe()}
+	5.6 Query Pass likethis http://localhost:4200/home/10/edit?allowEdit=1, html : <button [routerLink]="['/home',10,'edit']" [queryParams]="{allowEdit:'1'}">button</button> routing file : {path:"home/:id/edit",component:HomeComponent},
+	5.7 Extra Query  like this : http://localhost:4200/home/10/edit?allowEdit=1#ohh <button [routerLink]="['/home',10,'edit']" [queryParams]="{allowEdit:'1'}" fragment="ohh">button</button>
+	5.8 get Query Params in this file : this.route.snapshot.queryParams['allowEdit']
+	5.9 get extra query fragment this.route.snapshot.fragment
+
+6. Pass Child Routes under routing file and :{path:'**', redirectTo:'home', children:[{paht:'user',component:componentName}]} 
+
+7.Wildcard ROutes  :  {path:'**', redirectTo:'definedRouteName'}, if user hit the url unkown name then user will ge redirecting to home page of angular project
+
+8. Route Guard : some logic you want to exectued before route gets loaded
+=> This feature will be secured page/url : CanActive
+=> secured route under routing.module.ts file : {path:'routerName', component:ComponentName, canActive:[AuthGuard]},
+=> CanActiveChild : return true only boolean type data type: true and false, on  this behalf loggin system worked.
+=> generate route guard : ng generate folderNameOptional/guardName
+=> @Injectable() : used for service into service 
+	1. Create Mannual guard service, create two file :
+		1.1 auth-guard-serivce.ts :   where we will be return only boolean data type via auth-service login true or not
+		1.2 return false mean, user not loggin and true mean user has been logged..
+Example code : 
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { AuthService } from './auth.service';
+@Injectable({providedIn: 'root'})
+export class AuthGuardService implements CanActivate {
+    constructor(private auth:AuthService) {}
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):boolean | Promise<boolean>{
+        
+        return this.auth.loggedIn;
+    }
+}
+		1.2 auth-serivce.ts : where we define our logic
+example code : '
+export class AuthService {
+    loggedIn:boolean = true;
+    login(){
+        this.loggedIn =true;
+    }
+    logout(){
+        this.loggedIn = false;
+    }
+}
+
+9. Passing Data using Routes in object formate.
+{path:"about", component:AboutComponent, data:{message:"I am dummoy data from router"}},
+=> import activated route in ts file..
+this.ActivatedRoute.snapshot.data['message'];
+
+10. Resolve Guard
+=> If you want to resolve something before load component, Now you can use resolve guard
+=>file name of resolve guard : fileName.resolver.service.ts
+=> routing file : {path:'', compone.., resolve:{server:ServiceResolverClassName}}
+=> resovler file : 
+import { Injectable } from "@angular/core";
+import { ActivatedRoute, Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+
+@Injectable(){
+}
+export class  ResolverService implements Resolve<any>{
+    constructor(private  ComponentService:ServiceClassName){} // where we define our  router id from service (service get router id from component)
+    resolve(route:ActivatedRouteSnapshot, state:RouterStateSnapshot){
+        this.ComponentService.getRouterMethodName(+route.params['id'])
+    }
+}
+=> Now we can access the id using server name which is define in routing file..
+this.server=data['server']
+		 
+
+=> In real life application if page not found or something error happen, then server host automatically redirect to own handling erorr page..
+	1. in this case, we can stop the server side handling error page with using  useHash under routing file inside of @NgModule =>   imports: [RouterModule.forRoot(routes,{useHash:true})]
+	2. Now our url will be like this yourdomain.com/#/yourRoute.
+
+10. redirecting to all  undefine page url : {path:'**', redirectTo:'home', pathMatch:'full'}
+	
+		
 

@@ -106,7 +106,7 @@ today = new Date();
 <h3>{{capString('Love You Angular')}}</h3> <!-- use pipe inseated of making function in ts file-->
 <h3>{{100 | currency}}</h3>
 <h4> {{user | json}}</h4> <!-- Output joson formate-->
-<h4> {{user.name | uppercase}}</h4> <!-- Output name value from ts file-->
+<h4> {{user.name | uppercas	e}}</h4> <!-- Output name value from ts file-->
 
 10.1 Custom pipes
 command : ng generate pipes pipes/usdInr // generate pieps under pipes folder which function to convert to usd (united states doller) to inr (indian rupess)
@@ -131,7 +131,7 @@ export class UsdInrPipe implements PipeTransform {
 11.1 Template Driven Form : selected all value at the one click of form data
 => import { FormsModule } from '@angular/forms'; // import in app.module.ts file 
 // TS FILE
-name:String = "";
+  name:String = "";
   password:any = "";
   loginUser(item:any){
     this.name = item.name;
@@ -169,7 +169,7 @@ name:String = "";
 => import { ReactiveFormsModule } from '@angular/forms'; // added in app.module.ts file 
 =>import { FormGroup, FormControl } from '@angular/forms'; // added in app.component.ts file
 // TS FILE
-loginForm  = new FormGroup({
+loginF		orm  = new FormGroup({
     name:new FormControl('sajid'),
     password:new FormControl('123')
   })
