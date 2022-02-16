@@ -44,6 +44,22 @@ posts?_sort=user,views&_order=desc,asc
 8.slice
 => get data from 100 items under 50 -70, so Example Add _start and _end or _limit, 
 GET posts?_start=50&_end=71, So data will be 20 result...
+GET posts?_start=50&_limit=70, So data will be 20 result...
+
+9. Opeartor 
+	9.1. _gte or _lte
+ GET posts?id_gte=12&id_lte=15 : resul will in range 12 to 15 all ids will be display
+
+	9.2. _ne Excluded Value 
+GET /posts?id_ne=12 , all post will be getting data except 12 id
+
+	9.3. _like
+GET /posts?title_name=Kamina khan, which have object have name equal to kamina khan, result will be whose data.
+
+12.  Full Text Search , by add "q"
+=> Search in posts table of all database which related to internet ( i to t letter) 
+=> search by letter to letter and number to number
+GET /posts?q=internet 
 
 
 
