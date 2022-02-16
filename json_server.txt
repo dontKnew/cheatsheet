@@ -25,6 +25,29 @@ POST = > insert data // click raw and insert you data value josn formate data an
 PUT AND PATCH => update data // http://localhost:3000/posts/8 , update section post under which have 8 id , and for update go to body section and under raw type ur updatation.
 DELETE = > delete data // http://localhost:3000/posts/8 ,here will be delete id number 8 from json server under section post.
 
+5. Access Properties (Filter)
+GET /posts?title=json-server&author=typicode
+GET /posts?id=1&id=2
+GET /comments?author.name=typicode
+ 
+6. pagination
+=> 10 items are returned by default
+GET /posts?_page=7  : thats mean data will be 10 objects pers page
+GET /posts?_page=7&_limit=20
+
+7. sort
+GET /posts?_sort=views&_order=asc // return ascending order data
+GET /posts/1/comments?_sort=votes&_order=asc // return decending order data
+=> multiple formate : 
+posts?_sort=user,views&_order=desc,asc
+
+8.slice
+=> get data from 100 items under 50 -70, so Example Add _start and _end or _limit, 
+GET posts?_start=50&_end=71, So data will be 20 result...
+
+
+
+
 
 
 
