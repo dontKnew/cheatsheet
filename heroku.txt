@@ -1,0 +1,10 @@
+=> Setup heroku
+1. Create Heroku account
+2. install heroku in computer https://devcenter.heroku.com/articles/heroku-cli
+3. command line	:
+	3.1 heroku login -i
+	3.2 heroku create projectName
+	3.3  got project folder
+	3.4. git add .
+	3.5 git commit -m "make it better" or git commit -am "make it better"
+	3.6 git push heroku master done!

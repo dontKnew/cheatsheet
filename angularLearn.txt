@@ -125,6 +125,20 @@ export class UsdInrPipe implements PipeTransform {
 
 }
 
+date Formates :
+'short': equivalent to 'M/d/yy, h:mm a' (6/15/15, 9:03 AM).
+'medium': equivalent to 'MMM d, y, h:mm:ss a' (Jun 15, 2015, 9:03:01 AM).
+'long': equivalent to 'MMMM d, y, h:mm:ss a z' (June 15, 2015 at 9:03:01 AM GMT+1).
+'full': equivalent to 'EEEE, MMMM d, y, h:mm:ss a zzzz' (Monday, June 15, 2015 at 9:03:01 AM GMT+01:00).
+'shortDate': equivalent to 'M/d/yy' (6/15/15).
+'mediumDate': equivalent to 'MMM d, y' (Jun 15, 2015).
+'longDate': equivalent to 'MMMM d, y' (June 15, 2015).
+'fullDate': equivalent to 'EEEE, MMMM d, y' (Monday, June 15, 2015).
+'shortTime': equivalent to 'h:mm a' (9:03 AM).
+'mediumTime': equivalent to 'h:mm:ss a' (9:03:01 AM).
+'longTime': equivalent to 'h:mm:ss a z' (9:03:01 AM GMT+1).
+'fullTime': equivalent to 'h:mm:ss a zzzz' (9:03:01 AM GMT+01:00).
+
 <!-- HTML FILE -->
 <h2>Your usd to inr {{10 | usdInr:70}}</h2> <!-- function ready : usd to inr -->
 
@@ -166,10 +180,10 @@ export class UsdInrPipe implements PipeTransform {
 </form>
 
 11.2 Reactive Form : 
-=> import { ReactiveFormsModule } from '@angular/forms'; // added in app.module.ts file 
+=>import { ReactiveFormsModule } from '@angular/forms'; // added in app.module.ts file 
 =>import { FormGroup, FormControl } from '@angular/forms'; // added in app.component.ts file
 // TS FILE
-loginF		orm  = new FormGroup({
+loginForm  = new FormGroup({
     name:new FormControl('sajid'),
     password:new FormControl('123')
   })

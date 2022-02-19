@@ -1,4 +1,5 @@
-:JSON SERVER: this JSON SERVER we can make fake api for testing our application like angular react and other front end frameworks.
+JSON SERVER: this JSON SERVER we can make fake api for testing our application like angular react and other front end frameworks.
+=> Create json server on custom port server : json-server --watch db.json --port 3004
 1. npm install -g json-server // json server will be install in your computer globally.
 2. go to any folder and run command : json-server --watch  // run without file or json-server --watch db.json // run with file
 3. Singular Route : 
@@ -59,7 +60,24 @@ GET /posts?title_name=Kamina khan, which have object have name equal to kamina k
 12.  Full Text Search , by add "q"
 => Search in posts table of all database which related to internet ( i to t letter) 
 => search by letter to letter and number to number
-GET /posts?q=internet 
+GET /podsts?q=internet 
+
+13. Relationship
+	13.1 Inlcude Children resources GET /posts?_embed=comments & GET /posts/1?_embed=comments
+	13.2 inlcude parent resources GET /comments?_expand=post & GET /comments/1?_expand=post
+	13.3. get or create Nested (children or inside of object) resources,  GET /posts/1/comments & POST /posts/1/comments
+
+14. get ALl json record 
+GET server/db
+
+15. Access data using custom routes
+/api/posts  by  → /posts
+/api/posts/1  by → /posts/1
+/posts/1/show by → /posts/1
+/posts/javascript by  → /posts?category=javascript
+/articles?id=1 by → /posts/1
+
+
 
 
 

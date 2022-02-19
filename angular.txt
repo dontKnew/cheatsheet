@@ -313,7 +313,7 @@ helpful for inlcude all component styles,html elements, ts code to parent compon
 
 firstMethod : 
 1.  we knew that access the element value by using like this <input type="text" name="" id=""  value="sajid" #firstname> {{firstname.value}}
-2. if you want  to get element property or value in ts file, So you can use @ViewChild('aliasName') firstname:ElementRef(); click(){alert(this.firstname.nativeElement.value) } // get the result
+2. if you want  to get element property or value in ts file, So you can use @ViewChild('aliasName') firstnam!e:ElementRef(); click(){alert(this.firstname.nativeElement.value) } // get the result, for  @ViewChild('aliasName') 	firstname:ElementRef() | undefined;  this.email?.nativeElement.value
 3. import { Component, ElementRef, ViewChild } from '@angular/core';
 
 secondMethod: for access element by using <ng-content> </ng-content>
@@ -451,5 +451,84 @@ this.server=data['server']
 
 10. redirecting to all  undefine page url : {path:'**', redirectTo:'home', pathMatch:'full'}
 	
-		
+11. Observable  : is the simply data source & Observe : identify the data get or not, if get give some logic function
+=> Observable provided by rxjs library
+=> in small project oservable does not effected, but if u will make large project then you will relized observable is require
+=> the observe get data from observable
+=> Its ignore the function if fetch data in observable, and perfuming the next function, whenever data fetched, its will function will run
+=> callback and promise you can use instead of observable, but angular recommed to to use observable because angular handle eror of the observable.
+=> Three Step of Observable
+	1. Data Handle : get data
+	2. Handle Error : handle data if error occured
+	3. eHandl Completion : give next logic after completion of observe data
+=> subscribe(data) : this is an observable
 
+	11.1 Interval  : interval like a observable...
+	=> provided by rxjs library...
+	=> interval((period:1000)) // in miliseconds..
+	=> every specfic seconds, we want to emit data or trigger something
+		1. emit listen by observable, and observable listen for we used subscription
+		2. once you define interval, you have to subscribe it to handl the emitted data.
+		3. Example : interval((period:100).susbscribe(next:count=>{console.log(count)});
+		Exameple : 
+check:any;
+  ngOnInit(): void {
+   this.check =   interval(1000).subscribe(count=>{console.log(count)});
+  }s
+  ngOnDestroy(){
+    this.check?.unsubscribe(); / run method without unsubscribe..
+  }
+Note : when you define own observables you have to unsubscribe onDestroy
+
+	11.2 Create Own Observable : const customObserbe = Observable.create();
+	=> Import observable from rxjs 		
+	Example: 
+newob:any;
+  constructor(){
+    this.newob = Observable.create((observer:any)=>{
+      let count = 0;
+      setInterval(()=>{
+        observer.next(count);
+        count++;
+      },1000)
+    });
+  }
+  ngOnInit(): void {
+  this.newob.subscribe((count:number)=>{
+    console.warn("conting", count);
+  })
+  }
+  ngOnDestroy(){
+    this.newob.unsubscribe();
+  }
+
+	11.3 Handling Error
+	=> handle the errors whenever you emit data through observable
+	=> by .error() similer to .next();
+	=> observable.subscribe((data)=>{},error=>{})		
+Note : Throwing an errro lets the observable die and there is no need to subscribe it
+	=> similar to .error(), you can use complete() method to acctually complete the observable
+Example : 
+	.....
+	....
+	   setInterval(()=>{
+        observer.next(count);
+        count++;
+	if(count==2){
+          observer.complete();
+        }
+        if(count>3){
+          observer.error(new Error('count is greater than 3')) // pass error
+        }
+      },1000)
+	.....
+	.....
+
+  ngOnInit(): void {
+    this.newob.subscribe((count:number)=>{
+      console.warn("conting", count);
+    },
+    (error:any)=>{console.log("observerbale is greather 3",error)},
+    ()=>{console.log("observerbale is  completed")},
+    )
+  }
