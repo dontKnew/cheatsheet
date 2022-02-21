@@ -544,14 +544,128 @@ Example :
 	12.1 Template Driven : Simply defines your forms in your template and angular infers the form object from DOM
 	=> App Model -> Form Model -> Form Directives -> DOM
 	=> import FormsModule in app.module.ts inside of imports:[];
-	=> Inside of form you have to define an ngModel directive without anhy paraenthese like this :    <input type="text" name="name"  ngModel>
-	=> Add in create form tag like that with binding ng submit : <form (ngSubmit) = 'ngSubmit()"> </form>
-	=> whenever click in ngusbmit button it =s will be return javascript object formn ": <form (ngSubmit) = 'ngSubmit(FormProject)" #FormProject=NgForm></form>
-	=> you can access form data in ts file by import NgForm from @angular/forms, by using @ViewChild('form')form!:NgForm; console.log(this.form); // return form object..
+	=> Access Data in ts file using NgForm from @angular/forms, by using @ViewChild('form')form!:NgForm; console.log(this.form); // return form object..
 		12.1.1 Showing Error  : Assing an local reference to the input #email ="ngModel" 
 			=> use local reference to show the message using Ngif directive : <span *Ngif="!email.valid"> Email Vaild </span>
 			=> style ur input box : input.ng-invaild.ng-touched{border:1px solid red};
-			=> 
-	
-	12.2 Reactive : More complex apprach where you create from porgramtically and synchronized that with DOM
+		12.1.2 NgModelGroup : Select specific inputs which you want to group using NgModelGroup Directive, ngModelGroup = "userGroup"
+			=> <form #form ='ngForm'> <div ngModelGroup="userData"> input input </div> </form>
+			=> You can add validations by giving it the reference  #userGroup = "ngModelGroup"
+		12.1.3 SetValue Overwrite all form value : setValue all form value by using this.form.setValue({gender:'male',userData:{name:'sajid',email:'email@gmail.com'},question:'teacher'})
+		12.1.4. PatchValue will be set value of specific input . this.form.patchValue({gender:'male'});
+		12.1.5 clear all form data after submit data : this.form.onReset();
+
+Example 12.1 =>
+css : 
+{input.ng-vaild.ng-valid{
+    border:1px solid green;
+}
+HTML FILE: 
+<form class="form" (ngSubmit)="onSubmit()" #form="ngForm"> 
+    <div ngModelGroup="userData">
+        <input type="text" name="name" id="" placeholder="Enter Name" #name = "ngModel" ngModel> <br> <br>
+        <span *ngIf="!name.valid && name.touched">Please enter vaild name</span> <br><br>
+        <input type="email" name="email" id="" placeholder="Enter email" #email = "ngModel" ngModel><br><br>
+        <span *ngIf="!email.valid && email.touched">Please enter vaild email</span> <br><br>
+    </div>
+  <select name="question" id="" [(ngModel)]= "user.selectedQuestion" ngModel>
+      <option value="">Select Secrete Question</option>
+      <option value="langauge">What is favroite Programming language ? </option>
+      <option value="teacher">What is your teacher name ? </option>
+  </select><br> <br>
+  <div *ngFor="let gender of genders">
+    <input type="radio" value = {{gender}} [(ngModel)]="selectedGender" name="gender" id="" #gender = "ngModel" ngModel>{{gender}} <br>
+  </div> <br><br>
+  <input type="submit" [disabled] = "form.invaild" value="Submit">
+</form>
+
+TS FILE : 
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
+
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent implements OnInit{
+  constructor(){}
+  ngOnInit(): void {}
+  
+  user = {name:'', email:'', selectedQuestion:'langauge'};
+  @ViewChild('form')form!:NgForm;
+
+  selectedGender = 'female';
+  genders = ['male', 'female']
+  onSubmit(){
+    console.log(this.form.value.userData.name);
+    console.log(this.form.value.gender);
+    console.log(this.form.value.question);
+    this.form.onReset();
+  }
+}	
+	12.2 Reactive : More complex approach where you create from porgramtically and synchronized that with DOM
+	=> FormGroup : Angular provides you a package which has many classes to maintain the form. in the end it is just the group of inputs
+	=> for use import ReactiveFormsModule from @angular/forms in the file app.module.ts 
+	=> Now we dont need to FormsModule, because this is for template driven form
+	=> FormControl : it is the class that we import from @angular/forms. They are used to maintain your inputs in the froms. It has two arguments (1) intial value (set value of input fileds) (2) single validator or array of validation
+	=> FormControlName : given name of each input an specific name for access in ts file
+	=> Pass Validation in FormControll like this : new FormControl(null, [Validators.required, Validators.required]);
+		12.1 Showing Error Message : For showing error messages in html form you have to use .get() method
+			Ex.  ts file : get question(){ return this.userForm.get('question');}, html file : <span *ngIf="question && question.invalid && question.touched">*Please add valid email</span>
+Example 12.2 =>  ts file : 
+  userForm = new FormGroup({
+    // 'userData': new FormGroup({ 
+      'name':new FormControl(null, Validators.required),
+      'email': new FormControl(null, [Validators.required, Validators.email]),
+    // }),
+    'question': new FormControl("", Validators.required)
+  })
+  onSubmit(){
+    // console.log(this.userForm.value.userData.name);
+    // console.log(this.userForm.value.userData.question);
+  }
+  get name(){
+    return this.userForm.get('name');
+  }
+
+  get email(){
+    return this.userForm.get('email');
+  }
+
+  get question(){
+    return this.userForm.get('question');
+  }		
+
+html file : 
+<br>
+<form class="form"[formGroup]="userForm" (ngSubmit)="onSubmit()"> 
+
+        <input type="text" name="name" id="" placeholder="Enter Name" formControlName="name"> 
+        <span *ngIf="name && name.invalid && name.touched">*Please add name</span><br> <br>
+        <input type="email" name="email" id="" placeholder="Enter email" formControlName = "email"><br><br>
+        <span *ngIf="email && email.invalid && email.touched">*Please add valid email</span><br> <br>
+  <select name="question" id="" formControlName="question">	
+      <option value="">Select Secrete Question</option>
+      <option value="langauge">What is favroite Programming language ? </option>
+      <option value="teacher">What is your teacher name ? </option>
+  </select> <span *ngIf="question && question.invalid && question.touched">*Please add valid email</span><br> <br><br> <br>
+  
+  <input type="submit" value="Submit" [disabled]="userForm.invalid">
+</form>
+
+	12.2.1 Multiple FormControl : You add dynamic formcontrols based on user input or some by using class FormArray, learn  it later
+	12.2.2 Custom Validators : 
+
+
+
+      
+
+
+
+
+
+
+
 	
