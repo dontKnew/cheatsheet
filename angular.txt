@@ -1,3 +1,4 @@
+
 Course Strcuture : 1. The basic 2. Components and databinds 3.  directives 4. services and dependency injections 4.  Routing 5.  Observables 6. Forms 7. Pipes 8.  HTTP 
 
 ===> Basic of Angualr ?
@@ -532,3 +533,25 @@ Example :
     ()=>{console.log("observerbale is  completed")},
     )
   }
+
+	11.4 Operators : helpful for whenver you want to  api response in raw data : customObservable.pipe()
+	=> Map is one of the operators that you have to import from rxjs/operators
+	=>  After appllying pipe you have to subscribe to the transformed data
+		114.1 get filter data using Filter Opeartor : .pip(filter(data)=>{return something})); 
+
+12. Angular Froms
+=> If you want to reach out to server you do that http service then u need to angular forms
+	12.1 Template Driven : Simply defines your forms in your template and angular infers the form object from DOM
+	=> App Model -> Form Model -> Form Directives -> DOM
+	=> import FormsModule in app.module.ts inside of imports:[];
+	=> Inside of form you have to define an ngModel directive without anhy paraenthese like this :    <input type="text" name="name"  ngModel>
+	=> Add in create form tag like that with binding ng submit : <form (ngSubmit) = 'ngSubmit()"> </form>
+	=> whenever click in ngusbmit button it =s will be return javascript object formn ": <form (ngSubmit) = 'ngSubmit(FormProject)" #FormProject=NgForm></form>
+	=> you can access form data in ts file by import NgForm from @angular/forms, by using @ViewChild('form')form!:NgForm; console.log(this.form); // return form object..
+		12.1.1 Showing Error  : Assing an local reference to the input #email ="ngModel" 
+			=> use local reference to show the message using Ngif directive : <span *Ngif="!email.valid"> Email Vaild </span>
+			=> style ur input box : input.ng-invaild.ng-touched{border:1px solid red};
+			=> 
+	
+	12.2 Reactive : More complex apprach where you create from porgramtically and synchronized that with DOM
+	

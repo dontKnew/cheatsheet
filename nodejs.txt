@@ -1,0 +1,50 @@
+What is Nodejs ?
+=> Nodejs is a javascript runtime built on chorme v8 javascript engine
+=> Nodejs allow you to run javascript on the server
+=> Nodejs provides library of various javascript modules which help to develop web application
+=> Developed by Ryan Dahl in 2009
+=> Nodejs is not a framework or language
+=> can be used frontend or backend develop web application
+=>  Node. js is a server-side scripting language based on the Google Chrome V8 engine.
+=> Fast and highly scalable and efficient.
+
+1. Basic Commands
+=> .break : sometiems you get stuck this get you out
+=> .clear : alias for .break
+=> .editor : Enter editor mode (Ctrl+D to finish, Ctrl+C to cancel).
+=> .exit : Exit the REPL  (Read-Eval-Print-Loop : run js file on terminal through node js) 
+=> .help : print this help message
+=> .load : Load JS from a file intot he REPL session e.g. load./file/to/load.js
+=> .save : save all evaluated terminal commands in this REPL session to file e.g. .save/file/to/save.js
+
+2. npm init :  created a file named package.json 
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+	2.1 npm init -y : mean that previous created same previous init(package.json) 
+
+3. Module Wrapper : Before the module's code is executed, node js will auto wrap it with a below function that look likes following: 
+(function(exports, require, module, __filename, __dirname){// Module or node js code actually live in here});
+=> exports - A refernce to the module.exports that is shorter to type
+=> requrie - Used to import modules
+=> module - A refernce to the current module , console.log(module) / 
+=> __dirname - Return the directory name of current module console.log(__dirname)
+=> __filename - return the current file name
+
+4. Path :  The path module provides utilites for working with file and directory paths, it can be access using const = path  require('path')
+=> const path= require('path'); // require to access all below path;
+	4.1 basename()- return the last portion of current path/folderName/directoryName 
+		console.log(path.basename('C:/xampp/htdocs/NodeJS','.js')) 
+
+
+
+

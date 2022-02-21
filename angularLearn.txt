@@ -1,3 +1,14 @@
+=> Deploy Project to github
+1. Go to Angular Project
+2. Angular automatic create .git file
+	2.1 You have to create new repository in ur github account.
+	2.2 Add origin by command : add origin to ur folder : git remote add origin https://github.com/<username>/<repositoryname>.git
+3. Install this tool to ur current project by use this commmand : ng add angular-cli-ghpages
+4. Lets Deploy Project to Github Live server  by using command : ng deploy --base-href=/<repositoryname>/ ng deploy --base-href=/failureboy1/
+	or 4.1 ng deploy your-angular-project --base-href=/<repositoryname>/
+5. Your Project is Now live on github page link : https://<username>.github.io/<repositoryname>.
+
+
 Angular
 => npm install -g @angular/cli
 => update angular project
@@ -158,7 +169,7 @@ date Formates :
     <input type="text" name="name" id="" placeholder="Enter Your Name" ngModel>
     <br> 
     <input type="password" name="password" id="" placeholder="Enter Your Password" ngModel> <br> <br>
-    <button>Login</button>
+	    <button>Login</button>
 </form>
 <!-- also work submit button out side of form -->
 <button (click)="loginUser(loginForm.value)">Login</button>
