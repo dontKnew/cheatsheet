@@ -119,5 +119,47 @@ path.isAbsolute('search/sajid')// false
 	=> import * as fs from 'fs';
 	=> Everything is same like tha Promise Based API
 	=> But After all method name you have to "Synx" keyword" Example : readFileSync(path,[option]), mkdirSync(path,[option]), writeFileSync("filename","fileText") etc.	
-		
-	
+
+7. Operating System : this os module provides operating system related utility method and properites
+=> cosnt os = require('os');
+=> import os from 'os';
+	7.1 platform();Return a string identfying the operating system. Will be return the possible Value : aix, darwin, freebsd, linux, openbsd, sunos, and; 'win32' for window	
+		=> console.log(os.platform()); return win32
+	7.2 arch() - Returns the operating system CPU architecture for which the NODE.js binary was complied.
+		=> Might be return output will be : arm, arm64, ia32, mips, ppe, pp64, s390, s390x, x32, x64
+	7.3 cpus() = Return an array of objects containing informatoion about each logocal CPU core
+	7.4 hostname()- return an hostname of the operating system as stirng (mean that name of computer/laptop);
+	7.5 homedir() - return current home directory; C:\Users\Sajid Ali
+	7.6 networkInterfaces() - return the an object containing netowrk interface that have been assigned a netwrok address
+	7.7 freemem() - return the amount of free system memeory in byts as an integer
+		=> 2 bytes = 8 bit
+		=> 1024 bytes =  1kilobytes (KB)
+		=> 1024kilobyte = 1megabyte (MB)
+		=> 1024megabyte = 1gigbyate (GB)
+		=> 1024gigabyte 1terabyte(TB)
+		=> next Petabyte (PB), Exabyte(GB), Zettabyte(ZB), Yottabyte(YB)
+	7.8 totalmem() - return the amount of totalsystem memeory in byts as an integer
+
+8. URL : The module provides utilites for URL resolutions and parsing 
+=> const url = require('url');
+=> import url from 'url';
+=> const myUrl = new URL('https://www.something.com'/p/a/t/h?query=string#hash');
+	8.1 hash -  gets and sets the fragment portion of the URL 
+		console.log(myUrl.hash); return #hash
+	8.2 host - return www.something.come
+	8.3 hostname - return www.something.com
+	8.4 href - whole href
+	8.5 pathname - return /p/a/t/h
+	8.6 prot - localhost:3000; return 3000
+	8.7 protocol - 
+	8.8 toString() - return  string data with serialized URL like href method
+	8.9 toJSON() - return  json formate url data with serialized URL like href method
+	8.10 search - return ?query=string // which search query string 
+	8.11 searchParams - return URLSearchParams { 'query' => 'string' }
+
+9. Event :  like javascript event onclick mouseover etc
+=> const eventEmit = require('events');
+=> import eventEmit from 'events';
+	8.1 on() - 
+		Example: emitEvent.on('event',()=>{console.warn('AN Event occured !');});/*Trigger Event*/ emitEvent.emit('event');
+	8.2 once()- if you use this event, event trigger will once time only...

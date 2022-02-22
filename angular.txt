@@ -612,6 +612,8 @@ export class HomeComponent implements OnInit{
 	=> FormControl : it is the class that we import from @angular/forms. They are used to maintain your inputs in the froms. It has two arguments (1) intial value (set value of input fileds) (2) single validator or array of validation
 	=> FormControlName : given name of each input an specific name for access in ts file
 	=> Pass Validation in FormControll like this : new FormControl(null, [Validators.required, Validators.required]);
+Example : <input id="name" type="text" [formControl]="name"> {{name.value}} ts file : name = new FormControl('');
+
 		12.1 Showing Error Message : For showing error messages in html form you have to use .get() method
 			Ex.  ts file : get question(){ return this.userForm.get('question');}, html file : <span *ngIf="question && question.invalid && question.touched">*Please add valid email</span>
 Example 12.2 =>  ts file : 
@@ -637,7 +639,6 @@ Example 12.2 =>  ts file :
   get question(){
     return this.userForm.get('question');
   }		
-
 html file : 
 <br>
 <form class="form"[formGroup]="userForm" (ngSubmit)="onSubmit()"> 
@@ -654,18 +655,82 @@ html file :
   
   <input type="submit" value="Submit" [disabled]="userForm.invalid">
 </form>
-
-	12.2.1 Multiple FormControl : You add dynamic formcontrols based on user input or some by using class FormArray, learn  it later
-	12.2.2 Custom Validators : 
-
-
-
-      
-
-
-
-
-
-
-
 	
+	12.2.1 Nested Group Form : like said above example 
+	12.2.2 Creating Dynamic Form: 
+		FormArray : You can add dynamic formcontrols based on user input or some by using class FormArray.
+			=> add button for add input add value to form group..
+Example :  html file:
+<form class="form"[formGroup]="userForm" (ngSubmit)="onSubmit()"> 
+
+    <input type="text" name="name" id="" placeholder="Enter Name" formControlName="name"> 
+    <span *ngIf="name && name.invalid && name.touched">*Please add name</span><br> <br>
+    <input type="email" name="email" id="" placeholder="Enter email" formControlName = "email"><br><br>
+    <span *ngIf="email && email.invalid && email.touched">*Please add valid email</span><br> <br>
+<select name="question" id="" formControlName="question">	
+  <option value="">Select Secrete Question</option>
+  <option value="langauge">What is favroite Programming language ? </option>
+  <option value="teacher">What is your teacher name ? </option>
+</select> <span *ngIf="question && question.invalid && question.touched">*Please add valid email</span><br> <br><br> <br>
+<div formArrayName = 'hobbies'>
+    <h4>Hobbies</h4>
+    <button type="button" (click)="addHobby()" >Add Hobby</button> <br><br>
+    <div *ngFor="let control of hobbies['controls']; let index=index">
+        <input type="text" name="" [formControlName]="index" id="">
+    </div>
+</div>
+<input type="submit" value="Submit" [disabled]="userForm.invalid">
+</form>
+Form Status : {{userForm.status}}
+
+//ts file 
+userForm = new FormGroup({
+      'name':new FormControl(null, Validators.required),
+      'email': new FormControl(null, [Validators.required, Validators.email]),
+    'question': new FormControl("", Validators.required),
+    'hobbies' : new FormArray([new FormControl('')])
+  })
+  get aliases() {
+    return this.userForm.get('aliases') as FormArray;
+  }
+  addHobby() {
+  const control = new FormControl(null);
+  (<FormArray>this.userForm.get('hobbies')).push(control);
+}
+get hobbies(){
+  return this.userForm.get('hobbies') as FormArray;
+}
+  
+  onSubmit(){
+    console.log(this.userForm.value);
+  }
+  get name(){
+    return this.userForm.get('name');
+  }
+
+
+  get email(){
+    return this.userForm.get('email');
+  }
+
+  get question(){
+    return this.userForm.get('question');
+  }
+	12.2.2 Custom Validators : Angular maintains code for each validator that you have  applied on your  control {more informationn search in google)
+	new FormControl(null, [Validators.required, Validators.email]) // access email and required...
+	 get email(){return this.userForm.get('email');}
+	<span *ngIf="email && email.errors?.['email']">*Please add valid email</span><br> <br>
+	<span *ngIf="email && email.errors?.['required']">*Please add valid email</span><br> <br>
+
+12.3 Async Validators :  If you want to check input name is valid from API or other server then using async vaidators
+=> return type promise or observables 
+	12.3.1 Three status of control : i. Invaild ii. Pending iii. Vaild
+=> Every from or formControl there are two observables that you can listen to 
+	i. ValueChanges
+		this.userForm.valueChanges.subscribe(()=>{console.log("Value Changed");});
+	ii. StatusChanges 
+		this.userForm.valueChanges.subscribe(()=>{console.log("Value Changed");});
+
+=> this.userForm.reset(); // reset your form data
+=> setValue() : will be set reqiured to all form input value
+=> patchValue() : will be set a sepecific input value
