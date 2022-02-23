@@ -163,3 +163,35 @@ path.isAbsolute('search/sajid')// false
 	8.1 on() - 
 		Example: emitEvent.on('event',()=>{console.warn('AN Event occured !');});/*Trigger Event*/ emitEvent.emit('event');
 	8.2 once()- if you use this event, event trigger will once time only...
+
+10. DNS (Domain Name System) module use it to look up IP address of host names;
+=> const dns = require('dns');
+=> import dns from 'dns';
+	10.1 lookup() - return the name of hostname with ip address.
+	Example :  dns.lookup('localhost', (error, address, family)=>{  if(error) throw error;  console.log(address); console.log(family); }); // return ip address 127.0.0.1, ip address family is 4
+	10.2 resolve() -  gettong the resources records into an array of hostname
+		Syntax : resolve(hostname, rrtype, callback)
+		dns.resolve('geekyshows.com', (error, records)=>{if(error) throw error;  console.log(records); }); return [ '216.239.32.21', '216.239.36.21', '216.239.38.21', '216.239.34.21' ]
+
+11. Create server :  creating server like localhost:2000, 127.0.0.1:1000 something like that.
+=> import http from 'http';
+=> const http = require('http');
+=> http.createServer() - method includes request and response parameters which is  supplied by node js
+	11.1 nodemon npm package  : Its allow to auto complie your code no need to stop server and start again
+		=> npm install --save-dev nodemon  // install only locally for  project
+		=> npm install -g nodemon  // install globally in computer for use anytime anywhere with any project
+		=> you can generate a package.json file using npm init command.
+		=> thereafter add nodemon filename.js in package.json file under script object; "scripts": {"test": "nodemon index","prod":"ndoe index"},
+Example : 
+const server = http.createServer((req, res)=>{ res.end("Hello I am from server");});
+server.listen(500, 'localhost',()=>{console.log('server is listening to ther prot 500  ');})
+runn command : npm test
+
+=> const PORT = process.env.PORT || 4000; // get server port if does not exits, get default our port 2000
+=> You can setehader for which server is responsing text or html or php under http.createServer((res, req)=>{res.setHeader('Content-Type','text/plain');})
+=>  const server = http.createServer((req, res)=>{ console.log("data " + req.url)}); url if route your url localhost:4000/about, return /about,  => this is default by browser chrome icon favicon.ico 
+=>  try return all method of req and res, const server = http.createServer((req, res)=>{ console.log(req, res)});
+	11.2 req.method() // return POST or GET or PATCH or PUT or DELETE	=>
+		=> res.statusCode = 202; // set 200 code instead of deafult "200"
+		=> RES.statusMessage = "good";  set good message instead "OK" 
+		=> get reqquest url only if( req.url != 'favicon.ico'){ console.log(req.url);
