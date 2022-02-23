@@ -195,3 +195,27 @@ runn command : npm test
 		=> res.statusCode = 202; // set 200 code instead of deafult "200"
 		=> RES.statusMessage = "good";  set good message instead "OK" 
 		=> get reqquest url only if( req.url != 'favicon.ico'){ console.log(req.url);
+		=> check result in network tab : res.writeHead(202, "GOOD", {'Content-Type':'text/html'})res.end("<h1> I am from server </h1>");
+
+	11.3 Route Http :
+const server = http.createServer((req, res)=>{ 
+    res.writeHead(202, "GOOD", {'Content-Type':'text/html'})
+    // res.end("<h1> I am from server </h1>");
+    if(req.url==='/about'){
+        res.end("<h1> Hello About </h1>");
+    }else if(req.url === '/contact') {
+        res.end("<h1> Hello Contact Page </h1>");
+    }else if(req.url==='/'){
+        res.end('<h1> Home Page </h1>');
+    }
+});
+		11.3.1 Now with file with page
+Example : 
+if(req.url ==='/about'){
+        fs.readFile('./public/about.html', (error, data)=>{
+            if(error) throw error;
+            res.end(data);
+        })
+    }else{
+        res.end('Not Found Page');
+  }
