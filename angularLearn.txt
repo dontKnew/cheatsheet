@@ -1,0 +1,679 @@
+=> Deploy Project to github
+1. Go to Angular Project
+2. Angular automatic create .git file
+	2.1 You have to create new repository in ur github account.
+	2.2 Add origin by command : add origin to ur folder : git remote add origin https://github.com/<username>/<repositoryname>.git
+3. Install this tool to ur current project by use this commmand : ng add angular-cli-ghpages
+4. Lets Deploy Project to Github Live server  by using command : ng deploy --base-href=/<repositoryname>/ ng deploy --base-href=/failureboy1/
+	or 4.1 ng deploy your-angular-project --base-href=/<repositoryname>/
+5. Your Project is Now live on github page link : https://<username>.github.io/<repositoryname>.
+
+
+Angular
+=> npm install -g @angular/cli
+=> update angular project
+	ng update  @angular/cli @angular/core @angular/material --allow-dirty 
+=> on click navigate router to another router
+	this.router.navigate(['routerName']);
+
+if you got error about  : 
+Node packages may not be installed. Try installing with 'npm install'.
+Could not find the '@angular-devkit/build-angular:dev-server' builder's node package
+use commmand : 
+	2.1 npm uninstall @angular-devkit/build-angular
+	2.2 npm install --save-dev @angular-devkit/build-angular
+		or 
+	2.1 ng update  @angular/cli @angular/core @angular/material --allow-dirty -force
+
+
+1. write function
+=> functionName(){//initial code..}
+=> function(variableName1 : dataType, variableName2 : any){// if u  dont knew dataType use  "any" keywords}
+2. Property binding:
+never used of Interpolation for data attribute for changed the value because boolean does not work due to convert string 
+<input type="text" [value]=variableName>
+interpolation : 
+<input type="text" value={{variableName}}>
+3. Interpolation : its a {{sajid}}, sajid variable value is declared in fileName.component.ts
+4. define id in html tab
+=><h1 #iAmId > </h1>
+
+5. ng if and ng if else statement
+show=true (this is part of ts.component variable)
+<h1 *ngIf="show else  elseMe"> // if variable 'show' true : condition true, else condition false 
+  condition true
+</h1>
+<ng-template #elseMe>
+  <h1> Condition false</h1>
+</ng-template>
+or
+<h1 *ngIf="show; then ifBlock else  elseBlock"></h1>
+
+<ng-template #ifBlock>
+  <h1> Condition true</h1>
+</ng-template>
+<ng-template #elseBlock>
+  <h1> Condition false</h1>
+</ng-template>
+or 
+<h1 *ngIf="show">
+  I am true
+</h1>
+or
+/// use else if statement like below said
+<ng-template [ngIf]="show">
+  <h1> I am true</h1>
+</ng-template>
+or
+color = 'red';
+<ng-template [ngIf]="color==='red'">
+  <h1> I am red</h1>
+</ng-template>
+
+6. if you have multiple condition in this case you switch statement.
+color = "blue" (this is part of ts.component variable)
+<h1 [ngSwitch]="color">
+  <h2 *ngSwitchCase="'red'">I am Red</h2>
+  <h2 *ngSwitchCase="'green'">I am green</h2>
+  <h2 *ngSwitchCase="'blue'">I am blue</h2>
+  <h2 *ngSwitchDefault>I am Default Switch Case </h2>
+</h1>
+7. loop with array
+users = ['rahul','kamina','kutta','ullu'];
+<h1  *ngFor="let name of users">
+  <p>{{name}}</p>
+</h1>
+8. array object with loop
+users = [
+      {name:'rahul', id:1},
+      {name:'kamina', id:2},
+      {name:'hello', id:3},
+      {name:'kem', id:4},
+      {name:'panipat', id:5},
+      {name:'luv', id:6}
+    ];
+<h1  *ngFor="let name of users">
+  <p>{{name.name}}-- {{name.id}}</p>
+</h1>
+9.Style Binding
+Ts File : redColor = "red"; blue = "blue";
+<h1 [style.color]="redColor" [style.backgroundColo]="blue"> I am Style Binding </h1>
+
+10. Basic Pipes
+//TS FILE
+today = new Date();
+  capString(input:string){
+    return input.toUpperCase();
+  }
+  user = {
+    name : 'Sajid Ali',
+    age : 30,
+  }
+
+<!--HTML FILE!>
+<h1> {{today | date | uppercase}} </h1>
+<h1> {{today | date:'fullDate'}} </h1>
+<h2> {{003.3400 | number:'1.2-3'}}</h2> <!-- out put : 3.34-->
+<h3>{{capString('Love You Angular')}}</h3> <!-- use pipe inseated of making function in ts file-->
+<h3>{{100 | currency}}</h3>
+<h4> {{user | json}}</h4> <!-- Output joson formate-->
+<h4> {{user.name | uppercas	e}}</h4> <!-- Output name value from ts file-->
+
+10.1 Custom pipes
+command : ng generate pipes pipes/usdInr // generate pieps under pipes folder which function to convert to usd (united states doller) to inr (indian rupess)
+// APPLY CHANGED PIPES FILE
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'usdInr'
+})
+export class UsdInrPipe implements PipeTransform {
+
+  transform(value: number, ...args: number[]): unknown {
+    const [price] = args;
+    return value*price;
+  }
+
+}
+
+date Formates :
+'short': equivalent to 'M/d/yy, h:mm a' (6/15/15, 9:03 AM).
+'medium': equivalent to 'MMM d, y, h:mm:ss a' (Jun 15, 2015, 9:03:01 AM).
+'long': equivalent to 'MMMM d, y, h:mm:ss a z' (June 15, 2015 at 9:03:01 AM GMT+1).
+'full': equivalent to 'EEEE, MMMM d, y, h:mm:ss a zzzz' (Monday, June 15, 2015 at 9:03:01 AM GMT+01:00).
+'shortDate': equivalent to 'M/d/yy' (6/15/15).
+'mediumDate': equivalent to 'MMM d, y' (Jun 15, 2015).
+'longDate': equivalent to 'MMMM d, y' (June 15, 2015).
+'fullDate': equivalent to 'EEEE, MMMM d, y' (Monday, June 15, 2015).
+'shortTime': equivalent to 'h:mm a' (9:03 AM).
+'mediumTime': equivalent to 'h:mm:ss a' (9:03:01 AM).
+'longTime': equivalent to 'h:mm:ss a z' (9:03:01 AM GMT+1).
+'fullTime': equivalent to 'h:mm:ss a zzzz' (9:03:01 AM GMT+01:00).
+
+<!-- HTML FILE -->
+<h2>Your usd to inr {{10 | usdInr:70}}</h2> <!-- function ready : usd to inr -->
+
+11.1 Template Driven Form : selected all value at the one click of form data
+=> import { FormsModule } from '@angular/forms'; // import in app.module.ts file 
+// TS FILE
+  name:String = "";
+  password:any = "";
+  loginUser(item:any){
+    this.name = item.name;
+    this.password = item.password;
+    console.warn(item);
+  }
+
+<!-- html file -->
+<form action="" #loginForm="ngForm" (ngSubmit)="loginUser(loginForm.value)">
+    <input type="text" name="name" id="" placeholder="Enter Your Name" ngModel>
+    <br> 
+    <input type="password" name="password" id="" placeholder="Enter Your Password" ngModel> <br> <br>
+	    <button>Login</button>
+</form>
+<!-- also work submit button out side of form -->
+<button (click)="loginUser(loginForm.value)">Login</button>
+<div>
+    <h2> {{name}}</h2>
+    <h2>  {{password}}</h2>
+</div>
+
+11.1.1 Form Validation
+=> you can type also inside input email tag : <input type="email" email required> 
+<form action="" #loginForm="ngForm" (ngSubmit)="loginUser(loginForm.value)">
+    <input type="text" required #name= "ngModel" pattern="['a-zA-Z']+$" name="name" id="" placeholder="Enter Your Name" ngModel>
+    <span *ngIf = "name.invalid && name.touched"> Enter vaild name</span>
+    <br> 
+    <input type="password" name="password" #password= "ngModel"  minlength="4" id="" placeholder="Enter Your Password" ngModel required> 
+    <span *ngIf = "password.invalid && password.touched"> Enter vaild password</span>
+    <br> <br>
+<button [disabled]="loginForm.invalid">Login</button> <!-- Enable this button whenever form input is vaild-->
+</form>
+
+11.2 Reactive Form : 
+=>import { ReactiveFormsModule } from '@angular/forms'; // added in app.module.ts file 
+=>import { FormGroup, FormControl } from '@angular/forms'; // added in app.component.ts file
+// TS FILE
+loginForm  = new FormGroup({
+    name:new FormControl('sajid'),
+    password:new FormControl('123')
+  })
+  name:String = "";
+  password:any = "";
+  loginUser(){
+    this.name = this.loginForm.value.name;
+    this.password = this.loginForm.value.password;
+    console.warn(this.loginForm.value);
+  }
+
+<!-- HTML FILE -->
+<form  [formGroup]="loginForm" (ngSubmit)="loginUser()">
+    <input type="text" name="name" id="" placeholder="Enter Your Name" formControlName = 'name'>
+    <br> 
+    <input type="password" name="password" id="" placeholder="Enter Your Password" formControlName="password"> <br> <br>
+    <button>Login</button>
+</form>
+<div>
+    <h2> {{name}}</h2>
+    <h2>  {{password}}</h2>
+</div>
+
+11.1.2 reactive form validation
+//ts file under class componennt
+loginForm  = new FormGroup({
+    name:new FormControl('',[Validators.required, Validators.pattern('[a-zA-Z]+$')]),
+    password:new FormControl('',[Validators.required, Validators.minLength(4)])
+  })
+  loginUser(){
+    console.warn("Your Data is : " + this.loginForm.value);
+  } 
+  get user(){
+    return this.loginForm.get('name')
+  } 
+  get password(){
+    return this.loginForm.get('password')
+  } 
+
+// html file
+form  [formGroup]="loginForm" (ngSubmit)="loginUser()">
+    <input type="text" name="name" id="" placeholder="Enter Your Name" formControlName = 'name'>
+    <span style="color:red" *ngIf="user && user.invalid && user.touched">This is invaild input</span>
+    <br> 
+    <input type="password" name="password" id="" placeholder="Enter Your Password" formControlName="password"> 
+    <span style="color:red" *ngIf="password && password.invalid && password.touched">This is invaild password</span>
+    <br> <br>
+
+    <button [disabled]="loginForm.invalid">Login</button>
+</form>
+
+
+12. module : all component, services groups are called module, 
+generate new module : ng generate moudle admin-auth
+generate component in created module : ng g c admin-auth/dashboard // this dashboard component will auto import in admin-auth.module.ts for configuration
+=> import { AdminAuthModule } from './admin-auth/admin-auth.module'; // added in app.module.ts file
+=> exports:[DashboardComponent]// added in created module admin-auth.module.ts file under @NgModule function, export function will be allow to access <app-dashboard> </app-dashboard> anywhere in angular component
+
+13. Directive : directive like this ngIf, ngSwitch,  and you make custome directive 
+command for custom directive : ng g directive directiveName
+
+import { Directive, functionParameterName} from '@angular/core';
+
+@Directive({
+  selector: '[appRedElement]'
+})
+export class RedElementDirective {
+
+  constructor(el:functionParameterName) {
+    el.nativeElement.style.color = "red";
+    el.nativeElement.style.backgroundColor = "blue";
+    el.nativeElement.innerHTML = "Hello Angular";
+   }
+
+}
+=> you can use some javascript function like that el.nativeElement.innerHTML = "hello";
+<!-- HTML FILE -->
+<h1 appRedElement> </h1>
+
+14. 404 page : if you use path:'**' in routing this will redirective you alwayas this component path if spesfic routing or invaild route not define. and if user try to enter invaild route
+
+15. Child Routing
+//app.routing.moudle.ts. under routes: object below said
+=> component:AdminComponent, path:'admin',
+	children:[
+		{path:'admin-help', component:AdminHelpComponent},
+		{path:'admin-about', component:AdminAboutComponent},
+	]
+url will be : localhost:4200/admin/admin-help // that called child routing 
+<!-- HTML FILE -->
+<a routerLink  = 'admin-help'> Admin Help </a> <br.
+<a routerLink  = 'admin-about'> Admin About</a>
+<router-outlet</router-outlet>
+
+16. Create Route in existing angular poject
+command : ng g module app-routing --flat --module=app
+
+15. Dynamic Routing 
+=> import { ActivatedRoute } from '@angular/router'; 
+userId:string | null=null; // use in html file interpolation {{userId}}
+constructor(private route:ActivatedRoute) { }
+  ngOnInit(): void {
+    console.warn("admin id", this.route.snapshot.paramMap.get('id')) // get id from url(route)
+      this.userId = this.route.snapshot.paramMap.get('id');
+  } // ts file under export class AppComponent
+
+path : 'admin/:id', component:Componentname, // routing file
+<a routerLink = 'admin/20'>adminUserId</a> 
+
+<<<<<<< HEAD
+16. Templete Refernce variable : we can access throughi this DOM by #id
+<input type="text" name="" #textValue id="" placeholder="Enter any things...">
+<button (click) = "changeVal(textValue.value)"> Change Value </button>
+// TS FILE
+changeVal(item:any) { // it can be also HTMLinputElement
+    console.log(item);
+  }	
+
+16. send data parent to child data
+//parent Component : 
+  // HTML FILE
+  <h1 style="color:red"> Hello Angular </h1>
+  <app-child [item]="data"> </app-child>
+  <button (click)="updateData()"> Update Data</button> 
+  // TS FILE
+   data = 10;
+  updateData(){
+    this.data = Math.floor(Math.random()*10);
+  }
+
+//CHILD Component : 
+  // HTML FILE
+<h2> Data from Parent {{item}}</h2>
+import { Component, OnInit, Input } from '@angular/core';
+	// TS FILE
+@Component({
+  selector: 'app-child',
+  templateUrl: './child.component.html',
+  styleUrls: ['./child.component.css']
+})
+export class ChildComponent implements OnInit {
+
+  constructor() { }
+  @Input()item = 0;
+  ngOnInit(): void {
+  }
+}
+
+17. sent data child to parent 
+//parent component 
+	html file 	
+<h1 style="color:red"> Hello Angular </h1>
+<h2> {{data}}</h2>
+<app-child (updateDataEvent)="updateData($event)" > </app-child>
+
+ts file
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'practiceJS';
+  data = "x";
+  updateData(item:string){
+    console.log(item);
+    this.data = item;
+  }
+}
+
+//child component
+<p>child works!</p>
+<input type="text" name="" #box id="">
+<button (click)="updateDataEvent.emit(box.value)" >Update</button>
+
+ts file
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  templateUrl: './child.component.html',
+  styleUrls: ['./child.component.css']
+})
+export class ChildComponent implements OnInit {
+
+  constructor() { }
+  @Output() updateDataEvent = new EventEmitter<string>();
+  ngOnInit(): void {
+  }
+
+}
+
+17. Service : service does not dependent to any module, dependencies etc. this is free to use at any file in angular
+=> services are the independent
+=> most of the time we call the api ins service
+command : ng g service foldername/filename
+lets an example : 
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserDataService {
+  constructor() { }
+  users(){
+    return [
+      {name:"Peter",age:20,email:"israfil23.sa@gmail.com"},
+      {name:"Rahul",age:30,email:"rahul.sa@gmail.com"},
+      {name:"kamina",age:10,email:"kamkna.sa@gmail.com"},
+      {name:"sarita",age:40,email:"sarita.sa@gmail.com"},
+      {name:"adarsh",age:25,email:"adarsh@gmail.com"},
+
+    ]
+  }
+}
+// added users details in above said service file, we can use this any componet at the whole project of angular
+how can i do ? lets check
+=> import { UserDataService } from './service/user-data.service'; add in ts file
+ts file 
+users:any; // inside AppComponent function in ts file
+  constructor(private userData:UserDataService){
+    console.warn(userData.users)
+    this.users = userData.users();
+  }
+
+// HTML FILE
+<li *ngFor="let user of users">
+    UserName : {{user.name}} ---
+    Age : {{user.age}} ---
+</li>
+note : you can call this any component through above said method.
+
+18. get data from API in angular 
+cycle : get data from server : component -> service - > http moudle -> server;
+=> import {HttpClient} from '@angular/common/http'; service file
+export class UserDataService {
+  url= "https://mocki.io/v1/21324d1a-f4c1-45ca-940c-a62f14622c71";
+  constructor(private  http:HttpClient) {}
+  users(){
+    return this.http.get(this.url)
+  }
+}
+=> HttpClientModule // add app.module.ts under import module section thereafter auto will added in header import { HttpClientModule } from '@angular/common/http';
+=> import { UserDataService } from './service/user-data.service'; // add component ts file 
+// TS FILE
+users:any; // under AppComponet class
+  constructor(private userData:UserDataService){
+    this.userData.users().subscribe((data)=>{
+      // console.warn("data", data);
+      this.users = data;
+    });
+//HTML FILE
+<li *ngFor="let user of users">
+    id : {{user.id}} <br>
+    Name : {{user.name}} <br>
+    Email : {{user.email}} <br> <br>
+</li>
+
+Note : above said method we can access data in any component file
+
+19. post data from angular to API Server
+post data from server : component -> service - > http moudle -> server;
+=> import {HttpClient} from '@angular/common/http'; service file
+export class UserDataService {
+  url= "https://mocki.io/v1/21324d1a-f4c1-45ca-940c-a62f14622c71";
+  constructor(private  http:HttpClient) {}
+  addUser(data:any){
+    return this.http.post(this.url,data);
+  }
+}
+=> HttpClientModule // add app.module.ts under import module section thereafter auto will added in header import { HttpClientModule } from '@angular/common/http';
+=> import { UserDataService } from './service/user-data.service'; // add component ts file 
+// TS FILE
+users:any; // under AppComponet class
+  constructor(private userData:UserDataService){
+    });
+  getFromData(data:any){
+    console.log(data);
+    this.userData.addUser(data).subscribe((result)=>{
+      console.warn(result);
+    })   
+  }
+//HTML FILE
+<form #formData="ngForm" (ngSubmit)="getFromData(formData.value)">
+    <input type="number" name="id" id="" placeholder="enter id" ngModel> <br>
+    <input type="text" name="name" id="" placeholder="enter name" ngModel> <br>
+    <input type="email" name="email" id="" placeholder="enter email" ngModel> <br>
+    <input type="number" name="age" id="" placeholder="enter age" ngModel> <br>
+    <button>Add User</button>
+</form>
+=======
+16. Automation testing is three type : 1. UNIT TEST CASE 2. INTEGRATION 3. END TO END
+=> We have a large application
+=> Veriy useful to run test case before deploy our project on server
+=> When we just start making application, we should use mannual testing\
+=> We should not write a test case when a requirement changes rapidly in our project.
+	1. Protractor - Run Test Case on browser
+	2. Jasmine - Testing environment, Run Spec file for the case
+	3. Karma-Run test case in mutliple browser
+=> command : ng test
+=> all our testing will be in the current file component.spec.ts.
+
+Variable Test Example 1: title = "user" // add in Component class as an variable
+// lets check title equal to user or not in test case
+if("testing title", ()=>{
+expect(component.title).toBe("user")
+}); // if test is not title == "user", it will be given an error in angular ng test browser
+
+Function Test Example 2: sum(a,b) { return 100} // add in Component class 
+// lets check sum function return equal to 100 
+if("testing function", ()=>{
+expect(component.sum(40,60).toBe(100)
+}); // if sum(50,60), then it will given an error in angular ng test browser becuase, we were delcared our sum function return output is 100 
+
+
+Variable Test Example 2: <h1 class="some"> User </h1> // add in Component HTML 
+// lets check title equal to user or not in test case
+if("testing html element", ()=>{
+const data = fixture.nativeElement;
+expect(data.querySelector(".some").textContent).toContain('User');
+}); // if class "some" exits, there after textcontent should be "USER";
+
+17. Model and Interface : this is usefull whenever we need to decide data type
+=> create file fileName.ts // current folder component
+//fileName.ts 
+export interface dataType {
+name:string,
+id:number,
+Indian:boolean,
+address:any
+}
+// ts file 
+=> import {dataType} from './fileName';
+// under Class Component
+getData(){
+// if any data type mismatch from interface created, then this will be given an error, suppose Indian:"yes" , it will given ban error because we decided our indian vlaue is should be boolean and boolean value alwayas be true or false.
+	const data:dataType = {
+		name:"Sajdi",
+		id:5,
+		Indian:true,
+		address:Delhi, India
+	}
+	return data;
+}
+
+18. Create routing with model command : ng g m user --routing
+19. Lazy Component loading: Whenever our angular website loaded, thereafter component our wil not load until click button for load component
+=> This is usefull whenever 100-200 component in our project, it will take time to load our website if we have 100-200 component, so we use lazy component
+// HTML FILE
+<button (click)="loadComponent1()" >Load Component One</button>
+<button (click)="loadComponent2()" >Load Component Two </button
+// TS FILE
+=> import { Component, ViewContainerRef, ComponentFactoryResolver } from '@angular/core'; // add in current ts file 
+	// under Component data below:
+constructor(private vcr:ViewContainerRef, private cfr:ComponentFactoryResolver) { }
+  async loadComponent1(){
+    this.vcr.clear();
+    const {AdminComponent} = await import('./admin/admin.component');
+    this.vcr.createComponent(
+      this.cfr.resolveComponentFactory(AdminComponent)
+    )
+  }
+  async loadComponent2(){
+   this.vcr.clear();
+   const{AdminAboutComponent} =  await import('./admin-about/admin-about.component');
+   this.vcr.createComponent(this.cfr.resolveComponentFactory(AdminAboutComponent));
+  }
+
+19. Lazy Loading : 
+=> Create New Module with routing command : ng g m user --routing
+=> create two component under user module above said, commadnd : ng g c user/list, ng g c user/about
+=> import { UserModule } from './user/user.module'; // add to app.module.ts file
+=> import { AboutComponent } from './about/about.component';// add created moudle : user-routing.module 
+=> import { ListComponent } from './list/list.component';// add created moudle : user-routing.module 
+//user.routing.moudle  file
+const routes: Routes = [
+  {path:'about', component:AboutComponent},
+  {path:'list', component:ListComponent},
+];
+//app.routing.module file 
+{path:'user', loadChildren:()=>import('./user/user.module').then(mode=>mode.UserModule)} 
+// APP. HTML FILE
+<a href="" routerLink="user/about">User About</a> <br>
+<a href="" routerLink="user/list">User List</a>
+<router-outlet></router-outlet>
+>>>>>>> 672397e (nest js and angular update)
+
+
+
+Angular 
+
+=> this.router.CreateUrlTree(['routerName']) // this is like an this.route.navigate(), but in these have an advance features 
+
+=> use router in ts file, inject router in constructor(private routerName: Router){}
+1. Install bootstrap 
+npm install bootstrap 
+Angular.json
+"styles": [ "node_modules/bootstrap/dist/css/bootstrap.min.css", "src/styles.css" ],
+"scripts": [ "node_modules/bootstrap/dist/js/jquery-3.3.1.min.js", "node_modules/bootstrap/dist/js/bootstrap.min.js" ] 
+
+2. Backend Angular
+=> import your servicr in app.module.ts under providers, now you can access the providers service from anywhere in components
+
+   2.1 ALWAYS IMPORT
+    => HttpClientModule // in app.module.ts @_/common/http
+    => Ovservable from "rxjs" // service file 
+
+    2.2 GET DATA
+      2.2.1 in service file
+       => inside of export class Service , method is :
+constructor(private _http:HttpClient) //  service file @_/common/http
+methodName:Observable<any>  {return this._http.get("url")}
+      2.2.2 in component ts file
+        => import your servicr and set in constructor (private  api:ServiceName){}
+=>under class  ____ implements OnInit  { 
+}  then inside of ngOnInt method : this.api.getServiceMethodNams.subscribe((result)=>{ 
+Console.log(result) // got an data in json or arrat or objecr format  from api url
+  })
+=> now display data in html file create an propertie  inside of class and outside of ngOnInt.
+PropertName:any = []// data will store in array.
+And  inside of susbcribe function :  this.PropertyName = result.keyName
+
+
+3 . Auth gaurd :help for secure without login  
+Create guard : ng g auth AuthguardName
+  3.1 CanDeactivated  
+   3.2 CanLoad
+    3.3 CanActivateChild
+    3.4 CanActivate / its make secure login 
+    => generate file guard inside of class AuthGuard you will see  , return true // thats mean user can not access the file
+Return false // anyone can acces this page
+=> routing page {path:"", canActivate:[AuthGaurd], component:CompName}  and import authgaurd  in routing page
+=> make logic for return true or false for login access 
+
+
+=>  AuthGaurd Logic 2 :  
+
+login(usrrCred:any){  return this.http.post(this.apiyourUrl, usrrCred) } // service file 
+
+
+=> ts file :
+//reactive form : login = new FormGroup({});  if(this.login.valid) {}
+Login() {  
+if(this.login.valid) {
+this.importerServiceName.ServiceMethodName(this.login.value).subscribe(result => { 
+if(result !=null) {
+This.responsedata = result;
+localStorage.setItem('tokeName' , this.responsedata.twt.Token);
+// if function true navigate to another route
+this.route.navigate(['routerName']);
+}
+})
+}
+} 
+
+=>  //service file :  again go to service and create method for use globally use this method
+isLoggedIn(){ return this.localStorage.getItem('generateTokenName') != null; } 
+
+
+=> // AuthGaurd  file : check here logged or not then return on behalf true or false
+0.1 next : and state you can remove unnecessary properties.
+1. constructor (private routeName:Router, private ServiceName:ServiceClassName )
+2. Import service also on top of header file 
+
+CanActivate() {
+if(this.service.isLoggedIn()){ 
+return true;
+}  else {
+  this.route.navigate(['outerName']);
+return false;
+}
+}
+=> routing page const routes:Routes = [ {path:"", canActivate:[AuthGaurd], component:CompName},   {path}, ], CanActivate:[AuthGaurd] 
+
+and import authgaurd  in routing page
+Result :now page our secured
+
+
+
+

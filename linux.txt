@@ -1,0 +1,24 @@
+
+=> Before Run Any command must be use "sudo" thats mean user give an permission for install something in linux operating system
+    => download xampp server for linux 
+    => sudo ./xampp-linux-x64-8.1.2-0-installer.run
+
+    
+1. install software in computer 
+    =>  sudo dpkg -i xampp-linux-x64-8.1.2-0-installer.run
+
+2. install node js 
+    => sudo apt install nodejs
+    => Verify :node -v or node –version
+    => sudo apt install npm 
+    => verify : npm - v or npmm -version
+3. install xamp server"
+    => download xampp server for linux 
+    => sudo ./xampp-linux-x64-8.1.2-0-installer.run
+
+4. install angular
+    => sudo npm install -g @angular/cli
+
+5. install git
+    => sudo apt-get install git
+    => Verfiy : git --version
