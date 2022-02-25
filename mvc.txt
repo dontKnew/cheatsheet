@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 => WHat is MVC ?
 1. MVC is a framework, MVC Stands for Model View Controller
 2. M-Model(database) V-View(Front-End) C-Controller(Logic-Part)
@@ -14,4 +15,22 @@
 1. firstly user interact with controller
 2. Now controller  will call the appropriate model 
 3. And model return the data to controller.
+=======
+=> WHat is MVC ?
+1. MVC is a framework, MVC Stands for Model View Controller
+2. M-Model(database) V-View(Front-End) C-Controller(Logic-Part)
+
+=> What is framework ?
+1. A framework is a set of rules which we ues in order to develop a program
+
+=> Why MVC required ?
+1.faster development process
+2. code easy to understand
+3. code easy to main 
+
+=> How MVC flow 
+1. firstly user interact with controller
+2. Now controller  will call the appropriate model 
+3. And model return the data to controller.
+>>>>>>> cfd600b1137999584ea8e6a28fdb156549de1625
 4. Then Controller pass data to appropriate view.

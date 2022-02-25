@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 1. json_encode : convert data to json formate;
 2. json_decode($jsonData,true); // conver data into associaates array 
 3. file_put_contents('filename',data); // if file not create, this will create a file
@@ -51,4 +52,59 @@ $json_data = json_encode($output, JSON_PRETTY_PRINT);
             }
         )
 
+=======
+1. json_encode : convert data to json formate;
+2. json_decode($jsonData,true); // conver data into associaates array 
+3. file_put_contents('filename',data); // if file not create, this will create a file
+4. mysqli_fetch_all($result, MYSQLI_ASSOC) // //  MYSQLI_ASSOC function return the data into associate array with name(key) of value. 
+5. file_get_contents("url or filePath")//
+6.
+
+Example :
+1. get data from database and saved in new json file 
+<?php
+$conn = mysqli_connect("localhost","root","","wms") or die("database failed to connect");
+$sql = 'SELECT * FROM customers_wms';
+$result = mysqli_query($conn, $sql) or die ("SQL query failed");
+$output = mysqli_fetch_all($result, MYSQLI_ASSOC); 
+$json_data = json_encode($output, JSON_PRETTY_PRINT); 
+ $filename = "my-".date("d-m-y").".json";
+ if(file_put_contents("json/{$filename}", $json_data)){ 
+   echo "{$filename} file created & data saved";
+ }else {
+   echo "cant insert into data json";
+ }
+?>	
+
+2. get data from user form and save data in json file
+<?php
+    if(file_exists("json/student.json")){
+        $data = file_get_contents("json/student.json"); // save from override data
+        $oldData= json_decode($data,true); // json to array data 
+        $newData = array(
+            'name' =>$_POST['name'],
+            'number' =>$_POST['number']
+        );
+        $oldData[] = $newData; // insert new array data to old array data;
+        $json_data = json_encode($oldData,JSON_PRETTY_PRINT);
+        if(file_put_contents("json/student.json", $json_data)){  //file_put_contents
+            echo "data saved";
+        }else{
+            echo "could not saved";
+        }
+
+    }
+?>
+
+3. get data from jsonfile using jquery
+	$.getJSON(
+            "json/student.json",
+            function(data){
+                $.each(data,function(key,value){
+                    $('#load-data').append(value.name + "." + value.number)
+                })
+            }
+        )
+
+>>>>>>> cfd600b1137999584ea8e6a28fdb156549de1625
 3.1 you can get json data with $.ajax({ url:"", type:"POST", dataType"JSON", success:function(data){console.log(data);}})

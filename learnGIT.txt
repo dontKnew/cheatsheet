@@ -1,3 +1,7 @@
+=> token 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
+
+
+<<<<<<< HEAD
 solved error
 1. ! [rejected]        master -> master (fetch first)
 error: failed to push some refs to 'git@github.com:zapnaa/abcappp.git'
@@ -67,3 +71,74 @@ git push -u push origin branchname
 1. github profile -> respository project -> settings -> manage access 
 
 
+=======
+solved error
+1. ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'git@github.com:zapnaa/abcappp.git'
+command: git fetch then git merge 
+
+
+
+1. create branch
+git branch branchname
+
+2. enter branch
+git checkout branchname
+
+3. merge multiple or two branch/  go to current branch or main branch or create branch and merge
+git merge branchlocation or name
+
+4. ignore folder for push project
+touch .gitignore
+
+5. check origin where push the project
+git remote -v (before push set original 
+
+6. set origin  and pus
+git push - u origin https://github.com/dontKnew/cheatsheet.git
+	or 
+6.1 add origin only
+git add origin https://github.com/dontKnew/cheatsheet.git
+
+7. check log of git/ changes all things commited
+git log
+8. change in file (after command write 'i' for enter the file)
+
+vim filename 
+9. create new repo whenever set origin for push to github
+git remote add origin git@github.com:alexpchin/<reponame>.git
+
+10. update project from github in computer
+git pull origin branchName
+
+11. restore from previous changed
+git restore --staged
+
+12. git remote remove origin 
+remove origin link from current git file
+
+13. First fetch data from github then if u run merge command they will apply changes from github.com to locally computer
+Command : git fetch and git merge
+Note : Both command also called one command : git pull origin master
+`
+
+=> push to project in github
+1. git init : create git file 
+1.1. add all file and folders
+git add .
+2. add spesfic file or folder
+git add folderName/fileName
+3. commit your project or publish project
+git commit -m "initial project"
+4. push to origin 
+git push -u origin https://github.com/dontKnew/CheatSheet.git
+5. you can check origin of your github profile whereas your project will be pushing
+git remote -v
+6. now its time to push project in your github profile
+git push -u push origin branchname
+
+=> add collaborator for change in project. ( collaborators must be have github profile)
+1. github profile -> respository project -> settings -> manage access 
+
+
+>>>>>>> cfd600b1137999584ea8e6a28fdb156549de1625
