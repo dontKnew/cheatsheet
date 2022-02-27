@@ -1,3 +1,11 @@
+=> if u use link ssh:  git@github.com:username/respositoryName, u have generate ssh key
+
+
+1. generate ssh key
+	 => cd ~/.ssh && ssh-keygen
+2. cat filename.pub
+
+
 => Git Errors Solution : 
 	1.  allow-unrelated-histories command : git pull origin master  --allow-unrelated-histories
 	2.  token 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
