@@ -1,6 +1,7 @@
 => errors
   1. Your global Angular CLI version (1.1.1) is greater than your local version (1.0.6). The local Angular CLI version is used.
     => "npm install --save-dev @angular/cli@latest" // will be install latest angular version
+  2. net::ERR_HTTP2_PROTOCOL_ERROR : json application post api does not work in 000-webhosting, to solve this error ,you have to used formData in angular
 
 
 Course Strcuture : 1. The basic 2. Components and databinds 3.  directives 4. services and dependency injections 4.  Routing 5.  Observables 6. Forms 7. Pipes 8.  HTTP 
