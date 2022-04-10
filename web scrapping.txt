@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 1. curl  built by php
 => we can use this function for get contents from any website
 => Lets Learn Basic : 
@@ -109,6 +110,116 @@ curl_setopt_array($ch, ($options + $defaults));
 
 
 
+=======
+1. curl  built by php
+=> we can use this function for get contents from any website
+=> Lets Learn Basic : 
+	1.1. curl_init() // this function initialize a new session and return cURL Handle
+	1.2 curl_exec($ch) //this function will be called after curl initialize  and display to our url data
+	1.3 $ch // predefined CURL session parameter for identify curl
+	1.4 curl__setotp($ch, option, value) // for specifies set option and value and return something
+		1.4.1 curl_setotp($ch, RETURNTRANSFER, 1)// return the page content, if value set 0, not output 
+		1.4.2 curl_setotp ($ch, CURLOPT_URL, $yourWebsiteURl) // pass url as parameter to  variable like an $ch ( u can use any variable name here);
+	1.5 $sajid = curl_exec($ch) // print_r($sajid); echo $sajid; and Third step is to run curl or execute HTTP requests with curl_exec()
+
+
+	1.6 curl_close($ch) // close curl resource mean that remove all contents which is get by curl function
+An Example : 
+<?php
+
+// From URL to get webpage contents.
+$url = "https://localhost/Project/WMS/";
+
+// Initialize a CURL session.
+$ch = curl_init();	
+
+//grab URL and pass it to the variable.
+ curl_setopt($ch, CURLOPT_URL, $url);
+
+// Return Page contents.
+curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+
+$result = curl_exec($ch);
+echo $result;
+
+?>
+2. curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // this curl function will load your webiste without SSL verifier (false : secure to nonsecure, tru: nonsecure to must be secure )//
+3. curl_getinfo — Get information regarding a specific transfer like send request time, getting request time load time etc.
+=> knew all about function of get info	
+=> curl_getinfo($curlHandle, $optional) //  curl_getinfo($ch, CURLINFO_HTTP_CODE); return me http code
+=> that all optional information are given below in array JUST use capital letter CURL_INFO__INFONAMEENTER and you can get also specfic method by below method 
+$info = curl_getinfo($ch);
+  foreach( $info as $lite => $value ){
+    print($lite. ":" .$value);
+    echo "<br>";
+
+4. curl_unescape — Decodes the given URL encoded string.
+=> remove space but does not remove plus sign + 
+
+// Get the last effective URL
+$effective_url = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+// ie. "http://example.com/show_location.php?loc=M%C3%BCnchen" 
+
+// Decode the URL
+$effective_url_decoded = curl_unescape($ch, $effective_url);
+// "http://example.com/show_location.php?loc=München" 
+
+5. curl_escape — URL encodes the given string 
+=> normal string  to unreadable string
+$location = curl_escape($ch, 'Hofbräuhaus / München');
+// Result: Hofbr%C3%A4uhaus%20%2F%20M%C3%BCnchen 
+
+// Compose an URL with the escaped string
+$url = "http://example.com/add_location.php?location={$location}";
+// Result: http://example.com/add_location.php?location=Hofbr%C3%A4uhaus%20%2F%20M%C3%BCnchen
+6. curl_reset — Reset all options of a libcurl session handle
+<?php
+// Create a curl handle
+$ch = curl_init(); 
+
+// Set CURLOPT_USERAGENT option
+curl_setopt($ch, CURLOPT_USERAGENT, "My test user-agent"); 
+
+// Reset all previously set options
+curl_reset($ch); 
+
+// Send HTTP request
+curl_setopt($ch, CURLOPT_URL, 'http://example.com/');
+curl_exec($ch); // the previously set user-agent will be not sent, it has been reset by curl_reset 
+
+// Close the handle
+curl_close($ch);
+?>
+
+
+7. POST METHOD 
+=> when using curl to post form data and you use an array for CURLOPT_POSTFIELDS option, the post will be in multipart format
+<?php
+$params=['name'=>'John', 'surname'=>'Doe', 'age'=>36];
+$defaults = array(
+CURLOPT_URL => 'http://myremoteservice/',
+CURLOPT_POST => true,
+CURLOPT_POSTFIELDS => $params,
+);
+$ch = curl_init();
+curl_setopt_array($ch, ($options + $defaults));
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 2cb67a9d4890c99c7ae1295414796d09bca143b1
 =======
 1. curl  built by php
 => we can use this function for get contents from any website

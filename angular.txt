@@ -4,6 +4,7 @@
   2. {error: SyntaxError: Unexpected token { in JSON at position 1 at JSON.parse (<anonymous>) at XMLHtt…,
   	=> check server side issue like echo '''';
   3. map was not found in in rxjs using operators : import { map } from 'rxjs/operators';
+  2. net::ERR_HTTP2_PROTOCOL_ERROR : json application post api does not work in 000-webhosting, to solve this error ,you have to used formData in angular
 
 
 Course Strcuture : 1. The basic 2. Components and databinds 3.  directives 4. services and dependency injections 4.  Routing 5.  Observables 6. Forms 7. Pipes 8.  HTTP 
@@ -317,7 +318,10 @@ Example: chlidComponet ts file under class -> @Output() childEmt  = new EventEmi
 parentComponent ts file under class -> childData:string = ""; html file -> <app-demo (childEmt)="childData=$event"></app-demo>
 
 helpful for inlcude all component styles,html elements, ts code to parent component(whereas inlcude component)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2cb67a9d4890c99c7ae1295414796d09bca143b1
 => View Encapsulation
 1. encapsulation:ViewEncapsulation.None  // add this under decorator component  (@component) // ts file
 2. Example : first component html file -> <h1> Hello First Component </h1>, second component html file -> <h1> Hello Second Component </h1>, if you write on first component ts file : encapsulation:ViewEncapsulation.None under component decorator.
