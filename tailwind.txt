@@ -1,0 +1,19 @@
+=> TAILWIND INSTALLATION INSTRUCTIONS
+
+1. taiwind CLI
+	=> npm install -D tailwindcss // will be create a node_modules folder with tailwind folders with package.json file
+	=> npx tailwindcss init // will be create a file namely :  tailwind.config.js 
+		i. tailwind.config.js file : 
+			module.exports = {
+			  corePlugins: {
+			    preflight: false, // if this true, then  you can not use h1, h2, h3, tag size unit and ol, ul, list etc.
+			  },
+			  content: ["./src/**/*.{html,js}"], // thats identify the content of file html extension 
+			  					and javascript all index html file should be inside of src folder
+			  theme: {
+			    extend: {},
+			  },
+			  plugins: [],
+			}
+
+			
