@@ -35,12 +35,12 @@ Course Strcuture : 1. The basic 2. Components and databinds 3.  directives 4. se
 3. Data Types : 1. Any : support of any data type  2. Built in types : string, number, boolean, void, null undefined 3. user-defined types : inlcudes array, enums, classes, interface etc.
 
 => setting up bootstrap 
-1. npm install @fortawesome/fontawesome-svg-core 
-2. angular.json under styles: "./node_modules/bootstrap/dist/css/bootstrap.min.css
+1. npm install --save bootstrap 
+2. angular.json under styles: "./node_modules/bootstrap/dist/css/bootstrap.min.css"
 3.angular.json under script: "./node_modules/bootstrap/dist/js/bootstrap.min.js
 
 => setting up fontawesome 
-1. npm install --save bootstrap 
+1. npm install @fortawesome/fontawesome-svg-core 
 2. angular.json under styles: "./node_modules/bootstrap/dist/css/bootstrap.min.css
 3.angular.json under script: "./node_modules/bootstrap/dist/js/bootstrap.min.js
 

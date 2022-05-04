@@ -34,7 +34,7 @@ use commmand :
 	2.2 npm install --save-dev @angular-devkit/build-angular
 		or 
 
-	2.1 ng update  @angular/cli@7.2.16 @angular/core @angular/material --allow-dirty -force
+	2.1 ng update  @angular/cli @angular/core @angular/material --allow-dirty -force	
 1.npm cache clean --force
 
 

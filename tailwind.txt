@@ -1,5 +1,30 @@
-=> TAILWIND INSTALLATION INSTRUCTIONS
+=> geeyshows instruction
+1.TAILWIND WITHOUT POSTCSS : used for normally
+	i. npm init -y or npm init
+	ii. npm install tailwindcss
+	iii. npm install prefixer
+	iv. add this script to package.json file : "build": "tailwindcss build ./src/input.css -o ./public/output.css"
+	v. create file css file inside of ./src/input.css and add below code OK!  
+			@tailwind base;
+			@tailwind components;
+			/* write here custom css here */
+			@tailwind utilities;
+	v. npm run start // A new css file has been create at ./public/output.css with all tailwind classess stylesheet.  
+		-> Now add 
+		-> Now You can use tailwind css clasess at your index html file
+	
+	
+2.TAILWIND WITH POSTCSS plugin : used with framework like angular, react, dart etc.
 
+
+// "build": "tailwindcss build -i ./src/input.css -o ./public/output.css",
+    // "prod": "tailwindcss build -i ./src/input.css -o ./public/output.css"
+
+
+
+
+
+=> TAILWIND WEBSITE : 
 1. taiwind CLI
 	=> npm install -D tailwindcss // will be create a node_modules folder with tailwind folders with package.json file
 	=> npx tailwindcss init // will be create a file namely :  tailwind.config.js 

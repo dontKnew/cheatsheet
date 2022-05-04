@@ -5,7 +5,7 @@
 	3. git add fileName.extension
 	4. git commit -m "Your comment"
 	5. git branch -M branchName : default branch is master or main 
-	5. git remote add origin https://github.com/dontKnew/practice.git
+	5. git remote add origin https://github.com/dontKnew/food-devliery.git
 	6. git remote -v : verify for url where's you are pushing..
 	7. git push -u push origin branchname
 
@@ -23,7 +23,10 @@
 		i. first add fileName ii. git reset --hard
 	2. git push --all origin : Push All Branches together
 	3. git pull --all : fetch all branches together to local computer.
-	4. git rm -r --cached path/filename  : remove the folder/file after git add and bofore commit            
+	4. git rm -r --cached path/filename  : remove the folder/file after git add and bofore commit  
+	
+=> Github Errors
+	1. unrelated-histories : git pull --allow-unrelated-histories 
 	
 
 

