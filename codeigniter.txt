@@ -1,0 +1,907 @@
+=> For learn before this  codeigniter framework,  You must be knowledge of MVC, if you dont knew, checkout my cheatsheet of mvc notes
+=> Intro
+    1. codeigniter is light weight
+    2. codeigniter is fast 
+    3. codeigniter uses m-v-c
+    4. codeigniter does not require a tempalte engine
+=> Features
+    Extremely Light Weight
+    Full Featured database classes with support for several platforms
+    etc.
+
+=> User View System (Application flow chart to display a data)
+    Step 1. index.php
+    Step 2. Routing
+    Step 3. Security (filter data)
+    Step 4. Controller
+                Step 4.1 Models, libraries, helpers, plugins, scripts
+    Step 5. controll return the data to "View"
+    Step 6. caching 
+
+=> Controller
+1. A simply class file that is associated with url : http://localhost/ci4/public/ClassName/methodName/parameter/parameter/parameter
+2. app/Controller/home.php
+    <?php
+        namespace App\Controllers;
+
+        class Home extends BaseController
+        {
+            public function index($string, $id)
+
+            {
+                echo "My Name is " . $string;
+                echo "<br> <br> MY Id is $id";
+
+            }
+
+            public function comment(){
+                echo " i am command";
+            }
+        }
+
+=>first method run in browser: http://localhost/yourpath/ci4/public/home/index/sajid/123
+second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/yourpath/ci4/public/ 
+
+    2.1 Your ControllerName must be start first letter uppercase and remain lowercase
+    2.2 Your controller file class name must be controller file name with rules of  2.1  
+    
+3. Define Default Controller, path : app/config/routes.php 
+    => this is controller will be load if URI is presented 
+    $routes->setDefaultController('ControllerClass');
+    $routes->get('/', 'ControllerName::methodName'); // you will be run more about this in routing notes
+4. _remap method($parameter) : this is can be override all controllers method and it is take only one parameter
+    Example : 
+        public function index(){
+        echo " I am default controller that is defined in config/routes.php file";
+        }
+
+        public function user(){
+            echo "I am user method";
+        }
+
+        public function _remap($method){
+            if($method=='index'){
+                return "index method is called";
+                return $this->index();
+            }else {
+                return "another method is called";
+            }
+            
+        }
+
+5. you can define private method that is method not called browse like above said method public method
+    proctected function methodName(){ code here ....}
+
+6. You can define your classes in your sub folder directory of controller.
+
+    Example : path : app/controllers/admin/admin/admin.php
+    <?php
+        namespace App\Controllers\Admin; // give current path directory 
+
+        use App\Controllers\BaseController;
+
+        class Admin extends BaseController
+        {
+            public function index(){
+                return " I am file in  sub director of controller";
+            }
+        }
+    => BrowserRun : http://localhost/PHP/Development/ci4/public/admin/admin or http://localhost/PHP/Development/ci4/public/admin/admin/index
+
+
+
+=> Routing :  app/Config/Routes.php  
+    =>: there is a one-to-one relationship between a URL string and its corresponding controller class/method. 
+
+    => Following placeholder(like parameters) used as routes url
+    (:any)	will match all characters from that point to the end of the URI. 
+    (:segment)	will match any character except for a forward slash (/)
+    (:num)	will match any integer number.
+    (:alpha)	will match any string of alphabetic characters
+    (:alphanum)	will match any string of alphabetic characters or integers, or any combination of the two.
+    (:hash)	is the same as (:segment), but can be used to easily see which routes use hashed ids. 
+
+    ||The segments in a URI normally follow this pattern: example.com/class/method/id/
+
+    1. Custom Placeholder
+        $routes->addPlaceholder('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+        $routes->add('users/(:uuid)', 'Users::show/$1');
+
+    2. Regular Expression : You can write any regular epxression after routes name
+        $routes->get('products/([a-z]+)/(\d+)', 'Products::show/$1/id_$2');
+
+    3. Closures : Closures routes are those routes in which we dont bind any controller and its method for url function
+        Ex 1. : $routes->get('home', function () {
+            echo "<h1> Welcome to Online Toutrial </h1>";
+            // return view('viewFileName');
+        });
+        Ex 2. : $routes->get('service/(:num)', function ($id) {
+            return "This is studennt $id";
+        });
+
+    4. Mapping multiple routes : instead of calling add()/get() etc., we will used map() method
+        Ex : 
+        $multipleRoutes = [
+            'product/(:num)'      => 'Catalog::productLookupById',
+            'product/(:alphanum)' => 'Catalog::productLookupByName',
+        ];
+        $routes->map($multipleRoutes);
+
+    5. Named Route : you can give an named to route and access from route_to()method
+        Ex : 
+        // The route is defined as:
+        $routes->add('users/(:num)/gallery(:any)', 'Galleries::showUserGallery/$1/$2', ['as' => 'user_gallery']);
+        // Generate the relative URL to link to user ID 15, gallery 12
+        // Generates: /users/15/gallery/12
+        <a href="<?= route_to('user_gallery', 15, 12) ?>">View Gallery</a>
+        => This has the added benefit of making the views more readable, too.
+        
+    5. Redirecting Routes : 
+        Ex : 
+        $routes->group('admin', function ($routes) {
+            $routes->add('users', 'Admin\Users::index');
+            $routes->add('blog', 'Admin\Blog::index');
+        });
+        
+    => If a redirect route is matched during a page load, the user will be immediately redirected to the new page before a controller can be loaded.
+    6. Group Routing :  
+        $routes->group('admin', function ($routes) {
+            $routes->add('users', 'Admin\Users::index');
+            $routes->add('blog', 'Admin\Blog::index');
+        });
+        6.1 nested group with Closures: 
+            $routes->group('admin', function ($routes) {
+                $routes->group('users', function ($routes) {
+                    $routes->add('list', 'Admin\Users::list');
+                });
+            });
+
+    7. Using HTTP verbs in routes
+      => I hope you have already of http verbs 
+        $routes->add('products', 'Product::feature'); // its add() method respond all type of http verbs (support ll https verbs), while get will only respond "GET" request, Developer never recommed to use add() method personally.
+        $routes->get('products', 'Product::feature');
+        $routes->post('products', 'Product::feature');
+        $routes->put('products/(:num)', 'Product::feature');
+        $routes->delete('products/(:num)', 'Product::feature');
+
+        7.1  You can supply multiple verbs that a route should match by passing them in as an array to the match method:
+            Ex : $routes->match(['get', 'put'], 'products', 'Product::feature');
+      8. Some Setting of Routes :  
+        $routes->setDefaultNamespace('App\Controllers'); 
+        $routes->setDefaultController('ControllerFileName'); 
+        $routes->setDefaultMethod('ControllerMethodName'); // controller method name will be inside of setDefaultController said
+        $routes->setTranslateURIDashes(false);
+        $routes->set404Override();
+        $routes->setAutoRoute(true); // true : called with controller file name with method name else fasle : it will be called only routes defined routes name otherwise given an error.
+
+=> Controller Filter 
+    || Controller filter allow to perform any action like an function etc. before or after any controller execution
+    1. Create Filter, path : App\Filters\FilterName.php
+    <?php
+        namespace App\Filters;
+
+        use CodeIgniter\HTTP\RequestInterface;
+        use CodeIgniter\HTTP\ResponseInterface;
+        use CodeIgniter\Filters\FilterInterface;
+
+        class DateFilter implements FilterInterface
+        {
+            public function before(RequestInterface $request, $arguments = null)
+            {
+                echo "Accesed at ". date('d-M-y'). '</br> </br>';
+            
+            }
+
+            public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+            {
+                echo "called after controller execution";
+            }
+        }
+
+    2. defined filter in path : App\Config\Filters
+        2.1y First alias filter name in $aliases method  : 'newFilterName' =>  \App\Filters\FilterFileName::class
+        2.2 set alias filter name in $global Method : 'newFilterName'
+            i. if you set in before array, its will be call before every controller execution 
+            ii. vic versa para i for after array.
+        2.3 If you dont want to execute filter before/after to  execution of every controller
+            $global method inside of array before/after
+            'DateFilter'=>['except'=>['routeName', 'anotherRoute']];  
+        
+=> HTTP message/Request, Response
+
+    1. get information 
+     $method = $this->request->getMethod() ;
+     $method = $this->request->uri->getPath(); // Path Name after of domain url
+     $method = base_url($this->request->uri->getPath()); // get full url of currnet execution path;
+     $method = $this->request->getHeaders(); 
+     $method = $this->request->getHeader('RequestName'); // you checkecout all headers name using  $this->request->getHeaders()
+     $method = $this->request->getServer();// return server information
+     
+        1.1 use CodeIgniter\HTTP\Request // set top
+        $method = $this->request->getIPAddress();
+            1.1.1 check Valid ip address or not;
+            
+            if ( ! $this->request->isValidIP($method)) { 
+                echo 'Not Valid';
+            } else {
+                echo 'Valid';
+            }
+
+
+    print_r($method);
+        
+
+    2. set information  : 
+        2.1 open network tab of browser and checkout content type is set as text/txt, 
+            $html = " <h1> Hello World</h1> ";
+            $this->response->setBody($html);
+            //  $this->response->send(); // output hello world with h1 tag;
+            $this->response->setHeader('Content-Type','text/txt');
+            $this->response->send(); // output hello world with h1 tag as string ; 
+        
+            $this->response->setCache('max-age','120');
+            $this->response->setStatusCode('404');
+            $this->respond->send();
+
+        2.2 For more learn : https://codeigniter.com/user_guide/incoming/message.html and https://codeigniter.com/user_guide/incoming/request.html
+
+=> View 
+    * A view is simply a web page, or a page fragment, like a header, footer, sidebar, etc.
+    * Views never called directly in codeigniter, its called by alwayas by controller
+    * path : App\Views\fileName.php
+
+
+    Ex : create a file in views folder  fileName.php
+        <html>
+            <head>
+                <title>My Blog</title>
+            </head>
+            <body>
+                <h1>Welcome to my Blog!</h1>
+            </body>
+        </html>
+
+        Now create in a controller in Home.php
+        <?php
+            namespace App\Controllers;
+
+            class Home extends \CodeIgniter\Controller
+            {
+                public function index()
+                {
+                    echo view('fileName');
+                }
+            }
+        run : example.com/index.php/
+        
+    
+    1. call views from sub directory
+        App/Views/Admin/admin.php
+        1.1 calling in controller
+            echo view('Admin/admin');
+
+    2. send controller data to view file 
+        Ex : <html>
+                <head>
+                    <title><?= esc($title) ?> </title>
+                </head>
+                <body>
+                    <h1>Welcome to my Blog!</h1>
+                </body>
+            </html>
+
+        Now create in a controller in Home.php
+        <?php
+            namespace App\Controllers;
+
+            class Home extends \CodeIgniter\Controller
+            {
+                public function index()
+                {
+                    $data = [
+                        'title' => 'Home Page',
+                    ];
+
+                    echo view('fileName', $data);
+                }
+            
+        3. Access contoller data via loop
+                    $data = [
+                    'todo_list' => ['Clean House', 'Call Mom', 'Run Errands'],
+                    'title'     => 'My Real Title',
+                    'heading'   => 'My Real Heading',
+                    ];
+            view file 
+            <html>
+                <head>
+                    <title><?= esc($title) ?></title>
+                </head>
+                <body>
+                    <h1><?= esc($heading) ?></h1>
+
+                    <h3>My Todo List</h3>
+
+                    <ul>
+                    <?php foreach ($todo_list as $item): ?>
+
+                        <li><?= esc($item) ?></li>
+
+                    <?php endforeach ?>
+                    </ul>
+                </body>
+            </html>
+
+        4. view cell : call the view file/method of controler using view cell method()
+            Ex : We have two views file 1. footer.php 2. home.php
+            1. home.php
+            <h1> Hello I am home Page </h1>
+            2. footer.php
+            </h2> hello I am footer page </h>
+            And Controller Home.php
+                public function index(){
+                    echo view ('practice');           
+                }
+                public function footer(){
+                    $data = ['title'=> "I am title", 'heading'=>'i m heading']
+                    return view('footer');
+                }
+            * We can add all footer html/stirng method in view file
+            =>home.php
+                <h1> Hello I am home Page </h1>
+                <?= view_cell('\App\Controllers\Practice::footer', $data); ?>
+        
+        5. Cache :  Cache the view for some seconds
+            5.1 in controlle declared in third parameter of view()
+            echo view('file_name', $data, ['cache' => 60]);
+
+            5.2 in html by using  view_cell()
+            <?= view_cell('\App\Libraries\Blog::recentPosts', 'limit=5', 300) ?>
+        
+        6. view Render()
+            => this is like view() method
+            => The render() function is a convenience function that grabs an instance of the renderer service, sets the data, and renders the view
+            3.1 setVar('Name','value','html'); // third parameter (optional) can be html, css, js, url, attr, row
+            3.2 setData([array]);
+            3.3 render('fileNmae',$Optiondata)
+            3.4 renderString('<h1> I love coidng </h1>', $optionData);
+        Ex : Controller Method 
+
+                public function index(){
+
+                    // $data = ["title"=>'Home Page', "heading"=>'i m heading'];
+                    $r = \Config\Services::renderer();
+                    // $r->setData($data);
+                    $r->setVar('title', "HomeTitle")->setVar('heading', 'I m heading');
+                    $r->setVar('name','Joe','html');
+
+                    return $r->render('practice');     
+                }
+        7. View Layout
+            => its help for making our page layout 
+            Example : 
+            pracitce.php
+                <?= $this->extend('default') ?> // include all file
+                <?= $this->section('content') ?> //
+                    <h2>Hello World!</h2>
+                <?= $this->endSection() ?>
+
+            deafult.php
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Document</title>
+                </head>
+                <body>
+
+                <h1> HEAIDNG  </h1>
+                    <?= $this->renderSection('content') ?>
+                    <h1> FOOTER</h1>
+                </body>
+                </html>
+
+        8. Link file like javascript css bootstrap image etc.
+            => by using site_url('path name');
+            <linkpt src="<?php  echo site_url('public/assets/flilename.js')?>" >
+            <link href="<?php  echo site_url('public/assets/flilename.css')?>" >
+        
+        9. View parser
+            => Controller File load inside of method  : $parser = \Config\Services::parser();
+            => Now You can use all method like setVar(), setData(), render(), renderString() like (View Render para 6)
+            Example 1. 
+            $template = '<head><title>{blog_title}</title></head>';
+            $data     = ['blog_title' => 'My ramblings'];
+            echo $parser->setData($data)->renderString($template);
+
+            Example 2 :  Loop nested
+            view File : 
+                <h3>{blog_heading}</h3>
+                {blog_entries}
+                    <h5>{title}</h5>
+                    <p>{body}</p>
+                {/blog_entries}
+            controler file : 
+            $data = [
+                    'blog_title'   => 'My Blog Title',
+                    'blog_heading' => 'My Blog Heading',
+                    'blog_entries' => [
+                        ['title' => 'Title 1', 'body' => 'Body 1'],
+                        ['title' => 'Title 2', 'body' => 'Body 2'],
+                        ['title' => 'Title 3', 'body' => 'Body 3'],
+                        ['title' => 'Title 4', 'body' => 'Body 4'],
+                        ['title' => 'Title 5', 'body' => 'Body 5'],
+                    ],
+                ];
+
+            return $parser->setData($data)->render('blog_template');
+
+            1. Comments : write comment in view file its will ignore and remove during parsing 
+                         {# This comment is removed during parsing. #} // hidden from browser
+                         <!-- HTML --> //  visible in browser
+            2. Cascading Data : 
+            Example : 
+                $template = '{name} lives in {location}{city} on {planet}{/location}.';
+                $data = [
+                    'name'     => 'George',
+                    'location' => ['city' => 'Red City', 'planet' => 'Mars'],
+                ];
+
+                echo $parser->setData($data)->renderString($template);
+                // Result: George lives in Red City on Mars.
+
+                2.1 if you false Cascading it will be given different Result
+                $template = '{location}{name} lives in {city} on {planet}{/location}.';
+                $data = [
+                    'name'     => 'George',
+                    'location' => ['city' => 'Red City', 'planet' => 'Mars'],
+                ];
+
+                echo $parser->setData($data)->renderString($template, ['cascadeData'=>false]);
+                // Result: {name} lives in Red City on Mars.
+
+                echo $parser->setData($data)->renderString($template, ['cascadeData'=>true]);
+            
+            3. Preventing Parse : thats mean no variable substitution, looping, etc will used in this case
+                {noparse}
+                    <h1>Untouched Code {$name}</h1> 
+                {/noparse}
+                resutl : Untouched coce {name}
+
+           4. Conditional Logic : Parser class support some basic Conditional to handle if, else, else if syntax. 
+            Example : view File
+            {if $role=='admin'}
+                <h1>Welcome, Admin</h1>
+                {elseif $role=='moderator'}
+                    <h1>Welcome, Moderator</h1>
+                {else}
+                    <h1>Welcome, User</h1>
+            {endif}
+
+            5. Filter
+                => We can define filter after pseudo-variable name and seperated by pipe symbol -> | 
+                => Example : {blog_heading | upper | highlight_code} // return with all characters are in uppercase with highlight_code
+                5.1 There are lots of filter defined by codeigniter 👍
+                    i. abs :  Displays the absolute value of a number.	
+                    ii. capitalize : Displays the string in sentence case: all lowercase with firstletter capitalized.	
+                    iii. date : display date in specfic formate : { pseudo-variable|date(Y-m-d) }
+                    iv. date_modify : { pseudo-variable|date_modify(+1 day) }
+                    v. default : display the default value, if pseudo variable is empty or undefined 
+                    vi. highlight : used <mark> html tag
+                    vii.highlight_code : highlight text with html/css
+                    viii.limit_chars : return the text with limited letter
+                    xi. limit_words : return the words with limited word Ex : {variable | limit_words(10)}
+                    x. lower : 
+                    xi.  title: Displays a “title case” version of the string, with all lowercase, and each word capitalized.	
+            
+            6. HTML table class 
+            => you can create a table from a multi-dimensional array by adding class : $table = new \CodeIgniter\View\Table();
+            //Controller 
+            Example 1 : Both example is output same 
+                $table->setHeading('Name', 'Color', 'Size');
+                $table->addRow('Fred', 'Blue', 'Small');
+                $table->addRow('Mary', 'Red', 'Large');
+                $table->addRow('John', 'Green', 'Medium');
+                echo $table->generate();
+                    OR
+                $data = [
+                    ['Name', 'Color', 'Size'],
+                    ['Fred', 'Blue',  'Small'],
+                    ['Mary', 'Red',   'Large'],
+                    ['John', 'Green', 'Medium'],
+                ];
+                return  $table->generate($data);
+
+                Example 2 : 
+                    $table->setHeading('Name', 'Color', 'Size');
+                    $table->addRow('Fred', '<strong>Blue</strong>', 'Small');
+                    //$table->function = 'htmlspecialchars'; // if you dont use here,, now you can use html tag inside of $table->addRow() method, else html tag alongwith  print
+                    echo $table->generate();
+
+                    6.1 Table Name : $table->setCaption('Colors') 
+
+                    6.2 Table column heading Name : 
+                        $table->setHeading('Name', 'Color', 'Size'); 
+                                    OR 
+                        $table->setHeading(['Name', 'Color', 'Size']);
+
+                    6.3 Set Table row Data : $table->setFooting('Subtotal', '-', '200'); // or  
+
+                    6.4 Table Row : 
+                            6.4.1 $cell = ['data' => 'Blue', 'class' => 'highlight', 'colspan' => 2];
+
+                        $table->addRow($cell, 'Red', 'Green');  or $table->addRow([$cell, 'Red', 'Green']);
+                        //Output :  <td class='highlight' colspan='2'>Blue</td><td>Red</td><td>Green</td>
+
+                    6.5 makeColumn([$array=[],[$columnLimit=0]]);
+                        $list = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+                        $newList = $table->makeColumns($list, 3);
+                        $table->generate($newList);
+                            //Output : will be three column 
+                                one	    two 	three
+                                four	five	six
+                                seven	eight	nine
+                                ten 	eleven	twelve
+                    6.7. clear() 👍  : clear the table caption, row and  heading. 
+
+            7. Localization : CodeIgniter provides tools to help you localize your application for different langauges.
+                
+                7.1 Create language in path :  app/langauges/langaugeFolderName/App.php
+
+                7.2 set Deafult Language path in App/Config/App.php public 
+                            => $defaultLocale = 'en'; 
+                7.3 Define supported langauges :  public $supportedLocales = ['en', 'es', 'fr-FR'];
+                7.4 load page with custom langugae : $routes->get('{'en'}/books', 'App\Books::index'); // here you can thats language which is defined in app/config/app.php configuration para 2
+                    3.1 If the value doesn’t match a valid locale as defined in the App configuration file, the default locale will be used in it’s place.
+                7.5. $this->request->getLocale() // return the current language 
+            
+            8. Alternative php syntax : 
+                8.1 print a variable :  i. <?php echo $variable; ?> ii. <?= $variable ?>
+                8.2 SOm
+                    8.2.1 endfor, endforeach, and endwhile
+                    <ul>
+                    <?php foreach ($todo as $item): ?>
+
+                        <li><?= $item ?></li>
+
+                    <?php endforeach ?>
+                    </ul>
+
+                    8.2.2 if, elseif, else 
+                        <?php if ($username === 'sally'): ?>
+                            <h3>Hi Sally</h3>
+
+                        <?php elseif ($username === 'joe'): ?>
+                            <h3>Hi Joe</h3>
+
+                        <?php else: ?>
+                            <h3>Hi unknown user</h3>
+                        <?php endif ?>
+=> Database
+    1. Configuration Database have two way 
+        1.1 app/Config/Database.php and setting the database connectivity
+        1.2 configuration with .env file
+            *.env will find in root folder of project
+                i. set up the base url = 'https://domainName.com/RootfolderName'
+                ii.un-comment the databse username, root, database etc. and fill details.
+
+    2. Quick start : 
+    $db = \Config\Database::connect(); or $db = db_connect();
+      2.1 Select Data : 
+
+        2.1.1 Get Multiple records with query Standard
+                $query   = $db->query('SELECT name, title, email FROM my_table');
+                $results = $query->getResult();// result with objects formate
+                foreach ($results as $row) {
+                    echo $row->title;
+                    echo $row->name;
+                    echo $row->email;
+                }
+                
+                $results = $query->getResult();// result with array formate
+                foreach ($results as $row) {
+                echo $row['title'];
+                echo $row['name'];
+                echo $row['email'];
+            }
+                echo 'Total Results: ' . count($results);
+
+        2.1.2 Single Query :
+            $query = $db->query('SELECT name FROM my_table LIMIT 1');
+            i. object version
+                $row   = $query->getRow();
+                echo $row->name;
+            ii. array version 
+                $row   = $query->getRowArray();
+                echo $row['name'];
+
+        2.1.3 By Query Builder : 
+        $query = $db->table('table_name')->get();
+        foreach ($query->getResult() as $row) {
+            echo $row->title;
+        }
+
+    2.2 Insert Data
+        2.2.1 By Standard Query
+        $sql = "INSERT INTO mytable (title, name) VALUES (".$db->escape($title).", ".$db->escape($name).")";
+        $db->query($sql);
+        echo $db->affectedRows();
+
+        2.2.1 By Query Builder : 
+        $data = [
+            'title' => $title,
+            'name'  => $name,
+            'date'  => $date
+        ];
+        $db->table('mytable')->insert($data);
+
+    2.3 Connect Database in Controller
+    $db = db_connect(); or $db = \Config\Database::connect();
+        2.1 Connect Single Database  : 
+            $db = \Config\Database::connect('group_name', false); // group_name is the name of where you have config/database.php file
+        2.2 Multiple Connect Database 
+            $db1 = \Config\Database::connect('group_one');
+            $db2 = \Config\Database::connect('group_two');
+        2.2 switch to another database in same connectivity
+            $db->setDatabase($database2_name);
+        2.3 close connection
+            $db->close();
+        2.4 re-connect database
+            $db->reconnect();
+
+    2.4 Regular Standard PHP Query : 
+        $db = db_connect();
+        $db->query('YOUR QUERY HERE');
+    Note :  data return in objects formate
+
+    2.5 Simple Query : this is query does not return any set of data etc. it will return only true or false;
+        Example : 
+        $db  = db_connect();
+        if($db->simpleQuery('Enter SQL Query')){
+            echo "success";
+        }else {
+            echo "failed";
+        }
+    
+    2.6 Protecting Identifiers : In many databases, it is advisable to protect table and field names - for example with backticks in MySQL. Query Builder queries are automatically protected, but if you need to manually protect an identifier you can use:
+        $db->protectIdentifiers('table_name');
+
+    2.7. Escaping Query 
+        2.7.1 $db->escape() it can escape only string data. It also automatically adds single quotes around the data so you don’t have to:
+            $sql = "INSERT INTO table (title) VALUES(" . $db->escape($title) . ")";
+
+        2.7.2 $db->escapeString() This function escapes the data passed to it, regardless of type. Most of the time you’ll use the above function rather than this one. Use the function like this:
+            $sql = "INSERT INTO table (title) VALUES('" . $db->escapeString($title) . "')";
+            
+        2.7.3 $db->escapeLikeString() This method should be used when strings are to be used in LIKE conditions so that LIKE wildcards (‘%’, ‘_’) in the string are also properly escaped.
+        $search = '20% raise';
+        $sql = "SELECT id FROM table WHERE column LIKE '%" .
+        $db->escapeLikeString($search) . "%' ESCAPE '!'";
+    
+    2.8 Query Binding : 
+        * Whenever you Binding data,you dont need to escape data 
+
+        2.8.1 $sql = "SELECT * FROM some_table WHERE id = ? AND status = ? AND author = ?";
+              $db->query($sql, [3, 'live', 'Rick']);
+        2.8.2  $sql = "SELECT * FROM some_table WHERE id IN ? AND status = ? AND author = ?";
+                $db->query($sql, [[3, 6], 'live', 'Rick']);
+
+        2.8.3 Named Binding
+            $sql = "SELECT * FROM some_table WHERE id = :id: AND status = :status: AND author = :name:";
+            $db->query($sql, [
+                'id'     => 3, array
+                'status' => 'live',
+                'name'   => 'Rick',
+            ]);
+    
+    2.9. Handling Errors :
+        2.9.1 $db->error() : return an associates array(); with key has code,  message 
+            Example : if ( ! $db->simpleQuery('SELECT `example_field` FROM `example_table`')) {
+                            $error = $db->error(); // Has keys 'code' and 'message'
+                        }
+    2.10 prepare(closure) : first parameter is closure which is return objects;
+        Ex :
+        $pQuery = $db->prepare(function ($db) {
+            return $db->table('user')->insert([
+                'name'    => 'x',
+                'email'   => 'y',
+                'country' => 'US'
+            ]);
+        });
+        // Collect the Data
+        $name    = 'John Doe';
+        $email   = 'j.doe@example.com';
+        $country = 'US';
+        // Run the Query
+        $results = $pQuery->execute($name, $email, $country);
+
+            2.10.1 if u dont want to use query builder and you cn  Query Object,  
+            use CodeIgniter\Database\Query;
+            $pQuery = $db->prepare(function ($db) {
+                $sql = "INSERT INTO user (name, email, country) VALUES (?, ?, ?)";
+                return (new Query($db))->setQuery($sql);
+            });
+                $name    = 'John Doe';
+                $email   = 'j.doe@example.com';
+                $country = 'US';
+                // Run the Query
+                $results = $pQuery->execute($name, $email, $country);
+
+            2.10.2 pass data through array 
+            use CodeIgniter\Database\Query;
+            $pQuery = $db->prepare(function ($db) {
+                $sql = "INSERT INTO user (name, email, country) VALUES (?, ?, ?)";
+                return (new Query($db))->setQuery($sql);
+            }, $options);
+
+            2.10.3 $pQuery->close();
+    
+    2.11 Other Methods
+        2.11.1 hasError() : return true or fasle if error encountered
+                if ($query->hasError()) {
+                    echo 'Code: ' . $query->getErrorCode();
+                    echo 'Error: ' . $query->getErrorMessage();
+                }
+        2.11.2 getErrorCode() getErrorMessage() // if error occurred, return the error
+        2.11.3 $query = $db->getLastQuery(); echo (string) $query; // only for prepare query and return last query 
+        2.11.4 $query =  getQuery() // return  last query, $sql = (string) $query;
+        2.11.5 $sql = $query->getOriginalQuery(); // return original executed query
+        2.11.6 isWriteType() // return true, if query write type like "INSERT, UPDATE, DELETE etc"
+        2.11.7 $microtime = $query->getStartTime(); // Gets the time the query was executed in seconds with microseconds:
+        2.11.8 $microtime = $query->getDuration(); // Returns a float with the duration of the query in seconds with microseconds:
+
+    2.12 Query Result 👍
+    query = $db->query("YOUR QUERY");
+        2.12.1 by  Object 
+            foreach ($query->getResult() as $row) {
+                echo $row->title;
+                echo $row->name;
+                echo $row->body;
+            }
+        2.12.2 by Array 
+            foreach ($query->getResult('array') as $row) {
+                echo $row['title'];
+                echo $row['name'];
+                echo $row['body'];
+            }
+            or 
+            //by pure array
+            foreach ($query->getResultArray() as $row) {
+                echo $row['title'];
+                echo $row['name'];
+                echo $row['body'];
+            }
+
+        
+        2.12.2 return as array but show in object   
+        $query = $db->query("SELECT * FROM users;");
+            foreach ($query->getResult('User') as $user) {
+                echo $user->name; // access attributes
+                echo $user->reverseName(); // or methods defined on the 'User' class
+            }
+        2.12.3 getRow() : return only first row by objects  
+            $row = $query->getRow();
+            if (isset($row)) {
+                echo $row->title;
+                echo $row->name;
+                echo $row->body;
+            }
+            *if you want to another row from multiple row, just pass by numric series
+                $row = $query->getRow(5);
+        2.12.4 Other  : 
+                $row = $query->getFirstRow()
+                $row = $query->getLastRow()
+                $row = $query->getNextRow()
+                $row = $query->getPreviousRow()
+                By default they return an object unless you put the word “array” in the parameter:
+
+                $row = $query->getFirstRow(‘array’)
+                $row = $query->getLastRow(‘array’)
+                $row = $query->getNextRow(‘array’)
+                $row = $query->getPreviousRow(‘array’)
+
+        2.12.5 Custom Helper 
+            $query = $db->query('SELECT * FROM my_table');
+            i. $query->getFieldCount()
+            ii. getFieldNames(): return column name
+            iii. getNumRows() // 
+            iv. dataSeek() : 
+                Example : 
+                    $query = $db->query('SELECT `field_name` FROM `table_name`');
+                    $query->dataSeek(5); // Skip the first 5 rows
+                    $row = $query->getUnbufferedRow();  
+            v. db->table('my_table')->countAll();
+            vi. (string)$db->getLastQuery()  // result must be in string 'formate'
+            v. $db->table('my_table')->like('title', 'match')->countAllResults(); count row like column (title) 'match'
+            vi. $db->getPlatform(); // result : MySQL, MS SQL, Postgres, etc…
+            vii. $db->getVersion(); return database version which are you running
+
+    2.13 Query Builder class
+        $db = \Config\Database::connect();
+        2.13.1 getCompiledSelect() : return query string/text;
+            Ex :  $builder = $db->table('Employee');
+                echo $builder->limit(10,20)->getCompiledSelect(false); 
+                //result : SELECT * FROM `Employee` LIMIT 20, 10
+        2.13.2 get() or get(10,20) : parameter LIMIT 10, 20; result will 10-20 rows under
+            Ex : query = $builder->get();
+                foreach ($query->getResult() as $row) {
+                    echo $row->title;
+                }
+        2.13.3 select('column name', 'column name1') or select('*');
+            $builder->select('title, content, date');
+            $query = $builder->get();
+        12.13.4 $query = $builder->getWhere(['id' => $id], $limit, $offset);
+        12.13.4
+            i. selectMax('age'), selectMin('age'), selectAvg('age'), selectSum('age'),selectCount('age'),
+            ii. from : $builder = $db->table('users');
+                        $builder->select('title, content, date');
+                        $builder->from('mytable');
+                        $query = $builder->get();
+            iii. join : $builder = $db->table('blogs');
+                        $builder->select('*');
+                        $builder->join('comments', 'comments.id = blogs.id');
+                        $query = $builder->get()
+        12.13.5 Where in QueryBuilder 
+                i.Simple key/value method:
+                $builder->where('name', $name);
+                // Produces: WHERE name = 'Joe'
+                Notice that the equal sign is added for you.
+
+                If you use multiple function calls they will be chained together with AND between them:
+
+                $builder->where('name', $name);
+                $builder->where('title', $title);
+                $builder->where('status', $status);
+                // WHERE name = 'Joe' AND title = 'boss' AND status = 'active'
+
+                ii. Custom key/value method:
+                You can include an operator in the first parameter in order to control the comparison:
+
+                $builder->where('name !=', $name);
+                $builder->where('id <', $id);
+                // Produces: WHERE name != 'Joe' AND id < 45
+
+                iii. Associative array method:
+                $array = ['name' => $name, 'title' => $title, 'status' => $status];
+                $builder->where($array);
+                // Produces: WHERE name = 'Joe' AND title = 'boss' AND status = 'active'
+                You can include your own operators using this method as well:
+
+                $array = ['name !=' => $name, 'id <' => $id, 'date >' => $date];
+                $builder->where($array);
+
+                iv. Custom string:
+                You can write your own clauses manually:
+
+                $where = "name='Joe' AND status='boss' OR status='active'";
+                $builder->where($where);
+
+
+        Learn More Quer Builder from https://codeigniter.com/user_guide/database/query_builder.html
+        Note : this is very easy , you can easily understand all topcis, so i am not add thats things in my notes
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+ 
+    
+
+        
