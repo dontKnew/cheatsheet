@@ -880,8 +880,174 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
 
         Learn More Quer Builder from https://codeigniter.com/user_guide/database/query_builder.html
         Note : this is very easy , you can easily understand all topcis, so i am not add thats things in my notes
+
+    2.14 Transactions 
+        * for run multi query you can checkout to all query success or not
+        * if failure, you can rollback your all query
+        * by deafult codeigniter enabled Transactions, you can mannualy disabled it by $this->db->transoff()
+        Example 1 : 
+            $this->db->transStart();
+            $this->db->query('AN SQL QUERY...');
+            $this->db->query('ANOTHER QUERY...');
+            $this->db->transComplete();
+            if ($this->db->transStatus() === false) {
+                // generate an error... or use the log_message() function to log your error
+            }
+
+            2.14.1 Test Mode - 
+                $this->db->transStart(true); // Query will be rolled back
+                $this->db->query('AN SQL QUERY...');
+                $this->db->transComplete();
+
+
+            2.14.2 Run mannualy : 
+                $this->db->transBegin();
+                $this->db->query('AN SQL QUERY...');
+                $this->db->query('ANOTHER QUERY...');
+                $this->db->query('AND YET ANOTHER QUERY...');
+
+                if ($this->db->transStatus() === false) {
+                    $this->db->transRollback();
+                } else {
+                    $this->db->transCommit();
+                }
+
+        2.15 Database Metadata : These functions let you fetch table information.
+                i. $tables = $db->listTables();
+                    foreach ($tables as $table) {
+                        echo $table;
+                    }
+                ii. if ($db->tableExists('table_name')) {// some code...}
+                iii. $fields = $db->getFieldNames('table_name');    or
+                     $query = $db->query('SELECT * FROM some_table');
+                        foreach ($query->getFieldNames() as $field) {
+                            echo $field;
+                        }
+                iv. $db->fieldExists('field_name', 'table_name')
+                v. db->getFieldData('table_name') : return an object
+                        or 
+                        $query  = $db->query("YOUR QUERY");
+                        $fields = $query->fieldData();
+
+                vi.$keys = $db->getIndexData('table_name');
+                    foreach ($keys as $key) {
+                        echo $key->name;
+                        echo $key->type;
+                        echo $key->fields; // array of field names
+                    }
+
+                vii. $keys = $db->getForeignKeyData('table_name');
+                    foreach ($keys as $key) {
+                        echo $key->constraint_name;
+                        echo $key->table_name;
+                        echo $key->column_name;
+                        echo $key->foreign_table_name;
+                        echo $key->foreign_column_name;
+                    }
+        2.16 Custom Call function : $db->callFunction   
+            * You can not  call the php function like mysql_get_client_info(), 
+            * You can call by $db->callFunction('get_client_info');
+            Syntax : 
+                $db->callFunction('some_function', $param1, $param2, etc..);
+            Example : 
+                $query = $db->query("SOME QUERY");
+                $query->resultID;
+        2.17 Get XML Result from database   
+        Example : 
+            $model = new class extends \CodeIgniter\Model {
+                protected $table      = 'foo';
+                protected $primaryKey = 'id';
+            };
+            $db = \Closure::bind(function ($model) {
+                return $model->db;
+            }, null, $model)($model);
+
+            $util = (new \CodeIgniter\Database\Database())->loadUtils($db);
+            echo $util->getXMLFromResult($model->get());
+        Result : 
+            <root>
+                <element>
+                    <id>1</id>
+                    <name>bar</name>
+                </element>
+            </root>
+
+    3. Modeling Data :  You can use model for specfic database table and records
+        * app/Models
+        * Model Features : 
+                automatic database connection
+                basic CRUD methods
+                in-model validation
+                automatic pagination
+                and more
+
+        3.1 Access Model from controllers and anywhere 
+            // Create a new class manually
+            $userModel = new \App\Models\UserModel();
+
+            // Create a new class with the model function
+            $userModel = model('App\Models\UserModel', false);
+
+            // Create a shared instance of the model
+            $userModel = model('App\Models\UserModel');
+
+            $db = db_connect('custom');
+            $userModel = model('UserModel', true, $db);
+        3.2 Connecting Database, path : App/Models/
+            <?php
+            namespace App\Models;
+            use CodeIgniter\Model;
+            class UserModel extends Model{ protected $DBGroup = 'group_name';}
+        3.3  Configuration of Model  : 
+            * spouse, you have to perform a curd opeartion to your model config will be below under : - 
+            <?php
+            namespace App\Models;
+            use CodeIgniter\Model;
+
+            class UserModel extends Model
+            {
+                protected $table      = 'users';
+                protected $primaryKey = 'id';
+
+                protected $useAutoIncrement = true;
+
+                protected $returnType     = 'array';
+                protected $useSoftDeletes = true;
+
+                protected $allowedFields = ['name', 'email'];
+
+                protected $useTimestamps = false;
+                protected $createdField  = 'created_at';
+                protected $updatedField  = 'updated_at';
+                protected $deletedField  = 'deleted_at';
+
+                protected $validationRules    = [];
+                protected $validationMessages = [];
+                protected $skipValidation     = false;
+            }
+
  
 
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+            
+
+
+
+ 
 
 
 
