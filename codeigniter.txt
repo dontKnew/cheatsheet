@@ -1,3 +1,15 @@
+=> Installation via command Line
+    1. composer should be installed in your computer 
+    2. composer --create-project codiegniter4/appstarter
+    3. composer update  
+        => Error : 
+                Problem 1
+                - phpunit/phpunit[9.1.0, ..., 9.2.6] require php ^7.3 -> your php version (8.1.2) does not satisfy that requirement.
+                - phpunit/phpunit[9.3.0, ..., 9.5.20] require ext-dom * -> it is missing from your system. Install or enable PHP's dom extension.
+                - Root composer.json requires phpunit/phpunit ^9.1 -> satisfiable by phpunit/phpunit[9.1.0, ..., 9.5.20].
+                
+        try command :  composer update --ignore-platform-reqs
+
 => For learn before this  codeigniter framework,  You must be knowledge of MVC, if you dont knew, checkout my cheatsheet of mvc notes
 => Intro
     1. codeigniter is light weight
@@ -1001,8 +1013,8 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
         3.3  Configuration of Model  : 
             * spouse, you have to perform a curd opeartion to your model config will be below under : - 
             <?php
-            namespace App\Models;
-            use CodeIgniter\Model;
+                namespace App\Models;
+                use CodeIgniter\Model;
 
             class UserModel extends Model
             {
@@ -1011,63 +1023,467 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
 
                 protected $useAutoIncrement = true;
 
-                protected $returnType     = 'array';
-                protected $useSoftDeletes = true;
+                protected $returnType     = 'array'; // results will be in array formate
+                protected $useSoftDeletes = false; // true for backup database and keep false if find(), findAll() method does not work
 
                 protected $allowedFields = ['name', 'email'];
 
                 protected $useTimestamps = false;
-                protected $createdField  = 'created_at';
-                protected $updatedField  = 'updated_at';
+                protected $createdField  = 'created_at'; // if $useTimestamps true, then just leave it
+                protected $updatedField  = 'updated_at';//if $useTimestamps true, then just leave it
                 protected $deletedField  = 'deleted_at';
 
                 protected $validationRules    = [];
                 protected $validationMessages = [];
-                protected $skipValidation     = false;
+                protected $skipValidation     = false; // if true validation will be avoiding by model
+
+                	// Callbacks
+                    protected $allowCallbacks       = true;
+                    protected $beforeInsert         = [];
+                    protected $afterInsert          = [];
+                    protected $beforeUpdate         = [];
+                    protected $afterUpdate          = [];
+                    protected $beforeFind           = [];
+                    protected $afterFind            = [];
+                    protected $beforeDelete         = [];
+                    protected $afterDelete          = [];
             }
 
- 
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
+        3.4  Serverl Method of Update, insert, delete etc. providing by codiegniter : 
+            *After setupt configuration of model, go to controller
+            use \App\Models\UserModel;
+            $userModel = new UserModel();
             
+            3.4.1 Finding data 
+                i. $userModel->find($user_id) ii.  $userModel->find([1,2,3]) iii. findColumn($column_name)
+                iv.findAll() v. $users = $userModel->where('active', 1)->findAll() vi. findAll($limit, $offset);
+                vii. $userModel->where('deleted', 0)->first(); // return the first();
+                viii. withDeleted() : In model configuration $useSoftDeletes is true, then find and findALl() method alwayas getting result null, for this you can use withDelete() for using find and findAll();
+                     $userModel->findAll(); // Only gets non-deleted rows (deleted = 0)
+                    $userModel->withDeleted()->findAll(); // Gets all rows
+                xi. userModel->onlyDeleted()->findAll(); // return only deleted rows;
+
+            3.4.2 Saving Data : insert data only associated array (key and value)
+                $data = ['tableName1'=>"value", 'tableName2'=>'value2']; $userModel->insert($data);
 
 
+            3.4.3 update Data : first parameter alwayas $id (primaryKey) and second is associated array
+                $data = ['tableName1'=>"value", 'tableName2'=>'value2']; $userModel->update($id, $data);
+                
+                i. update multiple row records with single call 
+                    $data = ['active'=>1]; $userModel->update([1, 2, 3], $data);
+                    or $userModel->whereIn('id', [1,2,3])->set(['active' => 1])->update();
 
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            3.4.4 Save() : if you primary key id found, then it will be update data 
+                Ex : $primaryId = 2;
+                    $data = ['tableName1'=>"value", 'tableName2'=>'value2']; $userModel->save($data); // insert data without primary key
+                    $data = ['id'=>$primaryId', tableName1'=>"value", 'tableName2'=>'value2']; $userModel->save($data); // update data whereas primary key  id match
+            
+            3.4.5 Deleting Data :
+            $userModel->delete(12); // delete data whereas the first parameter primary key id , and second parameter is boolean, if true, then it will be delete permanently if softdelete is also true;  
+            $userModel->where('id', 12)->delete(); // query builder delete method
+            $userModel->delete([1,2,3]); // multiple delete
+            $userModel->purgeDeleted(); cleans out the table
         
+        3.5 Validation in Model 
+                protected $validationRules    = [
+                    'username'     => 'required|alpha_numeric_space|min_length[3]',
+                    'email'        => 'required|valid_email|is_unique[users.email]',
+                    'password'     => 'required|min_length[8]',
+                    'pass_confirm' => 'required_with[password]|matches[password]',
+                ];
 
- 
-    
+                protected $validationMessages = [
+                    'email'        => [
+                        'is_unique' => 'Sorry. That email has already been taken. Please choose another.',
+                    ],
+                ];
+            => Another way to set validation rules and messages
+            i.  $fieldName = 'username'; $fieldRules = 'required|alpha_numeric_space|min_length[3]';
+                $model->setValidationRule($fieldName, $fieldRules);
+            ii. setValidationRules()
+                Ex : $validationRules = [
+                    'username' => 'required|alpha_numeric_space|min_length[3]',
+                    'email' => [
+                        'rules'  => 'required|valid_email|is_unique[users.email]',
+                        'errors' => [
+                            'required' => 'We really need your email.',
+                        ],
+                    ],
+                ];
+                $model->setValidationRules($validationRules);
+            iii. $fieldName = 'name';
+                $fieldValidationMessage = [
+                    'required' => 'Your name is required here',
+                ];
+                $model->setValidationMessage($fieldName, $fieldValidationMessage);
+            iv. 
+            $fieldValidationMessage = [
+                'name' => [
+                    'required'   => 'Your baby name is missing.',
+                    'min_length' => 'Too short, man!',
+                ],
+            ];
+            $model->setValidationMessages($fieldValidationMessage);
 
+        3.6 Get Errors : 
+            *if you used insert update and save method, then you can get errors if validation does not matched with your validation rules   
+            Ex :     if ($model->save($data) === false) {
+                    return view('updateUser', ['errors' => $model->errors()]);
+                }
+            Display Error : 
+                <?php if (! empty($errors)): ?>
+                <div class="alert alert-danger">
+                <?php foreach ($errors as $field => $error): ?>
+                    <p><?= $error ?></p>
+                <?php endforeach ?>
+                </div>
+            <?php endif ?>
+
+        3.7 if you dont want to use allowedFields, then you can simple call  in controller  $model->protect(false)->insert($data)->protect(true);
+            thereafter belwo said field will be ignore while insert, update and save method();
+            protected $allowedFields = ['name', 'email', 'address'];
+
+        3.8 ReturnType : you can specfic data type return formate like below 👍
+
+            i. $users = $userModel->asArray()->where('status', 'active')->findAll();
+            ii. $users = $userModel->asObject()->where('status', 'active')->findAll(); //  Return as standard objects 
+                $users = $userModel->asObject('User')->where('status', 'active')->findAll();// Return as custom class instances
+                
+            iii. Handling the large amount data by using chuck($numberRow, Closure);
+                Example : $userModel->chunk(100, function ($data) {
+                    // do something.
+                    // $data is a single row of data.
+                });
+        3.9 Callbacks in Model :
+            * all callbacks are called in respect of properites afterInsert['callbacksName/functionName'], $beforeUpdate, $afterUpdate, $afterFind, and $afterDelete 
+            Example : 
+                protected function hashPassword(array $data){
+                    if (! isset($data['data']['password'])) {
+                        return $data;
+                    }
+                    $data['data']['password_hash'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+                    unset($data['data']['password']);
+
+                    return $data;
+                }
+            protected $beforeInsert = ['hashPassword']; // hashPassword method will be call before execute insert/update/save method.
+            protected $beforeUpdate = ['hashPassword'];
+                i. protected $allowCallbacks = false; // callbacks will be not call
+                ii. $model->allowCallbacks(false)->find(1); // No callbacks triggered
+
+
+        3.10 Entity Classes : this is an optiona, this is will seprate the some codes to this file for model    
+            * path : App\Entity // here you can create your entity
+            app/Entities/User.php
+            <?php
+            namespace App\Entities;
+            use CodeIgniter\Entity\Entity;
+
+            class User extends Entity{// ...}
+            
+            app\Models\UserModel.php
+            <?php
+
+            namespace App\Models;
+            use CodeIgniter\Model;
+
+            class UserModel extends Model
+            {
+                protected $table         = 'users';
+                protected $allowedFields = [
+                    'username', 'email', 'password',
+                ];
+                protected $returnType    = \App\Entities\User::class; // call the entity data
+                protected $useTimestamps = true;
+            }
+
+    4. Managing Database :
+        $forge = \Config\Database::forge("group_name"); //you can give parameter for databaseName Group name else deafault load group
+        i. if ($forge->createDatabase('my_db')) { echo 'Database created!';}
+        ii. $forge->createDatabase('my_db', true); //  check database exits or not
+        iii. $forge->dropDatabase(‘db_name’)
         
+        4.1. Create Table : 
+            $fields = [
+                'id'          => [
+                    'type'           => 'INT',
+                    'constraint'     => 5,
+                    'unsigned'       => true,
+                    'auto_increment' => true
+                ],
+                'title'       => [
+                    'type'           => 'VARCHAR',
+                    'constraint'     => '100',
+                    'unique'         => true,
+                ],
+                'author'      => [
+                    'type'           =>'VARCHAR',
+                    'constraint'     => 100,
+                    'default'        => 'King of Town',
+                ],
+                'description' => [
+                    'type'           => 'TEXT',
+                    'null'           => true,
+                ],
+                'status'      => [
+                    'type'           => 'ENUM',
+                    'constraint'     => ['publish', 'pending', 'draft'],
+                    'default'        => 'pending',
+                ],
+            ];
+            $forge->addField($fields)->createTable("tableName"); 
+
+                i. Creating an id field : $forge->addField('id'); // gives `id` INT(9) NOT NULL AUTO_INCREMENT with primary key 
+                ii. addKey("column_name", boolean, boolean) : second parameter is primary key if u set true, third parameter is unique key if you set true and both optional
+                    $forge->addKey('blog_id', true); // blog_id will be primary key
+                    or 
+                        $forge->addPrimaryKey('blog_id');
+                        $forge->addUniqueKey(['blog_id', 'uri']);
+
+                iii. $forge->addForeignKey('users_id', 'users', 'id'); // gives CONSTRAINT `TABLENAME_users_foreign` FOREIGN KEY(`users_id`) REFERENCES `users`(`id`)
+                    $forge->addForeignKey(['users_id', 'users_name'], 'users', ['id', 'name']); // gives CONSTRAINT `TABLENAME_users_foreign` FOREIGN KEY(`users_id`, `users_name`) REFERENCES `users`(`id`, `name`)
+
+                    => You can specify the desired action for the “on delete” and “on update” properties of the constraint:
+                        $forge->addForeignKey('users_id', 'users', 'id', 'CASCADE', 'CASCADE'); // gives CONSTRAINT `TABLENAME_users_foreign` FOREIGN KEY(`users_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                        $forge->addForeignKey(['users_id', 'users_name'], 'users', ['id', 'name'], 'CASCADE', 'CASCADE'); // gives CONSTRAINT `TABLENAME_users_foreign` FOREIGN KEY(`users_id`, `users_name`) REFERENCES `users`(`id`, `name`) ON DELETE CASCADE ON UPDATE CASCADE
+                
+                iv. create->Table("tableName", boolean) // second parameter is optional, create table if not exist.
+                v. table attribute lik mysqli engine    
+                    Example : $attributes = ['ENGINE' => 'InnoDB']; $forge->createTable('table_name', false, $attributes);
+
+                vi.  $forge->dropTable('table_name'); //  Produces: DROP TABLE `table_name`
+                    $forge->dropTable('table_name', true); // Produces: DROP TABLE IF EXISTS `table_name`
+                    $forge->dropTable('table_name', false, true); // Produces: DROP TABLE `table_name` CASCADE (third parameter for remove the table if foreign keys exits)
+                vii. Drop Foreign Key 
+                    $forge->dropForeignKey('tablename', 'users_foreign'); // Produces: ALTER TABLE `tablename` DROP FOREIGN KEY `users_foreign`
+                viii. drop a key : $forge->dropKey('tablename', 'users_index');  // Produces: DROP INDEX `users_index` ON `tablename`
+                xi. $forge->renameTable('old_table_name', 'new_table_name');
+
+                x. Add Column 
+                    $fields = [ 'preferences' => ['type' => 'TEXT']]; $forge->addColumn('table_name', $fields);
+                        or 
+                        // Will place the new column after the `another_field` column:
+                        $fields = [
+                            'preferences' => ['type' => 'TEXT', 'after' => 'another_field'] // after key will be placed after column of vaule column name
+                        ];
+
+                        // Will place the new column at the start of the table definition:
+                        $fields = [
+                            'preferences' => ['type' => 'TEXT', 'first' => true] // new column will be add in the first position of table
+                        ];
+                xi. $forge->dropColumn('table_name', 'column_to_drop'); // to drop one single column
+                        or $forge->dropColumn('table_name', 'column_1,column_2'); // by proving comma separated column names
+                            $forge->dropColumn('table_name', ['column_1', 'column_2']); // by proving array of column names
+                x. Modify Column 
+                    $fields = [
+                        'old_name' => [
+                            'name' => 'new_name',
+                            'type' => 'TEXT',
+                        ],
+                    ];
+                    $forge->modifyColumn('table_name', $fields);
+
+            4.2 Migration :
+                * path : App/Database/Migrations/YYYYMMDDHHIISS_fileName.php
+                * migration file name should be as YYYYMMDDHHIISS
+                i. Create Migration 
+                    <?php
+                    namespace App\Database\Migrations;
+                    use CodeIgniter\Database\Migration;
+                    class AddBlog extends Migration
+                    {
+                        protected $DBGroup = 'alternate_db_group'; // optional you can set another database group name
+
+                        public function up()
+                        {
+                            $this->forge->addField([
+                                'blog_id'          => [
+                                    'type'           => 'INT',
+                                    'constraint'     => 5,
+                                    'unsigned'       => true,
+                                    'auto_increment' => true,
+                                ],
+                                'blog_title'       => [
+                                    'type'       => 'VARCHAR',
+                                    'constraint' => '100',
+                                ],
+                                'blog_description' => [
+                                    'type' => 'TEXT',
+                                    'null' => true,
+                                ],
+                            ]);
+                            $this->forge->addKey('blog_id', true);
+                            $this->forge->createTable('blog');
+                        }
+
+                        public function down()
+                        {
+                            $this->forge->dropTable('blog');
+                        }
+                    }
+
+                Controller : 
+                <?php
+                namespace App\Controllers;
+
+                class Migrate extends \CodeIgniter\Controller
+                {
+                    public function index()
+                    {
+                        $migrate = \Config\Services::migrations();
+
+                        try {
+                            $migrate->latest();
+                        } catch (\Throwable $e) {
+                            // Do something with the error here...
+                        }
+                    }
+            }
+
+            4.3 Seeding : 
+                * its usefull for development envroinment for insert rondom data
+                * database seeding must be have run() method
+            Example : 
+            <?php
+            namespace App\Database\Seeds;
+            use CodeIgniter\Database\Seeder;
+            class SimpleSeeder extends Seeder
+            {
+                public function run()
+                {
+                    $data = [
+                        'username' => 'darth',
+                        'email'    => 'darth@theempire.com'
+                    ];
+
+                    // Simple Queries
+                    $this->db->query("INSERT INTO users (username, email) VALUES(:username:, :email:)", $data);
+
+                    // Using Query Builder
+                    $this->db->table('users')->insert($data);
+                }
+            }
+                4.3.1 call() : you can call another seeder within your seeders 
+                        class TestSeeder extends Seeder
+                        {
+                            public function run()
+                            {
+                                $this->call('UserSeeder');
+                                $this->call('CountrySeeder');
+                                $this->call('JobSeeder');
+                            }
+                        }
+                        => You can grab a copy of the main seeder through the database config class:
+                        $seeder = \Config\Database::seeder();
+                        $seeder->call('TestSeeder');
+
+    5. Library Reference 
+        5.1 Cache Driver : 
+            Example : 
+                cache()->save('foo', 'foobarbaz!', 300); //  Save into the cache for 5 minutes 
+                $cache = \Config\Services::cache(); $foo = $cache->get('foo'); // get cache 
+
+                i. remember(string $key, int $ttl, Closure $callback) : 
+                        $key (string) – Cache item name
+                        $ttl (int) – Time to live in seconds
+                        $callback (Closure) – Callback to invoke when the cache item returns null
+
+                ii. save(string $key, $data[, int $ttl = 60[, $raw = false]])
+                        $key (string) – Cache item name
+                        $data (mixed) – the data to save
+                        $ttl (int) – Time To Live, in seconds (default 60)
+                        $raw (bool) – Whether to store the raw value
+                    Ex : 
+                iii. delete($cache_key) : delete cache
+                iv.  $cache->deleteMatching('prefix_*'); // deletes all items of which keys start with "prefix_"
+                        And $cache->deleteMatching('*_suffix'); // deletes all items of which keys end with "_suffix"
+                v. $cache->clean() : delete entire caches
+                vi. var_dump($cache->getCacheInfo()) : return all caches information
+                v. var_dump($cache->getMetadata('my_cached_item')) // return details of specfic cache information
+
+        5.2 Cookie  :  is a small piece of data that a server sends to the user’s web browser
+            
+            *Cookes Mannualy Used for three purpose : 
+                i.   Session management: Logins, shopping carts, game scores, or anything else the server should remember
+                ii.  Personalization: User preferences, themes, and other settings
+                iii. Tracking: Recording and analyzing user behavior
+            *Cookies name should be simple / spaces, tabe, empty and any special letter will be not accepted
+
+            5.2.1 Creating Cookies has four way : 
+                    use CodeIgniter\Cookie\Cookie;
+                    use DateTime;
+                    use DateTimeZone;
+
+                    i. // Using the constructor
+                    $cookie = new Cookie('remember_token', 'f699c7fd18a8e082d0228932f3acd40e1ef5ef92efcedda32842a211d62f0aa6',
+                        [
+                            'expires'  => new DateTime('+2 hours'),
+                            'prefix'   => '__Secure-',
+                            'path'     => '/',
+                            'domain'   => '',
+                            'secure'   => true,
+                            'httponly' => true,
+                            'raw'      => false,
+                            'samesite' => Cookie::SAMESITE_LAX,
+                        ]
+                    );
+
+                    ii. // Supplying a Set-Cookie header string
+                    $cookie = Cookie::fromHeaderString( 'remember_token=f699c7fd18a8e082d0228932f3acd40e1ef5ef92efcedda32842a211d62f0aa6; Path=/; Secure; HttpOnly; SameSite=Lax', false, // raw);
+
+                    iii. // Using the fluent builder interface
+                    $cookie = (new Cookie('remember_token'))
+                        ->withValue('f699c7fd18a8e082d0228932f3acd40e1ef5ef92efcedda32842a211d62f0aa6')
+                        ->withPrefix('__Secure-')
+                        ->withExpires(new DateTime('+2 hours'))
+                        ->withPath('/')
+                        ->withDomain('')
+                        ->withSecure(true)
+                        ->withHTTPOnly(true)
+                        ->withSameSite(Cookie::SAMESITE_LAX);
+
+                    iv. // Using the global function `cookie` which implicitly calls `new Cookie()`
+                    $cookie = cookie('remember_token', 'f699c7fd18a8e082d0228932f3acd40e1ef5ef92efcedda32842a211d62f0aa6');
+                5.2.2 Accessing Cookie attributes
+                    $cookie->getName(); // 'remember_token'
+                    $cookie->getPrefix(); // '__Secure-'
+                    $cookie->getPrefixedName(); // '__Secure-remember_token'
+                    $cookie->getExpiresTimestamp(); // Unix timestamp
+                    $cookie->getExpiresString(); // 'Fri, 14-Feb-2025 00:00:00 GMT'
+                    $cookie->isExpired(); // false
+                    $cookie->getMaxAge(); // the difference from time() to expires
+                    $cookie->isRaw(); // false
+                    $cookie->isSecure(); // true
+                    $cookie->getPath(); // '/'
+                    $cookie->getDomain(); // ''
+                    $cookie->isHTTPOnly(); // true
+                    $cookie->getSameSite(); // 'Lax'
+
+                    // additional getter
+                    $cookie->getId(); // '__Secure-remember_token;;/'
+                    
+                5.2.3 Immutable Cookies : if u Modify cookie, you need to create new instance 
+                    use CodeIgniter\Cookie\Cookie;
+                    $cookie = new Cookie('login_token', 'admin');
+                    $cookie->getName(); // 'login_token'
+
+                    $cookie->withName('remember_token');
+                    $cookie->getName(); // 'login_token'
+
+                    $new = $cookie->withName('remember_token'); // new instance 
+                    $new->getName(); // 'remember_token'
+
+
+
+
+
+        5.3 Files 
+        5.4 image
+        5.5 pagination
+        5.6 Session
+        5.7 Times and Date
+        5.8 Validation
+    6. Helper
+    7. Command Line usages
+
