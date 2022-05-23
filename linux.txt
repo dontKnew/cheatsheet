@@ -82,7 +82,7 @@ everything is done..
             stop          Stop XAMPP (Apache, MySQL and eventually others)
             stopapache    Stop only Apache
             stopmysql     Stop only MySQL
-            stopftp       Stop only ProFTPD
+            stopftp       Stop only PeiroFTPD
 
             reload        Reload XAMPP (Apache, MySQL and eventually others)
             reloadapache  Reload only Apache

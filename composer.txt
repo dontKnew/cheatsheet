@@ -1,0 +1,87 @@
+                        - Composer - 
+1. Introduction : 
+    => Composer is a tool for dependency managmenet in PHP
+    => Its help to find out which versions of which package can and need to be installed and install them in your project
+
+2. Installation
+    => Composer requires PHP 5.3.2+ to run
+    => Go to official website download exe/deb/ file for Window/linux etc.
+    2.1 Command Line
+        i. php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" // create file of composer-setup.php
+        ii. php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" // verify to command i. para is install or not composer-setup.php
+        iii. php composer-setup.php // installing composer
+        iv. php -r "unlink('composer-setup.php');" // remove composer-setup.php 
+        v. sudo mv composer.phar /usr/local/bin/composer // this will made your composer globally install
+    => php composer-setup.php --version=1.0.0-alpha8 // install specfic version of composer 
+
+
+3. Some Commands :
+    => composer self-update : update to latest version of composer
+    => compser self-update --rollback :  back to previous update after run command of composer self-update
+    => composer : list of all commands
+    => composer help command_name : information of sepcifc command of composer
+    => composer config --glboal : operate on the global config file located at $COMPOSER_HOME/config.json BY DEAFULT
+    => composer config -list : show all current config variable
+    => composer config setting-key  "setting-value" : it sets the config key to the value
+    => composer config --unset :  remove configuration element named
+    => composer config --editor  : open composer.json file for current project for editor
+    => composer config --editor -glboal : open globallyt composer.json file for edit globally.
+
+4. Setup a new or existing package
+    => composer.init : create a composer.json file and enter the information of 
+        * thereafter created two folder and one composer.json file
+
+5. Install Package from https://packagist.org/ 
+    --dev : which is used only for development purpose, spouse we have to require lots of faker email and password for testing our application, we will be use faker package for developoment purpose,
+    => composer require VendorName/PackageName : this command will install a package and any package that it depends on.
+    => composer require VendorName/PackageName:1.9.0 : install package of sepcifc version
+    => composer require VendorName/PackageName:dev-master : install package with tagname (might be an branchName);
+    => composer require VendorName/PackageName --dev : install package with require development package
+    5.1 Remove Package 
+        i. composer remove VendorName/PackageName : remove package from composer.json file and from the current directory
+        ii. composer remove VendorName/PackageName --dev : its remove package from composer.json file of require development package
+        iii. composer remove VendorName/PackageName VendorName1/PackageName1 : remove multi package 
+6. How to use package 
+    i.  install package 
+    ii. include (./vendor/autoload.php);
+    iii.create namespace of package and object
+    iv. Then, Now You can use package feature
+
+    6.1 Update Package : this command will be update to latest version of package also update in composer.lock file
+        => composer update VendorName/PackageNmae
+        => composer update or  composer u VendorName/PackageNmae or composer upgrade VendorName/PackageNmae 
+    6.2 Install/i : composer install read the composer.json file, if there is no composer.lock file, it will install latest version composer with create composer.lock file
+        => composer install or composer i 
+    6.3. List of All Package    
+        => composer show : this is command is used to list all of the available package in composer in installed package directory
+    6.4 Create Project from a package
+        => composer create-project VendorName/PackageName ProjectName
+            Ex : composer create-project laravel/laravel myFirstApp
+        => composer create-project VendorName/PackageName myFirstApp "5.12.*" // install with specfic version of package
+
+    
+7. Composer.json
+    
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

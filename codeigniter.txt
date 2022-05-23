@@ -1473,17 +1473,239 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
 
                     $new = $cookie->withName('remember_token'); // new instance 
                     $new->getName(); // 'remember_token'
-
-
-
+                ............ leave point...
 
 
         5.3 Files 
+            $file = new \CodeIgniter\Files\File($path);
+                i. $file->getBasename() : get file name
+                ii. $file->getRealPath() : get random filename
+                iii. $bytes    = $file->getSizeByUnit(); // 256901
+                iv. $kilobytes = $file->getSizeByUnit('kb'); // 250.880
+                v. $megabytes  = $file->getSizeByUnit('mb'); // 0.245
+                vi. $file->getMimeType(); // imags/png/jpg 
+                vii. $file->move(WRITEPATH . 'uploads');// move file, and third parameter can be move with new name 
+            5.3.1 Read, Write, 
+                i. write_file("filename.txt", "I love content"); or 
+                        write_file(WRITEPATH. "fileNmae.txt", "I am writting in writable folder");
+                ii.  readfile("./data.txt") or  $data2 = readfile(WRITEPATH. "data-2.txt");
+                iii. 
+
         5.4 image
+            5.4.1 Image Manuplatioin 
+                $image = \Config\Services::image();
+                first enable gd then, write notes here
         5.5 pagination
-        5.6 Session
+
+        5.6 Session 
+            => The Session class permits you to maintain a user’s “state” and track their activity while they browse your site.
+            => Whenever your browse  a browser, session data will be available otherwise it will be destory with browser close
+            => tempdata and flash data are  session class, so you can read those from global session variable $_SESSION['key']  
+
+            Example : Controller/Home.php
+                    $session = \Config\Services::session($config);
+                    $session = session();
+                i. Adding Session Data :  $session->set($associatedArray); or $session->set('key', 'value');
+                        => $session->has("key") or isset($_SESSION['key']) // return true if exist
+                        => Pushing new Value to associatedArray : $session->push('hobbies', ['sport'=>'tennis']);
+                ii. Remove Session Data :  $session->remove('key') or unset($_SESSION['some_name'], $_SESSION['some_name']) or 
+                        $array_items = ['username', 'email'];  $session->remove($array_items);
+            5.6.1 Flashdata : its used only for one times , thereafter it will be automatically cleared
+                    => This can be very useful, especially for one-time informational, error or status messages (for example: “Record 2 deleted”).
+
+                    $_SESSION['item'] = 'value';
+                    i. $session->markAsFlashdata('item')  // add Flashdata
+                    ii. $session->markAsFlashdata(['item', 'item2']); // add multiple flashdata 
+                    iii. $session->setFlashdata('item', 'value'); // add flash data
+                    iv.  $_SESSION['item'] or $session->getFlashdata('item'); // read flash data
+                    v. $session->getFlashdata(); // get all flashdata an array
+                    vi. $session->keepFlashdata('item'); // do not clear flash data
+                        $session->keepFlashdata(['item1', 'item2', 'item3']);
+
+            5.6.2 Tempdata 
+                => CodeIgniter also supports “tempdata”, or session data with a specific expiration time
+                => tempdata like an flashdata 
+                => if u set null time for expire tempdata, So tempdata default erased time is 300seconds (5 mints) 
+
+
+                i. $session->markAsTempdata('item', 300); // keep data until complete 300 seconds
+                    or  $session->markAsTempdata(['item', 'item2'], 300); // Both 'item' and 'item2' will expire after 300 seconds
+                        $session->markAsTempdata(['item' => 300, 'item2' => 240,]); item will erased after 300 seconds and item2 240 seconds
+                ii. add tempdata :  $_SESSION['item'] = 'value'; $session->markAsTempdata('item', 300); // Expire in 5 minutes \
+                            or $session->setTempdata('item', 'value', 300);
+                iii. $session->getTempdata('item'); // read surely tempdata only
+                iv. $session->getTempdata(); // read all existing tempdata
+                v. unset($_SESSION['item']); // remove tempata before expiration time
+
+            5.6.3 Destory Session : session_destroy(); or $session->destroy();
+
+
+ 
+
+
+
+
+ 
+
+
+
+
+
+                
+
+
+
+
         5.7 Times and Date
+            use CodeIgniter\I18n\Time;
+                i. new Time('+3 week'); // after three week date and time from today time
+                ii. new Time('now'); // current times and date
+                ii $time = Time::today();
+                     $time->toLocalizedString('dd-MM-yyyy'); // dd = 05, d = 5, m=5, mm=05,mmm=May, y=lastTwoDigitofYear, yyyy/yyyy=2022
+                     $time->toDateTimeString() // return date and time only
+                iii. $time->humanize() // calculate below as per said 
+                        Time difference                 Result 
+                    $time > 1 year && < 2 years	    = in 1 year / 1 year ago
+                    $time > 1 month && < 1 year	    = in 6 months / 6 months ago
+                    $time > 7 days && < 1 month	    = in 3 weeks / 3 weeks ago
+                    $time > today && < 7 days	    = in 4 days / 4 days ago
+                    $time == tomorrow / yesterday   = 	Tomorrow / Yesterday
+                    $time > 59 minutes && < 1 day   = 	in 2 hours / 2 hours ago
+                    $time > now && < 1 hour	        = in 35 minutes / 35 minutes ago
+                    $time == now                    = Now
+ 
+                iv. $time->getYear/Month/Seconds/Minute/Second etc. () or $time->Year/Month/Seconds/Minute/Second etc.()
+                v. $time->setYear/Month/Seconds/Minute/Second etc. () // settime;
+            5.7.1 Modify the time or date : 
+                You have to crate new instance(assign to variable $time below) like belwo  
+                        Add Time to current time
+                -+8+-5486902111111103
+                goo    $time = $time->addSeconds(23);
+                    $time = $time->addMinutes(15);
+                    $time = $time->addHours(12);
+                    $time = $time->addDays(21);
+                    $time = $time->addMonths(14);
+                    $time = $time->addYears(5);
+                        minus time to current time
+                    $time = $time->subSeconds(23); //
+                    $time = $time->subMinutes(15);
+                    $time = $time->subHours(12);
+                    $time = $time->subDays(21);
+                    $time = $time->subMonths(14);
+                    $time = $time->subYears(5);
+
+            5.7.2 difference between the two times
+                $current = Time::parse('March 10, 2017', 'America/Chicago');
+                $test    = Time::parse('March 10, 2010', 'America/Chicago');
+
+                $diff = $current->difference($test);
+                echo $diff->getYears();   // -7
+                echo $diff->getMonths();  // -84
+                echo $diff->getWeeks();   // -365
+                echo $diff->getDays();    // -2557
+                echo $diff->getHours();   // -61368
+                echo $diff->getMinutes(); // -3682080
+                echo $diff->getSeconds(); // -220924800
+                or 
+                echo $diff->years;   // -7
+                echo $diff->months;  // -84
+                echo $diff->weeks;   // -365
+                echo $diff->days;    // -2557
+                echo $diff->hours;   // -61368
+                echo $diff->minutes; // -3682080
+                echo $diff->seconds; // -220924800
+                    
+                    i. you can use also humanize method for exact the extract day/year/month from two time/date
+                    echo $diff->humanize(); // 1 year ago
         5.8 Validation
-    6. Helper
-    7. Command Line usages
+
+    6. Helper : like an collection of functions which is made by codiegniter
+        i. helper('cookie');
+            => set_cookie($name[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = false[, $httpOnly = false[, $sameSite = '']]]]]]]])
+                $name (mixed) – Cookie name or associative array of all of the parameters available to this function
+                $value (string) – Cookie value
+                $expire (int) – Number of seconds until expiration
+                $domain (string) – Cookie domain (usually: .yourdomain.com)
+                $path (string) – Cookie path
+                $prefix (string) – Cookie name prefix
+                $secure (bool) – Whether to only send the cookie through HTTPS
+                $httpOnly (bool) – Whether to hide the cookie from JavaScript
+                $sameSite (string) – The value for the SameSite cookie parameter. If null, the default from config/App.php is used
+
+            =>get_cookie($index[, $xssClean = false])
+                $index (string) – Cookie name
+                $xss_clean (bool) – Whether to apply XSS filtering to the returned value
+
+            => delete_cookie($name[, $domain = ''[, $path = '/'[, $prefix = '']]])
+                $name (string) – Cookie name
+                $domain (string) – Cookie domain (usually: .yourdomain.com)
+                $path (string) – Cookie path
+                $prefix (string) – Cookie name prefix
+            => has_cookie(string $name[, ?string $value = null[, string $prefix = '']])
+                $name (string) – Cookie name
+                $value (string|null) – Cookie value
+                $prefix (string) – Cookie prefix
+
+        ii. helper('date') :    echo now('Australia/Victoria'); echo timezone_select('custom-select', 'America/New_York');
+
+        iii. helper('form');
+            <input type="text" name="myfield" value="<?= esc($string) ?>" />
+
+            => form_open([$action = ''[, $attributes = ''[, $hidden = []]]]) or form_open_multipart([$action = ''[, $attributes = ''[, $hidden = []]]])
+                Example 1. echo form_open('email/send'); // would be  : <form action="http://example.com/index.php/email/send" method="post" accept-charset="utf-8">
+                Example 2. echo form_open('{locale}/email/send'); // <form action="http://example.com/index.php/en/email/send" method="post" accept-charset="utf-8">
+                
+                *Adding Attributes 
+                Example 3. 
+                        $attributes = ['class' => 'email', 'id' => 'myform']; 
+                        echo form_open('email/send', $attributes);
+                            or  echo form_open('email/send', 'class="email" id="myform"'); // would be : <form action="http://example.com/index.php/email/send" class="email" id="myform" method="post" accept-charset="utf-8">
+                
+                *Adding Hidden input
+                Example 4. $hidden = ['username' => 'Joe', 'member_id' => '234'];
+                            echo form_open('email/send', '', $hidden);
+                    //output : <form action="http://example.com/index.php/email/send" method="post" accept-charset="utf-8">
+                                    <input type="hidden" name="username" value="Joe" />
+                                    <input type="hidden" name="member_id" value="234" />
+                                    
+            => form_hidden($name[, $value = '']) 
+                Example 1. : form_hidden('username', 'johndoe'); // Would produce: <input type="hidden" name="username" value="johndoe" />
+
+                Example 2. $data = [ 'name'  => 'John Doe', 'email' => 'john@example.com', 'url'   => 'http://example.com',];
+                            echo form_hidden($data);
+                    Output : <input type="hidden" name="name" value="John Doe" />
+                            <input type="hidden" name="email" value="john@example.com" />
+                            <input type="hidden" name="url" value="http://example.com" 
+                            />
+            => form_input() : 
+                $data = [
+                    'name'      => 'username',
+                    'id'        => 'username',
+                    'value'     => 'johndoe',
+                    'maxlength' => '100',
+                    'size'      => '50',
+                    'style'     => 'width:50%',
+                ]; echo form_input($data);
+
+                output : <input type="text" name="username" value="johndoe" id="username" maxlength="100" size="50" style="width:50%" />
+                
+                * Pass third parameter as js 
+                    $js = 'onClick="some_function ()"';
+                    echo form_input('username', 'johndoe', $js); 
+                        or 
+                        $js = ['onClick' => 'some_function ();'];
+                        echo form_input('username', 'johndoe', $js);
+                * Pas HTML5 Input fileds 
+                    echo form_input('email', 'joe@example.com', ['placeholder' => 'Email Address...'], 'email');
+                            output :     <input type="email" name="email" value="joe@example.com" placeholder="Email Address..." />
+            
+            => form_password(), form_upload(), form_textarea() : like form_input() 
+
+            http://codeigniter.com/user_guide/helpers/form_helper.html checkout for more infomration above this form helper 
+
+    => helpers are easy, So i am not making such as notes 👍 
+            checkout : https://codeigniter.com/user_guide/helpers/
+
+=> Command Line usages
+
 
