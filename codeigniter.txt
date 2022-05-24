@@ -1702,10 +1702,152 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
             => form_password(), form_upload(), form_textarea() : like form_input() 
 
             http://codeigniter.com/user_guide/helpers/form_helper.html checkout for more infomration above this form helper 
+        
+        iv. helper('inflector') :  permit you to change English words to plural, singular, camel case, etc.
+                Exampel 1.  echo singular('dogs'); // Prints 'dog'
+                        2.  echo plural('dog'); // Prints 'dogs'3
+                        3.  echo camelize('my_dog_spot'); // to CameCase : Prints 'myDogSpot'
+                        4.  echo pascalize('my_dog_spot'); // to Pascal case :  Prints 'MyDogSpot' 
+                        5. ordinalize(1); // Returns '1st'
+        v. helper('number') 👍
+            Example 1. number_to_size()
+                        echo number_to_size(456); // Returns 456 Bytes
+                        echo number_to_size(4567); // Returns 4.5 KB
+                        echo number_to_size(45678); // Returns 44.6 KB
+                        echo number_to_size(456789); // Returns 447.8 KB
+                        echo number_to_size(3456789); // Returns 3.3 MB
+                        echo number_to_size(12345678912345); // Returns 1.8 GB
+                        echo number_to_size(123456789123456789); // Returns 11,228.3 TB     
+
+                    2. number_to_roman()
+                        echo number_to_roman(23);  // Returns XXIII
+                        echo number_to_roman(324);  // Returns CCCXXIV
+                        echo number_to_roman(2534);  // Returns MMDXXXIV
+
+        vi. helper('text') 
+                Example 1. random_string([$type = 'alnum'[, $len = 8]]) : generate ra random string
+                            alpha: A string with lower and uppercase letters only.
+                            alnum: Alphanumeric string with lower and uppercase characters.
+                            basic: A random number based on mt_rand() (length ignored).
+                            numeric: Numeric string.
+                            nozero: Numeric string with no zeros.
+                            md5: An encrypted random number based on md5() (fixed length of 32).
+                            sha1: An encrypted random number based on sha1() (fixed length of 40).
+                            crypto: A random string based on random_bytes().
+                                    Ex :  echo random_string('alnum', 16);
+                
+                Example 2. $str = strip_slashes($str); remove slash from string
+                Example 3. strip_quotes($str) // Removes single and double quotes from a string. 
+                Example 4. word_limiter($string, 4); // return only four words from an lines
+                 
+                 i. character_limiter($string, 20) : return only character/letter without count spaces
+                 ii. highlight_code($string) : Colorizes a string of code (PHP, HTML, etc.). Example:
+
+        vii. helper('url') : this is url person is automatically loaded on every request
+                
+                i.  site_url('news/local/123') or $segments = ['news', 'local', '123']; echo site_url($segments);
+                ii. base_url('images/icons/edit.png')
+                iii. current_url() or site_url(uri_string()): return current url of which are you on browse 
+
+                iv. uri_string(): return an path of url except of domain like 
+                    Ex : 
+                        $app =   http://some-site.com/blog/comments/123;  uri_string($app) // return blog/comments/123
+                
+                v. anchor(): 
+                    echo anchor('news/local/123', 'My News', 'title="News title"'); // Prints: <a href="http://example.com/index.php/news/local/123" title="News title">My News</a>
+
+                    echo anchor('news/local/123', 'My News', ['title' => 'The best news!']); // Prints: <a href="http://example.com/index.php/news/local/123" title="The best news!">My News</a>
+
+                    echo anchor('', 'Click here'); // Prints: <a href="http://example.com/index.php">Click here</a>
+
+                vi.  url_to('ControllerClass::Method', 'RoutesName'); // routes third paramter is optional
+                vii. url_title("Home Page");
+                vii.  mailto('me@my-site.com', 'Click Here to Contact Me'); // third parameter can be html attribute 
+
+                viii. anchor_popup() : 
+                        $atts = [
+                            'width'       => 800,
+                            'height'      => 600,
+                            'scrollbars'  => 'yes',
+                            'status'      => 'yes',
+                            'resizable'   => 'yes',
+                            'screenx'     => 0,
+                            'screeny'     => 0,
+                            'window_name' => '_blank',
+                        ];echo anchor_popup('news/local/123', 'Click Me!', $atts);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     => helpers are easy, So i am not making such as notes 👍 
             checkout : https://codeigniter.com/user_guide/helpers/
 
-=> Command Line usages
+=> Command Line usage : 
+    1. php spark list 
+            Cache
+        cache:clear        Clears the current system caches.
+        cache:info         Shows file cache information in the current system.
+
+        CodeIgniter
+        env                Retrieves the current environment, or set a new one.
+        help               Displays basic usage information.
+        list               Lists the available commands.
+        namespaces         Verifies your namespaces are setup correctly.
+        publish            Discovers and executes all predefined Publisher classes.
+        routes             Displays all of user-defined routes. Does NOT display auto-detected routes.
+        serve              Launches the CodeIgniter PHP-Development Server.
+
+        Database
+        db:create          Create a new database schema.
+        db:seed            Runs the specified seeder to populate known data into the database.
+        migrate            Locates and runs all new migrations against the database.
+        migrate:refresh    Does a rollback followed by a latest to refresh the current state of the database.
+        migrate:rollback   Runs the "down" method for all migrations in the last batch.
+        migrate:status     Displays a list of all migrations and whether they've been run or not.
+
+        Encryption
+        key:generate       Generates a new encryption key and writes it in an `.env` file.
+
+        Generators
+        make:command       Generates a new spark command.
+        make:config        Generates a new config file.
+        make:controller    Generates a new controller file.
+        make:entity        Generates a new entity file.
+        make:filter        Generates a new filter file.
+        make:migration     Generates a new migration file.
+        make:model         Generates a new model file.
+        make:scaffold      Generates a complete set of scaffold files.
+        make:seeder        Generates a new seeder file.
+        make:validation    Generates a new validation file.
+        migrate:create     [DEPRECATED] Creates a new migration file. Please use "make:migration" instead.
+        session:migration  [DEPRECATED] Generates the migration file for database sessions, Please use 
+                            "make:migration --session" instead.
+
+        Housekeeping
+        debugbar:clear     Clears all debugbar JSON files.
+        logs:clear         Clears all log files.
+                                                        
 
 
