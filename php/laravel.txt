@@ -25,4 +25,127 @@
     vendor - The vendor directory contains your Composer dependencies.
 
     Note : You will learn all directries by learning larvael 
-4.
+4. Routing : All Laravel routing defined in routes/web.php 
+	Syntax : Route::get('URI', Closure/Callback);
+	Example : Route::get('about', function(){return "Hello World"});
+	4.1 Routing Returning String
+		Route::get('about', function(){return "Hello World"});
+	4.2 Routes Parameter : capture segments the id or string from url within 
+		Example : Route::get('about/{u_id}', function($id){return $id});
+		=> Multiple Route Parameter : Route::get('about/{post_id}/comment/{comment_id}',function($postid, $cmtid){return $id});
+
+	4.3 Optional Routes Parameter : We can make optinal parameter in routes 
+		Example : Route::get('student/{name?}', function($name='DefaultName'){return $name}); // if parameter not defined then, deafulat name will be printed , 
+	4.4  Routes Parameter and Regular Expression
+		Route::get('student/{name}', function($name_p='DefaultName'){return $name_p})->where('name', '[A-Za-z]+');  // accpet only string alpha parameter3 
+		i.   Multiple regular expression in parameter 
+				Route::get('manager/{id}/{name}',function($_id, $_name){ return $_id . $_name})->where(['id'=>'[0-9]+', 'name'=>'[a-z]+']);
+		ii. Regular expression with helper method 
+			Route::get('manager/{id}/{name}',function($_id, $_name){ return $_id . $_name})->whereUuid('id'); or  for string : ->whereAlpha('name'); 
+		iii. Route:redirect('/fromRouteName', 'toRouteName');  or Route:permanentRedirect('/fromRouteName', 'toRouteName')// third parameter is optional , you can use http status code 
+		iv. Fallback Routes : if no any routes request match, then fallback routes execute, you have to define this routes last  of routes register
+				Route::fallback(function(){})
+		v. Route Methods : Route::get/post/put/patch/delete/options('URI', Callback)
+			=> Multiple method  Route:match(['get','post'], '/', function(){});
+			=> Route:any('/', function(){}) // redirect to this route if, no route found
+5. View : here you can write all HTML/PHP code and views are stored in the resources/views directory
+	Example  1. : 
+		* Creating View : resources/views/fileName.balde.php : <html> ... </html>		
+		* Route for  View : 
+		 Route::get('about',function(){return view('fileName')}) 
+		 Route::view('about','fileName');// only for return view
+
+	Example  2 : if view inside of folder 
+		* Creating View : resources/views/admin/fileName.balde.php : <html> ... </html>		
+		* Route for  View : 
+		 Route::get('about',function(){return view('admin.fileName')}) 
+		 Route::view('about','admin.fileName');// only for return view
+
+	Example  3 : Passing Data From route to view 
+	  	view('viewFileName', ['variableName'=>'Soname'])
+		*Access data in view file </h1> Hello   {{$variableName}} </h1>
+
+6. Controller  : this is group related request handling logic into a single class
+	=> Create Controller command : php artisan make:controller ControllerName
+	=> fill be created directory : app/Http/Controllers/ControllerName
+	=> Now you can define method inside of controllers file
+
+	6.1 Route for Controllers
+		=> include routes/web.php : use App\Http\Controllers\ControllerName;
+		=> define routes : Route::get('about',[ControllerName::class,'methodName']);
+
+	6.2 Getting Parameters in controller 
+		routes/web.php => Route::get('about/{name}',[ControllerName::class,'methodName'])
+		ControllerName.php => inside of class controller : function methodName($name1){ return "hello " . $name1;}
+
+	6.3 Return view from Controller
+		ControllerName.php => inside of class controller : function methodName(){ return view('viewfileName')};
+
+	6.4 Passing Data to view : like para 5 of Example 3
+	6.5 Multiple method inside of controller 
+		Route::get('aboutMe',[ControllerName::class,'methodName'])
+		Route::get('aboutYou',[ControllerName::class,'methodName2'])
+	
+	6.6 Single Controller : if you would like to define single controller that only hanlde a single action
+		=> php artisan make:controller ControllerName --invokable // generate file for single action controller
+		=> Route::get('about',ControllerName::class) // here no need to define method name because calling only single method/action
+
+Note : Now the Laravel Framework processing :  Route=>controller=>view
+
+7. blade 
+	=> blade is powerfull templating engine
+	=> You can write also plain php code in blade file
+	=> filename.balde.php, before after file name, we used .blade.php, which is stored in resources/views/
+	=> Our laravel file view is blade file
+	=> pass data to blade inside curly brace {{$variableName}}
+	
+	7.1 calling function : you can call any php functino inside of curly brace {{time()}}
+	7.2 Comment : {{-- This comment will not be present in the rendered(browser) HTML --}}
+	7.3  Directives 
+		7.3.1 conditional Directives
+			=> @if(condition) .... @endif
+			=> @if(condition) .... @else @endif
+			=> @if(condition) .... @elseif(condition) @else @endif
+			=> @unless(condition) @endunless
+			=> @isset(var) ...  @endisset // check value exist or not
+			=> @empty(var) ... @endempty // check data empty or not 
+
+		7.3.2 Authentication Directives
+			=> @auth('admin') ... @endauth // check user is Authenticated or not
+			=> @guest ... @endguest // check if user guest
+
+		7.3.3 Environment Directives 
+			=> @production ...  @endproduction // on production specific contents
+			=> @env('env_name')  ... @endenv or @env(['env1', 'env2']) // applicaton is running env_name
+
+		7.3.4 Switch Directives
+				@switch(expression) @case ... @break @case(expressoin2) ... @break  @default ... @endswitch
+
+		7.3.5 Include Directives  : blade @include directives allow you to include a blade view from within another view
+				i. @include('view_name')
+				ii. @inlcude('view_name',array) // you can pass data using array to included blade view
+				iii. @includeif('view_name', array) // include if file exist
+				iv. @inlcudeWhen($boolean, 'view_name', array) // inlcude file base of true or false, third parameter is optional
+				v. @inlcudeUnless($boolean, 'view_name', array) // inlcude file base of true or false, third parameter is optional
+				vi. @each('view_name', array, 'stu')  like foreach function with include 
+				vii. @once <script src=''> </script> @endonce // render only once 
+
+		7.3.6 Write plain php code inside of directive @php ... @endphp 
+
+8. Component
+	=> Component are a resuable group of elements
+	=> thats usefull whenever we are developing an large application
+	=> Components are two type 
+
+	8.1 Class Based Component : 
+		=> create component : php artisan make:component Component_name // for subdirectory php artisan make:component DirectoryName/Component_name
+		=> Generated component will place in path : App\View\Component Directory 
+		=> Also generated component  in path resources/views/components directory 
+
+		i.  Rendering/Display Component : display component name will be by the kebab-case name of the component class
+		 	Example : <x-component-name/>, <x-user-profile/>
+			 => for subdirectory used : <x-subdirectory.component-name/>, <x-include.user-profile />
+			 => Pass data to component : <x-card-title='card-Title' :description=$phpVariableName /> 
+			 
+
+	8.2 Anonymous Component :
