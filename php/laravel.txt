@@ -48,6 +48,15 @@
 		v. Route Methods : Route::get/post/put/patch/delete/options('URI', Callback)
 			=> Multiple method  Route:match(['get','post'], '/', function(){});
 			=> Route:any('/', function(){}) // redirect to this route if, no route found
+	4.5 Named Route : specificing to any route name and you can use thats named route for redirecting urls
+		=> Routes named should be unique.
+		=> Routes : Route::get('about',[])->name('routerName')
+			Route::get('about',function(){return view('viewName')})->name('routerName')	 
+		=> Using Named Route : route('routName'), redirect()->route('routeName')
+		=> Define in view file :  <a href="{{route('home')}}"> Home </a>
+		=> parameter : <a href="{{route('home', ['category']=>"mobile")}}"> Home </a>
+		=> Routing third parameter is query string ?cat=3
+		
 5. View : here you can write all HTML/PHP code and views are stored in the resources/views directory
 	Example  1. : 
 		* Creating View : resources/views/fileName.balde.php : <html> ... </html>		
@@ -148,4 +157,100 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 			 => Pass data to component : <x-card-title='card-Title' :description=$phpVariableName /> 
 			 
 
-	8.2 Anonymous Component :
+	8.2 Anonymous Component : utilize a single view file as component and have no associated class.
+	=> To Define an anonymous component : resources/views/components/componentName.blade.php
+		<h1> {{$title}}</h1>
+	=> Rendering/Display component : <x-componnetName title="card-title"/>
+
+	8.3 Slot : pass additional content or data to your #componnet via "slots", thats rendering by echo $slot or {{$slot}} variable
+		=> Define Slot : <x-alert> <span> Hello World </span> </x-alert> 
+		=> Using Slot Inside of Component : <h1> Alert Component </h1> {{$slot}}
+
+		8.9.1 Named Slot		
+		=> Define Slot : 
+			<x-alert> 
+				<x-slot name="title"> <span> Hello World </span> </x-slot> 
+				<span> Hello Slot</span>
+			</x-alert> 
+		=> Using Slot Inside of Component : <h1> {{$title}} </h1> <h2>Alert Componnet </h3> {{$slot}}
+		
+
+		Note: Any content not within an explicit x-slot tag will be passed to the component in the $slot Variable.
+9. Layout 
+	=> Reduce the code 
+	=> helps to manage the code in more effcient way
+	=> easiest change content
+	=> create layout componnet : resources/views/components/LayoutComponentName.blade.php
+	=> We can create layout in two way : i. component ii. template inheritance
+
+	9.1 Using Component 
+		=> resources/views/components/LayoutComponentName.blade.php
+		<html> <title> {{$title}} </title> <body> {{$slot}} </body> </html>
+		
+		1. using created layout : resources/views/home.blade.php
+		<x-LayoutComponentName> 
+			<x-slot name="title"> <h3> Home </h3> </x-slot> 	
+			<h1> This is home Page </h1>
+		</x-LayoutComponentName>
+ 
+		2. using created layout : resources/views/about.blade.php
+		<x-LayoutComponentName> 
+			<x-slot name="title"> <h3> contact </h3> </x-slot> 	
+			<h1> This is contact Page </h1>
+		</x-LayoutComponentName> 
+
+	9.2 Template Inheritance
+		
+		9.2.1 Defining Layout : resources/views/folderName/layoutName.blade.php
+		=> @section directive, is define a section of content 
+		=> @yield directive is used to display the content of a given section 
+			- $yield accpet deafult value as second parameter, if section yield undefined second parameter, its also render/display
+			<html...> @yield('page-name') // display the content
+				@section("default-content") <h4> Default section showing </h4> @show // showing every page whereas extend this layout page
+			</html...>				
+		9.2.2 Extend the layout : resources/views/home.blade.php
+			@extends('folderName.layoutName') // define layout location
+			@section ("page-name","Home Page") 
+			@section ("page-name") <h1> Home Page </h1> @endsection
+			@section('default-content') 
+				@parent   // showing default content with above said h4 element
+				<h2> Another contnet </h3>
+			@endsection // must be use @show directive in define component
+
+			@section('default-content') now overwirte above said content... and only only render/display below contents, 
+				<h2> Another contnet </h3> 
+			@endsection // must be use @show directive in define component
+
+10. Adding Assets like css and js
+	10.1 First Method used only without complied: 
+		=> public/yourFolderAssetsName or file name
+		=> <link rel="stylesheet" href="{{assets('folderName/fileName')}}"> or {{url('css/style.css')}} // url will be display with domain name https://27.0.1.1/css/style.css
+
+	10.1 Second Method used only for complied or minified css or js file etc.
+		i. install laravel mix using npm - laravel already add dependency in package.json file, just run command npm install, it will install laravel mix.
+		ii. create css and js file inside of resources/css and resources/js folder respectively
+		iii. Open webpack.mix.js file and metioned  css and js file, later will processed.
+			Example : mix.js('resources/js/file.js', public/js)
+					postCss('resources/css/file.css', public/css)
+		iv. open package.json file you will see some command while used that command complied the css and js file etc.
+			=> npm run dev : this command will mix all of your css and js file complied and place  in  your public directory (Non-minified code)
+			=> npm run prod : like npm run dev functions, but its (minified code)
+			=> npm run watch : like npm run dev/prod funtions, but its will be automatically in changing in public folder while changed in resource/css and js file.
+
+11. Adding Boostrap 
+	i. install laravel mix using npm - laravel already add dependency in package.json file, just run command npm install, it will install laravel mix.
+	ii. npm install --save-dev boostrap@next and npm install --save-dev@popper/core
+	iii. resource/folderName/app.scss  write : @import ~bootstrap/scss/bootstrap
+	iii. resource/folderName/app.js   write : import('boostrap') 
+	iii. Open webpack.mix.js file and metioned  css later will processed.
+		Example : .scss('resources/js/file.scss', public/css)
+		.postCss('resources/css/file.css', public/css)
+	iv. open package.json file you will see some command while used that command complied the css and js file etc.
+		=> npm run dev : this command will mix all of your css complied and place  in  your public directory (Non-minified code)
+		=> npm run prod : like npm run dev functions, but its (minified code)
+		=> npm run watch : like npm run dev/prod funtions, but its will be automatically in changing in public folder while changed in resource/css file.
+
+	
+
+	
+ 				
