@@ -25,4 +25,232 @@
     vendor - The vendor directory contains your Composer dependencies.
 
     Note : You will learn all directries by learning larvael 
-4.
+4. Routing : All Laravel routing defined in routes/web.php 
+	Syntax : Route::get('URI', Closure/Callback);
+	Example : Route::get('about', function(){return "Hello World"});
+	4.1 Routing Returning String
+		Route::get('about', function(){return "Hello World"});
+	4.2 Routes Parameter : capture segments the id or string from url within 
+		Example : Route::get('about/{u_id}', function($id){return $id});
+		=> Multiple Route Parameter : Route::get('about/{post_id}/comment/{comment_id}',function($postid, $cmtid){return $id});
+
+	4.3 Optional Routes Parameter : We can make optinal parameter in routes 
+		Example : Route::get('student/{name?}', function($name='DefaultName'){return $name}); // if parameter not defined then, deafulat name will be printed , 
+	4.4  Routes Parameter and Regular Expression
+		Route::get('student/{name}', function($name_p='DefaultName'){return $name_p})->where('name', '[A-Za-z]+');  // accpet only string alpha parameter3 
+		i.   Multiple regular expression in parameter 
+				Route::get('manager/{id}/{name}',function($_id, $_name){ return $_id . $_name})->where(['id'=>'[0-9]+', 'name'=>'[a-z]+']);
+		ii. Regular expression with helper method 
+			Route::get('manager/{id}/{name}',function($_id, $_name){ return $_id . $_name})->whereUuid('id'); or  for string : ->whereAlpha('name'); 
+		iii. Route:redirect('/fromRouteName', 'toRouteName');  or Route:permanentRedirect('/fromRouteName', 'toRouteName')// third parameter is optional , you can use http status code 
+		iv. Fallback Routes : if no any routes request match, then fallback routes execute, you have to define this routes last  of routes register
+				Route::fallback(function(){})
+		v. Route Methods : Route::get/post/put/patch/delete/options('URI', Callback)
+			=> Multiple method  Route:match(['get','post'], '/', function(){});
+			=> Route:any('/', function(){}) // redirect to this route if, no route found
+	4.5 Named Route : specificing to any route name and you can use thats named route for redirecting urls
+		=> Routes named should be unique.
+		=> Routes : Route::get('about',[])->name('routerName')
+			Route::get('about',function(){return view('viewName')})->name('routerName')	 
+		=> Using Named Route : route('routName'), redirect()->route('routeName')
+		=> Define in view file :  <a href="{{route('home')}}"> Home </a>
+		=> parameter : <a href="{{route('home', ['category']=>"mobile")}}"> Home </a>
+		=> Routing third parameter is query string ?cat=3
+		
+5. View : here you can write all HTML/PHP code and views are stored in the resources/views directory
+	Example  1. : 
+		* Creating View : resources/views/fileName.balde.php : <html> ... </html>		
+		* Route for  View : 
+		 Route::get('about',function(){return view('fileName')}) 
+		 Route::view('about','fileName');// only for return view
+
+	Example  2 : if view inside of folder 
+		* Creating View : resources/views/admin/fileName.balde.php : <html> ... </html>		
+		* Route for  View : 
+		 Route::get('about',function(){return view('admin.fileName')}) 
+		 Route::view('about','admin.fileName');// only for return view
+
+	Example  3 : Passing Data From route to view 
+	  	view('viewFileName', ['variableName'=>'Soname'])
+		*Access data in view file </h1> Hello   {{$variableName}} </h1>
+
+6. Controller  : this is group related request handling logic into a single class
+	=> Create Controller command : php artisan make:controller ControllerName
+	=> fill be created directory : app/Http/Controllers/ControllerName
+	=> Now you can define method inside of controllers file
+
+	6.1 Route for Controllers
+		=> include routes/web.php : use App\Http\Controllers\ControllerName;
+		=> define routes : Route::get('about',[ControllerName::class,'methodName']);
+
+	6.2 Getting Parameters in controller 
+		routes/web.php => Route::get('about/{name}',[ControllerName::class,'methodName'])
+		ControllerName.php => inside of class controller : function methodName($name1){ return "hello " . $name1;}
+
+	6.3 Return view from Controller
+		ControllerName.php => inside of class controller : function methodName(){ return view('viewfileName')};
+
+	6.4 Passing Data to view : like para 5 of Example 3
+	6.5 Multiple method inside of controller 
+		Route::get('aboutMe',[ControllerName::class,'methodName'])
+		Route::get('aboutYou',[ControllerName::class,'methodName2'])
+	
+	6.6 Single Controller : if you would like to define single controller that only hanlde a single action
+		=> php artisan make:controller ControllerName --invokable // generate file for single action controller
+		=> Route::get('about',ControllerName::class) // here no need to define method name because calling only single method/action
+
+Note : Now the Laravel Framework processing :  Route=>controller=>view
+
+7. blade 
+	=> blade is powerfull templating engine
+	=> You can write also plain php code in blade file
+	=> filename.balde.php, before after file name, we used .blade.php, which is stored in resources/views/
+	=> Our laravel file view is blade file
+	=> pass data to blade inside curly brace {{$variableName}}
+	
+	7.1 calling function : you can call any php functino inside of curly brace {{time()}}
+	7.2 Comment : {{-- This comment will not be present in the rendered(browser) HTML --}}
+	7.3  Directives 
+		7.3.1 conditional Directives
+			=> @if(condition) .... @endif
+			=> @if(condition) .... @else @endif
+			=> @if(condition) .... @elseif(condition) @else @endif
+			=> @unless(condition) @endunless
+			=> @isset(var) ...  @endisset // check value exist or not
+			=> @empty(var) ... @endempty // check data empty or not 
+
+		7.3.2 Authentication Directives
+			=> @auth('admin') ... @endauth // check user is Authenticated or not
+			=> @guest ... @endguest // check if user guest
+
+		7.3.3 Environment Directives 
+			=> @production ...  @endproduction // on production specific contents
+			=> @env('env_name')  ... @endenv or @env(['env1', 'env2']) // applicaton is running env_name
+
+		7.3.4 Switch Directives
+				@switch(expression) @case ... @break @case(expressoin2) ... @break  @default ... @endswitch
+
+		7.3.5 Include Directives  : blade @include directives allow you to include a blade view from within another view
+				i. @include('view_name')
+				ii. @inlcude('view_name',array) // you can pass data using array to included blade view
+				iii. @includeif('view_name', array) // include if file exist
+				iv. @inlcudeWhen($boolean, 'view_name', array) // inlcude file base of true or false, third parameter is optional
+				v. @inlcudeUnless($boolean, 'view_name', array) // inlcude file base of true or false, third parameter is optional
+				vi. @each('view_name', array, 'stu')  like foreach function with include 
+				vii. @once <script src=''> </script> @endonce // render only once 
+
+		7.3.6 Write plain php code inside of directive @php ... @endphp 
+
+8. Component
+	=> Component are a resuable group of elements
+	=> thats usefull whenever we are developing an large application
+	=> Components are two type 
+
+	8.1 Class Based Component : 
+		=> create component : php artisan make:component Component_name // for subdirectory php artisan make:component DirectoryName/Component_name
+		=> Generated component will place in path : App\View\Component Directory 
+		=> Also generated component  in path resources/views/components directory 
+
+		i.  Rendering/Display Component : display component name will be by the kebab-case name of the component class
+		 	Example : <x-component-name/>, <x-user-profile/>
+			 => for subdirectory used : <x-subdirectory.component-name/>, <x-include.user-profile />
+			 => Pass data to component : <x-card-title='card-Title' :description=$phpVariableName /> 
+			 
+
+	8.2 Anonymous Component : utilize a single view file as component and have no associated class.
+	=> To Define an anonymous component : resources/views/components/componentName.blade.php
+		<h1> {{$title}}</h1>
+	=> Rendering/Display component : <x-componnetName title="card-title"/>
+
+	8.3 Slot : pass additional content or data to your #componnet via "slots", thats rendering by echo $slot or {{$slot}} variable
+		=> Define Slot : <x-alert> <span> Hello World </span> </x-alert> 
+		=> Using Slot Inside of Component : <h1> Alert Component </h1> {{$slot}}
+
+		8.9.1 Named Slot		
+		=> Define Slot : 
+			<x-alert> 
+				<x-slot name="title"> <span> Hello World </span> </x-slot> 
+				<span> Hello Slot</span>
+			</x-alert> 
+		=> Using Slot Inside of Component : <h1> {{$title}} </h1> <h2>Alert Componnet </h3> {{$slot}}
+		
+
+		Note: Any content not within an explicit x-slot tag will be passed to the component in the $slot Variable.
+9. Layout 
+	=> Reduce the code 
+	=> helps to manage the code in more effcient way
+	=> easiest change content
+	=> create layout componnet : resources/views/components/LayoutComponentName.blade.php
+	=> We can create layout in two way : i. component ii. template inheritance
+
+	9.1 Using Component 
+		=> resources/views/components/LayoutComponentName.blade.php
+		<html> <title> {{$title}} </title> <body> {{$slot}} </body> </html>
+		
+		1. using created layout : resources/views/home.blade.php
+		<x-LayoutComponentName> 
+			<x-slot name="title"> <h3> Home </h3> </x-slot> 	
+			<h1> This is home Page </h1>
+		</x-LayoutComponentName>
+ 
+		2. using created layout : resources/views/about.blade.php
+		<x-LayoutComponentName> 
+			<x-slot name="title"> <h3> contact </h3> </x-slot> 	
+			<h1> This is contact Page </h1>
+		</x-LayoutComponentName> 
+
+	9.2 Template Inheritance
+		
+		9.2.1 Defining Layout : resources/views/folderName/layoutName.blade.php
+		=> @section directive, is define a section of content 
+		=> @yield directive is used to display the content of a given section 
+			- $yield accpet deafult value as second parameter, if section yield undefined second parameter, its also render/display
+			<html...> @yield('page-name') // display the content
+				@section("default-content") <h4> Default section showing </h4> @show // showing every page whereas extend this layout page
+			</html...>				
+		9.2.2 Extend the layout : resources/views/home.blade.php
+			@extends('folderName.layoutName') // define layout location
+			@section ("page-name","Home Page") 
+			@section ("page-name") <h1> Home Page </h1> @endsection
+			@section('default-content') 
+				@parent   // showing default content with above said h4 element
+				<h2> Another contnet </h3>
+			@endsection // must be use @show directive in define component
+
+			@section('default-content') now overwirte above said content... and only only render/display below contents, 
+				<h2> Another contnet </h3> 
+			@endsection // must be use @show directive in define component
+
+10. Adding Assets like css and js
+	10.1 First Method used only without complied: 
+		=> public/yourFolderAssetsName or file name
+		=> <link rel="stylesheet" href="{{assets('folderName/fileName')}}"> or {{url('css/style.css')}} // url will be display with domain name https://27.0.1.1/css/style.css
+
+	10.1 Second Method used only for complied or minified css or js file etc.
+		i. install laravel mix using npm - laravel already add dependency in package.json file, just run command npm install, it will install laravel mix.
+		ii. create css and js file inside of resources/css and resources/js folder respectively
+		iii. Open webpack.mix.js file and metioned  css and js file, later will processed.
+			Example : mix.js('resources/js/file.js', public/js)
+					postCss('resources/css/file.css', public/css)
+		iv. open package.json file you will see some command while used that command complied the css and js file etc.
+			=> npm run dev : this command will mix all of your css and js file complied and place  in  your public directory (Non-minified code)
+			=> npm run prod : like npm run dev functions, but its (minified code)
+			=> npm run watch : like npm run dev/prod funtions, but its will be automatically in changing in public folder while changed in resource/css and js file.
+
+11. Adding Boostrap 
+	i. install laravel mix using npm - laravel already add dependency in package.json file, just run command npm install, it will install laravel mix.
+	ii. npm install --save-dev boostrap@next and npm install --save-dev@popper/core
+	iii. resource/folderName/app.scss  write : @import ~bootstrap/scss/bootstrap
+	iii. resource/folderName/app.js   write : import('boostrap') 
+	iii. Open webpack.mix.js file and metioned  css later will processed.
+		Example : .scss('resources/js/file.scss', public/css)
+		.postCss('resources/css/file.css', public/css)
+	iv. open package.json file you will see some command while used that command complied the css and js file etc.
+		=> npm run dev : this command will mix all of your css complied and place  in  your public directory (Non-minified code)
+		=> npm run prod : like npm run dev functions, but its (minified code)
+		=> npm run watch : like npm run dev/prod funtions, but its will be automatically in changing in public folder while changed in resource/css file.
+
+	
+
+	
+ 				
