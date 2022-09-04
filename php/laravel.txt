@@ -4,7 +4,7 @@
     => laravel save your times because some of tool laravel develop like, authentication, template engine etc.
 
 2. Installation :
-    2.1 Way On :
+    2.1 Way One :
         i. composer global require laravel/installer   : this command will be install laravel on your system thereafter you can create new laravel project 
         ii. laravel new ProjectName : this is command will create new project of laravel
         Note : You do not need to run i. first command
@@ -12,6 +12,11 @@
 
     2.2 Way Two : 
         i. composer create-project --prefer-dist laravel/laravel/ ProjectName 
+		=> install old version : composer create-project laravel/laravel:^8.0 example
+			Error : [InvalidArgumentException] Could not find package laravel/laravel with version 8.0 in a version installable using your PHP version, PHP extens ions and Composer version.
+			try this command : composer create-project laravel/laravel:^8.0 example --ignore-platform-reqs 
+
+ 
 
 3. Directory Structure : 
     app - core code of your application.
@@ -250,7 +255,503 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 		=> npm run prod : like npm run dev functions, but its (minified code)
 		=> npm run watch : like npm run dev/prod funtions, but its will be automatically in changing in public folder while changed in resource/css file.
 
+12. Middleware 
+	=> inspecting and filtering HTTP request entering your application
+	=> All of these created middleware are located : app/Http/Middleware/	
+	=> Generate Middleware Command : php artisan make:middleware Middleware Name
+	=>  every middleware must be register at : app/Http/Kernal.php
+
+	12.1 Global Middleware : 
+		=> if you want to denied your request to every HTTP request( Every Page of Web Application). 
+		=> show an custom page like this website is underconstruction
+		Example :  
+			i. generate an global middleware
+			ii. add code in method line 18 :
+				  public function handle (){ 
+					throw new HttpException(503) // add to top :  use Symfony\Component\HttpKernel\Exception\HttpException;
+				  }
+			ii. registered thats created global middleware in this line 16 array protected : app/Http/Kernal.php
+				\App\Http\Middleware\UnderConstruction::class,
+		=> Now You whenever you visit any web page, its showing error 503 ...
+		=> You can also created custom error page at : resources/views/errors inside of error folder
+		=> Name the file 503.blade.php, add code <h1> Site is under construction</h1>  !Done
+
+		12.2.2 Customize Laravel Design Page Errors 
+			i. php artisan vendor:publish --tag=laravel-errors 
+			ii. go to : resources/views you will see there is errors folder
+			iii. Now You can customize thats 503 error page and other errors page.
+
+	12.2 Route Middleware  
+		=>  you can assign specific web page underconstruction or 
+		=> Assign middleware specific routes too.
+		i. create middleware
+		ii. register created middleware at line around 56. protected array $routeMiddleware[]
+			"middlewareKeyName"=>\App\Http\Middleware\MiddlewareName::class,
+		iii. Assinging Middleware to specific Routes :
+			 	Route::get('/profile', [])->middleware('middlewareKeyName')
+			 => Multiple Middleware Assign  
+			 	Route::get('/profile', [])->middleware(['middlewareKeyName1', 'middlewareKeyName2'])
+		=> Now you can customize  those errors page describe at 12.2.2 Customize Laravel Desing Page Errors	
+
+	12.3 Group Middleware :
+		=> Assign Multiple Middleware with single key to routes 
+		i. create middleware
+		ii. register thats middleware at line around 32 protected $middlewareGroups[] array
+			"MiddlewareKeyName"=>['\App\Http\Middleware\MiddlewareName1::class','\App\Http\Middleware\MiddlewareName2::class']
+		iii.Assinging Middleware to specific Routes :
+			 	Route::get('/profile', [])->middleware('middlewareKeyName')
+
+	=> You can assign middleware Multiple routes : 
+		Route:middleware(['middlewareKeyName'])->group(function(){
+			routes:get();
+			reutes:get();
+		})
+
+	=> Inside of created middleware public handle method(){} information 
+		i. dd($request->user) // return query string 
+		ii. Pass extra data through middleware routes : 
+			Routes Page : route:get()->middleware('role:admin');
+			Created Middleware Page : pass third parameter, you can get "admin" string in middleware page   
+			public function handle(Request $request, Closure $next, $role){
+				if($role=="guest"){
+					return redirect('/');
+				}
+				return $next($request);
+			} 
+		iii. checkout : dd($next) or dd($request)
+
+13. Form Management : 
+	=> u can create form with csrf at location : resource/view/filename.blade.php
+		<form>  @csrf </form>
+	=> csrf (Cross-site request fo forgeries) : its proctect from unauthorized access or command line
+	=> You may use the @csrf blade directive to generate the hidden token input field. 
+
+	13.1 Accessing Form Data : App\Http\Controller\ControllerName
+		i. create form method post with csrf at location : resource/view/signup.blade.php
+		ii. php artisan make:Controller SignUpController
+			function showform(...){ return view("signup")}
+			function signup(...){return view('signup')}
+		ii. routes/web.php :
+			=> import :  use App\Http\Controllers\ControllerName;
+			=>  Route::get('signup',[SignUpController::class,'showForm']);
+			=>  Route::post('signup',[SignUpController::class,'signup']); 
+		iii. Thereafter lets access form data in controler 
+			function signup(Request $request){
+					dd($request); // return all requests are comming with form data and might be query string url
+					$request->all() // return form data
+					$request->input() // return form data
+					$request->input('email') or $request->email // return single input form data
+					return view('signup')
+				}
+			=> $request->has('email') or $request->has(['email','name']) return true if data is nullable
+			=> if($request->hasAny(['email','name'])){ 
+				$name = $request->input('name')
+				} // return true if data is not null both of them
+			=>if($request->filled(['email','name'])){} // return true if both input filed are exits 
+			=>if($request->missing(['email','name'])){} // true : if filed input is not exits
+			=> $request->whenHas("email", function($input){}) // check input email exits or not
+			=> $request->whenFilled("email", function($input){}) // check input email is nullable or not
+			=> Flash Data : after submit form,, access submitted data one session only
+				$request->flash();
+				$name = $request->old("name);// accessing old data
+				
+				$request->flashOnly(['name','email']); // flash specific input filed
+				$request->flashExcept('password'); // 
+				
+				Note : flash data show in view file
+				return redirect("oldata")->withInput();
+				return redirect()->route('routeName')->withInput();
+				return redirect('oldata')->withInput($request->except('password'));
+
+				<input... value="{{old("name")}}}"/>
+
+	13.2 Validation Form : 
+		=> Validate the application incoming data form all HTTP Request
+		=> if validation rules not pass, your code will stop excutable and return to the user previous url with proper error message response 
+
+		=> Validation Rules : 
+			i. accepted : under validation must be "yes", "on", 1, or ture. This is usefull for validating Terms and Service acceptance or similer fields.
+			ii. alpha :  All letters must be  alphabetic character
+			iii. alpha_dash : Letters must be alpha numeric with dashes and underscores
+			iv. alpha_num : All characters must be Numberic. 
+			v. array : PHP Array
+			vi. boolean : input field must be as  true,  false, 1, 0, "0", "1" 
+			vii. confirmed : matching the another input field, like password input, must be same as confirm password input
+			viii. date : srtotime php function date
+			ix. digits:value : only numeric with length
+			x. email : email formating with @
+			xi. file : must be under successfully uploaded file 
+			xii. filled : input data must exist.
+			xiii. image : file must be an image (jpg, jpeg, png, bmp, gif, svg or webp)
+			xiv. integer : the field msut be an integer.
+			xv. max, min, numeric, requird
+			xvi. nullable : field must be null
+			xvii. password : must match authenticated user's password
+			xviii. string, url
+			xix. unique:table, column, excpet, idColumn - the input field must be not exist within the given database table 
+
+		13.2.1 Validate Method :
+			App\Http\Controllers\ControllerName.php
+			=> Single Rules : public function sign(...){ 
+									$request->validate(["email"=>required, "password"=>"required"])}	
+			=> Multiple Rules as array 
+				1. $request->validate(["email"=>['required','min:20'], "password"=>"required"])
+				2. $request->validate(["email"=>'required|min:20', "password"=>"required"])
+			=> Send data to view
+				return view("viewName", $data=>$oldData)
+				view file : 
+				@if (isset($data)) @foreach($data as $item) {{$item}} @endforeach @endif
+
+			13.2.2.1 Displaying Validation Errors
+				=> An $errors variable alwayas be avaible in your view file, YOu have to just echoing.. :) {{$errors}}
+				=> View FIle : 
+					i. Retrieving All Error message for all fields :
+							@if ($errors->any()) @foreach($errors->all as $message) {{$message}} @endforeach @endif
+					ii. Retrieving All Error message for a field
+						foreach($errors->get("inputName") as $message){}
+					iii. Retrieving the first  Error message for a field
+						Controller : 	$errors = $validator->errors();
+										echo $errors->first('email');
+						View File : @if ($errors->any()) {{$errors->first('inputName')}} @endif //$errors->any() : check if any error exits or not
+					iv. @if($errors->has("inputName")) @endif : return true if errors exist.
+				
+				===> Error Directive
+					=> you can use the @error blade directive to quickly determinte if validation error message exist for a given attribute
+					=> if those attribute have error, you can display by using echoing $message within @error directive
+					Example : <input type="email" name="email" id="email">
+								@error("email") {{$message}} @enderror 
+					
+					i. Modify Default Error Message 
+						=> you can customize the Laravel built-in validation rules each an error message at location : resources/lang/en/validation.php file.
+					ii. Custom Message for specific attribute (attribute <input name="email">)
+						=> customize at line 132 custom associated array : resources/lang/en/validation.php file.
+							Example : 'custom' => [ 'email' => [
+														'required' => 'We need to know your email address',
+														'max' => 'Your email address is to long'
+														],],
+					iii. customize :attribute Placeholder 
+						=> customize at line around 150 'attribute' associated array : resources/lang/en/validation.php file.
+						Example: 'attributes' => ["email"=>"email address", "password"=>"best password"],
+
+		13.2.2 Form Request Validation		
+			=> generate sperately form validation request  : php artisan make:request RegistrationRequest
+			=> The form request class will be placed in the app/Http/Requests directory.
+			=> There have two method :
+
+				i. authorize() : this  method will be determine if the user currently authenticated user then perform the validation rules
+					public function authorize(){return false} // if this false, unauthorized user can perform validation perform
+
+				ii. rules() : this method is return validation rules that should apply to the request's data.
+				public function rules(){
+						return ['name'=>"required","email"=>"required|MIN:10","password"=>"required"];}
+			
+			Directory : app/Http/Requests\RegistrationRequest
+			13.2.1 Customizing the error messages
+				public function messages(){
+						return ['name.required'=>"Please enter the name"];}
+			13.2.2. Customizing the validation attributes
+				public function attributes(){
+						return ['email'=>"email address"];}
+			Example : for validation form you have to import RegistrationRequest in controller file 
+					 use App\Http\Request\RegistrationRequest;
+
+					 function signup(RegistrationRequest $request){ 
+						$request->validated(); 
+						return view('signup')}
+			Note : check validation ... if error return the user page with errors, thereafter you can display errors via 13.2.2.1 Displaying Validation Errors 
+
+14.  Database configuration
+	=> Laravel's database services connection information is located in config/database.php 
+	=> Most of the configuratin option in Environment variables.
+	=> Running SQL Queries by using DB Facade provides methods for each of type query  : select, update, insert, delete and statement
+	=> to use DB Facade method import to controller or whereas you call ing database : use Illuminate\Support\Facades\DB;
+				
+	14.1 SQL Query 
+		i. select("sql query", [parameterOptional]); : return alwayas array of result;
+			=> first paramete is sql query and second is binding any parameter binding or where clause constraints
+			=> $datas =  DB::select("select * from student") or DB::select("select * from student where id=?",[1])
+				or DB::select("select * from student where id=:id",["id"=>1]); 
+			=> view file : @foreach ($datas as $data) {{$data->id}} @endforeach
+
+		ii. insert("sql query",[parameterOptional]) 
+			Example : insert("insert into student(name, city) value (?,?),['jack',"delhi']") 
+					or insert("insert into student(name, city) value (:name,:city),['name'=>'jack','city'=>'delhi']") 
+		
+		iii. update("sql query", [parameter]) : return number of rows affected by the statement is returned by the method
+			Example : update("update student set city =:city where id=:id", ['city'=>'delhi','id'=>5]) 
+					or update("update student set city =? where id=?", ['delhi',5]) 
+		iv. delete("sql query", [parameter]) : return number of rows affected by the statement 
+			Example : delete("delete from student where id=?", [2]);
+		v. unprepared statement : run the sql query without binding the any values 
+			Example : unprepared("delete from student where id = 2");
+					 or unprepared("update  student set city=dhanbad where id = 2");
+			Note : its not secured, laravel developer does not recommend to use this method.
+		
+		vi. Database Transactions : run the set of sql query operation within database transaction function closure, if any operation will be failed, rollback the automatically and thrown an errors.
+			Example : DB:transaction(function(){
+				update("update student set city =:city where id=:id", ['city'=>'delhi','id'=>5]) 
+				insert("insert into student(name, city) value (?,?),['jack',"delhi']") 
+			});
+
+		14.2 Query Builder : Laravel's database providing the fluent interface to creating and running database queries.
+			=> Its protected your application against SQL Injection attacks because its used behind the PDO Parameter binding operation
+			=> There is no need to clean or sanitize strings to passed as query binding
+			i. Retrieving all rows from table 
+				Example : $students = DB:table('student')->get();
+
+			ii. Retrieving single row/column from a table by using find() Method.
+				Example : $students = DB:table('student')->find(5);
+						$students = DB:table('student')->first();
+						$students = DB:table('student')->where('city', 'bokaro')->first();
+						$students = DB:table('student')->where('city', 'bokaro')->value('name') // not sure, please check..
+
+
+			iii. Retrieving a list of column values
+'				Example : $students = DB:table('student')->pluck('column_studnet_name', 'AnotherColumn_name_marks'); // return the value of with associated array,  array(["sonam"=>60, "rahul"=>10])
+'							$students = DB:table('student')->pluck('column_studnet_name'); // return only studet colun name valuie...
+
+			iv. Chucking Result : its retrieving data first specific number, then specific number,
+				=> its helpful whenever database have lots of million data..
+				DB::table('studnet')->orderBy('id')->chuck(3, function($students){  
+					echo "check of data <br>";
+					foreach($students as $stu){
+						echo $stu->name;
+						echo "<br>";
+					}
+				}); 
+				data will gets from database 3 by 3..
+			
+			v. Determine if record exist or not
+				Example : 
+					if(DB::table('student')->where('id','2')->exists)){ dd('yes')} // return true if exist
+					if(DB::table('student')->where('id','2')->doesnExist)){ dd('no')} // return true if data not exist
+			
+			vi. distinct method : return only different value,, excpet the duplicate values. 
+				Example : $student = DB:table('student')->distnict()->get();
+					dd($student);
+			
+			vii. where clause : 
+				Example : DB:table('student')->where('id',4)->get(); 
+						  DB:table('student')->where('id','=',4)->get();
+						  DB:table('student')->where('id','>',4)->get(); // return data which is greater then 4 id
+						  DB:table('student')->where('name','like', '%s')->get(); // return only with start with -> s
+						-> orWhere
+						  DB:table('student')->where('id','=',4)->orWhere('name','==','sonam')->get();	 // return only thats data where are id equal to 4, and name = Soname
+						-> whereBetween
+						  DB:table('student')->whereBetween('markscolumnName',[10,50])->get(); // return marks data which is 10 to 50
+						-> orWhereBetween
+						DB:table('student')->whereBetween('markscolumnName',[10,50])->orWhereBetween('id',[2,5])->get(); // return marks data which is 10 to 50 which is id 2 to 5
+						-> whereDate
+						DB:table('student')->whereDate('pass_datea','2021-03-30')->get();
+						-> whereMonth
+						DB:table('student')->whereMonth('pass_datea','03')->get();
+						-> whereYear
+						DB:table('student')->whereYear('pass_datea','2021')->get();
+						-> whereDay
+						DB:table('student')->whereDay('pass_datea','30')->get();
+			
+			viii. orderBy 
+				Example : DB:table('student')->orderBy('marks','asc')->get();
+						 or DB:table('student')->orderBy('id','desc')->get();
+			
+			viii. latest and oldest : get latest new data and oldest old data
+					Example : DB:table('student')->latest('pass_date')->first();
+							DB:table('student')->oldest('pass_date')->first();
+
+			ix. inRandomOrder : get random data by primary key, its every time chagned while refresh
+				Example :  DB:table('student')->inRandomOrder()->first(); 
+							or DB:table('student')->inRandomOrder(); 
+			
+			ix. GroupBy and having 
+				Example :  DB:table('student')->groupBy("marks")->having("marks",">",50)->get(); 
+			
+			ix. take and skip and limit 
+				Example :DB:table('student')->take(5)->get() 
+						or DB:table('studen(t')->limit(5)->get(); // get first five datas 
+
+						DB:table('student')->skip(3)->take(5)->get(); 
+						DB:table('student')->offset(3)->limit(5)->get();// return first skip 3 data and thereafter 5 get data
+						 
+			x. insert Data : 
+				Example : DB:table('student')->insert(["name"=>'jack', 'email'=>'email@gmail.com'])
+						or DB:table('student')->insert([
+								["name"=>'jack', 'email'=>'email@gmail.com'], ["name"=>'jack', 'email'=>'email@gmail.com']
+							]),
+					-> insert or Ignore : if data already exist it will ignore, otherwise added, all column should be fill, because you are using strict mode true,, if this false, then you can leave column rest of column wil be input value 0000
+					DB:table('student')->insertOrIgnore(["id"=>10, "name"=>'jack'], ['email'=>'email@gmail.com'])
+
+					-> insertGetId : return last inserted id
+						$id = DB:table('student')->insertGetId(["name"=>'jack', 'email'=>'email@gmail.com'])
+
+			xi.update Data : its return affected rows number, its follow rules of insert data 
+				Example :  DB:table('student')->where('id','2')->update([
+					["name"=>'jack', 'email'=>'email@gmail.com'] ])
+
+				-> updateOrInsert // if data does not exist for update and it will insert...
+				DB:table('student')->updateOrInsert([ ["name"=>'jack', 'email'=>'email@gmail.com'],["name"=>'jack', 'email'=>'email@gmail.com'] ])
+			
+			xii. delete Data : 
+				 Example : DB:table('student')->where('id',15)->delete();
+				 
+				 	-> truncate Method : Delete All Table Data and its helpful for empty our table while our project is complete to host our application or website. 
+						DB:table('student')->truncate();
+
+		14.3 Pagniate Method : 
+			Example: $student = DB:table('student')->paginate(5); // get all student data and every page have 5 data.
+			i. Displaying Pagniation Results : 
+					@foreach ($students as $stu) 
+							{{$stu->name}} @endforeach
+				{{$student->links()}} // generated links for to rest of the page data
+			ii. Customizing Pagniation urls
+				-> Controller : 
+					$students = DB:table('student')->paginate(5);
+					$student->withPath('/cs/students')
+					return view ('student'. ['students'=>$students])
+				-> Route::get('/cs/students/', []);
+			
+			iii. Simple Paginate : its only "next" and "preview" for change page
+				Example : DB:table('student')->simplePaginate(5);
+				
+			14.3.1 Using bootstrap
+				=> Example : DB:table('student')->simplePaginate(5);
+				=> Open App\Providers\AppServiceProvider.php then write below code
+				=> import use Illuminate\Pagination\Paginator;
+					public function boot(){ Paginator::useBootstrap()}
+				=> Now Add Bootstrap in your view blade php file for use simple paginate
+
+			14.3.2 Customizing The Pagination View 
+				=> you can customize the pagination view via command
+				=> php artisan vendor:publish --tag=laravel-pagination
+				=> Now You have resource/views/vendor/pagination folder..and you can customize thats file for pagination.. :)
+				=> view file : {{$students->links('pagination:bootstrap-4')}}
+			
+			14.3.3. Paginator Methods : $students = DB:table('student')->paginate(5);
+				i. $students->lastPage(): get last page number, Not avaible in simplePaginate($num);
+				ii. $students->nextPageUrl() : get next page url
+				iii. $students->onFirstPage() : Determine if the paginator is onthe first page
+				iv. $students->perPage() : get Number of items showing in one page
+				v. $students->previousPageUrl() : back page url 
+				vi. $students->total() : Determine the total number of items in database record
+				vii. $students->url($page) : get url given the page number
+				viii. $students->getPageName(),  ix. setPageName($name) : set the page name
+				x. count() : get the number of items in current page, xi. currentPage() : return current page number 
+				xii. firstItem() : get the first item from the results data, xiii. getOptions() : get the paginator options 
+				xiv. getUrlRange($stat, $end) : create a range of pagination URLS, xv. hasPage() : Determine if there are enough items to split into multiple pages.
+				xvi. hasMorePage() : check more items in the data store xvii. items() : get the items from current page
+				xviii. lastItem() : return the number of last item from result,  
+
+15. Migrations :  
+	=> migration is  like version control for your database for create, update tables and manage  all database scheme columns etc.
+	=> Generate Migration : php artisan make:migration create_student_table and located at database/migrations 
+	=> migration file contains a timestammp, thats allow laravel to determine order of the migrations
+	=> open migrations file timestamp_student file, you will see there two method up and down
+		i. public function up(){} method :used to add new tables, columns or indexes to your database
+		ii. public function down(){} method : reverse the operation performed by the up method.
+
+	15.1 Command Line
+		i. php artisan make:migration create_student_table  // create a new table
+		ii. php artisan migrate : run all migrations file of up method 
+		iii. php artisan migrate:status  // check which migration is running
+		iv. php artisan migrate:rollback // rollback the last batch migration file of down method..
+		v. php artisan migrate:rollback --step=5 // rollback the last five batch migration file of down method..
+		vii. php artisan migrate:reset // rollback all of your applications migration file
+		viii. php artisan migrate:refresh // rollback and migrate all of your applications migration file, thats mean re-create entire database. (first up then down method)
+		ix. php artisan migrate:refresh --step=5 // rollback last 5 batch of your applications migration to down mehtod (first up then down method)
+		x. php artisan migrate:fresh // drop all tables and migrate the command i. php artisan migrate
+		xi. php artisan make:migration create_table_name --table = student // its create with schema;
 	
+	15.2 Creating Table  with column
+		=> up method of migration file function up(){
+		Scheme::create('table_name', function(Blueprint $table){ $table->id(), $table->string('name')}); }
+
+		=> Column Types
+			1. char() : $table->char('columName',100);
+			2.  increments() : $table->increments('column_name') // its primary key..
+			3. integer() : $table->integer('column_name')
+		Note : avaible columns type  checkout : https://laravel/docs/8.x/migration#availble-column-types
+
+	15.3 Dropping Table
+		php artisan make:migration dropping_student_table
+		Schema:dropIfExists('tableName');  or Schema:drop('tableName');// up method of migration file function
+		php artisan migrate
+
+	=> checking table or column existence : 
+		if(Schema::hasTable('tableName')){ // the student table exists}
+		if(Schema::hasColumn('tableName', 'column_name')){ // the student table exists and has an email column}
+		php artisan migrate
+	
+	15.4 Renaming Table
+		php artisan make:migrations rename_oldTableName_to_newTableName
+		Schema::rename('oldTableName', 'newTableName');
+		php artisan migrate
+	
+	15.5 drop Column
+		php artisan make:migrations dropping_student_table
+		Schema::table('tablename', functino(Blueprint table){
+			$table->dropColumn('ColumnName');
+		});'
+		php artisan migrate
+	
+	15.6. Column Modifiers : $table->string('ColumnName')-> below said method
+		i. default('nothing');
+		ii. useCurrentOnUpdate() : update on current timestamp while changing database
+		iii. use Current() : set current timestammp while insert data 
+		iv. after('column') : Place column after another column
+		v. autoIncrement() : set Integer coulmsn as auto-incrementing(primary key);
+		vi. chartset('utf8mb4') : specify a character set fo the column 
+		vii. commnet('my comment') : add comment to column
+		viii. default($value) : set the default value of an column
+		ix. first() : place the first column in the table
+		x. from($integer) : set the starting value of an auto incrementing (primary key);
+		xi. nullable($value=true) : Allow null values to be inserted into the column
+		
+		15.6.1 Modifying columns
+			=> composer require doctrine/dbal 
+			=> its helpfull for Modify columns strcuture types like : bigInteger, binary, boolean, date, dateTime, dateTimeTz, decimal, integer, json, longText, mediumText, smallIntger, string, text, time, unsginedBigInteger, unsignedInteger, uninsginedSmallInteger and uuid.
+			
+			i. Updating Column attributes
+				=> php artisan make:migration tableName_col_name --table=tableName
+				=> update method of migration file
+					Schema::table('student', function(Blueprint $table) { 
+						$table->string('name', 50)->change();
+					}); 
+					down method will its opposite.
+				=> php artisan migrate
+			ii. Rename columsns
+			=> php artisan make:migration oldcolName_to_newcolName --table=tableName
+				=> update method of migration file
+					Schema::table('tableName', function(Blueprint $table) { 
+						$table->rename('oldcolname', 'newcolname');
+					}); 
+					down method will its opposite.
+				=> php artisan migrate
+			
+			iii. createing Indexs. 
+				1. $table->primary('id') 2. $table->primary(['id', 'parent_id']); // add compsite key
+				3. $table->unique('email', ''unique_email');  // mean that different value in the table email column
+				4. $table->index('state') ;5. $table->spatialIndex('location');
+				Example : $table->string("email")->unique();
+						$table->index(['account_id', 'created_at']);
+				=> Drop Indexs
+				 1. $table->dropUnique(['unique_email']); 2. dropPrimary('user_id_primary') 3. dropIndex()
+		
+		iv. Foreign key Constraints
+			Schema::table('course', fucntion(Blueprint $table){
+					$table->unsginedBigInteger('stu_id');
+					$table->foreign("stu_id")->references)('id')->on("student")
+			});
+			=> $table->foreignId("stud_id")->constrained();
+			=> $table->foreignId("stud_id")->constrained('student');
+			=> $table->foreignId("stud_id")->constrained()->onUpdate('cascade')->onDelete('cascade');
+			
+			1. Dropping Foreign key	
+				=> drop foreign key by using name which is auto created by using tableName_columnName_foreign 
+				$table->dropForeign("tableName_columnName_foreign");
+				or $table->dropForeign(['column_name']);
+
+
 
 	
- 				
+
+
+
