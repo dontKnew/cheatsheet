@@ -1,5 +1,22 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+=> Environment variable
+You can use environment variable anywhere in the php script.
+	1. make file in the name of dot env or .env
+	2. now you can define any type of code  like variable
+	file : .env
+		APP_ENV=dev
+		DATABASE_DNS=mysql:host=localhost;dbname=test;
+		DATABASE_USER=root
+		DATABASE_PASSWORD=root
+	php file : index.php
+		require '.env';
+		echo getenv('APP_ENV');
+		echo getenv('DATABASE_DNS');
+
+
+
+
 ===> Basic PHP
 1. Remove tag from line : strip_tags('text with html tag', optional) optiona : enter html tag which you dont want to remove
 2.htmlspecialchars("I love <b> india </b>") //output : i love &lt;b&gt india &lt;/b&gt
