@@ -749,7 +749,147 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 				$table->dropForeign("tableName_columnName_foreign");
 				or $table->dropForeign(['column_name']);
 
+16. Seeding and Faker
+	16.1 Seeding
+		=> stored test data in seed classes in database/seeders directory.
+		=> By Default One Database Seeder class is already defined in database/seeders directory  for call new created seeders classes 
+		16.1 Seeding Commands
+			i. php artisan make:seeder ClassName // create new seeder 
+			ii. php artisan db:seed // its run method which is inside of Default DatabaseSeeder Class and can be execute multiple seeder classes like below 
+			iii. Calling Seeding : 
+				datbabase/seeders/DatabaseSeeder
+				public function run() { $this->call([NewSeederClass::class,NewSeederClass2::class,NewSeederClass2::class]) } 
+			iv. php artisan db:seed --class=StudentSeeder // call the only individual class and its will not run Deafulat Seeder Class
+			v.  php artisan migrate:fresh --seed // its drop all database table and re genenerate with seed
 
+		Example : i. php artisan make:seeder StudentSeeder
+			  ii. database/seeders/StudentSeeder.php 
+				=> import Illuminate\Support\Facades\Hash // use for hasing password
+				=> import Illuminate\Support\Facades\Str // use for generate random string
+				=> import Illuminate\Support\Facades\DB 
+				public function run() {  
+					foreach(range(1,10) as $value){
+						DB::table('student')->insert([ "name"=>Str::random(10), "email"=>Str::random(10),"password"=>Hash:make(Str::random(10)) ]) }
+					} 
+			  iii. php artisan db:seed --class=StudentSeeder 
+				or php artisan db:seed // if u use this command then you have to mentioned the StudentSeeder class inside of run method in  Default DatabaseSeeder Class
+				datbabase/seeders/DatabaseSeeder
+				public function run() { $this->call([NewSeederClass::class,NewSeederClass2::class,NewSeederClass2::class]) } 
+			iv. Now you have generated 10 user data record randomly in database :)
+			
+			16.1.1. Faker 
+			=> You can generate fake randomly username, email, password, text, title etc. by using faker pakcage
+			=>  install : composer require fakerphp/faker and documentation github.com/FakerPHP/Faker
+			=>  import use Faker/Factory as Faker;
+			Example  :
+				follow 16.1 and import use Faker/Factory as Faker;
+				$faker= Faker::create();
+				foreach(range (1,10), $value){ DB:table('student')->insert([ 
+				"name"=>$faker->name(),  "email"=>$faker->unique->safeEmail(), "password"=>Hash:make($faker->password()) ]) 
+				
+			
+			
+17. Eloquent 
+	=> an objection relational mapper(ORM) that makes it enojyable to interact with your database
+	=> Every database table have model which is used to insert, update and delete records from table as well
+	=> All models in app\Models directory 
+	
+	17.1 Command Line, php artisan make:...
+		i. model ClassName 
+		ii. model ClassName -migration or model ClassName -m // will create model and  migration
+		iii. model ClassName --factory or  model ClassName -f // generate factory and model
+		iv. model ClassName  --seed or model ClassName Student --seed // generate model and seeder
+		v. model ClassName  --controller or model ClassName Student --c // generate model and controller
+		vi. model ClassName -msfc // generate model, seeder, factory and controller 
+		vii. model ClassName --pivot // generate pivot model, learn this late..
+		
+	17.2 Model's Class 
+		17.2.1 Rules 
+			=> Eloquent assumes that the primary key is an incrementing integer value and if this non-increment, you must define in model as 
+				$public $incrementing = false // false mean its non increment value
+			=> Eloquent will assume every model has primary key column named --> id
+			i.  Change Primary key column name in model by define  protected $primaryKey = "stu_id" 
+				=>   if ur primary key is not integer if you have deinfe proctected $keyType = "string"
+			i. $protected $timestamp = false // created_at and updated_at column will not create
+				=> proctected $dateFormate = 'U' // customize date formate timestamp's model
+				=> const CREATED_AT = 'new_name', const UPDATED_AT = 'new_name' // change default name of model's column 
+			iii. $protected $connection = 'sqllite'// by default its take from database config. in applicaiton, you can change name by using this method said.
+		17.2.2. Fetch Data using Model from Database (ORM) 
+			=> Import Model in Controller : use App\Models\Student
+			
+			i. $student = Student::all // retrieving all records 
+			ii. Binding Query Builder, Student::where('city','bokaro')->orderBy('name')->get();
+			iii. Student::chuck(5,function($student){  }); // first parameter is number of record you wish to recieve per chunk., 
+				=> its reduce memory usage when we have large number of data amount
+			
+			iv. Single Retrieving 
+				=> student::find(1) // retrieve single data by primary key 
+				=> $student = Student::where('city','bokaro')->first();  // get first record where city and bokaro available
+				 or Student::firstWhere('city','bokaro')
+				=> Student::where('marks','<','33')->firstOr(function(){ 
+					echo "No student failed in this year"; }); //// if result does not found, execute the closure function
+			v. Student::firstOrCreate( 
+				['name'=>"Rahul"], 
+				['email'=>"email@gmail.com","marks"=>100]) //first parameter will search name if not found, then create new record
+			Note : Error fillable property to allow mass assignment ... : you have to mentioned in model as define which column should be allow for before create the new record as : $protected $fillable = ["name","email","marks"]
+				
+				=> $student = Student::firstOrNew() like above said function but you have save through $student->save() method
+			vi. Aggregates Retrieve : count, sum, max and other aggregate methods provide by laravel query builder
+				=> $count = Student::where('city','bokaro')->count()
+				=> $max = Student::where('city','bokaro')->max()
+				
+			vii. INSERTS
+				=> You have create new model instance and set attribute on the model. Then, call the save method
+				$student = new Student;
+				$student->name = "jack"; $student->email = "jack@gmail.com"; $student->marks=100;
+				$student->save(); // will create also timestamp as create at and updated at column while you call the save method
+				or
+				$student = Student::create([["name"=>"jack", 'email'=>"email@gmail.com","marks"=>100,]])
+				=> You have to set an property in model class : proctected $fillable = ['name', 'email','marks']; // define which columns will accept
+				
+			viii. UPDATE 
+				$student = new Student::find(5);
+				$student->name = "jack"; $student->email = "jack@gmail.com"; $student->marks=100;
+				$student->save(); //  updated at time will auto update while you call the save method
+				=> mass update  
+				 Student::where('city','bokaro')->update('marks'=>100);
+				 
+				 => Student::updateOrCreate(["name"=>"sachin"],['email'=>"email@gmail.com","marks"=>100,]) // search name "sachin", if not found, than its will create new one merge first with second parameter 
+				 => proctected $fillable = ['name', 'email','marks']; // define which columns will accept
+				
+			ix. DELETE
+				$student = Student:find(1)->delete(); or $student = Student:find(1); $student->->delete();
+				$student = Student:where("city","delhi")->delete();
+				or 
+				Student::destroy(6);
+				=> Delete entire table data	
+					Student::truncate();
+		
+		17.3 Relationship 
+			=> Eloquent relationship are defined as methods on your Eloquent model classes.
+			=> Type of Relationship
+			i. One to One
+				=> One to one relatinship like husband and wife, girlfriend and boyfriend
+			ii. One to Many
+			iii. Many to Many
+			iv. Has One Through
+			v. Has many through
+			i to ii (Polymorphic) // learn it late
+				
+		
+			
+				
+
+				
+				
+			
+		
+		
+			
+		
+		
+	
+	
 
 	
 
