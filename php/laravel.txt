@@ -954,16 +954,48 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 
 			7.3.2 Has One Through
 				=> Whereas defines a one to one relationship with another another table
+				=> Tables
+					machanics
+					id 	name    	
+					1	sajid 
+					2	rani
+					
+					cars  	
+					id 	model	mechanic_id    	
+					1	i10	1 
+					2	Honda	1 
+					3	Maruti	2
+					
+					Owners 	
+					id 	model	car_id    	
+					1	Sonam	1 
+					2	Rahul	2 
+					3	SUmit	3
+					
+					- We cant access direct Owners class through machnics, Now we will use hasThrough()
+					
 				i.  use hasThrough method and return its result
 					Syntax : hasThrough(FinalModelClass, 'IntermediateModelClass', 'foreign_key','local_key');
-					We have three table, car, mechnaic, owner
-					FinalModelClass: can be car or owner 
-					IntermediateModelClass can be : mechanic
-
-					We can : (Owner:class, Car:class);
-
+					=> First parameter : class name wish to access
+					=> second parameter : Name of Intermediate Class 
+					
+					Example : hasThrough(Owner::class, 'Car::class', 'mechanic_id','car_id','id','id'); 
+						-mechanic_id : Foreign key on the cars table
+						- car_id : Foreign key on the owners table
+						-id : local key on the mechanics talbe
+						-id : local key on the cars talbe
+				Note : if make speratly foreign key name then  you have to use mentioned in the method hasThrough(..) with foreign and local key			
 				ii. Inverse of One to One Relationship
 					Syntax : belongsTo(Model_Class, 'foreign_key', 'owner_key')
+				
+			=> if have default foregin key and localkey, you can us 
+			Example :
+				Mechanic Class : public function owner() {return $this->hasOneThrough(Owner:class, Car:class);}
+				$owner = Mechanic::find(mechanic_id)->owner// get owner data based one mechanic id
+				
+				=> Hasone() Method : 
+				$owner = Mechanic::find(mechanic_id)->car->owner// get owner data based one mechanic id
+				
 				
 			
 					
