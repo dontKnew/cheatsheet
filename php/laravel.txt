@@ -1030,6 +1030,92 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 					
 				=> Song::find(song_id)->singers; /// get singer based on song id
 			For Learn More about this - laravel.com website
+			
+	17.4 Accessor 
+	=> An accesssor transform an Eloquent attribute value when it is accessed attribute like  uppercase, lowercase 
+	=> Accessor define in Model Class App\Models\ModelName
+		Example : 
+			public function getNameAttribute($value){ return ucFirst($value);} //change in while set the data in database 
+			public function setCityAttribute($value){ return $this->attributes['city']=$vlaue. ' India';} //change in while getting the data from database 
+	17.5 Paginate 
+		=> Paginate method automatically takes care of setting the query "limit" and "offset" based on the current page being viewed by user.
+		=> Links automatically generate
+		Example :
+			$student = Student::paginate(5); $student = Student::where("marks", ">", "50")->paginate(5)
+			$student = Student::where("marks", ">", "50")->simplePaginate(5);
+		=> method will be use as above said title 14.3 
+
+18. Authentication and Authorization
+	17.1 Authorization - process to determine whether the authenticated user has access to the particular resources. 
+			- its check your rights to grant you access to resources like database file, permission etc.
+	17.2 Authentication 
+		=> is about validating your credentials like username and password to verify your identity
+		=>  facilities are made up of "guards" and "providers".
+		=>  Guards define define how uses are authenticated for each request
+		=> Providers define how users are retrieved from your persistent storage.
+		=> authentication files are located at config/auth.php
+		=> Three type of authentication
+		17.2.1 Laravel Breeze
+			=> laravel breeze is a simple and its providing features like, login, registration, password reset etc.
+			=> Laravel'breeze layour view blade file is styled with tailwind css
+			=>  laravel breeze setup
+				i. php artisan migrate
+				ii. composer require Laravel/breeze --dev // --dev  install only for just  development purpose 
+				iii. php artisan breeze:install //  publish auth and resources
+				iv. npm install and npm run dev  
+				v. php artisan migrate 
+			=> laravel breeze's routes are defined within the routes/auth.php file
+			=> BREEZE'S METHOD
+				- import lIIumniate\Support\Facades\Auth; 
+				i. $user = Auth:user() // get authenticated user infomration
+					or From Controller public function(Request $request){ $user = $request->user }
+					$name = $user->name
+				ii. $id = Auth::id()// get authenticated user id
+				iii. import lIIumniate\Support\Facades\Auth;  if(Auth::check()){return true} // if user authenticated return true
+				
+				iv. Auth Routes  
+					=> Route Middleware can be used to only allow authenticated users acccess a given route.
+					=> refer to Illuminate\Auth\Middleware\Authenticate class 
+					=> auth middleware already registered in your application while install laravel breeze located at App\Http\Kernal.php
+				Example : Route:get()->middleware('auth') // only authenticated user can access this route.
+				
+					i. Redirecting unathorized user 
+						=> You can modify :  app\Http\Middleware\Authenticate.php file
+						proctected function redirectTo($request){ return route('RouteName'); }
+						
+					ii. App\Http\Requests\Auth\LoginRequest.php here you can modify some rules like 
+						Example 1 : line 75 - change to  $seconds = 100; 
+					iii. resources\lang\en\auth.php  here you can change error message which is showing of function in aboe said LoginRequest.php
+					
+					iv. Logging Out Method :
+						=> import use Illuminate\Support\Facades\Auth
+						public function logout(Request $request){
+							Auth::logout(); 
+							$request->session()->invalidate(); // invalid request authenticated
+							$request->session()->regenerateToken(); // regenerate csrf token
+							return redirect('/');
+						}
+						
+					iii. 
+				
+				
+				
+		
+		
+			
+		17.2.2 Laravel Jetstream
+		17.2.3. Laravel Fortify
+		
+	
+		
+	
+			
+			
+	
+	
+			
+
+			
 			                                                  
 				
 					
