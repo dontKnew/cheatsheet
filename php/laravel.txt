@@ -995,8 +995,45 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 				
 				=> Hasone() Method : 
 				$owner = Mechanic::find(mechanic_id)->car->owner// get owner data based one mechanic id
+			
+			7.3.3. Many to many
+				=> Required at least three table for define many to many relation
+				=> Tables
+					singers
+					id 	name    	
+					1	sajid 
+					2	rani
+					
+					songs 	
+					id 	title		    	
+					1	tum hi		
+					2	khuch khuch	
+					3	Di to hai pgal hai		
+					
+					song_singers  	
+					id 	song_id	singer    	
+					1	1	1 
+					2	2	3 
+					3	1	2
+					3	3	2
+					
+				Syntax : belongsToMany(RelationModelClass, 'IntermediateModelClass', 'foreign_key','foreign_key');
+				Example - MODEL 
+					SingerFile : public function songs(){ return $this->belongsToMany(Song::class, "singer_songs");}
+					SongFile : public function singers(){ return $this->belongsToMany(Singer::class, "singer_songs");}
+				CONTROLLER : 
+					$singer = new Singer();
+					$singer->name = "Tony";
+					$singer->save();
+					$songids = [1,2];
+					$singer->songs()->attach($songids); //
+					
+				=> Song::find(song_id)->singers; /// get singer based on song id
+			For Learn More about this - laravel.com website
+			                                                  
 				
-				
+					
+					
 			
 					
 				
