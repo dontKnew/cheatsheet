@@ -12,7 +12,7 @@
 
     2.2 Way Two : 
         i. composer create-project --prefer-dist laravel/laravel/ ProjectName 
-		=> install old version : composer create-project laravel/laravel:^8.0 example
+		=> install old version : composer create-project laravel/laravel:^8.0 practice
 			Error : [InvalidArgumentException] Could not find package laravel/laravel with version 8.0 in a version installable using your PHP version, PHP extens ions and Composer version.
 			try this command : composer create-project laravel/laravel:^8.0 example --ignore-platform-reqs 
 
@@ -869,14 +869,113 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 			=> Eloquent relationship are defined as methods on your Eloquent model classes.
 			=> Type of Relationship
 			i. One to One
-				=> One to one relatinship like husband and wife, girlfriend and boyfriend
 			ii. One to Many
 			iii. Many to Many
 			iv. Has One Through
 			v. Has many through
 			i to ii (Polymorphic) // learn it late
+
+			17.3.1 One to One 
+				=> One to one relatinship like husband and wife, girlfriend and boyfriend
+				=> Its can be only one parent of one foreign key
+
+				i.  use hasOne method and return its result
+					Syntax : hasOne(Model_Class, 'foreign_key', 'local_key');
+					Example : 
+					HusbandModelClass : public function wife() { return $this->hasOne(WifeClass:class)}
+					=> Here We have define husband to wife relation, mean i can access data direct of wife class
+					=> but we can access data wife table through husband table data, for thats we have to create inverse relation which is define below :)
+
+				ii. Inverse of One to One Relationship
+					Syntax : belongsTo(Model_Class, 'foreign_key', 'owner_key')
+					Example : 
+					WifeModelClass : public function husband() { return $this->belongsTo(HusbandClass:class)}
+
+		---> Example :
+					i. php artisan make:model Customer -mc // generata a migration and controller 
+					i. php artisan make:model Mobile -mc // generata a migration and controller 
+
+			iii. generate database via migration file 
+				Migration Mobile File :
+					public function up(){
+						Customer : Schema::create('mobiles', function(Blueprint $table))}{
+								$table->id();
+								$table->string('model');
+								$table->timestamps();
+								$table->unsignedBigInteger('customer_id');
+								$table->foreign('customer_id')->references('id')->on('customers');
+							})
+						}
+
+				Migration Customer File :
+					public function up(){
+						Customer : Schema::create('mobiles', function(Blueprint $table))}{
+								$table->id();
+								$table->string('name');
+								$table->string("email");
+								$table->timestamps();
+							});
+						}
+				Terminal : php artisan migrate
+			Now You have create two table in database 
+
+			iv. Write the One to One relatinshiop code	
+				Customer Model Class : 
+					pubilc function mobile(){return $this->hasOne(Mobie::class);}
 				
-		
+				Mobile Model Class :  reverse relationshipt
+					pubilc function mobile(){return $this->belongsTo(Customer::class);}
+			
+			v. Managing Data in Controller 
+				import use App\Models\CustomerModel, use App\Models\CustomerModel
+				$mobile = new Mobile();
+				$mobile->model = "LG100";
+				
+				$customer = new Customer();
+				$customer->name = "sajid"
+				$customer->email = "sajid@gmail.com"
+				$customer-save();
+				$customer->mobile()->save($mobile); // ->mobile()-> // this is model class mobile() function
+
+				=> $mobile = Customer::find($id)->mobile; // get mobile data using customer id 
+				=> $customer = Mobile::find($id)->customer; // get customer data using mobileid , its reverse relatinshiop
+				=> $customer = Customer::find($id);
+					$customer->mobile()->model; // return ; mobile model from mobile table
+			
+			7.3.2 One to Many
+				=> Whereas the single model is parent to the one or more children
+				=> One to Many does not mean you have one author, and  three tables, its mean if you have One Author can be multiple post, and post table can be foreign key author_id many times
+				 
+				i.  use hasMany method and return its result
+					Syntax : hasMany(Model_Class, 'foreign_key', 'local_key');
+
+				ii. Inverse of One to One Relationship
+					Syntax : belongsTo(Model_Class, 'foreign_key', 'owner_key')
+
+			7.3.2 Has One Through
+				=> Whereas defines a one to one relationship with another another table
+				i.  use hasThrough method and return its result
+					Syntax : hasThrough(FinalModelClass, 'IntermediateModelClass', 'foreign_key','local_key');
+					We have three table, car, mechnaic, owner
+					FinalModelClass: can be car or owner 
+					IntermediateModelClass can be : mechanic
+
+					We can : (Owner:class, Car:class);
+
+				ii. Inverse of One to One Relationship
+					Syntax : belongsTo(Model_Class, 'foreign_key', 'owner_key')
+				
+			
+					
+				
+
+			
+
+
+				
+
+					
+
 			
 				
 
