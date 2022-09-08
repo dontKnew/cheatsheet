@@ -1046,9 +1046,7 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 		=> method will be use as above said title 14.3 
 
 18. Authentication and Authorization
-	17.1 Authorization - process to determine whether the authenticated user has access to the particular resources. 
-			- its check your rights to grant you access to resources like database file, permission etc.
-	17.2 Authentication 
+	17.1 Authentication 
 		=> is about validating your credentials like username and password to verify your identity
 		=>  facilities are made up of "guards" and "providers".
 		=>  Guards define define how uses are authenticated for each request
@@ -1095,16 +1093,108 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 							$request->session()->regenerateToken(); // regenerate csrf token
 							return redirect('/');
 						}
-						
-					iii. 
-				
-				
-				
-		
-		
-			
 		17.2.2 Laravel Jetstream
 		17.2.3. Laravel Fortify
+		
+	17.2 Authorization 
+		=> process to determine whether the authenticated user has access to the particular resources. 
+		=> its check your rights to grant you access to resources like database file, permission etc.
+		=> Laravel provides two primary ways of authorizing actions : - 
+		
+		17.2.1 GATES 
+			=> gates are simply closures that determine if a user is authenticated to perofrom a given action
+				i. define() ii. allow() iii. denies() iv. forUser() v. any() vi. none() vii authorize() viii. check() ix can() x.cannot() xi. inspect() xii. before() xiii. after()
+				i. for View Blade : @can, @cannot, @canany
+			17.2.1.1 Writing Gates at App\Providers\AuthServiceProvider 
+				import use Illuminate\Support\Facades\Gate
+				public function boot(){ 
+					$this->registerPolicies();  
+					Gate::define('isAdmin', function($user){ if($user==='admin@gmail.com'){ return true;}else {return false;}})
+				i. Writing External Gates App\Gates\AdminGate.php
+					<?php namepace App\Gates; 
+						class AdminGate{
+						public function check_admin($user){
+						if($user==='admin@gmail.com'){ return true;}else {return false;}
+					   }}?>
+					=> Now Register your gate in App\Providers\AuthServiceProvider 
+						import use Illuminate\Support\Facades\Gate	
+						use App\Gates\AdminGate;
+						
+						public function boot(){  
+						$this->registerPolicies();  
+						Gate::define('isAdmin',[AdminGate::class, 'check_admin']) }
+						
+			17.2.1.2 Using Gate via Middleware
+				=> Middleware run before incoming request even reaches your route or controller
+				=> This middleware  Illumniate\Auth\Middleware\Authorize is assigned the can key in  your App\Http\Kernal.php file class
+					Route::get('/post',[PostController::class, 'index'])->middleware(['auth', 'can:isAdmin']);
+					
+			17.2.1.3 Using Gate via Balde
+				=> Display a portion of the page only if user is authorized to perform a given action 
+					methdod : @can .. @endcan, @cannot, @canany, @can @elesecan @else @endcan, @cannot @elesecannot @else @endcannot, 
+					@canany @elesecanany @else @endcanany
+				Syntax :  @can('isAdmin') ... @endcan;
+				
+			17.2.1.4 Authorizing Action
+				=> authorize a action , you should use allow or denies methods provided by the gate facade.
+				=> call the gate authorization methods within your application controllers before performe an action :
+					use Illuminate\Support\Facades\Gate 
+					public function edit($id){
+						$post = Post::find($id);
+						if(Gate::denies('isAdmin', $post)){
+							abort(403, 'You are not authorized'); // 
+						}
+						return view('editpost',['post'=>$post]);}
+					i. if(Gate::forUser($user)->allows('isAdmin', $post)){// the user can update the post}
+					ii. if(Gate::forUser($user)->denies('isAdmin', $post)){// the user can not update the post}
+					iii. if(Gate::any(['isAdmin','delete-post']), $post)){// user can update or delete post}
+					iv. if(Gate::none(['isAdmin','delete-post']), $post)){// user cannot update or delete post}
+					
+			17.2.1.5 Gate Response
+				=> returna more detailed respnose, including error message, so you have to import auth response from ur gate.
+					use App\Models\User, use Illumniate\Auth\Response,  use Illumniate\Support\Facades\Gate, 
+					Gate::define('edit-setting', function(User $user)){
+						return $user->isAdmin ? Response::allow() : Response::deny('YOu must an adminstrator'); });
+					}
+		17.2.2 POLICIES 
+			=> policies like controllers, group logic around a particular model or resource
+			=> policies are classess that organize authorization logic around a particular model or resource
+				php artisan make:police PostPolicy // generate at App/Polices directory.
+				php artisan make:police PostPolicy --model=Post
+			=> Polices name must be as model name and policies suffix
+			=> Register in  App\Providers\AuthProvider Line around 15
+				proctected $policies = [
+				Post::class=>PostPolicy:class, 
+				'App\Models\Post'=>'App\Policies\PostPolicy'. // it can be write like this
+				]
+				
+			Example : Once Policy has been registered, you have to add methods for each action it authorizates
+				use App\Models\Post; use App\Models\User; 
+				class PostPolicy { public function isAdmin(User $user){return $user->email ===='admin@gmail.com';} }
+				
+			i. using Policis via Middleware 
+				Route::get('/', [PostController::class, 'index'])->middleware(['auth', 'can:isAdmin', App\Models\Post]);
+			ii. using in blade file 
+				methods : @can .. @endcan, @cannot, @canany, @can @elesecan @else @endcan, @cannot @elesecannot @else @endcannot, 
+					@canany @elesecanany @else @endcanany
+				Syntax :  @can('isAdmin') ... @endcan;
+			iii. using policies via controller
+				=>authorize() : $this->authorize('update',$post);  
+						$this->authorize('isAdmin', Post::class); 
+				Example - 
+				public function isAdmin(User $user){
+					return $user->email ? Response::allow() : Response::deny('You do not own this post');
+				}
+			iv. using policies via user model
+				=> App\Models\UserModel have two helpful method i. can and ii. cannot
+				if($request->user()->cannot('update',$post)){ abort(403,"ye page unauthorized hai apke liye");}
+				if($request->user()->cannot('update',Post::class)){ abort(403,"ye page unauthorized hai apke liye");} 
+
+			
+			
+			
+		
+				
 		
 	
 		
