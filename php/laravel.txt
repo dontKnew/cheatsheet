@@ -1190,52 +1190,245 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 				if($request->user()->cannot('update',$post)){ abort(403,"ye page unauthorized hai apke liye");}
 				if($request->user()->cannot('update',Post::class)){ abort(403,"ye page unauthorized hai apke liye");} 
 
-			
-			
-			
-		
-				
-		
-	
-		
-	
-			
-			
-	
-	
-			
+18. SESSION 
+ 	=> session config file data stored driver at config/session.php
+	=> Serveral great drivers out of box : 
+		i. "file" : stored in storage/framework/sessions
+		ii. "cookie", : session stored in secure, encrypted cookies
+		iii. "database", stored in a relational database
+		iv. "memcached/radis", one of these fas stored and cache based stored 
+		v. "dynamodb" :  stored in AWS DynamoDB
+		vi. "array" : stored in a PHP array and will not persisted
 
+	18.1 Storing Data can be stored as two type : 
+		
+		18.1.1 Request Instance
+			public function show(Reuqest $reuqest){
+
+			i. Retrieve data 
+				$request->session)()->put("key","value'); // store session data  
+				$request->session()->get('key')
+				$request->session()->get('key', "default_value") // if key does not exist, return default value
+				$request->session()->get('key', callback) // if key does not exist, call the function
+				$request=>session()->all(); // return all session data 
+
+				($reuqest->session()->has('key')){ return true;} // check session data exist or not
+				($reuqest->session()->exists('key')){ return true;} // check items is present in session
+				($reuqest->session()->missing('key')){ return true;} // check item is not preset in sessiono 
 			
-			                                                  
-				
+			ii. Delete Session Data
+				$request->session->forget('key');
+				$request->session->forget(['key','key2', 'key3']); // delete multiple key
+				$request->session->flush(); // delete all session data 
+
+			iii. Retrieving & Delete item
+				$request->session->pull('key', 'default'); // get data and delete from session, if data does not exist, return default value
+
+			}
+
+		18.1.2 Global session Helper
+			=> can be in used blade file php 
+				session(["kye"=>"value"]); // store data
+				session('key') // get data ewz
+				session()->forget('key') // delete data
+
+	18.2 flash Data
+		=> flash() - store item in the session for the next request
+		=> second incoming http request flashed data will immediately delete.
+		Example: 
+			$request->session()->flash("status", "Task was completed"); // set data
+			$request->session()->keep(["username", "email"]); // store data when dont want to delete automatic like flash
+			$request->session()->now("status", "Task was completed"); // only for current request
+
+			session('key') // show stored session data and many way of getting session data above said.
+	
+	18.3 CACHE
+		=> cache config file is located at config/cache.php
+		=> Serveral great drivers out of box for store cache data : 
+			i. "file" : stored in storage/framework/sessions
+			ii. "cookie", : cache stored in secure, encrypted cookies
+			iii. "database", cache in a relational database
+			iv. "memcached/radis", one of these fas stored and cache based stored 
+			v. "dynamodb" :  cache stored in AWS DynamoDB
+			vi. "array" : cachein a PHP array and will not persisted
+		
+		18.3. There are two primary way of working with cache data
+			18.3.1 Cache Facade 
+				=>import for use cache method : Illuminatek\Support\Facades\cache
+
+				i. Store Data
+					=> if third parameter time is not preset, then cache will be stored indefinitely/unlilmited_time
+						 Cache::put('key','value', $seconds=10);
+					=> You can use DateTime for instance representing the desired expired time of the cache item. 
+						 Cache::put('key','value', now()->addMinutes(10)); cahce will expired after current time + 10 mint 
+					=> Cache::add('key","value",$seconds) // return true if data added, otherwise return false if key is alredy exist.
+					=> Cache::forever('key','value'); // item will store permanently, use forget method for remove this cache item
 					
-					
+
+				ii. Retrieving Data
+					Cache::get("key");
+					Cache::get("key","value:"); // if key is not exist return default valuie
+					Cache::get('key', callback) // use callback function if key is not exist
+					if(Cache::has('key')){ return true} // check item exists or not
+
+					Cache::remember("keys" $seconds, function(){ return DB::table("users")->get();}) // if data does not exist, call the second callback retrieve and store data in cache, it will store permamently
+
+				iii. Delete Cache
+					 Cache::forget('key');
+					 
+					 Cache::put('key','value', 0); delete items using negative number of expiration seconds
+					 	or Cache::put("key", "value", -5)
+					Cache::flush() // clear entire caches
+				
+				iv. Retrieve and Delete Item
+					Cache::pull("key") // get data and delete data from cache store
 			
-					
-				
+			18.3.1 Global Cache Helper	
+				i. STORE DATA
+					cache(['key','value'], $seconds=10)  or Cache(['key','value'], now()->addMinutes(10));
+				 	
+				ii. RETRIEVE DATA 
+					cache("key");
+					cache()->remember("key", $seconds, function(){ return DB::table("user")->get()}) // // if data does not exist, call the second callback retrieve and store data in cache, it will store permamently
 
-			
-
-
-				
-
-					
-
-			
-				
-
-				
-				
-			
+19. COLLECTIONS
+	=> Illumniate\Support\Collection class provides a fluent, convenint wrapper for working with arrays of data.
 		
+		$collection = collect([1,2,3,4,5,6]); // create colleciton with global helper function
+		$colleciton->all() // return an array 
+		$collection->avg() // reurn an average value
+		$collection->chuck(2) // return two by two array collection 
 		
-			
-		
-		
+		$collection->map(function($item, $key){
+			return $item+2;
+		})->all(); // return by adding 2 in every array items
+	Note : Learn more for collection in larvel website. : https://laravel.com/docs/8.x/collections
+
+20. Localization  
+	=> localization means that your application is localization support multiple languaeg
+	=> localization located at directory resources/lang.
+	=> You can change default languge of your application in config.php/app.php line around 83 
+	=> YOu can modify the default language for a single http request at runtime using the setLocale method. 
+		Exmple : https://website.com/hi/Routings and https://website.com/hi/Routings
+
+	=> import use Illuminate\Support\Facades\App;
+		App::currentLocale(); // return current locale(langugae)
+		if(App::isLocale('en')){ // return true if "en" locale exist. }
 	
+	20.1 Laravel providing two ways to manage translation string : -
+		i.  create subdirectory at resources/lang for each language
+		Example : 
+			- Set Language which you want to translate your website 
+				resource/lang/en/home.php
+					<?php  return ["page"=>"HomePage", "home"=>"Home", "about"=>"About", "contact"=>"Contact", "welcome"=> "Welcome :name"]   ?>
+				resource/lang/hi/home.php
+				<?php  return ["page"=>"GHARPAGE", "home"=>"GHAR", "about"=>"JANKARI", "contact"=>"SAMPARK KRE", "welcome"=> "Swagat hai apka :name"]  ?>
+
+			- Set Route or you can use controller inseated using route callback
+				Route::get('/{locale}', function($locale){
+					App::setLocale($locale);
+					return view("Home");
+				}})
+			
+			- Blade File
+				Synatx : {{__('filename.keyName', ["attributeName"=>"value"])__}}
+						 {{__('home.home')__}} {{__('home.about')__}} {{__('home.contact')__}}
+						 {{__('home.welcome', ["name"=>"Sajid Ali"])__}}
+			- Testing
+				localhost::Port/hi // return hindi website
+				localhost::Port/en // return english website;
+
+		ii. translation string define within JSON file that are placed in resources/lang
+			- Set Language
+				resources/lang/en.json :
+					{"page":"HOme Page", "about":"about", "welcome":"welcome :name"}
+				resources/lang/hi.json :
+					{"page":"GHAR PAGE", "about":"JANKARI", "welcome":"SWAGAT HAI APKA :name"}
+			- rest of step above said 20.1 inside i. 
+20. REQUEST and RESPONSE
+	20.1 REQUESTS
+		public function index(Request $request){
+			dd($request);
+			=> $request->
+				- path(); method(); fullUrl(); header(); bearerToken(); ip(); getAccetableContnetTypes(); 
+				- isMethod("GET") // check method is get or not, u can use if() statement
+				- header("X-Header-Name", "default") // get header if not exist return default value
+				- hasHeader("X-Header-Name") // with if stateent check header exist or not
+				- if(accepts("text/html", "application/json")){} // if contents exist , code inside 
+				- query("queryname", "defaultValue") // if query value does not exist, return default value rahul
+				- if($request->(is("admin/*")){ dd("AdminArea")} // after admin path of route,, its admin area 
+	m			- routeIs("admin"); return true if admin route
+					route::get()->name(admin.two);
+					if($request->isRoute("admin.*"){ dd("AdminArea")else {return "Guest Area"}} 
+			}
+			LEARN MORE FROM LARAVEL WEB : https://laravel.com/docs/8.x/requests
+
+		20.2 RESPONSE 
+				-response("HELLO", 200);
+				-response("HELLO", 200)->header("content-type", "text/plain);
+				-response("HELLO", 200)->cookie("name", "sonam");
+				-response("HELLO", 200)->withoutCookie("name"); send response without cookie key name
+				-response()->view("welcome"); // return blade view file
+				-response()->view("welcome")->header("content-Type","tex/html"); 
+				-response()->json({"name"=>"sonam", "city"=>"delhi"});
+21. Redirect 
+	public function index(){ 
+		- return redirect("routePath") // route::get("routePath",[]);
+		- redirect()->route("routeName"); // route::get()->name("routeName");
+		- redirect()->away("www.google.com"); // redierct to google.com
+		- redierct('/profile')->with("key", "message/value") // use session data for accesss this status message
+		- 
+		}
+
+22. Laravel API
+	=> for example you need an fake api, you can search google for fake api
+	=> Import use Illuminate\Support\Facades\Http;
+	public function getAppPost(){
+		- GET METHOD
+			$response = Http::get("https:://jsonplaceholder.typicode.com/posts"); //return get response
+			$data = $respnose->collect(); // or $respnose->collect()->all()
+		
+		- POST METHOD
+			$response = Http::post("https:://reqres.in/api/users", ["name"=>"sajid", "job"=>"web dev"]);  // add data to website 
+			dd($response->json()); // data with added id 
+		
+		- PUT  METHOD
+			$response = Http::put("https:://reqres.in/api/users'/.$id", ["name"=>"sajid", "job"=>"web dev"]);  // add data to website 
+			dd($response->json()); // data with added id 
+		
+		- DELETE METHOD
+			$response = Http::delete("https:://reqres.in/api/users/'.$id");  
+			dd($response); // 
+	=> $response = Http::get("https:://jsonplaceholder.typicode.com/posts"); //return get response
+		dd($response)
+		i. $response->body();
+		ii. $response->status();
+		iii. $response->ok();
+		vi. $response->failed();
+		v. $response->serverError()
+		vi. $response->clientError();
+		vii. $response =  http:timeout(5)->get("..") // try five times for get response 
+		viii. $response =  http:retry(5,100)->get("..") // try five times after interval 100 milisecons for get response 
+		xi.  $response =  http:withHeaders("Content-Type","application/json")->post("..") // 
 	
-
-	
-
+	}
 
 
+				
+
+
+			    		
+
+				
+				
+
+
+
+			
+
+
+
+
+
+
+			
