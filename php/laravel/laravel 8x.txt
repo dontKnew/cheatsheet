@@ -1,3 +1,7 @@
+=> Laravel Commands
+	i. php artisan optimize 
+		-config cahce clear, route cache cleared etc.
+
 1. Introduction
 
     => Its PHP Based framework for building high end web application.
@@ -16,7 +20,6 @@
 			Error : [InvalidArgumentException] Could not find package laravel/laravel with version 8.0 in a version installable using your PHP version, PHP extens ions and Composer version.
 			try this command : composer create-project laravel/laravel:^8.0 example --ignore-platform-reqs 
 
- 
 
 3. Directory Structure : 
     app - core code of your application.
@@ -30,37 +33,88 @@
     vendor - The vendor directory contains your Composer dependencies.
 
     Note : You will learn all directries by learning larvael 
-4. Routing : All Laravel routing defined in routes/web.php 
-	Syntax : Route::get('URI', Closure/Callback);
+4. Routing : All Laravel routing defined in routes/web.php se
+	Syntax : Route::get('URI',[]);
 	Example : Route::get('about', function(){return "Hello World"});
+
 	4.1 Routing Returning String
 		Route::get('about', function(){return "Hello World"});
+
 	4.2 Routes Parameter : capture segments the id or string from url within 
 		Example : Route::get('about/{u_id}', function($id){return $id});
 		=> Multiple Route Parameter : Route::get('about/{post_id}/comment/{comment_id}',function($postid, $cmtid){return $id});
 
 	4.3 Optional Routes Parameter : We can make optinal parameter in routes 
 		Example : Route::get('student/{name?}', function($name='DefaultName'){return $name}); // if parameter not defined then, deafulat name will be printed , 
+		
 	4.4  Routes Parameter and Regular Expression
-		Route::get('student/{name}', function($name_p='DefaultName'){return $name_p})->where('name', '[A-Za-z]+');  // accpet only string alpha parameter3 
-		i.   Multiple regular expression in parameter 
+			Route::get('student/{name}', function($name_p='DefaultName'){return $name_p})->where('name', '[A-Za-z]+');  // accpet only string alpha parameter3 
+
+		i.  Multiple regular expression in parameter 
 				Route::get('manager/{id}/{name}',function($_id, $_name){ return $_id . $_name})->where(['id'=>'[0-9]+', 'name'=>'[a-z]+']);
+
 		ii. Regular expression with helper method 
-			Route::get('manager/{id}/{name}',function($_id, $_name){ return $_id . $_name})->whereUuid('id'); or  for string : ->whereAlpha('name'); 
+				Route::get('manager/{id}/{name}',function($_id, $_name){ return $_id . $_name})->whereUuid('id'); or  for string : ->whereAlpha('name'); 
+
 		iii. Route:redirect('/fromRouteName', 'toRouteName');  or Route:permanentRedirect('/fromRouteName', 'toRouteName')// third parameter is optional , you can use http status code 
+
 		iv. Fallback Routes : if no any routes request match, then fallback routes execute, you have to define this routes last  of routes register
 				Route::fallback(function(){})
+
 		v. Route Methods : Route::get/post/put/patch/delete/options('URI', Callback)
 			=> Multiple method  Route:match(['get','post'], '/', function(){});
 			=> Route:any('/', function(){}) // redirect to this route if, no route found
+		
+		vi. Global Constraints 
+			=> You have to define pattern method in App\Providers\RouterServiceProvider class	
+				public function boot(){ Route::pattern("id",'[0-9]+')}
+			=> Once Pattern defined, Its automatically applied to all RouterServiceProvider
+				Exmaple : Route::get('user/{id}',fucntion($id){ return $id }); // only executed if {id} is numeric
+
+	4.5 Merge all routes inside of one controller, if your all methods are in same controllers
+		Route::controller(ControllerName::class)->group(function(){
+			Route::get('/user','showStudent');
+			Route::get('/create','createStudent');
+		})
+	4.6 Route Prefix : thats mean all routes inside of admin
+			Route::prefix('admin')->group(function(){
+				Route::get("/user,[]);  // uri will be : /admin/user
+			}); 
+		4.6.1 Used Named Route with prefix
+			Route::name('admin.')->group(function(){
+				Route::get("/user,[])->name("user");  
+			}) //  route name can be accessed by : route("admin.user");
+
+	4.7 RouteLimiter Service 
+		=> Its providing an route uri to how many times can be hit in one mint. the uri.
+		Example : 
+			i. Define Method in App\Providers\RouterServiceProvider class	
+				pubilc function configuratinRateLimiting(){
+					RateLimiter:for("api", function(Request $request){
+						return Limit:perMinute(60)->by(optional($request->user()->id?:$request->ip()); // you can hit the uri four times under the one mints.
+					})
+					RateLimiter:for("custom_limit", function(Request $request){
+						// return Limit:perMinute(4) // you can hit the uri four times under the one mints.
+						return Limit:perMinute(4)->response(function(){
+							return response("custome_respnose..",429); // call laravel error page
+						}) }) }
+			ii. you can use above said method thorugh middleware which is already registered App\Http\Kernal.php
+			iii. route::get("/login",[])->middleware("throttle:custom_limit");
+
 	4.5 Named Route : specificing to any route name and you can use thats named route for redirecting urls
 		=> Routes named should be unique.
-		=> Routes : Route::get('about',[])->name('routerName')
+		Example : 
 			Route::get('about',function(){return view('viewName')})->name('routerName')	 
-		=> Using Named Route : route('routName'), redirect()->route('routeName')
-		=> Define in view file :  <a href="{{route('home')}}"> Home </a>
-		=> parameter : <a href="{{route('home', ['category']=>"mobile")}}"> Home </a>
+
+		=> Controller File : route('routName'), redirect()->route('routeName')
+		=> View File :  <a href="{{route('home')}}"> Home </a>
+			 parameter : <a href="{{route('home', ['category']=>"mobile")}}"> Home </a>
+		
 		=> Routing third parameter is query string ?cat=3
+				Example : Route::get("user/{id}",[])->name('routeName');
+					url = route("user",["id"=>4, "role"=>admin])
+					https://localhost:8000/user/id?role=admin;
+				
 		
 5. View : here you can write all HTML/PHP code and views are stored in the resources/views directory
 	Example  1. : 
@@ -78,6 +132,13 @@
 	Example  3 : Passing Data From route to view 
 	  	view('viewFileName', ['variableName'=>'Soname'])
 		*Access data in view file </h1> Hello   {{$variableName}} </h1>
+	
+	Example 4. Sharing Data to All views
+		=> App\Providers\AppServiceProvider class
+		Syntax : View::share("key", "value");
+		import use Illuminate\Support\Facades\View;
+			public function boot(){ View::share("user", ["name=>Sajid", "age=>20"]);}
+		Now You can use in any view blade file
 
 6. Controller  : this is group related request handling logic into a single class
 	=> Create Controller command : php artisan make:controller ControllerName
@@ -103,6 +164,11 @@
 	6.6 Single Controller : if you would like to define single controller that only hanlde a single action
 		=> php artisan make:controller ControllerName --invokable // generate file for single action controller
 		=> Route::get('about',ControllerName::class) // here no need to define method name because calling only single method/action
+	6.7 merge all routes inside of one controller, if your all methods are in same controllers
+		Route::controller(ControllerName::class)->group(function(){
+			Route::get('/user','showStudent');
+			Route::get('/create','createStudent');
+		})
 
 Note : Now the Laravel Framework processing :  Route=>controller=>view
 
@@ -229,9 +295,9 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 10. Adding Assets like css and js
 	10.1 First Method used only without complied: 
 		=> public/yourFolderAssetsName or file name
-		=> <link rel="stylesheet" href="{{assets('folderName/fileName')}}"> or {{url('css/style.css')}} // url will be display with domain name https://27.0.1.1/css/style.css
+		=> <link rel="stylesheet" href="{{asset('folderName/fileName')}}"> or {{url('css/style.css')}} // url will be display with domain name https://27.0.1.1/css/style.css
 
-	10.1 Second Method used only for complied or minified css or js file etc.
+	10.2 Second Method used only for complied or minified css or js file etc.
 		i. install laravel mix using npm - laravel already add dependency in package.json file, just run command npm install, it will install laravel mix.
 		ii. create css and js file inside of resources/css and resources/js folder respectively
 		iii. Open webpack.mix.js file and metioned  css and js file, later will processed.
@@ -241,6 +307,13 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 			=> npm run dev : this command will mix all of your css and js file complied and place  in  your public directory (Non-minified code)
 			=> npm run prod : like npm run dev functions, but its (minified code)
 			=> npm run watch : like npm run dev/prod funtions, but its will be automatically in changing in public folder while changed in resource/css and js file.
+	10.3 Stacks
+		=> Its helpful for specifiying any javascrit libraries required by your child views
+		i.add js library before another library
+			<head> @stack("scripts") </head>
+			@push("scripts") //this will be second @endpush
+			// this will later
+			@prepend("scripts") this will be first @endprepand //this will be
 
 11. Adding Boostrap 
 	i. install laravel mix using npm - laravel already add dependency in package.json file, just run command npm install, it will install laravel mix.
@@ -364,6 +437,19 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 				return redirect('oldata')->withInput($request->except('password'));
 
 				<input... value="{{old("name")}}}"/>
+		
+		13.1 File Upload
+			=> make sure you have define filesystem config url
+			<input type="file" name="photo">
+			$file = $request->file("photo") or $request->photo;
+			i. if($request->file("photo")->isValid()){ //check file is present or not mean successfull uploaded or not} 
+			ii. $file->extension();
+			iii. $file->path();
+			iv. if ($request->hasFile('photo')){ } // check file exist or not
+			v. $path = $file->store("images") or $file->store("images", "s3") // store file inside of images folder
+				 $path = $file->storeAs("image","newfilane.jpg"); or $file->storeAs("image","newfilane.jpg", "s3");
+
+
 
 	13.2 Validation Form : 
 		=> Validate the application incoming data form all HTTP Request
@@ -784,7 +870,7 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 			Example  :
 				follow 16.1 and import use Faker/Factory as Faker;
 				$faker= Faker::create();
-				foreach(range (1,10), $value){ DB:table('student')->insert([ 
+				foreach(range (1,10), $value){ DB:table('student')->insert([ 	
 				"name"=>$faker->name(),  "email"=>$faker->unique->safeEmail(), "password"=>Hash:make($faker->password()) ]) 
 				
 			
@@ -1058,9 +1144,13 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 			=> Laravel'breeze layour view blade file is styled with tailwind css
 			=>  laravel breeze setup
 				i. php artisan migrate
-				ii. composer require Laravel/breeze --dev // --dev  install only for just  development purpose 
+				ii. composer require laravel/breeze:1.9.2 --dev // --dev  install only for just  development purpose 
 				iii. php artisan breeze:install //  publish auth and resources
 				iv. npm install and npm run dev  
+					Error : Error: PostCSS plugin tailwindcss requires PostCSS 8.
+					solved : npm uninstall tailwindcss postcss autoprefixer
+						npm install -D tailwindcss@npm:@tailwindcss/postcss7-compat postcss@^7 autoprefixer@^9
+
 				v. php artisan migrate 
 			=> laravel breeze's routes are defined within the routes/auth.php file
 			=> BREEZE'S METHOD
@@ -1413,8 +1503,172 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 	
 	}
 
+23. Laravel Mail
+	23.1 Normal Mail with Laravel with gmail
+		i. import to controller use Illuminate\Support\Facades\Mail;				
+		ii. create mail.blade.php file inside of view folder 
+		iii. Controller
+			$data = ["name"=>"Sajid", "data"=>"Hello Sajid"];
+				Mail::send("bladefilename",$data, function($message){
+					$message->to("israfil123.sa@gmail.com");
+					$message->subject("hello Dev");
+				});
+24. Error handling
+	=> You can define all custome error inside of App/Exception/handler.php
+	=> you have to config/app.php debug and you can set the APP_DEBUG environment variable in .env file 
+		- for developemnt its should true // show errors Execption
+		- for production must be false // its hide all error exception error 
+	=> create new error : php artisan make:exception ExceptionName;
+	=> you can use try and catch method for handle the error 
+	=> php artisan vendor:publish --tag=laravel-errors // show all errors and you can customize here
+		Example :
+				try{
+				}catch(\Exception $e){
+					return $e->getMessage();
+					dd(get_class($e)); // return class name whereas error coming from, now you can import those class and you can custome define each error  catch(RealtionExceptionError $e){ ...}
+					return get_class()
+				}
+	=> abort(404) // you can use this abort helper function at anywehre for redirect the error page 	
 
+	24.1 Custome Error
+		i. php artisan make:exception PostNotFoundException
+		ii. import those exception in controller file or whereas you want to throw
+			try{}catch(PostNotFoundException $e){ throw new PostNotFoundException();}
+
+
+
+25. Logging or Logs
+	=> Its record of your application performance or action 
+	Example 1.  
+		i. config.php/loggin.php
+			customlog=>["driver"=>"single", "path"=>storage_path('logs/tesing.log'), "level"=>"info"]
+		ii. route file
+			// Route::get("/user", function(){ \Log::info("This is testing log"); dd("done");})
+			Route::get("/user", function(){ 
+					\Log::channel("customlog")->info("This is testing log"); })
+		iii. run route user and check storage/logs/testing.log 
+	
+	Example 2. use log with middleware and assign to route
+			i. php artian make:middleware LogRoute
+			ii. App\Http\Middleware\LogRoute
+				use Illuminate\Support\Facades\Log;
+				public function handle(Request $request, Closure $next){
+					$reponse = $next($request);
+					if(app()->environment('local')){
+						$log = [
+							"URI"=>$request->getUri(),
+							"METHOD"=>$request->getMethod(),
+							"REQUEST_BODY"=>$request->all(),
+							"RESPONSE"=>$request->getContent();
+						];
+						Log::info(json_encode($log));
+					}
+				} 
+			iii. register thats log middleware  
+				App\Http\Kernal.php
+				"logroute"=>\App\Http\Middleware\LogRoute::class
+			iv. Route::('/user',[])->middleware("logRoute");
+
+			v. While hit the user route its will generate log file directory storage/logs/
+
+
+26. Conditional Class
+	Example : 
+		@php $success = false; $error = true; @endphp
+		<span @class([ 'p-4', 'text-success'=> $success, 'bg-red'=>$error,])> </span>
+
+27. URL
+	=> Helper Method
+		i. url()->full() // get full url with query string
+		ii. url()->preview)() // get previews request url
+		iii. $post = App\Models\Post::find(1); 
+				url("posts/{$post->id}")
+
+	=> You can also use all above said method as  use Illuminate\Support\Facades\URL;
+		i. URL::current(); // get url without query string
+		ii. url::preview();
+	
+	27.1 Temprorary Routes
+		
+		27.1.1 Create a new temprorary route
+			return URL::TemprorarySignedRoute(
+				'unsubscribe',now()->addMinutes(30), ['user'=>1];) // url will expired after 10 mint.
+			 
+		27.1.2 Validating signed route request
+			i. hasValidSignature() // check temprorary or signed route is valid or not
+				Route::get("/unsubscribe/{user}, function(){ 
+					if(!$request->hasValidSignature()){
+						abort(401);
+					}
+				})->name("unsubscribe);
+			ii. ALternative, you may assign the middleware to the route
+				- Registered Middleware 
+					$routeMiddleware = ["signed"=> \Illumniate\Routing\Middleware\ValidateSignature];
+				- Assign to route
+				Route::post("/unsubscribe/{user},[])->name("unsubscribe")->middleware("signed");
+
+		27.1.3 Redirecting to route if invalid signed route
+			=> if route is expired, laravel redirect to abort(404) http status code page.
+			=> You can customize this error in App\Exception\handler.php 
+				import use Illumniate\Routing\Exceptions\InvalidSignatureException
+				public function register() {
+					$this->renderable(function(InvalidSignatureException $e){
+						return response()->view("baldeFileName", [], 403);
+					})
+				}
+	27.2 Generate Url via Controller
+		$url = action([ControllerName::class, 'methodName'], ["id"=>1]); //  methodName/1;
+
+28. Artisan Command 
+	=> php artisan --list // return all laravel artisan commands 
+	Example 1. :
+		i. php artisan make:command showDB
+		ii. Register command : App\Console\Kernal.php 
+			use App\Console\Command\showDB
+			protected $commands = [Commands\showDB:class];
+		iii. App\Console\Command\showDB.php
+			$description  = "Show current db";
+			public function handle() { $this->info(DB::connection()->getDatabaseName()); }
+		iv. php artisan showDB // return current databaseName which you have mentioned in laravel .env file
+
+	Example 2. Cron Job for send mail
+		=> its will work on live server while run the once command line
+		=> you have to setupt mail configuration in .env file
+		i. php artisan make:command SendMailCron --command=test:cron;
+
+		ii. Register command : App\Console\Kernal.php 
+			use App\Console\Command\showDB
+			protected $commands = [Commands\SendMailCron:class];
+
+			schedule(Schedule $schedule){
+				$schedule->command("test:cron")->everyMinute(); 
 				
+				// everyMinute(), everyFiveMinutes(), Ten, Fifteen, Thirty, hourlyAt(17), daily() dailyAt('13:00'?),
+				// twicDaily(1,13); weekly(); weeklyOn(1,"8:00"), monthly(); monthlyOn(1,"15:00"), quarterly(); yearly()
+				// timezone("America/New_York');  
+
+			}
+
+		iii. App\Console\Command\SendMailCron.php 
+			$signature = "test:cron";
+			$description = "send mail per mint.";
+			public function handle(){
+				$data = array("data"=>"send Mail Cron Test");// Access this data in blade file
+				Mail::send("baldefileName",$data,function($message){
+					$message->to("usermail@gmail.com");
+					->subject("Testing Sending mail");
+				});
+		
+		iv. App\resource\views\BladeFileName.php
+			<h1>{{$data}}</h1>
+			<i> THanks for use mail service </i> 
+
+		v. php artian schedule:run
+
+
+
+
+
 
 
 			    		
