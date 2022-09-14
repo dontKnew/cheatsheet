@@ -1,0 +1,72 @@
+1. Introduction
+    - AJAX is stands for asynchornous javascript and XML
+    - No page realod and refersh while get data from other client https
+    - Modern website using JSON instead of XML for data transfer
+    - Data can be transfered in any formate and protocol (Not alwayas https necessarily) 
+
+2. XMLHttpRequest Object define : 
+    
+    2.1 GET METHOD 
+        i. const xhr = new XMLHttpRequest(); // open an object
+        
+        ii. third parameter true mean its asyn. fetching and false mean  its sysn. fetching 
+            - Developers recommend use asyn method 
+            xhr.open("METHOD NAME", 'https://jsonplaceholder.typicode.com/todos/', true) 
+            
+        iii. // here you can define any loading functionality until fetch data  
+            xhr.onprogress  = function(){
+                console.warn("fetching...")}
+
+        iv. You can set also an value for readystate
+                xhr.onreadystatechange = function(){
+                    console.warn("ready state is", xhr.readyState);}
+        
+            =>  xhr.readyState value can be four types below said - 
+                Value	State	            Description
+                0	    UNSENT	            Client has been created. open() not called yet.
+                1	    OPENED	            open() has been called.
+                2	    HEADERS_RECEIVED	send() has been called, and headers and status are available.
+                3	    LOADING	Downloading; responseText holds partial data.
+                4	    DONE	               The operation is complete.
+        
+        v. What to do when response is ready
+            xhr.onload = function(){
+                if(this.status == 200){
+                    console.warn(this.responseText); // get response
+                }else {
+                    console.warn("soemthing wrong");
+                }
+            }
+        vi. send an request
+            xhr.send();
+
+    2.2 POST METHOD
+        => Some points wil be change at above said get method 
+        i. xhr.open("POST", "url", true)
+        ii. xhr.getResponseHeader("Content-Type", "appication/json");
+        iii. params = {"name":"sajid", "email":"sajid@gmil.com"} // might be before xhr.send();
+        iv. some other methods then at the time last method xhr.send();
+    
+    2.3 parsing data while response is received
+        xhr.onload = function(){
+            if(this.status ===200){ 
+                let obj  = JSON.parse(this.responseText);
+                let list  = document.getElementsById("list");
+                str = "";
+                if(key in obj){
+                    str = `<li>${$obj[key]} </li>`;
+                }
+                list.innerHTML = str;
+            }
+        }
+    
+    2.4 Some other methods
+        i. xhr.responseType  = "document" // text, string, 
+        ii. xhr.status =  can above said readystate under 2.1->iv lines
+        iii. xhr.timeout = 2000; // time in miliseconds for getting request within this time 
+            xhr.onload  = ()=>{};
+            xhr.ontimeout = (e)=>{ // do somthing here if timeout is over} 
+        iv. xhr.onload = ()=>{console.warn(xhr);} // see here all objects properites response here.. 
+
+
+             
