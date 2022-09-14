@@ -1668,6 +1668,25 @@ Note : Now the Laravel Framework processing :  Route=>controller=>view
 
 
 
+30. Sanctum Package (Token)
+	i. installation in laravel 8 : composer require laravel/sanctum:^2.9,
+	ii. php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+	iii. php artisan migrate
+	=> if Errro register config/app.php line 137 at  : Laravel\Sanctum\SanctumServiceProvider::class
+	iv. Access Tokekn
+		$token = $user->createToken($request->email)->plainTextToken;  // add token to database
+	User Model : use Laravel\Sanctum\HasApiTokens; class ... {    use  HasApiTokens, HasFactory, Notifiable;}
+	
+	v. Logout :
+		Method POST 
+		Authorization : Bearer token
+		-  while login you have generate an token 
+	
+
+
+
+
+
 
 
 
