@@ -1,5 +1,17 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+
+
+
+
+
+
+
+
+
+
+
+=> GRABS
 1. curl  built by php
 => we can use this function for get contents from any website
 => Lets Learn Basic : 

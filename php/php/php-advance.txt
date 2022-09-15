@@ -12,14 +12,13 @@ You can use environment variable anywhere in the php script.
 	php file : index.php
 		require '.env';
 		echo getenv('APP_ENV');
-		echo getenv('DATABASE_DNS');
-
+		echo getenv('DATABASE_DNS')
 
 
 
 ===> Basic PHP
 1. Remove tag from line : strip_tags('text with html tag', optional) optiona : enter html tag which you dont want to remove
-2.htmlspecialchars("I love <b> india </b>") //output : i love &lt;b&gt india &lt;/b&gt
+2. htmlspecialchars("I love <b> india </b>") //output : i love &lt;b&gt india &lt;/b&gt
 & (ampersand) becomes &amp;
 " (double quote) becomes &quot;
 ' (single quote) becomes &#039;
@@ -48,7 +47,6 @@ You can use environment variable anywhere in the php script.
 
 	// Report all errors except E_NOTICE
 	error_reporting(E_ALL & ~E_NOTICE);
-
 	
 
 ===>PHP OOP  Concept 
