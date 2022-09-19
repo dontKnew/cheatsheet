@@ -1,0 +1,102 @@
+LEARN MORE  - https://mod-rewrite-cheatsheet.com/
+
+
+1.  Intro : 
+    - By modifying the .htaccess file, you can make changes to the behavior of your website.
+    - URL redirection and rewriting 
+    - Security — Restrict access to particular files or directories or block unwanted access from your site.
+        => Ex. you can set password proctected file or directories in website
+    - Site optimization 
+    - .htaccess placing the root of webiste folder,therefore access all subfolder or u can put subfolder directory
+    - before access your site, its make permission security from .htaccess files
+    - You can comment by using hashtag in .htaccess file
+
+2. Active .htaccess 
+    => Apache's httpd.conf for a line similar to the following and remove the # at the beginning of the line.
+        LoadModule mod_rewrite.so
+    - Enalbe Mod write
+        RewriteEngine on
+    - Enable mod_rewrite support inside .htaccess files
+        => By default usage of mod_rewrite inside .htaccess files is not allowed. To allow usage add the following lines to the webroot Directory block inside your httpd.conf.
+            AllowOverride FileInfo or AllowOverride 
+3. Conditions
+    - RewriteCond <test-string> <condition> [<flags>]    
+    - RewriteRule <original-path-regexp> <rewritten-path> [<flags>]
+
+    3.1 Condition 
+            operator	meaning
+            <	less than
+            >	more than
+            =	equal
+            -d	check if path is an existing directory
+            -f	check if path is an existing file
+            -s	check if path is an existing file larger than 0 bytes
+            -l	check if path is an symbolic link
+            -F	check if path is an existing file and user is authorized to access it
+            -U	checks if test string is a valid url and user is authorized to access it
+    3.2 Flag 
+        NC / nocase - 	case-insensitive matching (default: case-sensitive)
+        OR / ornext	- combine conditions via logical or (default: logical and)
+
+    3.3 Magical Values
+        placeholder	    meaning
+        $1 .. $9	buffered values from current rewrite directive
+        %1 .. %9	buffered values from last rewrite condition.
+
+
+4. .htaccess Features
+    i. Force to use WWW instead of non-WWW 
+        #Force WWW
+        RewriteEngine on
+        RewriteCond %{HTTP_HOST} ^example.com [NC]
+        RewriteRule ^(.*)$ http://www.example.com/$1 [L,R=301,NC]
+
+    ii. force to use https, non-http or without http redirection to https 
+        #Force WWW
+        RewriteEngine on
+        RewriteCond %{HTTP_HOST} ^example.com [NC]
+        RewriteRule ^(.*)$ http://www.example.com/$1 [L,R=301,NC]
+
+    iii. Force trailing slash
+            RewriteEngine on
+            RewriteCond %{REQUEST_URI} /+[^\.]+$
+            RewriteRule ^(.+[^/])$ %{REQUEST_URI}/ [R=301,L]
+            Ex : from http://example.com/somepage to http://example.com/somepage/)
+
+            RewriteEngine on
+            RewriteCond %{REQUEST_FILENAME} !-d
+            RewriteRule ^(.*)/$ /$1 [R=301,L]
+            Ex might be : from http://example.com/somepage/ to http://example.com/somepage)
+
+    vi. Redirect entire site to new domain
+        RewriteEngine on
+        RewriteCond %{HTTP_HOST} ^OldDomain.com
+        RewriteRule ^(.*) http://NewDomain.com/$1 [P]
+
+    vii. Alias to “clean” URLs
+        RewriteEngine on
+        RewriteCond %{SCRIPT_FILENAME} !-d
+        RewriteRule ^([^.]+)$ $1.php [NC,L]
+        Ex : URLs – i.e. http://example.com/articles instead of http://example.com/articles.php 
+
+    viii. Limit file upload size 
+        LimitRequestBody 1048576
+    
+    ix. Set default index page
+        DirectoryIndex first.html
+
+    x. #Set server time zone
+        SetEnv TZ America/New_York
+
+    xi. Custom Error Page 
+        ErrorDocument 403 "Sorry, you are not permitted to access this."
+        ErrorDocument 404 /404.php
+        ErrorDocument 500 "Oops! Our server encountered an error. Try again later."
+
+
+
+
+
+
+         
+
