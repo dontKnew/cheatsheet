@@ -1,6 +1,6 @@
 => Installation via command Line
     1. composer should be installed in your computer 
-    2. composer --create-project codiegniter4/appstarter
+    2. composer create-project codeigniter4/appstarter
     3. composer update  
         => Error : 
                 Problem 1
@@ -986,6 +986,9 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
             </root>
 
     3. Modeling Data :  You can use model for specfic database table and records
+	=> ERRORS
+		1. whenenver you use update() method, it will not update until your change all data otherwise you can update one by one
+
         * app/Models
         * Model Features : 
                 automatic database connection
@@ -1236,6 +1239,7 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
             $forge->addField($fields)->createTable("tableName"); 
 
                 i. Creating an id field : $forge->addField('id'); // gives `id` INT(9) NOT NULL AUTO_INCREMENT with primary key 
+
                 ii. addKey("column_name", boolean, boolean) : second parameter is primary key if u set true, third parameter is unique key if you set true and both optional
                     $forge->addKey('blog_id', true); // blog_id will be primary key
                     or 
@@ -1256,9 +1260,11 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
                 vi.  $forge->dropTable('table_name'); //  Produces: DROP TABLE `table_name`
                     $forge->dropTable('table_name', true); // Produces: DROP TABLE IF EXISTS `table_name`
                     $forge->dropTable('table_name', false, true); // Produces: DROP TABLE `table_name` CASCADE (third parameter for remove the table if foreign keys exits)
+
                 vii. Drop Foreign Key 
                     $forge->dropForeignKey('tablename', 'users_foreign'); // Produces: ALTER TABLE `tablename` DROP FOREIGN KEY `users_foreign`
-                viii. drop a key : $forge->dropKey('tablename', 'users_index');  // Produces: DROP INDEX `users_index` ON `tablename`
+                
+		viii. drop a key : $forge->dropKey('tablename', 'users_index');  // Produces: DROP INDEX `users_index` ON `tablename`
                 xi. $forge->renameTable('old_table_name', 'new_table_name');
 
                 x. Add Column 
@@ -1404,13 +1410,19 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
                 v. var_dump($cache->getMetadata('my_cached_item')) // return details of specfic cache information
 
         5.2 Cookie  :  is a small piece of data that a server sends to the user’s web browser
+		=> Note :	
+			i. if you set cookie and redirect instantly, then you have to use function redirect()->withCookies
+			ii. Cookies name : should be simple, if spaces, tabe, empty and any special letter will be not accepted
+			ii. this cookie not set to browser,,,
+			iii. helper cookie set to browser method : set_cookie("name", "value", "expire_time") // expire time in seconds; 
+					 -> get_cookie("name") // return cookie value
+					-> delete_cookie("name") // delete exist cokkie, 
+					-> has_cookie("name") // check cookie exist or not,  tested but not working
             
             *Cookes Mannualy Used for three purpose : 
                 i.   Session management: Logins, shopping carts, game scores, or anything else the server should remember
                 ii.  Personalization: User preferences, themes, and other settings
                 iii. Tracking: Recording and analyzing user behavior
-            *Cookies name should be simple / spaces, tabe, empty and any special letter will be not accepted
-
             5.2.1 Creating Cookies has four way : 
                     use CodeIgniter\Cookie\Cookie;
                     use DateTime;
@@ -1446,7 +1458,8 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
 
                     iv. // Using the global function `cookie` which implicitly calls `new Cookie()`
                     $cookie = cookie('remember_token', 'f699c7fd18a8e082d0228932f3acd40e1ef5ef92efcedda32842a211d62f0aa6');
-                5.2.2 Accessing Cookie attributes
+                
+		5.2.2 Accessing Cookie attributes
                     $cookie->getName(); // 'remember_token'
                     $cookie->getPrefix(); // '__Secure-'
                     $cookie->getPrefixedName(); // '__Secure-remember_token'
@@ -1475,7 +1488,8 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
                     $new = $cookie->withName('remember_token'); // new instance 
                     $new->getName(); // 'remember_token'
                 ............ leave point...
-
+	
+		
 
         5.3 Files 
             $file = new \CodeIgniter\Files\File($path);
@@ -1494,8 +1508,73 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
 
         5.4 image
             5.4.1 Image Manuplatioin 
-                $image = \Config\Services::image();
-                first enable gd then, write notes here
+		Note : whereas your path folder containing the image files must have write permissions.
+
+		i. $image = \Config\Services::image(); // used GD library		
+		ii. $image = \Config\Services::image('imagick'); // used imagick The ImageMagick library.
+			-> If using the ImageMagick library, you must set the path to the library on your server in app/Config/Images.php
+		=> Example : best for thumbnail 
+			$image->withFile('/path/to/image/mypic.jpg') >fit(100, 100, 'center')->save('/path/to/image/mypic_thumb.jpg');
+			$image->withFile('/path/to/image/mypic.jpg')->reorient()->rotate(90)->crop(100, 100, 0, 0)->save('/path/to/image/mypic_thumb.jpg');
+		iii. Image Quality
+			$image->withFile('/path/to/image/mypic.jpg')->save('/path/to/image/my_low_quality_pic.jpg', 10);
+			Note : save() second parameter only apply to jpeg image else will ignore;  
+			
+			-> change only image quality
+			$image->withFile('/path/to/image/mypic.jpg')->withResource()
+    			->save('/path/to/image/my_low_quality_pic.jpg', 10);
+		
+	5.4.1.1 Processing Methods for image
+	=>Thats all methods can be catch errors : try{}catch(CodeIgniter\Images\Exceptions\ImageException $e){echo $e->getMessage()}
+		i. $image->crop()
+		ii. $image->convert() : convert image to png 
+		\Config\Services::image()
+		    ->withFile('/path/to/image/mypic.jpg')
+		    ->convert(IMAGETYPE_PNG)
+		    ->save('/path/to/new/image.png');
+
+		iii. $image->fit()
+		iv. $image->flatten()
+		v. $image->flip()
+		vi. $image->resize()
+		vii. $image->rotate(float $angle) : $angle is the number of degrees to rotate. One of 90, 180, 270.
+		viii. $image->text() : add text to image as watermark,
+		\Config\Services::image('imagick')->withFile('/path/to/image/mypic.jpg')->text('Copyright 2017 My Photo Co', 
+		['color'      => '#fff',
+        	'opacity'    => 0.5,
+	        'withShadow' => true,
+        	'hAlign'     => 'center',
+	        'vAlign'     => 'bottom',
+	        'fontSize'   => 20,])->save('/path/to/new/image.jpg');
+	
+	Learn more : https://codeigniter.com/user_guide/libraries/images.html
+
+
+
+
+	
+
+
+
+
+
+		
+	   5.4.2. Get File Information : 
+		$file = new \CodeIgniter\Files\File($path);
+		$file->getBasename();
+		$file->getRealPath();
+		$file->getRandomName(); // generate random filename
+		$file->guessExtension(); // return file extension
+		$file->move(WRITEPATH . 'uploads'); // move project writable folder/upload
+		$file = $file->move(WRITEPATH . 'uploads', $newNameFile); // second parameter new name you can use random name function
+			// $file return all information like name, path, basename etc.
+
+
+
+
+
+
+
         5.5 pagination	
 		$pager = \Config\Services::pager(); // not need to laod, becuase app/config/pager its loaded automatically.
 
@@ -1507,6 +1586,7 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
 =		5.5.1 Multiple Pagination results : If you need to provide links from two different result sets then pass group name
 			$data = ['users' => $model->paginate(10, 'group1'), $model->paginate(10, 'group2')'pager' => $model->pager,]; 
 			view file : <?= $pager->links('group1') ?> or <?= $pager->links('group1') ?>
+
 		5.5.2 get spesfic page data by passing third argument 
 			suppose You have in one table 100 records, data will be produce by 5 user data per page, So 10 page will be generate, 
 			Now  I am showing 5th page data using third argument.
@@ -1531,8 +1611,6 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
         	<?= $pager->links() ?> or         	<?= $pager->simpleLinks() ?>
 	        <?php endif ?>
 	      </div>
-
-	
 			
 
 
@@ -1660,7 +1738,8 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
                     echo $diff->humanize(); // 1 year ago
         5.8 Validation
 
-    6. Helper : like an collection of functions which is made by codiegniter
+    
+     6. Helper : like an collection of functions which is made by codiegniter
         i. helper('cookie');
             => set_cookie($name[, $value = ''[, $expire = ''[, $domain = ''[, $path = '/'[, $prefix = ''[, $secure = false[, $httpOnly = false[, $sameSite = '']]]]]]]])
                 $name (mixed) – Cookie name or associative array of all of the parameters available to this function
@@ -1816,34 +1895,26 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
                             'screeny'     => 0,
                             'window_name' => '_blank',
                         ];echo anchor_popup('news/local/123', 'Click Me!', $atts);
+		=> helpers are easy, So i am not making such as notes 👍 
+	            checkout : https://codeigniter.com/user_guide/helpers/
+	7. LOGGER MESSAGE
+		=> configuration your log messsage at : app/Config/Logger.php
+		i. Modify with message with context
+	Example  : 
+	// Generates a message like: User 123 logged into the system from 127.0.0.1
+	$info = [
+    	'id'         => $user->id,
+    	'ip_address' => $this->request->getIPAddress(),
+	];
+	log_message('info', 'User {id} logged into the system from {ip_address}', $info);
+	
+	Example 2. 
+		try {
+ 		   // Something throws error here
+		} catch (\Exception $e) {
+		    log_message('error', '[ERROR] {exception}', ['exception' => $e]);
+		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    => helpers are easy, So i am not making such as notes 👍 
-            checkout : https://codeigniter.com/user_guide/helpers/
 
 => Command Line usage : 
     1. php spark list 
@@ -1868,6 +1939,12 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
         migrate:rollback   Runs the "down" method for all migrations in the last batch.
         migrate:status     Displays a list of all migrations and whether they've been run or not.
 
+You can use (rollback) with the following options:
+
+-g - to choose database group, otherwise default database group will be used.
+-b - to choose a batch: natural numbers specify the batch, negatives indicate a relative batch
+-f - to force a bypass confirmation question, it is only asked in a production environment
+
         Encryption
         key:generate       Generates a new encryption key and writes it in an `.env` file.
 
@@ -1890,5 +1967,4 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
         debugbar:clear     Clears all debugbar JSON files.
         logs:clear         Clears all log files.
                                                         
-
 

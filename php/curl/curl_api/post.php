@@ -17,8 +17,6 @@
     "password_confirmation"=>"1234"
 );
 
-
-
 // Data should be passed as json format
 $data_json = json_encode($data);
 
