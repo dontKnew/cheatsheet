@@ -1,6 +1,6 @@
 => Installation via command Line
     1. composer should be installed in your computer 
-    2. composer create-project codeigniter4/appstarter
+    2. composer create-project codeigniter4/appstarter : given error by this command
     3. composer update  
         => Error : 
                 Problem 1
@@ -8,6 +8,8 @@
                 - phpunit/phpunit[9.3.0, ..., 9.5.20] require ext-dom * -> it is missing from your system. Install or enable PHP's dom extension.
                 - Root composer.json requires phpunit/phpunit ^9.1 -> satisfiable by phpunit/phpunit[9.1.0, ..., 9.5.20].  
         try command :  composer update --ignore-platform-reqs
+
+	composer create-project codeigniter4/appstarter --ignore-platform-reqs
 
 => For learn before this  codeigniter framework,  You must be knowledge of MVC, if you dont knew, checkout my cheatsheet of mvc notes
 => Intro

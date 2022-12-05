@@ -15,7 +15,6 @@ window.onload  = function(){
     xhr.onreadystatechange = function(){
         console.warn("ready state is", xhr.readyState);
     }
-    
 
     // what to do when response is ready
     xhr.onload = function(){

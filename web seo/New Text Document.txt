@@ -1,0 +1,7 @@
+=> improve LCP 
+	1. cache enable : whenenver user visit the website some image/text cache store the user system thats helpful for load website fast
+	2. Font-Display:swap ; anywhere in the css @font {} add line of swap method
+	3. Defer : use keyword inside of script tag
+	4. minified html/csss/js 
+	5. make sure give the width and height of your image
+	

@@ -25,6 +25,7 @@
 												  global x
 												  x = "fantastic"
 => Data Types 
+	=> Check datatype of any variable : type(variableName)
 	Text Type:	str
 	Numeric Types:	int, float,  iii. complex its write by j   x = 3+5j; print(x); output : 3+5j; 
 	Sequence Types:	 i. list = ["apple", "banana", "cherry"] ii.  tuple =("apple", "banana", "cherry") iii.  range =  range(6)
@@ -50,5 +51,6 @@
 			ii. check hello is present in : "Hello" in txt # output: true
 			iii. check hello is not present : "expensive" not in txt #output true
 		=> Learn more string method here : https://www.w3schools.com/python/python_strings_slicing.asp
+
 
 

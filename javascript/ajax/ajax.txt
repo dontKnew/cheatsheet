@@ -45,7 +45,7 @@
         i. xhr.open("POST", "url", true)
         ii. xhr.getResponseHeader("Content-Type", "appication/json");
         iii. params = {"name":"sajid", "email":"sajid@gmil.com"} // might be before xhr.send();
-        iv. some other methods then at the time last method xhr.send();
+        iv. some other methods then at the time last method xhttp.send(JSON.stringify(params));
     
     2.3 parsing data while response is received
         xhr.onload = function(){
