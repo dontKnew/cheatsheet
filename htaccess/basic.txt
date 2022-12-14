@@ -1,0 +1,28 @@
+RewriteEngine On
+
+#folder name for root folder use /
+Rewritebase /testing
+
+## remove .php file from extension
+    # RewriteCond %{REQUEST_FILENAME} !-f
+    # RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+
+##redirect index.php file to index and if user browse index.php force to redirect  index without extension of php 
+    ### To remove trailing slash
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteCond %{REQUEST_URI} /(.*)/$
+        RewriteRule ^ /%1 [R=301,L]
+    
+    ### To remove .php extension
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\ (.*)\.php [NC]
+    RewriteRule ^ %1 [R=301,L]
+    
+    ### To check whether the file exists then set it back internally
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME}.php -f
+        RewriteRule ^.*$ $0.php [L]
+    
+    ### To redirect /index to root - base of subfolder now working fine Method - redirect index.php file to index and if user browse index.php redirect to index 
+        # RewriteCond %{THE_REQUEST} ^.*/index
+        # RewriteRule ^(.*)index.php$ /$1 [R=301,L]
