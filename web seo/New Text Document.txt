@@ -6,6 +6,7 @@
 	5. make sure give the width and height of your image
 
 => IMPROVE CLS
+	2. lazy attribute in <img src, alt, lazy/>
 	1. use fonts thats are similar to system fonts
 	2. use system fonts to begin with by adding in @font {Font-Display:swap;}
 	3. self host your fonts but hosting service speed must be good

@@ -24,6 +24,10 @@
 	2. git push --all origin : Push All Branches together
 	3. git pull --all : fetch all branches together to local computer.
 	4. git rm -r --cached path/filename  : remove the folder/file after git add and bofore commit  
+	5. clone specific folder from github repositary 
+		i. git clone --depth 1 https://github.com/user/repository.git folder
+		ii. git clone https://github.com/user/repository.git folder
+
 	
 => Github Errors
 	1. unrelated-histories : git pull --allow-unrelated-histories 
