@@ -1,0 +1,37 @@
+INSERT INTO csc_state_from (state_id, sort_order, country_id)
+SELECT id, 100, country_id
+FROM csc_state
+WHERE country_id = 101;
+
+
+SQL QUERIES - 
+	=> Question
+	1. I have oe Table invoice
+	2. add record invoice_id, invoice_date from invoice table 
+	3. Now I want to insert those column value id into invoice_payment - invoice_id, invoice_date
+		Ans :
+			INSERT INTO invoice_payment (invoice_id, invoice_date)
+			SELECT id, invoice_date
+			FROM invoice;
+	=> Question
+	1. I have two table invoice, hotel_name
+	2. update hotel_id column in invoice_payment table where invoice_payment.invoice_id=invoice.id && hotel_name.name=invoice.hotel_name
+		Ans :
+			UPDATE invoice_payment
+			JOIN invoice ON invoice_payment.invoice_id = invoice.id
+			JOIN hotel_name ON hotel_name.name = invoice.hotel_name
+			SET invoice_payment.hotel_id = hotel_name.id;
+	=> Queston
+	1. I have one table invoice
+	2. select column item_data(which is in json format - select total_amount) from invoice table
+	3. then update invoice_payment.debit=item_data(json_key - total_amount), invoice_payment.balance=item_data(json_key - total_amount),  invoice_payment.remark="auto entry", in invoice_payment whereas invoice_payment.invoice_id=invoice.id
+		Ans : 
+		UPDATE invoice_payment
+		JOIN invoice ON invoice_payment.invoice_id = invoice.id
+		SET invoice_payment.debit = JSON_EXTRACT(invoice.item_data, '$.total_amount'),
+		    invoice_payment.balance = JSON_EXTRACT(invoice.item_data, '$.total_amount'),
+		    invoice_payment.remark = "auto entry"
+		WHERE invoice_payment.invoice_id = invoice.id;
+
+
+	

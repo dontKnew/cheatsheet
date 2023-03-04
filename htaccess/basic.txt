@@ -26,3 +26,60 @@ Rewritebase /testing
     ### To redirect /index to root - base of subfolder now working fine Method - redirect index.php file to index and if user browse index.php redirect to index 
         # RewriteCond %{THE_REQUEST} ^.*/index
         # RewriteRule ^(.*)index.php$ /$1 [R=301,L]
+
+
+#Page Error
+	ErrorDocument 404 /404.php #page not found
+	ErrorDocument 500 /500.php #internal server error
+	ErrorDocument 403 /403.php #forbidden 
+
+#Redirect
+	Redirect 301 /old-page.html http://www.example.com/new-page.html
+
+#Password Protection
+	##Basic Auth
+		AuthType Basic  
+		AuthName "Restricted Area"
+		AuthUserFile /path/to/your/.htpasswd # & add code : username:password, you encrypted password also
+		Require valid-user
+	##Digest Auth
+		AuthType Digest
+		AuthName "Restricted Area"
+		AuthDigestDomain /dir/  #name of directory wheresa file present
+		AuthDigestProvider file #name of file
+		AuthUserFile /path/to/.htdigest #& add code :  Admin Area:admin:Admin Area:da39a3ee5e6b4b0d3255bfef95601890afd80709 (pass should be md5)
+		Require valid-user
+#SEO
+	##Compression Web- This will enable compression for HTML, plain text, XML, CSS, and JavaScript files.
+
+		<IfModule mod_deflate.c>
+			AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/x-javascript application/javascript
+		</IfModule>
+	##Caching 
+		<IfModule mod_expires.c>
+			ExpiresActive On	
+			ExpiresDefault "access plus 1 week"
+			ExpiresByType image/jpeg "access plus 1 month"
+			ExpiresByType text/css "access plus 1 week"
+		</IfModule>
+
+#SECURITY
+	##protected file - This will block access to certain files with extensions such as .htaccess, .htpasswd, .ini, .log, .sh, .inc, and .bak.
+		<FilesMatch ".(htaccess|env|htpasswd|ini|log|sh|inc|bak)$">
+			Order Allow,Deny
+			Deny from all
+		</FilesMatch>
+	##Prevent to Access Website Contents - mean image of link which in ur website can not used those link in other website
+		RewriteEngine On
+		RewriteCond %{HTTP_REFERER} !^$
+		RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?mywebsite.com [NC]
+		RewriteRule \.(jpg|jpeg|png|gif)$ - [NC,F,L]
+
+
+
+
+	
+
+
+
+

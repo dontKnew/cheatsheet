@@ -1,3 +1,6 @@
+Error there is not data to update : check model protected coloumn is true 
+
+
 => Installation via command Line
     1. composer should be installed in your computer 
     2. composer create-project codeigniter4/appstarter : given error by this command
@@ -1066,8 +1069,9 @@ second method : http://localhost/yourpath/ci4/public/home/ or http://localhost/y
                 vii. $userModel->where('deleted', 0)->first(); // return the first();
                 viii. withDeleted() : In model configuration $useSoftDeletes is true, then find and findALl() method alwayas getting result null, for this you can use withDelete() for using find and findAll();
                      $userModel->findAll(); // Only gets non-deleted rows (deleted = 0)
-                    $userModel->withDeleted()->findAll(); // Gets all rows
+                    $userModel->withDeleted()->findAll(); // Gets all rows with deleted rows
                 xi. userModel->onlyDeleted()->findAll(); // return only deleted rows;
+		x. forceDelete() - delete permanently 
 
             3.4.2 Saving Data : insert data only associated array (key and value)
                 $data = ['tableName1'=>"value", 'tableName2'=>'value2']; $userModel->insert($data);

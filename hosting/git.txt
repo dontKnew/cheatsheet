@@ -1,3 +1,13 @@
+=> Advance Command
+	1. Remove Specfic Folder	   
+	  git add .
+	  git reset foldername
+	  OR git add --all :!foldername
+
+	
+
+
+
 
 => push to project in github
 	1. git init : create git file 
@@ -7,7 +17,8 @@
 	5. git branch -M branchName : default branch is master or main 
 	5. git remote add origin https://github.com/dontKnew/food-devliery.git
 	6. git remote -v : verify for url where's you are pushing..
-	7. git push -u push origin branchname
+	7. git push -u push origin branchname 
+		-  git push push origin branchname  : assume already setup
 
 
 

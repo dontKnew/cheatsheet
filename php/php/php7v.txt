@@ -140,12 +140,13 @@
                 
                 - For Associates Array :
                 asort() - sort associative arrays in ascending order, according to the value
-                ksort() - sort associative arrays in ascending order, according to the key
+                ksort() - sort associative arrays in ascending order, according to the key 
                 arsort() - sort associative arrays in descending order, according to the value
                 krsort() - sort associative arrays in descending order, according to the key
             ii. array_keys() // return all associates array keys 
             iii. array_key_exists()	 // Checks if the specified key exists in the array
-            vi. $newArr =  array_merge($arr1, $arr2, $arr3); // mixed all arrays 
+
+            vi. $newArr =  array_merge($arr1, $arr2, $arr3); // mixed/combine all arrays 
             
             v. Split array chunck of twos
                 $cars=array("Volvo","BMW","Toyota","Honda","Mercedes","Opel");
@@ -180,7 +181,9 @@
                             print_r(array_pad($a,5,"blue")); //ouptput Array ( [0] => red [1] => green [2] => blue [3] => blue [4] => blue )
    
 
-            
+            xvi. usort($result, function($a, $b) {
+   			 return $a['sorting'] - $b['sorting'];
+		}); // two array have sorting order then sorting using key of two array while mixing
 
 
 

@@ -1,3 +1,11 @@
+QUICK TIPS --
+1.  $("img").lazyload({
+        effect: "fadeIn",
+        bind: "event",
+        delay: 0
+    });
+
+2. enable lightouse in chrome deve tol go to web store and install lighthouse
 => improve LCP 
 	1. cache enable : whenenver user visit the website some image/text cache store the user system thats helpful for load website fast
 	2. Font-Display:swap; anywhere in the css @font {} add line of swap method

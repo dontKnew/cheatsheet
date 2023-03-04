@@ -1,0 +1,32 @@
+
+Problme 1 :  codeigniter 3 dataabase
+	1. Select All invoice_payment table data
+	2. foreach data one by one
+	3. And Store in Array first Loop- invoice_payment.hotel_id & debit & update invoice_payment.debit=invoice_payment.balance 
+	4. second loop - if invoice_payment.hotel_id exits in array then update invoice_payment.debit+stored-debit(balance amount)  in invoice_payment table & Update Array stored-debit = stored-debit+invoice_payment.debit
+	Hint - its like ledger book debit & credit and i want to entry only debit here & balance will be plus with debit
+
+Solved 1 : 
+        $query = $this->db->get('invoice_payment');
+        $invoice_payments = $query->result_array();
+        
+        $stored_debits = array();
+        foreach ($invoice_payments as $invoice_payment) {
+          if (array_key_exists($invoice_payment['hotel_id'], $stored_debits)) {
+              
+            $new_balance = $invoice_payment['debit'] + $stored_debits[$invoice_payment['hotel_id']];
+            $this->db->set('balance', $new_balance);
+            $this->db->where('id', $invoice_payment['id']);
+            $this->db->update('invoice_payment');
+            
+            $stored_debits[$invoice_payment['hotel_id']] += $invoice_payment['debit'];
+          } else {
+            
+            $stored_debits[$invoice_payment['hotel_id']] = $invoice_payment['debit'];
+            
+            $this->db->set('balance', $invoice_payment['debit']);
+            $this->db->where('id', $invoice_payment['id']);
+            $this->db->update('invoice_payment');
+          }
+          
+        }
