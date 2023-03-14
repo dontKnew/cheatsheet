@@ -42,6 +42,13 @@ SQL QUERIES -
 		    invoice_payment.balance = JSON_EXTRACT(invoice.item_data, '$.total_amount'),
 		    invoice_payment.remark = "auto entry"
 		WHERE invoice_payment.invoice_id = invoice.id;
+	=> Question : Remove Duplicate Data in Tabler
+		Ans. 
+			DELETE e1
+			FROM cities e1, cities e2
+			WHERE e1.name = e2.name
+			AND e1.id > e2.id;
 
+		
 
 	
