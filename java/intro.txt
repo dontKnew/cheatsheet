@@ -1,0 +1,766 @@
+1. INTRO
+    => Java used for
+        - Mobile applications (specially Android apps)
+        - Desktop applications
+        - Web applications
+        - Web servers and application servers
+        - Games
+        - Database connection
+        - And much, much more!
+    => Java is a popular programming language.
+    => Its work on different paltform Windows, Mac, Linux, Raspberry Pi, etc.
+    => It is secure, fast and powerful
+    => Java is an object oriented language
+
+2. Installation
+    i. download from here https://www.oracle.com/java/technologies/java-se-glance.html
+    ii. *Setup if System Environment variables for access anywhere java cmd - Path - C:\Program Files\Java\jdk-C:\Program Files\Java\jdk-00.0.0\bin1.0.1\bin
+    iii. open cmd - check install or not proper :  java -version
+    iv. Create FIrst Program
+        => Main.java
+            public class Main {
+                 public static void main(String[] args) {
+                   System.out.println("Hello World");
+                 }
+               }
+        => compile java program cmd :  javac Main.java
+        => run cmd :  java Main
+        => output in terminal : Hello World
+    Note - every filename must match with class name and first letter always uppercase
+
+3. Comment
+    i. single line comment : // This is a comment
+    ii. multi line comment : /* The code below will print the words Hello World
+                             to the screen, and it is amazing */
+
+4. Java Variable
+    => String, int, float, char(store single letter like 'a' or 'b'), boolean
+    4.1 Variable Name Rules
+            => name can letter, digit, underscore and doller sign
+            => name must be begain with letter
+            => reserved keyword can not use as variable
+            => case sensitive myVar & myvar are different
+    4.2 Declare Variable
+         - type variableName = value;
+           Ex. int myNumber = 10;
+    4.3 Declare multiple variable
+        int x = 5, y = 6, z = 50;
+         System.out.println(x + y + z);
+
+5. Data Types
+    5.1 Primitive (प्राथमिक)
+        => includes byte, short, int, long, float, double, boolean and char
+    5.2 Non-primitive
+        => data types - such as String, Arrays and Classes
+
+6. Type Casting
+    => when you assign one primitive data type to another
+    6.1  Widening Casting (automatically)
+        => converting a smaller type to a larger type size byte -> short -> char -> int -> long -> float -> double
+        => its auto convert
+             int myInt = 9;
+             double myDouble = myInt; // output 9.0
+    6.2 Narrowing Casting (manually)
+        => converting a larger type to a smaller size type double -> float -> long -> int -> char -> short -> byte
+        => its manual convert
+                     double myInt = 9.0;
+                     int  myDouble = (int) myInt; // output 9
+
+7. Operator
+    i. Arithmetic
+    ii. Assignment
+    iii. Comparison
+    iv. Logical
+    v. Bitwise
+    Learn More - https://www.w3schools.com/java/java_operators.asp
+
+8. String
+    String text = "hello";
+    8.1 Some Method
+        i. text.length() // output 5
+        ii. toUpperCase(), toLowerCase()
+        iii. txt.indexOf("locate"); - return index position in line inlcuding whitespace
+        Learn More String Method - https://www.w3schools.com/java/java_ref_string.asp
+    8.2 Join String
+        => System.out.println(firstName + " " + lastName); or firstName.concat(lastName)
+    8.3 Special Character
+        => \n, \r (carriage return), \t, \b(backspace), \f(form feed)
+            Ex. Hello\nWorld! // output Hello
+                                        World!
+9. Math
+    i. Math.max(5,10) // return 10
+    ii. Math.min(5,10) // return 5
+    iii. Math.sqrt(64) // return 8
+
+
+10. Condition
+    10.1 if statement
+           int time = 20;
+           if (time < 18) {
+             System.out.println("Good day.");
+           } else {
+             System.out.println("Good evening.");
+           }
+   10.2 Short if statement
+        variable = (condition) ? expressionTrue :  expressionFalse;
+        int time = 20;
+        String result = (time < 18) ? "Good day." : "Good evening.";
+
+   10.3 Switch
+        switch(expression) {
+          case x:
+            // code block
+            break;
+          case y:
+            // code block
+            break;
+          default:
+            // code block
+        }
+   10.4 While
+            while (condition) {
+              // code block to be executed
+            }
+   10.5 Do Loop
+        - first exe line then check condition if false stop
+        do {
+          // code block to be executed
+        }
+        while (condition);
+   10.6 for loop
+        for (int i = 0; i <= 10; i = i + 2) {
+          System.out.println(i);
+        }
+   10.7 foreach
+        Syntax - for (type variableName : arrayName) {
+                  // code block to be executed
+                }
+        Ex. String[] cars = {"Volvo", "BMW", "Ford", "Mazda"};
+            for (String i : cars) {
+              System.out.println(i);
+            }
+
+11 Arrays
+    - define array
+       String[] cars = {"Volvo", "BMW", "Ford", "Mazda"}; or String[] cars;
+    - Access
+        String car = cars[0];
+    - cars.length // return lenght of cars elements
+    - Ex.
+        String[] cars = {"Volvo", "BMW", "Ford", "Mazda"};
+        for (int i = 0; i < cars.length; i++) {
+          System.out.println(cars[i]);
+        }
+
+    11.1 Multidimensional Array
+        - define
+            int[][] myNumbers = { {1, 2, 3, 4}, {5, 6, 7} };
+        Ex 1.
+            int[][] myNumbers = { {1, 2, 3, 4}, {5, 6, 7} };
+            myNumbers[1][2] = 9;
+            System.out.println(myNumbers[1][2]); // Outputs 9 instead of 7
+        Ex 2.
+            int[][] myNumbers = { {1, 2, 3, 4}, {5, 6, 7} };
+                for (int i = 0; i < myNumbers.length; ++i) {
+                  for(int j = 0; j < myNumbers[i].length; ++j) {
+                    System.out.println(myNumbers[i][j]);
+                  }
+                }
+
+12. Date
+    => We will import java pakcage time to use date time function
+    => Example
+        import java.time.*;
+        public class Main {
+          public static void main(String[] args) {
+            LocalDate myObj = LocalDate.now(); //  output 2023-03-12
+            LocalTime myObj = LocalTime.now(); // output 10:15:30.123456789
+            LocalDateTime myObj = LocalDateTime.now(); // Current Date & time  output 2023-03-12T10:15:30.123456789
+            System.out.println(myObj);
+          }
+        }
+    => Formatter date
+        import java.time.LocalDateTime;
+        import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+
+        public class Main {
+          public static void main(String[] args) {
+            LocalDateTime myDateObj = LocalDateTime.now();
+            System.out.println("Before formatting: " + myDateObj); // output 2023-03-12T10:15:30.123456789
+
+
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            /* ofPattern
+            "yyyy-MM-dd"	"1988-09-29"
+            "dd/MM/yyyy"	"29/09/1988"
+            "dd-MMM-yyyy"	"29-Sep-1988"
+            "E, MMM dd yyyy"	"Thu, Sep 29 1988"
+            */
+            String formattedDate = myDateObj.format(myFormatObj);
+
+            System.out.println("After formatting: " + formattedDate); // output 12-03-2023 10:15:30
+          }
+        }
+
+
+13. ArrayList
+    => ArrayList is a class in java.util package
+    => Example 1
+        import java.util.ArrayList; // import the ArrayList class
+        public class Main {
+          public static void main(String[] args) {
+            ArrayList<String> cars = new ArrayList<String>();
+            cars.add("Volvo");
+            cars.add("BMW");
+            cars.set(0, "Opel"); // change index 0 to Opel
+            cars.remove(0); // remove index 0
+            cars.clear(); // remove all element
+            int size =  cars.size(); // return size of array
+            System.out.println(cars);
+          }
+        }
+    => Loop
+        i. for (int i = 0; i < cars.size(); i++) {
+             System.out.println(cars.get(i));
+             System.out.println(); // line break
+           }
+       ii. foreach
+            for (String i : cars) {
+              System.out.println(i);
+              System.out.println(); // line break
+            }
+       iii.
+   => Other Type Array
+        ArrayList<Integer> myNumbers = new ArrayList<Integer>();
+        ArrayList<Boolean> myBooleans = new ArrayList<Boolean>();
+   => Sort Array
+       - import java.util.Collections;
+        Collections.sort(cars); // Ascending order
+        Collections.sort(cars, Collections.reverseOrder()); // Descending order
+
+14. LinkedList
+    => LinkedList is a class in java.util package
+    => LinkedList is similar to ArrayList, but with some differences:
+        - LinkedList stores elements as a doubly linked list.
+        - LinkedList can contain duplicate elements.
+        - LinkedList maintains insertion order.
+        - LinkedList is non synchronized.
+        - In LinkedList, manipulation is fast because no shifting needs to occur.
+    => Example
+        import java.util.LinkedList;
+        public class Main {
+          public static void main(String[] args) {
+            LinkedList<String> cars = new LinkedList<String>();
+            cars.add("Volvo");
+            cars.add("BMW");
+            cars.addFirst("Mazda");
+            cars.addLast("Ford");
+            cars.remove(0);
+            cars.removeFirst();
+            cars.removeLast();
+            cars.clear();
+            int size = cars.size();
+            System.out.println(cars);
+          }
+        }
+15. HashMap
+    => HashMap is a class in java.util package
+    => HashMap has a key/value pair.
+    => HashMap is useful if you have to search, update or delete elements on the basis of a key.
+    => Example
+        import java.util.HashMap; // import the HashMap class
+        public class Main {
+          public static void main(String[] args) {
+            HashMap<String, String> capitalCities = new HashMap<String, String>();
+            capitalCities.put("England", "London");
+            capitalCities.put("Germany", "Berlin");
+            capitalCities.remove("England");
+            capitalCities.get("Germany"); // access value
+            capitalCities.clear();
+            int size = capitalCities.size(); // output 1
+            System.out.println(capitalCities); // output {Germany=Berlin}
+          }
+        }
+    => Loop
+        for (String i : capitalCities.keySet()) {
+          System.out.println(i); // ouptut key : England, Germany
+        }
+        for (String i : capitalCities.values()) {
+          System.out.println(i); // output value : London, Berlin
+        }
+        for (String i : capitalCities.keySet()) {
+          System.out.println("key: " + i + " value: " + capitalCities.get(i));
+        }
+    => Other Type
+        HashMap<String, Integer> myNumbers = new HashMap<String, Integer>();
+        HashMap<String, Boolean> myBooleans = new HashMap<String, Boolean>();
+    => Sort
+        - import java.util.Collections;
+        Collections.sort(capitalCities); // Ascending order
+        Collections.sort(capitalCities, Collections.reverseOrder()); // Descending order
+13. Hashset
+    => Hashset is a class in java.util package
+    => Hashset is a collection that cannot contain duplicate items.
+    => Example
+        import java.util.HashSet; // import the HashSet class
+        public class Main {
+          public static void main(String[] args) {
+            HashSet<String> cars = new HashSet<String>();
+            cars.add("Volvo");
+            cars.add("BMW");
+            cars.add("Ford");
+            cars.add("BMW");
+            cars.remove("Volvo");
+             boolean itemExists  =  cars.contains("Mazda"); // return true or false if item exist
+            cars.clear();
+            int size = cars.size(); // output 1
+            System.out.println(cars); // output {BMW, Ford}
+          }
+        }
+    => Loop
+        for (String i : cars) {
+          System.out.println(i);
+        }
+    => Other Type
+        HashSet<Integer> myNumbers = new HashSet<Integer>();
+        HashSet<Boolean> myBooleans = new HashSet<Boolean>();
+    => Sort
+        - import java.util.Collections;
+        Collections.sort(cars); // Ascending order
+        Collections.sort(cars, Collections.reverseOrder()); // Descending order
+
+14. Iterator
+    => Iterator is a class in java.util package
+    => Iterator is used to loop through collections, like ArrayList, LinkedList and HashSet.
+    => Example 1
+        import java.util.ArrayList;
+        import java.util.Iterator;
+        public class Main {
+          public static void main(String[] args) {
+            ArrayList<String> cars = new ArrayList<String>();
+            cars.add("Volvo");
+            cars.add("BMW");
+            cars.add("Ford");
+            cars.add("Mazda");
+            Iterator<String> it = cars.iterator(); // defined casting    type of Iterator
+            while (it.hasNext()) {
+              System.out.println(it.next());
+            }
+          }
+        }
+        Example 2 -  Use an iterator to remove numbers less than 10 from a collection:
+            import java.util.ArrayList;
+            import java.util.Iterator;
+
+            public class Main {
+              public static void main(String[] args) {
+                ArrayList<Integer> numbers = new ArrayList<Integer>();
+                numbers.add(12);
+                numbers.add(8);
+                numbers.add(2);
+                numbers.add(23);
+                Iterator<Integer> it = numbers.iterator();
+                while(it.hasNext()) {
+                  Integer i = it.next();
+                  if(i < 10) {
+                    it.remove();
+                  }
+                }
+                System.out.println(numbers);
+              }
+            }
+
+
+
+15. Wrapper Classes
+    => Wrapper classes are used to convert primitive data types into objects.
+    => You can certain method with object like .length() with string .toUpperCase() with string or .toString() with covert integer object to string but not with primitive data type.
+    => Example
+        public class Main {
+          public static void main(String[] args) {
+            Integer myInt = 100;
+            String myString = myInt.toString();
+            System.out.println(myString.length());
+          }
+        }
+
+    => Example 1
+        Integer myInt = 5; // Integer object
+        Double myDouble = 5.99; // Double object
+        Character myChar = 'A'; // Character object
+        Boolean myBool = true; // Boolean object
+        System.out.println(myInt); // output 5
+        System.out.println(myDouble); // output 5.99
+        System.out.println(myChar); // output A
+        System.out.println(myBool); // output true
+    => Example 2
+         ArrayList<int> myNumbers = new ArrayList<int>(); // Invalid
+         ArrayList<Integer> myNumbers = new ArrayList<Integer>(); // Valid
+
+16. Exception
+    => Instead of generate error and stop the program, we can use exception to handle the error.
+    => Example
+        public class Main {
+          public static void main(String[] args) {
+            try {
+              int[] myNumbers = {1, 2, 3};
+              System.out.println(myNumbers[10]); //  try to access an element that does not exist, which will raise an error.
+            } catch (Exception e) {
+              System.out.println("Error "+e); // output : Error java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 3
+            }finally {
+               System.out.println("The 'try catch' is finished."); // always  execute after try catch
+             }
+          }
+        }
+
+17. RegEx
+    => RegEx is a sequence of characters that forms a search pattern.
+    => RegEx can be used to check if a string contains the specified search pattern.
+    => We can use text search & text replace using the RegEx Pattern.
+    => Thats Classes Are Available In Java
+        - Pattern  : use to compile() a regex
+        - Matcher : use to find() or replaceAll()
+        - PatternSyntaxException - use to an handle error
+    => Example One
+        import java.util.regex.Matcher;
+        import java.util.regex.Pattern;
+           public class Main {
+             public static void main(String[] args) {
+               Pattern my_pattern = Pattern.compile("w3schools", Pattern.CASE_INSENSITIVE);
+                /*
+                    Pattern.CASE_INSENSITIVE :  search (w3schools, W3SCHOOLS, W3schools etc.)
+                    Pattern.MULTILINE : search in multiple lines
+                    Pattern.UNICODE_CASE : search unicode
+                    Pattern.UNIX_LINES : search in unix lines
+                    Pattern.LITERAL : search in literal
+                */
+
+               Matcher matcher = my_pattern.matcher("Visit W3Schools!"); // Create a Matcher object
+               boolean matchFound = matcher.find(); // Check if exists return true otherwise false
+               if(matchFound) {
+                 System.out.println("Match found");
+               } else {
+                 System.out.println("Match not found");
+               }
+             }
+           }
+    => Example Two
+         Pattern my_pattern = Pattern.compile("[^abc]", Pattern.CASE_INSENSITIVE);
+          Pattern my_pattern = Pattern.compile("[0-9]", Pattern.CASE_INSENSITIVE);
+
+          Learn more about pattern here : https://www.w3schools.com/java/java_regex.asp
+
+18. Java Thread
+    => Threads are allow to do multiple function/method/run program at the same time.
+    => Threads can be used to perform complicated tasks in the background without interrupting the main program.
+    => can be create by extends Thread class or implements Runnable interface
+    => Extend Syntax :
+        public class Main extends Thread {
+          public void run() {
+            System.out.println("This code is running in a thread using extends Thread");
+          }
+    => Runnable Interface Syntax :
+        public class Main implements Runnable {
+          public void run() {
+            System.out.println("This code is running in a thread using runable interface");
+          }
+    => Concurrency Problems
+        - when thread is running at the same times of other program, there is no way to know which order will run
+        Example
+            public class Main extends Thread {
+              public static int amount = 0;
+
+              public static void main(String[] args) {
+                Main thread = new Main();
+                thread.start();
+                System.out.println(amount);
+                amount++;
+                System.out.println(amount);
+              }
+
+              public void run() {
+                amount++;
+              }
+            }
+            // output : 0 2 or can be 2 0
+
+        - To resolve this issue we will use isAlive method until  threads are finished
+        Example
+            public class Main extends Thread {
+              public static int amount = 0;
+
+              public static void main(String[] args) {
+                Main thread = new Main();
+                thread.start();
+                // Wait for the thread to finish
+                while(thread.isAlive()) {
+                  System.out.println("Waiting...");
+                }
+                // Update amount and print its value
+                System.out.println("Main: " + amount);
+                amount++;
+                System.out.println("Main: " + amount);
+              }
+              public void run() {
+                amount++;
+              }
+            }
+            output : Waiting...
+                     Waiting...
+                     Waiting...
+                     Main: 0
+                     Main: 1
+
+19. Lambda
+    => Lambda is a function that can be created without belonging to any class.
+    => Lambda added in java 8
+    => Syntax - (parameter1, parameter2) -> expression
+    => Example
+        public class Main {
+          public static void main(String[] args) {
+            Lambda myLambdaFunction = (int x) -> x + 5;// Create a lambda expression that adds 5 to the value of x
+            System.out.println(myLambdaFunction.foo(5));
+          }
+        }
+        interface Lambda {
+          int foo(int x);
+        }
+    => Example 2
+    import java.util.ArrayList;
+
+    public class Main {
+      public static void main(String[] args) {
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+        numbers.add(5);
+        numbers.add(9);
+        numbers.add(8);
+        numbers.add(1);
+        numbers.forEach( (n) -> { System.out.println(n); } );
+      }
+    }
+    => Example 3
+        interface StringFunction {
+          String run(String str);
+        }
+        public class Main {
+          public static void main(String[] args) {
+            StringFunction exclaim = (s) -> s + "!";
+            StringFunction ask = (s) -> s + "?";
+            printFormatted("Hello", exclaim);
+            printFormatted("Hello", ask);
+          }
+          public static void printFormatted(String str, StringFunction format) {
+            String result = format.run(str);
+            System.out.println(result);
+          }
+        }
+
+20.  FIle Hanlding
+    => File Handling is used to create, read, update, and delete files on the local device.
+    =>
+    => Examples
+        1.
+            import java.io.File;  // Import the File class
+            import java.io.IOException;  // Import the IOException class to handle errors
+            public class Main {
+              public static void main(String[] args) {
+                try {
+                  File myObj = new File("filename.txt"); // File myObj = new File("C:\\Users\\MyName\\filename.txt");
+                  if (myObj.createNewFile()) {
+                    System.out.println("File created: " + myObj.getName());
+                  } else {
+                    System.out.println("File already exists.");
+                  }
+                } catch (IOException e) {
+                  System.out.println("An error occurred.");
+                  e.printStackTrace();
+                }
+              }
+            }
+
+    => Usefull File methods
+        - createNewFile() : create a new file
+        - delete() : delete a file
+        - getName() : get file name
+        - getPath() : get file path
+        - length() : get file length
+        - renameTo() : rename a file
+        - exists() : check if file exists
+        - isDirectory() : check if file is directory
+        - isFile() : check if file is file
+        - isHidden() : check if file is hidden
+        - canRead() : check if file is readable
+        - canWrite() : check if file is writable
+        - lastModified() : get last modified date
+        - list() : get list of files in directory
+        - mkdir() : create a directory
+        - mkdirs() : create a directory and all parent directories
+        - getAbsolutePath()	 : get absolute path
+
+    1. Write File
+       import java.io.FileWriter;
+       import java.io.IOException;
+
+       public class WriteToFile {
+         public static void main(String[] args) {
+           try {
+             FileWriter myWriter = new FileWriter("filename.txt"); // get the filename which is to be write something
+             myWriter.write("Files in Java might be tricky, but it is fun enough!");
+             myWriter.close();
+             System.out.println("Successfully wrote to the file.");
+           } catch (IOException e) {
+             System.out.println("An error occurred.");
+             e.printStackTrace();
+           }
+         }
+       }
+
+    2. Create FIle
+        import java.io.File;
+                import java.io.IOException;
+
+                public class CreateFile {
+                  public static void main(String[] args) {
+                    try {
+                      File myObj = new File("filename.txt");
+                      if (myObj.createNewFile()) {
+                        System.out.println("File created: " + myObj.getName());
+                      } else {
+                        System.out.println("File already exists.");
+                      }
+                    } catch (IOException e) {
+                      System.out.println("An error occurred.");
+                      e.printStackTrace();
+                    }
+                  }
+                }
+    3. Read File
+        import java.io.File;
+        import java.io.FileNotFoundException;
+        import java.util.Scanner;
+
+        public class ReadFile {
+          public static void main(String[] args) {
+            try {
+              File myObj = new File("filename.txt");
+              Scanner myReader = new Scanner(myObj);
+              while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                System.out.println(data);
+              }
+              myReader.close();
+            } catch (FileNotFoundException e) {
+              System.out.println("An error occurred.");
+              e.printStackTrace();
+            }
+          }
+        }
+    4. Append File
+    => To append data to an existing file, use the second parameter of the FileWriter constructor:
+        import java.io.FileWriter;
+        import java.io.IOException;
+
+        public class AppendToFile {
+          public static void main(String[] args) {
+            try {
+              FileWriter myWriter = new FileWriter("filename.txt", true);
+              myWriter.write("Files in Java might be tricky, but it is fun enough!");
+              myWriter.close();
+              System.out.println("Successfully wrote to the file.");
+            } catch (IOException e) {
+              System.out.println("An error occurred.");
+              e.printStackTrace();
+            }
+          }
+        }
+    5. Delete File
+        import java.io.File;
+
+        public class DeleteFile {
+          public static void main(String[] args) {
+            File myObj = new File("filename.txt");
+            if (myObj.delete()) {
+              System.out.println("Deleted the file: " + myObj.getName());
+            } else {
+              System.out.println("Failed to delete the file.");
+            }
+          }
+        }
+21. String Method
+    => String is a sequence of characters.
+    => String is immutable, which means it cannot be changed.
+    => Methods are below with example
+        1. length() : Returns the length of a string
+            public class Main {
+              public static void main(String[] args) {
+                String txt = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                System.out.println("The length of the txt string is: " + txt.length());
+              }
+            }
+        2. toUpperCase() : Converts a string to upper case
+            public class Main {
+              public static void main(String[] args) {
+                String txt = "Hello World";
+                System.out.println(txt.toUpperCase());   // Outputs "HELLO WORLD"
+              }
+            }
+        3. toLowerCase() : Converts a string to lower case
+            public class Main {
+              public static void main(String[] args) {
+                String txt = "Hello World";
+                System.out.println(txt.toLowerCase());   // Outputs "hello world"
+              }
+            }
+        4. concat() : join the two strings
+            public class Main {
+              public static void main(String[] args) {
+                String firstName = "John ";
+                String lastName = "Doe";
+                System.out.println(firstName.concat(lastName)); // Outputs "John Doe"
+              }
+            }
+        5. trim() : Removes whitespace from both ends of a string
+            public class Main {
+              public static void main(String[] args) {
+                String txt = "       Hello World       ";
+                System.out.println(txt.trim());
+              }
+            }
+        6. charAt() : Returns the character at a specified index (position)
+            public class Main {
+              public static void main(String[] args) {
+                String txt = "Hello World";
+                System.out.println(txt.charAt(0));
+              }
+            }
+        7. indexOf() : simple word search in a string and returns the index of the first occurrence of the specified text
+            public class Main {
+              public static void main(String[] args) {
+                String txt = "Please locate where 'locate' occurs!";
+                System.out.println(txt.indexOf("locate")); // Outputs 7
+              }
+            }
+        8. lastIndexOf() : Returns the index (the position) of the last occurrence of a specified text in a string
+            public class Main {
+              public static void main(String[] args) {
+                String txt = "Please locate where 'locate' occurs!";
+                System.out.println(txt.lastIndexOf("locate")); // Outputs 21
+              }
+            }
+        9. substring() : Extracts the characters from a string,
+            beginning at a specified start position, and through the specified number of character
+            public class Main {
+              public static void main(String[] args) {
+                String txt = "Hello World";
+                System.out.println(txt.substring(0, 5)); // output Hello
+              }
+            }
+        10. replace() : Replaces a sequence of characters in a string with another sequence of characters
+            public class Main {
+              public static void main(String[] args) {
+                String txt = "Hello World";
+                System.out.println(txt.replace("H", "J")); //output Jello World
+              }
+            }
+        For More Inforatino Learn Here : https://www.w3schools.com/java/java_strings.asp &
+        & for math Method - https://www.w3schools.com/java/java_ref_math.asp

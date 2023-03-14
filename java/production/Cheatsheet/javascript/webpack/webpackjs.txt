@@ -1,0 +1,48 @@
+=> Webpack 
+	1. Webpack is boundler of modules. The main purpose is to bundle to all javascript file into one file.
+	2. Webpack supports ES2015+, CommonJS and AMD modules 
+	3. to reduce the output size of your JavaScript 
+
+=> Webpack@2
+=> Installation 
+	1. Install globaly : npm install webpack@2 --global
+	2. install by specfic version of webpack with only development purpose : npm install wepack@versionName --save dev
+
+=> bundle index.js file to bundle via webpack command : webpack filePath/index.js dist/newfileName.js
+
+=> continuously make bundle.js from index.js : webpack -w filePath/index.js dist/newfileName.js
+	1. Now You no need to every time run comamnd webpack filePath/index.js dist/newfileName.js, its automatic change to bundle.js while changed in index.js file
+
+=> Multiple js file convert into single bundle.js file : webpack -w app/test2.js app/test.js  dist/bundle.js
+	
+
+=> Webpack.config.js file : this is file easy to handle except above said run command : webpack -w filePath/index.js dist/newfileName.js
+	const path = require('path');
+	module.exports = {
+		entry:'./app/test.js', // for multiple file js used array as entry:['./app/test.js', './app/test2.js'], 
+		output:{
+			path: path.resolve(__dirname, 'dist'),
+			filename:'bundle.js'
+		}
+	}
+	1. You can simple run command : webpack -w
+	2. its will automatic see first webpack.config.js exist or not , if yes, then configuration of webpack.config.js file will be apply and output given at as describe of webpack.cofnig.js file.
+
+=> command : npm init y 
+	{
+	"name": "webpack",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start" : "webpack",
+		"watch" : "webpack -w",
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC"
+	}
+
+	run : npm run watch, npm run start
+
+	 

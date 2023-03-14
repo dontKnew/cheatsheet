@@ -1,0 +1,32 @@
+QUICK TIPS --
+1.  $("img").lazyload({
+        effect: "fadeIn",
+        bind: "event",
+        delay: 0
+    });
+
+2. enable lightouse in chrome deve tol go to web store and install lighthouse
+=> improve LCP 
+	1. cache enable : whenenver user visit the website some image/text cache store the user system thats helpful for load website fast
+	2. Font-Display:swap; anywhere in the css @font {} add line of swap method
+	3. Defer : use keyword inside of script tag
+	4. minified html/csss/js 
+	5. make sure give the width and height of your image
+
+=> IMPROVE CLS
+	2. lazy attribute in <img src, alt, lazy/>
+	1. use fonts thats are similar to system fonts
+	2. use system fonts to begin with by adding in @font {Font-Display:swap;}
+	3. self host your fonts but hosting service speed must be good
+	4. optimize your images in jpeg or png formats 
+	5. use webp formate of image
+	6. give your image proper size width and heigth inside of image tag 
+	-> Identify which element is change position while loading website
+		1. inspect the tool in performance tab
+		2. tick the Web Vitals  right side
+		3. click the reload icon left side
+		4. check LONG TASK
+			- here you can see FCP, LCP AND Layout shift (CLS) 
+			- now you have to fixed the element will not chnange position if while loading OK!
+
+	

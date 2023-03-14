@@ -1,17 +1,7 @@
-=> PHP File not working server
-	i. remove this user defined apachae hanlder in cpanel
-	application/x-httpd-ea-php80___lsphp	
-	.php .php8 .phtml
-
 INSERT INTO csc_state_from (state_id, sort_order, country_id)
 SELECT id, 100, country_id
 FROM csc_state
 WHERE country_id = 101;
-
-
-error_reporting(E_ERROR | E_PARSE);
-ini_set('display_errors', 'On');
-error_reporting(1);
 
 
 SQL QUERIES - 
@@ -42,10 +32,6 @@ SQL QUERIES -
 		    invoice_payment.balance = JSON_EXTRACT(invoice.item_data, '$.total_amount'),
 		    invoice_payment.remark = "auto entry"
 		WHERE invoice_payment.invoice_id = invoice.id;
-	=> REMOVE data specific column as array
-		Ans : 
-		DELETE FROM table_name WHERE code IN ('AX', 'AQ', 'BV', 'IO', 'CX', 'CC', 'CW', 'TF', 'HM', 'IN', 'XK', 'IM', 'NF', 'KP', 'PN', 'PM', 'GS', 'SJ', 'TK', 'UM', 'WF', 'EH')
-
 
 
 	

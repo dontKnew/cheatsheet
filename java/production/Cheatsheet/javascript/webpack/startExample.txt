@@ -1,0 +1,6 @@
+=> Webpack version 1 
+1. install npm install webpack webpack-cli --save-dev
+2. npm init -y
+3. dist/main.js and src/index.js
+4. package.json create script start : webpack;
+5. npm run start

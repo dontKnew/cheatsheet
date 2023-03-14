@@ -3,8 +3,6 @@
 	  git add .
 	  git reset foldername
 	  OR git add --all :!foldername
-	2. clone single branch
-	 git clone git@github.com:dontKnew/shipmiles.git --branch admin --single-branch
 
 	
 

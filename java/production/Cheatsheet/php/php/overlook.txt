@@ -42,10 +42,6 @@ SQL QUERIES -
 		    invoice_payment.balance = JSON_EXTRACT(invoice.item_data, '$.total_amount'),
 		    invoice_payment.remark = "auto entry"
 		WHERE invoice_payment.invoice_id = invoice.id;
-	=> REMOVE data specific column as array
-		Ans : 
-		DELETE FROM table_name WHERE code IN ('AX', 'AQ', 'BV', 'IO', 'CX', 'CC', 'CW', 'TF', 'HM', 'IN', 'XK', 'IM', 'NF', 'KP', 'PN', 'PM', 'GS', 'SJ', 'TK', 'UM', 'WF', 'EH')
-
 
 
 	

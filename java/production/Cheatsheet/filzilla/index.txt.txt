@@ -1,0 +1,13 @@
+=> FILeZILLA have two software
+	i. filezilla server 
+		=> this is can be used probaly for testing purpose
+		=>  therein creating user account and password like FTP USER FTP PASSWORD HOST ETC. for connecting filzilla client
+	ii. filezilla client : you can transfer your local files to the remote server via FTP credentials.
+
+=> installation
+	Method One : choco install filzilla and choco install filzilla.server
+	Method Two : download mannual go to the site https://filezilla-project.org/download.php?type=server
+	
+=> Its easy to used just checkout toutrial mentioned therein filezilla site.
+
+		

@@ -1,0 +1,329 @@
+1. intro
+    => OOP stands for Object-Oriented Programming.
+    => OOP is faster and easier to execute
+    => OOP provides a clear structure for the programs
+    => OOP helps to keep the JAVA  code DRY "Don't Repeat Yourself", and makes the code easier to maintain, modify and debug
+    => OOP makes it possible to create full reusable applications with less code and shorter development time
+
+2. Class
+    => A class must have a matching filename (Main and Main.java).
+
+    => Example
+        public class Main {
+          int x = 5; // x is an attribute of class Main
+          public static void main(String[] args) {
+            Main myObj = new Main(); // myObj is the object of class Main
+            System.out.println(myObj.x);
+          }
+        }
+    2.1 Attribute
+            => if dont want to override the value of the attribute, use final keyword
+                  Ex. final int x = 10;
+    2.2 Multiple Object does not affect each other attributes
+        => Example
+                public class Main {
+                  int x = 5;
+                  public static void main(String[] args) {
+                    Main myObj1 = new Main(); // Object 1
+                    Main myObj2 = new Main(); // Object 2
+                     myObj2.x = 25;
+                    System.out.println(myObj1.x); // Outputs 5
+                    System.out.println(myObj2.x); // Outputs 25
+                  }
+                }
+
+    2.3 Public vs Static
+        => public: can be accessed by creating an object of the class
+        => static: can be accessed without creating an object of the class
+        => Example
+                public class Main {
+                  public int x = 5; // Public attribute
+                  static int y = 3; // Static attribute
+                  public static void main(String[] args) {
+                    Main myObj = new Main();
+                    System.out.println(myObj.x); // Outputs 5
+                    System.out.println(y); // Outputs 3 & we can use like also methods
+                  }
+                }
+    2.4 Multiple Class
+        => direcotry/example run cmd : javac Main.java && javac Second.java && java Second.java
+            - output will be : The car is going as fast as it can!
+                               Max speed is: 200
+       => auto catch up Main.java file via compiler with Second.java then output
+
+3. Java Modifiers
+    3.1 Access Modifiers
+        => public: the code is accessible for all classes
+        => private: the code is only accessible within the declared class
+        => default: the code is only accessible in the same package. This is used when you don't specify a modifier.
+        => protected: the code is accessible in the same package and subclasses.
+
+    3.2 Non-Access Modifiers
+        3.2.1 For Classes
+            => final: the class cannot be inherited by other classes
+            => abstract: the class cannot be used to create objects (to access it, it must be inherited(can be access from child class/Inherited) from another class)
+                    - An abstract method belongs to an abstract class, and it does not have a body. The body is provided by the subclass:
+                     Example
+                        abstract class Main {
+                          public String fname = "John";
+                          public int age = 24;
+                          public abstract void study(); // abstract method
+                        }
+
+                        // Subclass (inherit from Main)
+                        class Student extends Main {
+                          public int graduationYear = 2018;
+                          public void study() { // the body of the abstract method is provided here
+                            System.out.println("Studying all day long");
+                          }
+                        }
+        3.2.2 For Attributes & Methods
+            => static: the class belongs to the Main class rather than an object of a class.
+
+4. Encapsulation
+    => In encapsulation, the variables of a class will be hidden from other classes, and can be accessed only through the methods of their current class.
+    => To achieve encapsulation in Java:
+            - Declare the variables of a class as private.
+            - Provide public setter and getter methods to modify and view the variables values.
+    => Increased security of data
+    => Class attributes can be made read-only (if you only use the get method), or write-only (if you only use the set method)
+
+5. Packages/API
+    => A package in Java is used to group related classes.
+    => Think of it as a folder in a file directory.
+    => We use packages to avoid name conflicts, and to write a better maintainable code.
+    => import package.name.Class;   // Import a single class
+       import package.name.*;   // Import the whole package
+        Ex. import java.util.*; // import ALL the classes in the java.util package:
+
+    => Type Package
+        => The package name should be written in lower case to avoid conflict with class names.
+        i. Built-in Packages
+            => Java has a lot of built-in packages, which you can use without installing anything.
+            => Example
+                    import java.util.Scanner; // Import the Scanner class
+                    public class MyClass {
+                      public static void main(String[] args) {
+                        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+                        System.out.println("Enter username");
+                        String userName = myObj.nextLine();  // Read user input
+                        System.out.println("Username is: " + userName);  // Output user input
+                      }
+                    }
+
+        ii. Create Your Own Package
+            =>
+            └── root
+                 └── mypack
+                   └── MyClass.java
+                        package mypackage; // use keyword package to create package
+                        public class MyClass {
+                            public void sayHello() {
+                                System.out.println("Hello from MyClass!");
+                            }
+                        }
+
+            └── Main.java
+                import mypack.MyClass;
+                public class Main {
+                    public static void main(String[] args) {
+                        MyClass myObj = new MyClass();
+                        myObj.sayHello();
+                    }
+                }
+            command : javac mypackage/MyClass.java Main.java // compile both the MyClass.java file in the mypackage folder and the Main.java file outside of the folder.
+                       java Main // output : Hello from MyClass!
+6. Inheritance
+    => To inheritnce from a class, use the extends keyword.
+    => In this example, the Car class inherits the attributes and methods from the Vehicle class:
+        Ex. class Vehicle {
+              protected String brand = "Ford";        // Vehicle attribute
+              public void honk() {                    // Vehicle method
+                System.out.println("Tuut, tuut!");
+              }
+            }
+            class Car extends Vehicle {
+              private String modelName = "Mustang";    // Car attribute
+              public static void main(String[] args) {
+                Car myCar = new Car();
+                myCar.honk(); // Call the honk() method from the Parent Class
+                System.out.println(myCar.brand + " " + myCar.modelName); // display the value of brand from parent class and modelName  same class
+              }
+            }
+
+7. Polymorphism
+    => Polymorphism means "many forms", and it occurs when we have many classes that are related to each other by inheritance.
+    => Example :
+        class Animal {
+          public void animalSound() {
+            System.out.println("The animal makes a sound");
+          }
+        }
+
+        class Pig extends Animal {
+          public void animalSound() {
+            System.out.println("The pig says: wee wee");
+          }
+        }
+
+        class Dog extends Animal {
+          public void animalSound() {
+            System.out.println("The dog says: bow wow");
+          }
+        }
+
+        class Main {
+          public static void main(String[] args) {
+            Animal myAnimal = new Animal();
+            Animal myPig = new Pig();
+            Animal myDog = new Dog();
+            myAnimal.animalSound(); // output : The animal makes a sound
+            myPig.animalSound(); // output : The pig says: wee wee
+            myDog.animalSound(); // output : The dog says: bow wow
+          }
+        }
+
+8. JAVA Inner Class
+    => An inner class is a class that is defined inside another class.
+    => Example :
+        class OuterClass {
+          int x = 10;
+
+          class InnerClass {
+            int y = 5;
+          }
+        }
+
+        public class Main {
+          public static void main(String[] args) {
+            OuterClass myOuter = new OuterClass();
+            OuterClass.InnerClass myInner = myOuter.new InnerClass();
+            System.out.println(myInner.y + myOuter.x); // output : 15
+          }
+        }
+    => Inner Class Also Applicable to access modifier (Private, Public, Static, Final, Abstract, etc)
+
+9. Abstract Class
+    => An abstract class is a restricted class that cannot be used to create objects (to access it, it must be inherited from another class).
+    => To achieve security - hide certain details and only show the important details of an object.
+    => Example :
+        abstract class Animal {
+          public String color;
+          public abstract void animalSound(); // created abstract method
+          public void sleep() { // regular method
+            System.out.println("Zzz");
+          }
+        }
+
+        // Subclass (inherit from Animal)
+        class Pig extends Animal {
+          public void animalSound() {
+            System.out.println("The pig says: wee wee"); // Subclass (inherit from Animal)
+          }
+        }
+
+        class Main {
+          public static void main(String[] args) {
+            Pig myPig = new Pig(); // Create a Pig object
+            myPig.animalSound();
+            myPig.sleep(); // accessing method of abstract class which is inherited being Animal class to Pig class
+          }
+        }
+    => you can aother way to acheive the same result by using interface
+
+10. Interface
+    => An interface is a completely "abstract class" that is used to group related methods with empty bodies.
+    => we used implements keyword to implement interface to another class
+    => Interface can not create object & Interface can not have constructor
+    => Achieve Multiple Inheritance sperated by comman (,). ex. class MyClass implements FirstInterface, SecondInterface{}
+    => Example
+        interface Animal {
+          public void animalSound(); // interface method (does not have a body)
+          public void sleep(); // interface method 2
+        }
+
+        // Pig "implements" the Animal interface
+        class Pig implements Animal {
+          public void animalSound() {
+            System.out.println("The pig says: wee wee");
+          }
+          public void sleep() {
+            System.out.println("Zzz");
+          }
+        }
+
+        class Main {
+          public static void main(String[] args) {
+            Pig myPig = new Pig(); // Create a Pig object
+            myPig.animalSound();
+            myPig.sleep();
+          }
+        }
+
+11. Enums (enumerations)
+    => Enums are used to define collections of constants (unchangeable variables, like final variables).
+    => Enums constant should be in uppercase letter
+    => To create enums we use enum keyword instead  of class keyword
+    => And you can ENUMS use inside of class or outside of class
+    => Example
+        enum Level {
+          LOW,
+          MEDIUM,
+          HIGH
+        }
+        public class Main {
+          public static void main(String[] args) {
+            Level myVar = Level.MEDIUM;
+            System.out.println(myVar); // output : MEDIUM
+          }
+        }
+        Ex 2 .
+            enum Level {
+              LOW,
+              MEDIUM,
+              HIGH
+            }
+
+            public class Main {
+              public static void main(String[] args) {
+                Level myVar = Level.MEDIUM;
+
+                switch(myVar) {
+                  case LOW:
+                    System.out.println("Low level");
+                    break;
+                  case MEDIUM:
+                     System.out.println("Medium level");
+                    break;
+                  case HIGH:
+                    System.out.println("High level");
+                    break;
+                }
+              }
+            }
+        Ex. for (Level myVar : Level.values()) {
+              System.out.println(myVar);
+            }
+12. User Input
+    => To get user input, we can use the Scanner class which is found in java.util package
+    => Example
+       import java.util.Scanner;
+       class Main {
+         public static void main(String[] args) {
+           Scanner myObj = new Scanner(System.in);
+           System.out.println("Enter name, age and salary:");
+           String name = myObj.nextLine();
+           int age = myObj.nextInt();
+           double salary = myObj.nextDouble();
+           System.out.println("Name: " + name);
+           System.out.println("Age: " + age);
+           System.out.println("Salary: " + salary);
+         }
+       }
+    => Method nextLine, nextInt, nextDouble, nextFloat, nextLong, nextShort, nextByte, nextBoolean,
+    => next() method is used to read a single word
+    => nextLine() method is used to read a whole line
+    => nextLong() method is used to read a long value
+    => nextShort() method is used to read a short value
+    => nextByte() method is used to read a byte value (kb, mb, gb, tb, etc)
+    => if u enter wrong data type then it will throw an error < InputMismatchException > & read more about exception https://www.w3schools.com/java/java_try_catch.asp

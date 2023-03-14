@@ -21,24 +21,3 @@
 		right - mean select data as left
 	2. Routes Optional 
 		=> routes you should be use any segment (:any?)
-	3. route_to () 
-		if u use codeigniter project inside of folder then use base_url(route_to());
-
-=> multiple image upload
-	public function upload()
-{
-    // Get all uploaded files
-    $files = $this->request->getFiles();
-
-    // Loop through all uploaded files
-    foreach ($files['userfiles'] as $file) {
-        // Generate a unique name for the file
-        $name = $file->getRandomName();
-
-        // Move the file to the desired directory
-        $file->move('./uploads', $name);
-    }
-
-    // Redirect back to the form
-    return redirect()->back();
-}
