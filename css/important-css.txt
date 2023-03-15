@@ -18,6 +18,11 @@ background:url('img/interview.jpg') no-repeat center center; background-size:cov
                 grid-template-columns: auto auto;  
             }
         }
+        
+        
+        // desktop view
+        @media screen and (min-width: 992px) {
+
 
 // column css
 
