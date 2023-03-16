@@ -21,11 +21,10 @@ background:url('img/interview.jpg') no-repeat center center; background-size:cov
         
         
         // desktop view
-        @media screen and (min-width: 992px) {
+        @media screen and (min-width: 992px) {//css code here}
 
-
-// column css
-
+   => Valid 10 Digit Phone Number Input
+   <input type="text" id="lname" name="mob_no" pattern="[6-9]{1}[0-9]{9}" placeholder="Mobile No.." title="Enter valid 10 digit phone number" required>
 
 
 tell the print browser to exact color which is display on web screen  
