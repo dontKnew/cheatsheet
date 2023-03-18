@@ -29,4 +29,9 @@ QUICK TIPS --
 			- here you can see FCP, LCP AND Layout shift (CLS) 
 			- now you have to fixed the element will not chnange position if while loading OK!
 
-	
+=> #fontawesome cross error in with htaccess
+<FilesMatch "\.(ttf|otf|eot|woff|woff2)$">
+   <IfModule mod_headers.c>
+      Header set Access-Control-Allow-Origin "https://hiremyescort.com"
+   </IfModule>
+</FilesMatch>
