@@ -1,5 +1,5 @@
 background:url('img/interview.jpg') no-repeat center center; background-size:cover
-
+object-position: top; // show top image portion
 // start col css
 .photo-gallery{
         display: grid;
