@@ -30,8 +30,33 @@ QUICK TIPS --
 			- now you have to fixed the element will not chnange position if while loading OK!
 
 => #fontawesome cross error in with htaccess
-<FilesMatch "\.(ttf|otf|eot|woff|woff2)$">
-   <IfModule mod_headers.c>
-      Header set Access-Control-Allow-Origin "https://hiremyescort.com"
-   </IfModule>
-</FilesMatch>
+	<FilesMatch "\.(ttf|otf|eot|woff|woff2)$">
+	   <IfModule mod_headers.c>
+	      Header set Access-Control-Allow-Origin "https://hiremyescort.com"
+	   </IfModule>
+	</FilesMatch>
+=> enable cache
+
+# Enable caching for static files
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/x-font-ttf "access plus 1 month"
+    ExpiresByType font/opentype "access plus 1 month"
+    ExpiresByType application/font-woff "access plus 1 month"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
+</IfModule>
+This code enables caching for the following types of static files:
+JPEG images
+PNG images
+CSS files
+JavaScript files
+TTF fonts
+OpenType fonts
+WOFF fonts
+EOT fonts
