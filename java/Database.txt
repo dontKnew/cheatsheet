@@ -1,0 +1,69 @@
+=> For Database Connectivity with Mysql 
+	1. download mysql driver - https://dbschema.com/jdbc-drivers/MySqlJdbcDriver.zip
+		- set to environment variable to your systempath  // optional 
+	2. download java nearly version with mysql driver
+	3. download mysql in your system (I am using xampp server & you can use command line mysql)
+	4. Example Demo
+		import java.sql.*;
+public class ResultSetDemo {
+//    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver"; required when use env variable  otherwise you have to use 6 step ii below said
+    static final String DB_URL = "jdbc:mysql://localhost:3306/ignou_university";
+
+    static final String USER = "root";
+    static final String PASS = "";
+
+    public static void main(String[] args) {
+        Connection conn = null;
+        Statement stmt = null;
+        try{
+//            Class.forName(JDBC_DRIVER );
+            System.out.println("Connecting to database...");
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+
+            System.out.println("Creating statement...");
+            stmt = conn.createStatement();
+            String sql;
+            sql = "SELECT * FROM student";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while(rs.next()){
+                int id  = rs.getInt("id");
+                String name = rs.getString("name");
+
+                System.out.print("ID: " + id);
+                System.out.print(", First: " + name + "\n");
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+        }catch(SQLException se){
+            se.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(stmt!=null)
+                    stmt.close();
+            }catch(SQLException se2){
+            }
+            try{
+                if(conn!=null)
+                    conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+        System.out.println("Goodbye!");
+    }
+}
+
+	5. To Run Above Example Code
+		i. if you set env variable in your laptop & simply run the command
+			javac ResultSetDemo.java
+			java ResultSetDemo.java
+
+		ii. if did not set mysql-connector-xx-.jar file in env variable laptop, simply run the below command	
+			javac -cp path/to/mysql-connector-java-X.X.X.jar MyApp.java 
+			java -cp path/to/mysql-connector-java-X.X.X.jar MyApp
+			- cp mean classpath you can use both "cp" or "classpath"
+	
