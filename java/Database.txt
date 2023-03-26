@@ -1,5 +1,5 @@
-=> For Database Connectivity with Mysql 
-	1. download mysql driver - https://dbschema.com/jdbc-drivers/MySqlJdbcDriver.zip
+=> For Database Connectivity with Mysql in java
+	1. download mysql driver - https://dbschema.com/jdbc-drivers/MySqlJdbcDriver.zip 
 		- set to environment variable to your systempath  // optional 
 	2. download java nearly version with mysql driver
 	3. download mysql in your system (I am using xampp server & you can use command line mysql)

@@ -1,17 +1,17 @@
 import java.sql.*;
 
 public class ResultSetDemo {
-   static final String JDBC_DRIVER = "com.mysql.jdbc.Driver"; // use this when you set mysql driver in env. system path
-    static final String DB_URL = "jdbc:mysql://localhost:3306/ignou_university";
+   //static final String JDBC_DRIVER = "com.mysql.jdbc.Driver"; // use this when you set mysql driver in env. system path
+    static final String DB_URL = "jdbc:mysql://localhost:3306/ignou_university"; // ignou univerys is my database naem / lets start mysql
 
-    static final String USER = "root";
-    static final String PASS = "";
+    static final String USER = "root"; // default username
+    static final String PASS = ""; //default pass
 
     public static void main(String[] args) {
         Connection conn = null;
         Statement stmt = null;
         try{
-            Class.forName(JDBC_DRIVER );
+            //Class.forName(JDBC_DRIVER );
             System.out.println("Connecting to database...");
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
