@@ -31,3 +31,14 @@
 includeHTML();
 /*sajid-script*/
         <div w3-include-html="include/c1.html"></div>
+
+
+function copyLink(link) {
+        var tempInput = document.createElement("input");
+        tempInput.value = link;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("Link has been copied");
+    }
