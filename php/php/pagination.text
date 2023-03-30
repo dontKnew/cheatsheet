@@ -1,16 +1,17 @@
 
 === This is query joing three table which have same name column & creating the pagination === 
-$query = "SELECT csc_state.name as name, csc_state.url as url, csc_state.id as csc_state_id, csc_state_from.*
+=> 'state' as csc_type - csc_type column & state is value
+$query = "SELECT csc_state.name as name, csc_state.url as url, csc_state.id as csc_state_id, csc_state_from.*, 'state' as csc_type
           FROM csc_state_from
           LEFT JOIN csc_state ON csc_state.id = csc_state_from.state_id
           WHERE csc_state_from.isPage = 'yes'
           UNION ALL
-          SELECT country.name as name, country.url as url, country.id as csc_country_id, csc_country_from.*
+          SELECT country.name as name, country.url as url, country.id as csc_country_id, csc_country_from.*, 'country' as csc_type
           FROM csc_country_from
           LEFT JOIN country ON country.id = csc_country_from.country_id
           WHERE csc_country_from.isPage = 'yes'
           UNION ALL
-          SELECT csc_city.name as name, csc_city.url as url, csc_city.id as csc_city_id, csc_city_from.*
+          SELECT csc_city.name as name, csc_city.url as url, csc_city.id as csc_city_id, csc_city_from.*, 'city' as csc_type
           FROM csc_city_from
           LEFT JOIN csc_city ON csc_city.id = csc_city_from.city_id
           WHERE csc_city_from.isPage = 'yes' ";
