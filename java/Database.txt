@@ -67,3 +67,8 @@ public class ResultSetDemo {
 			java -cp path/to/mysql-connector-java-X.X.X.jar MyApp
 			- cp mean classpath you can use both "cp" or "classpath"
 	
+
+=> setup in intelliJ idea 
+	i. for setup the classpath of mysql-connector.xxx.jar 
+	ii. click file, then go to project structure -> modules-> plus button -> mysql-connector.xxx.jar file 
+		- dont need to define Class.forName("com.mysql.cj.jdbc.Driver'");

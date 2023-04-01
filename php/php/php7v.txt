@@ -143,6 +143,10 @@
                 ksort() - sort associative arrays in ascending order, according to the key 
                 arsort() - sort associative arrays in descending order, according to the value
                 krsort() - sort associative arrays in descending order, according to the key
+
+		- sort multi dimensional array with sepcific key 
+			$key_value = array_column($hotel_name, 'name'); 
+			array_multisort($key_value, SORT_ASC, $hotel_name);
             ii. array_keys() // return all associates array keys 
             iii. array_key_exists()	 // Checks if the specified key exists in the array
 
