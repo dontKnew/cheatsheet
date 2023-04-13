@@ -1,3 +1,4 @@
+=> check virus if in this plugin - https://www.virustotal.com/gui/home/upload
 How To Install This Nulled Theme :
 
 1. Extract this file with Winrar 6.10 or higher.
