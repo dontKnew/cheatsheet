@@ -1,3 +1,11 @@
+=> PHP Library thats can help for
+
+Minify - a PHP library for minifying HTML, CSS, and JavaScript code.
+Cache Lite - a PHP caching library that can help you reduce database queries and improve page load time.
+Twig - a PHP template engine that can help you optimize your website's HTML structure and improve its performance.
+OpCache - a PHP extension that can improve PHP performance by caching and reusing compiled script bytecode.
+Blackfire - a PHP profiling tool that can help you identify performance bottlenecks and optimize your PHP code.
+
 QUICK TIPS --
 1.  $("img").lazyload({
         effect: "fadeIn",
