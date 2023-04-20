@@ -1,3 +1,11 @@
+=> return 404 page with custom page
+	$response = service('response');
+	    $data = [
+		'title' => 'City not found',
+		'message' => 'The city you requested was not found.'
+	    ];
+	    return view('errors/html/error_404', $data);
+
 => /*set cookies in ci4*/
         $cookieName = 'my_cookie';
         $cookieValue = 'value_lajflja';
