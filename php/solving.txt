@@ -1,0 +1,70 @@
+
+Problme 1 :  codeigniter 3 dataabase
+	1. Select All invoice_payment table data
+	2. foreach data one by one
+	3. And Store in Array first Loop- invoice_payment.hotel_id & debit & update invoice_payment.debit=invoice_payment.balance 
+	4. second loop - if invoice_payment.hotel_id exits in array then update invoice_payment.debit+stored-debit(balance amount)  in invoice_payment table & Update Array stored-debit = stored-debit+invoice_payment.debit
+	Hint - its like ledger book debit & credit and i want to entry only debit here & balance will be plus with debit
+
+Solved 1 : 
+        $query = $this->db->get('invoice_payment');
+        $invoice_payments = $query->result_array();
+        
+        $stored_debits = array();
+        foreach ($invoice_payments as $invoice_payment) {
+          if (array_key_exists($invoice_payment['hotel_id'], $stored_debits)) {
+              
+            $new_balance = $invoice_payment['debit'] + $stored_debits[$invoice_payment['hotel_id']];
+            $this->db->set('balance', $new_balance);
+            $this->db->where('id', $invoice_payment['id']);
+            $this->db->update('invoice_payment');
+            
+            $stored_debits[$invoice_payment['hotel_id']] += $invoice_payment['debit'];
+          } else {
+            
+            $stored_debits[$invoice_payment['hotel_id']] = $invoice_payment['debit'];
+            
+            $this->db->set('balance', $invoice_payment['debit']);
+            $this->db->where('id', $invoice_payment['id']);
+            $this->db->update('invoice_payment');
+          }
+          
+        }
+
+
+
+INSERT INTO csc_state_from (state_id, sort_order, country_id)
+SELECT id, 100, country_id
+FROM csc_state
+WHERE country_id = 101;
+SQL QUERIES - 
+	=> Question
+	1. I have oe Table invoice
+	2. add record invoice_id, invoice_date from invoice table 
+	3. Now I want to insert those column value id into invoice_payment - invoice_id, invoice_date
+		Ans :
+			INSERT INTO invoice_payment (invoice_id, invoice_date)
+			SELECT id, invoice_date
+			FROM invoice;
+	=> Question
+	1. I have two table invoice, hotel_name
+	2. update hotel_id column in invoice_payment table where invoice_payment.invoice_id=invoice.id && hotel_name.name=invoice.hotel_name
+		Ans :
+			UPDATE invoice_payment
+			JOIN invoice ON invoice_payment.invoice_id = invoice.id
+			JOIN hotel_name ON hotel_name.name = invoice.hotel_name
+			SET invoice_payment.hotel_id = hotel_name.id;
+	=> Queston
+	1. I have one table invoice
+	2. select column item_data(which is in json format - select total_amount) from invoice table
+	3. then update invoice_payment.debit=item_data(json_key - total_amount), invoice_payment.balance=item_data(json_key - total_amount),  invoice_payment.remark="auto entry", in invoice_payment whereas invoice_payment.invoice_id=invoice.id
+		Ans : 
+		UPDATE invoice_payment
+		JOIN invoice ON invoice_payment.invoice_id = invoice.id
+		SET invoice_payment.debit = JSON_EXTRACT(invoice.item_data, '$.total_amount'),
+		    invoice_payment.balance = JSON_EXTRACT(invoice.item_data, '$.total_amount'),
+		    invoice_payment.remark = "auto entry"
+		WHERE invoice_payment.invoice_id = invoice.id;
+
+
+	
