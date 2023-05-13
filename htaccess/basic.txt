@@ -16,7 +16,12 @@ Rewritebase /testing
     
     ### To remove .php extension
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\ (.*)\.php [NC]
-    RewriteRule ^ %1 [R=301,L]
+    RewriteRule ^ %1 [R=301,L]    
+
+    #remove .php from file & folders files
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME}.php -f
+	RewriteRule ^([^\.]+)$ $1.php [NC,L]
     
     ### To check whether the file exists then set it back internally
         RewriteCond %{REQUEST_FILENAME} !-f
