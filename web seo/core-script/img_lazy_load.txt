@@ -1,0 +1,33 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.js"></script>
+<script type="text/javascript">
+	$("img").lazyload({
+	    effect : "fadeIn"
+	});
+	
+</script>
+
+
+<=== chatGPT code - not sure it will work===>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.js"></script>
+<script type="text/javascript">
+    // Define an array of image names to exclude from lazy loading
+    var excludedImageNames = ['logo.png', 'banner.jpg'];
+    
+    // Loop through all the images on the page
+    $("img").each(function() {
+        var img = $(this);
+        
+        // Check if the image name is excluded
+        if (excludedImageNames.includes(img.attr('src').split('/').pop())) {
+            return true;
+        }
+        
+        // Add the "lazy" class to the image
+        img.addClass("lazy");
+    });
+    
+    // Initialize lazy loading for all images with the "lazy" class
+    $("img.lazy").lazyload({
+        effect : "fadeIn"
+    });
+</script>

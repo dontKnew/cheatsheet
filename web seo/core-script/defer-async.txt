@@ -1,0 +1,2 @@
+defer - The script is then executed after the page has finished loading.
+async - download script soon as possible in the backround , without waiting for finished loading of page

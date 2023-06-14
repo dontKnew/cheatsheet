@@ -1,0 +1,16 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.js"></script>
+$(document).ready(function() {
+  $('img').each(function() {
+    $(this).attr('data-src', $(this).attr('src'));
+    $(this).removeAttr('src').addClass('lazyload');
+  });
+  
+  $('.lazyload').lazyload();
+});
+$('.lazyload').lazyload();
+
+
+<img src="placeholder.jpg" data-src="image.jpg" class="lazyload">
+
+src : low level
+data-src = "original image"
