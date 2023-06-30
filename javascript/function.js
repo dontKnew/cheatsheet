@@ -42,3 +42,13 @@ function copyLink(link) {
         document.body.removeChild(tempInput);
         alert("Link has been copied");
     }
+
+
+// stop marquee slider on hover
+  var slider = document.getElementById('slider_marquee');
+    slider.addEventListener('mouseover', function() {
+      this.stop();
+    });
+    slider.addEventListener('mouseout', function() {
+      this.start();
+    });
