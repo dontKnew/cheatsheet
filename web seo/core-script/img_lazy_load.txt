@@ -1,3 +1,26 @@
+Pure JavaScript Code but not work with owl coursal:
+// Get a reference to the object element
+const mapObject = document.getElementById("mapObject");
+
+// Create the intersection observer
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      // Load the map
+      const src = mapObject.getAttribute('data-src');
+      console.warn(src);
+      if (src) {
+        mapObject.setAttribute('data', src);
+        mapObject.removeAttribute('data-src');
+        observer.unobserve(mapObject);
+        console.warn("Chnaged");
+      }
+    }
+  });
+});
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.js"></script>
 <script type="text/javascript">
 	$("img").lazyload({
