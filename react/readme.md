@@ -1,6 +1,2 @@
-notes.txt
-*.zip
-.idea
-vendor
-node_modules
-
+# Basic Topic of react js
+1. 
