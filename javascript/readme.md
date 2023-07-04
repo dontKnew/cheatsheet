@@ -31,6 +31,7 @@ This guide demonstrates how to export and import modules in pure JavaScript and 
     </head>
     <body>
       <script src="custom.js" type="module"></script>
+     <!-- Output Console : hello world  -->
     </body>
     </html>
   ```
