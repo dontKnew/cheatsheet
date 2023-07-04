@@ -35,3 +35,4 @@ This guide demonstrates how to export and import modules in pure JavaScript and 
        </body>
        </html>
      ```
+Note : if you use static keyword in class method then you can not created instance you must direct call class.methodname Helper.get()
