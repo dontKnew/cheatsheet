@@ -23,15 +23,15 @@ This guide demonstrates how to export and import modules in pure JavaScript and 
     helper.test();
    ```
 4. index.html file
-  ```html
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>My HTML Page</title>
-    </head>
-    <body>
-      <script src="custom.js" type="module"></script>
-     <!-- Output Console : hello world  -->
-    </body>
-    </html>
-  ```
+     ```html
+       <!DOCTYPE html>
+       <html>
+       <head>
+         <title>My HTML Page</title>
+       </head>
+       <body>
+         <script src="custom.js" type="module"></script>
+        <!-- Output Console : hello world  -->
+       </body>
+       </html>
+     ```
