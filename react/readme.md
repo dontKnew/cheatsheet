@@ -343,12 +343,3 @@
 - __Note__ : You can use like this above method to used npm js library 
 
     ```
-
-
-
-
-
-
-
-
-
