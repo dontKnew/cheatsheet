@@ -1,0 +1,1 @@
+1. composer install --ignore-platform-reqs : use this command to ignore check php version while install any package
