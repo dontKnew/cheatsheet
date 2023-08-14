@@ -52,3 +52,17 @@ function copyLink(link) {
     slider.addEventListener('mouseout', function() {
       this.start();
     });
+
+
+// selected attribute
+  <select>
+    <option id="apple">Apple</option>
+    <option id="orange">Orange</option>
+    <option id="pineapple" selected>Pineapple</option> // Pre-selected
+    <option id="banana">Banana</option>
+  </select>
+<script>
+function myFunction() {
+  document.getElementById("orange").selected = "true";
+}
+</script
