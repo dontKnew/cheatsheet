@@ -1,4 +1,14 @@
 
+Problme : To Many connection
+Solved  : SHOW STATUS LIKE 'Threads_connected' - check how many threads connected 
+	- SELECT CONCAT('KILL ', Id, ';') 
+		FROM information_schema.processlist 
+		WHERE db = 'your_database_name' 
+		ORDER BY time DESC 
+		LIMIT 5;   // disconnect all threads as possible..
+	- SHOW VARIABLES LIKE 'max_connections'; = check max connection
+
+
 Problme 1 :  codeigniter 3 dataabase
 	1. Select All invoice_payment table data
 	2. foreach data one by one

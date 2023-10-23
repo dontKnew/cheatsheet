@@ -26,6 +26,45 @@ function User(props){
   )
 }
 ```
+```jsx
+## send Child to Parent Data
+export default function Page() {
+  const [userData, setUserData] = useState([]);
+  const handleUserData = (data) => {
+    setUserData((prevData) => [...prevData, data]);
+  };
+
+  return (
+    <>
+      <User name="Sajid" onData={handleUserData} />
+      <User name="Kamina" onData={handleUserData} />
+      <User name="Krishna" onData={handleUserData} />
+      <div>
+        <h2>User Data Received:</h2>
+        <ul>
+          {userData.map((data, index) => (
+            <li key={index}>{data}</li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+}
+
+function User(props) {
+  const handleButtonClick = () => {
+    props.onData(`from Child Component ${props.name}`);
+  };
+
+  return (
+    <div>
+      <h1>Hello {props.name}</h1>
+      <button onClick={handleButtonClick}>Send Data to Page</button>
+    </div>
+  );
+}
+``
+
 ## 2. call event 
 ### we used 'use client' because this is client side can be render :) but by default all component will be server componennt   
 ```jsx
@@ -352,6 +391,20 @@ export default function Home() {
 }
 ```
 - globals.css is for all component , you can simply import from './globals.css' in [layout.js root] folder & and use the css code
+- inline css : 
+```jsx
+const divStyle = {
+    backgroundColor: 'lightblue',
+    color: 'black',
+    padding: '10px',
+  };
+
+  return (
+    <div style={divStyle}>
+      <p>This is a paragraph with inline styles.</p>
+    </div>
+  );
+```
 
 ## 12. Optimzing
 - Images

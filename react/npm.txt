@@ -1,0 +1,60 @@
+pm ERR! code ERESOLVE
+npm ERR! ERESOLVE could not resolve
+npm ERR! 
+npm ERR! While resolving: react-shimmer-effect@1.0.9
+npm ERR! Found: react@18.2.0
+npm ERR! node_modules/react
+npm ERR!   react@"^18.2.0" from the root project
+npm ERR!   peer react@">=16.0.0" from @ant-design/icons@4.7.0
+npm ERR!   node_modules/@ant-design/icons
+npm ERR!     @ant-design/icons@"^4.7.0" from the root project
+npm ERR!   23 more (@react-aria/ssr, @restart/hooks, @restart/ui, ...)
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@"^16.8.1" from react-shimmer-effect@1.0.9
+npm ERR!   react-shimmer-effect@"^1.0.9" from the root project
+npm ERR!
+npm ERR! Conflicting peer dependency: react@16.14.0
+npm ERR! node_modules/react
+npm ERR!   peer react@"^16.8.1" from react-shimmer-effect@1.0.9
+npm ERR!   node_modules/react-shimmer-effect
+npm ERR!     react-shimmer-effect@"^1.0.9" from the root project
+npm ERR!
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR!
+npm ERR!
+npm ERR! For a full report see:
+npm ERR! C:\Users\Admin\AppData\Local\npm-cache\_logs\2023-09-06T16_57_05_550Z-eresolve-report.txt
+
+npm ERR! A complete log of this run can be found in: C:\Users\Admin\AppData\Local\npm-cache\_logs\2023-09-06T16_57_05_550Z-debug-0.log
+PS C:\Users\Admin\Desktop\2024 Project\cariometer-admin> npm install
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE could not resolve
+npm ERR!
+npm ERR! While resolving: react-shimmer-effect@1.0.9
+npm ERR! Found: react@18.2.0
+npm ERR! node_modules/react
+npm ERR!   react@"^18.2.0" from the root project
+npm ERR!   peer react@">=16.0.0" from @ant-design/icons@4.7.0
+npm ERR!   node_modules/@ant-design/icons
+npm ERR!     @ant-design/icons@"^4.7.0" from the root project
+npm ERR!   23 more (@react-aria/ssr, @restart/hooks, @restart/ui, ...)
+npm ERR!
+npm ERR! Could not resolve dependency:
+npm ERR! peer react@"^16.8.1" from react-shimmer-effect@1.0.9
+npm ERR! node_modules/react-shimmer-effect
+npm ERR!   react-shimmer-effect@"^1.0.9" from the root project
+npm ERR!
+npm ERR! Conflicting peer dependency: react@16.14.0
+npm ERR! node_modules/react
+npm ERR!   peer react@"^16.8.1" from react-shimmer-effect@1.0.9
+npm ERR!   node_modules/react-shimmer-effect
+npm ERR!     react-shimmer-effect@"^1.0.9" from the root project
+npm ERR!
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+
+npm install --legacy-peer-deps
