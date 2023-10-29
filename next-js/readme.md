@@ -634,3 +634,9 @@ export default function Page() {
 }
 // you can see all env variable which is in your system just put : console.log(process.env)
 ```
+
+### 15. Import function : 
+i. dangerouslySetInnerHTML
+```jsx
+	<div className={'blog-body mt-10'} dangerouslySetInnerHTML={{ __html: post.body }}  />
+```

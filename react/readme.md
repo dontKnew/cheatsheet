@@ -49,7 +49,7 @@
         };
 
         fetchData();
-    }, []);
+    }, []); //// The empty dependency array ensures that this effect runs only once, on component mount
 
     return (
         <div>
