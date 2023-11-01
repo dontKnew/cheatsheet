@@ -1,3 +1,5 @@
+=> On Deployment 
+	- composer install --no-dev
 => return 404 page with custom page
 	$response = service('response');
 	    $data = [

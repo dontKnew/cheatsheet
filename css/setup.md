@@ -43,6 +43,9 @@
 	like above said method...
 // learn later..
 
+3. PRODUCTION
+	- npx tailwindcss build -i ./public/css/input.css -o ./public/css/style.css --watch --minify
+
 
 
 			
