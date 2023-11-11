@@ -1,0 +1,2 @@
+1. to start nginx & go to folder nginx and run ngnix.exe  
+2. To Stop : use task manager or nginx.exe -s stop 

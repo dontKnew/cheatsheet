@@ -21,6 +21,7 @@
 	6. git remote -v : verify for url where's you are pushing..
 	7. git push -u push origin branchname 
 		-  git push push origin branchname  : assume already setup
+	8. changed remote origin : git remote set-url origin git@github.com:dontKnew/this.git
 
 
 

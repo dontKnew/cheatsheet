@@ -66,3 +66,6 @@ function myFunction() {
   document.getElementById("orange").selected = "true";
 }
 </script
+
+
+// modal
