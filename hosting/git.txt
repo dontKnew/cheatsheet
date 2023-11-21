@@ -21,7 +21,7 @@
 	6. git remote -v : verify for url where's you are pushing..
 	7. git push -u push origin branchname 
 		-  git push push origin branchname  : assume already setup
-	8. changed remote origin : git remote set-url origin git@github.com:dontKnew/this.git
+	8. changed remote origin : git remote set-url origin git@github.com:dontKnew/rapidexin.git
 
 
 
@@ -49,7 +49,7 @@
 
 => SSH KEY SETUP on git bash window
 	1. cmd: git config --global user.email "israfil123.sa@gmail.com"
-	2. cmd : git config --global user.name "PHP Master"
+	2. cmd : git config --global user.name "Dont Knew"
 	3. open command prompt
 		cmd: ssh-keygen -t ed25519 -C "israfil123.sa@gmail.com"
 			or 

@@ -1,3 +1,15 @@
+1. give folder to specific user..  chown rapidexworldwide:rapidexworldwide international-courier-service
+
+
+
+
+
+
+
+
+
+
+
 => minimize/close option not showing in kali linux just run this command : xfwm4
 => desktop not showing : xfdesktop
 

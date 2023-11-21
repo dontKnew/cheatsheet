@@ -1,5 +1,8 @@
 scp -P 22 phpmyadmin.zip root@193.203.161.241:/var/www/html
 
+i. mysqldump -u user_name -p db_name > database_new_file_name.sql
+
+
 - Snapshort features
 1. after setup configuratio software etc in server operatingsystem then create one snapshot 
 2. if feature any setting will occrupt not working , you can use restore snapshot  , go back to time config of  sanpshot created
