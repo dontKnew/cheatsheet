@@ -6,7 +6,10 @@
 	2. clone single branch
 	 git clone git@github.com:dontKnew/shipmiles.git --branch admin --single-branch
 
-	
+=> Restore From Specific Comment : 
+	git log : get the comment hash..id
+	git checkout <commit_hash> -- path/to/deleted/file & 
+	Latest : git checkout HEAD -- path/to/deleted/file	
 
 
 
