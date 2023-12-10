@@ -1,13 +1,20 @@
 ## Next JS Toutrial
 
+#### My Learning Purpose For Create Multiple Dynamic Pages for SEO
+  - sitemap
+  - dynamic url.
+
 #### Intro 
 - Next.js is a framework for building web applications.
 - With Next.js, you can build user interfaces using React components. Then, Next.js provides additional structure, features, and optimizations for your application.
 - Next.js can help you build interactive, dynamic, and fast web applications.
+- all components are __server side rendering__ by default, and you check console.log('hello in terminal, not in browser console log')
 
 ### Installation
 - npx create-next-app@latest 
 - if you will ask elint ? used "yes" : its help to indentify the errors :)
+- Learn Carefully __Project Strucutre__ from here <a href="https://nextjs.org/docs/getting-started/
+project-structure"> click here </a>
 
 ## 1. Pass Props(Variable) to another componet
 ```jsx
@@ -63,7 +70,7 @@ function User(props) {
     </div>
   );
 }
-``
+```
 
 ## 2. call event 
 ### we used 'use client' because this is client side can be render :) but by default all component will be server componennt   
@@ -105,9 +112,9 @@ return (
 
 ## 4. Routes
 - Basic Folder File Base Routing can be used like home/page.js & about/page.js in src or app directory of root project, Now you can access the localhsot:3000/home or localhost:3000/about page
-- Dynamic Routes : you should use folder name Ex.  student_list/`[student_details]`
+- __Dynamic Routes__ : you should use folder name Ex.  student_list/`[student_details]`
 ```jsx
-//folder : student_list/[student]/page.js
+//folder : student_list/[student]/page.js  
 "use client"
 export default function Student({ params }) {
     console.warn(params.student) 
@@ -117,14 +124,26 @@ export default function Student({ params }) {
       </div>
     );
   }
-  
 ```
-- Get The All Segment after route "student-list/student/2020/marksheet" after student we can get theall segement using create folder [...student] instead of [student]
+- __Optional Routes__ : you should use folder name Ex.  student_list/[[student_details]]
 ```jsx
-//folder : student_list/[...student]/page.js
+//folder : student_list/[[student_details]]/page.js  
+// 1. hit : domain.com/student_list/sajid  2. hit domain.com/student_list - its working
+export default function Student({ params }) {
+    console.warn(params.student) 
+    return (
+      <div>
+        <h1>Hello, Student {params.student}</h1>
+      </div>
+    );
+  }
+```
+- __Cache All Routes__ : Get The All Segment after route "student-list/student/2020/marksheet" after student we can get theall segement using create folder [...student] instead of [student]
+```jsx
+//folder : student_list/[...student]/page.js & its explode by "/"
 "use client"
 export default function Student({ params }) {
-    console.warn(params.student)
+    console.warn(params.student) // use this params and fetch data from database then display the data...
     return (
       <div>
         <h1>Hello, Student Year {params.student[0]} & CBSE {params.student[1]}</h1>
@@ -132,43 +151,98 @@ export default function Student({ params }) {
     );
   }
 ```
+- __Route Group__ : remove specific path from url , 
+```jsx
+//folder : (student)/rahul/page.js & (student)/krishan/page.js
+"use client"
+export default function Rahul() {
+    return (
+      <div>
+        <h1>Hello, Rahul Year</h1>
+      </div>
+    );
+  }
+  /// now you hit like domain.com/rahul or domain.com/krishan
+```
+
+- __Parallel Routes__ : Parallel Routing allows you to simultaneously or conditionally render one or more pages or component in the same layout
+  ```jsx
+    // colorbox/@left/page.js & colorbox/@right/page.js
+    // colorbox/layout.js
+    export default function ColorBoxLayout({children, left, right}){
+      const isSidebar = false;
+      return (
+        <section>
+          {children} // ifyou hide this, it will empty displayed
+          {isSidebar ? left : right} // you can also display only left or right
+        </section>
+      )
+    }
+    // colorbox/page.js
+    export default function colorBox(){
+      return <><h1> Colorbox layout left and right </h1></>
+    }
+  ```
+
 
 
 ## 5. Link & Navigation 
 ```jsx
 import Link from "next/link"
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // in client component
 export default function Menu(){
     const router = useRouter();
     const goToContact = ()=>{
         router.push("/contact")
     }
+    const id = 2; // dynamic ...
     return (
         <>
         <Link href="/">Home <br /></Link>
         <Link href="/about">About<br /></Link>
         <Link href="/contact">Contact<br /></Link>
-        <button onClick={goToContact}>Click To Contact</button>
+        <Link href={`/blog/${id}`}>Blog Page<br /></Link>
+        <button onClick={goToContact}>Click To Contact</button> 
         </>
     )
 }
 ```
-## 5. Common Layout.js
-- its get the all component/routes code as children/props (any name)
-- if you dont create layout.js file in inside of folder , it will take as default layout in from root app or src
+## 5. Layout
+- __Common Layout__
+  - its get the all component/routes code as children/props (any name)
+  - if you dont create layout.js file in inside of folder , it will take as default layout in from root app or src
+  ```jsx
+  export const metadata = {
+    title: 'Create Next App',
+    description: 'Generated by create next app',
+  }
+  export default function RootLayout({ children }) {
+    return (
+      <html lang="en">
+        <body >{children}</body>
+      </html>
+    )
+  }
+  ```
+- __Admin Layout__
 ```jsx
-export const metadata = {
-  title: 'Create Next App',
-  description: 'Generated by create next app',
-}
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <body >{children}</body>
-    </html>
-  )
-}
-```
+    // admin/header/page.js & admin/footer/page.js
+    // admin/layout.js
+    //import header & footer in layout.js
+    export default function AdminLayout({children}){
+      return (
+        <section>
+          <Header />
+          {children} // if you hide this, it will empty displayed
+          <Footer />
+        </section>
+      )
+    }
+    // colorbox/page.js
+    export default function colorBox(){
+      return <><h1> Colorbox layout left and right </h1></>
+    }
+  ```
 
 ## 6. 404 Page
 - For Global Used 404 Page create not-found.js file in src or app directory: 
@@ -191,86 +265,6 @@ export default function NotFound(){
         <h1> Admin Page Not Found</h1>
         </>
     )
-}
-```
-
-## 7. Middleware : will run each of http request
-- use for protect the page like admin dashboard can not access without valid login token
-Example One:
-```jsx
-//src/middleware.js : filename must be same
-import { NextResponse } from 'next/server'
- 
-export function middleware(request) {
-  var isLogged = false; // if false redirect to admin login page
-  if(!isLogged){
-    return NextResponse.redirect(new URL('/admin', request.url))   
-  }
-}
-
-export const config = {
-  matcher: ['/admin/dashboard', '/admin/profile'] // /admin/:path* match all  admin inside the path
-}
-```
-Example Two : different route name and response folder name different , in this case : 
-```jsx
-import { NextResponse } from 'next/server'
-
-export function middleware(request) {
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    return NextResponse.rewrite(new URL('/admin-construct', request.url))
-  }
-}
-```
-
-Example Three : You Can get incoming Cookies & set , delete etc.
-```jsx
-import { NextResponse } from 'next/server'
-
-export function middleware(request) {
-  // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
-  // Getting cookies from the request using the `RequestCookies` API
-  let cookie = request.cookies.get('nextjs')
-  console.log(cookie) // => { name: 'nextjs', value: 'fast', Path: '/' }
-  const allCookies = request.cookies.getAll()
-  console.log(allCookies) // => [{ name: 'nextjs', value: 'fast' }]
- 
-  request.cookies.has('nextjs') // => true
-  request.cookies.delete('nextjs')
-  request.cookies.has('nextjs') // => false
- 
-  // Setting cookies on the response using the `ResponseCookies` API
-  const response = NextResponse.next()
-  response.cookies.set('vercel', 'fast')
-  response.cookies.set({
-    name: 'vercel',
-    value: 'fast',
-    path: '/',
-  })
-  cookie = response.cookies.get('vercel')
-  console.log(cookie) // => { name: 'vercel', value: 'fast', Path: '/' }
-  // The outgoing response will have a `Set-Cookie:vercel=fast;path=/test` header.
- 
-  return response
-}
-``` 
-Example Four : Procced the function if user authenticated
-```jsx
-import { NextResponse } from 'next/server'
-import { isAuthenticated } from '@lib/auth' // your library determine user authentication or not
- 
-// Limit the middleware to paths starting with `/api/`
-export const config = {
-  matcher: '/api/:function*',
-}
-export function middleware(request) {
-  // Call our authentication function to check the request
-  if (!isAuthenticated(request)) {
-    return new NextResponse(
-      JSON.stringify({ success: false, message: 'authentication failed' }),
-      { status: 401, headers: { 'content-type': 'application/json' } }
-    )
-  }
 }
 ```
 
@@ -304,8 +298,8 @@ export default function HomePage() {
   )
 }
 ``` 
-## 10. Client & Server Side
-- Client
+## 10. Component type
+- __Client component__
   - You can use event, use hook, use state and interactive userterface
   - __console_log()__ function work in browser console
   - To Make Client Side Render , you can use "use client" keyword in the top of component file
@@ -324,7 +318,7 @@ export default function HomePage() {
     );
   }
   ```
-- Server
+- __Server component__
   - You can not use event, use hook, use state and interactive userterface
   - you can just render the data
   - __console_log()__ function work will not in browser console & it will show in terminal 
@@ -346,8 +340,9 @@ export default function HomePage() {
     )
   }```
 
-- Use Server & Clinet Component together 
+- __Use Server & Clinet Component together__ 
   - create external client component with top line "user client" and import to server component, it will work!
+- Fore more information <a href="https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns"> click here </a>
 
 ## 11. CSS
 - __moudle css__  specific css code for componnent & useful when project to big
@@ -407,7 +402,8 @@ const divStyle = {
 ```
 
 ## 12. Optimzing
-- Images
+- __Images__ : you can use quality, blur etc with next/image ,, <a href="https://nextjs.org/docs/app/building-your-application/optimizing/images"> click here for learn more </a>
+
 ```jsx
 'use client'
 import Image from 'next/image'
@@ -534,7 +530,7 @@ h1 {
 ```
 
 ### 12.3 Script 
-- <Script> commponent of next js that can apply current component js code
+-  commponent of next js that can apply current component js code
 ```jsx
 import Script from 'next/script'
 export default function DashboardLayout({
@@ -639,4 +635,212 @@ export default function Page() {
 i. dangerouslySetInnerHTML
 ```jsx
 	<div className={'blog-body mt-10'} dangerouslySetInnerHTML={{ __html: post.body }}  />
+```
+
+### 16. Data Fetching
+- You can Make GET, POST, DELETE  AND UPDATE
+- __Server Component__
+  ```jsx
+    async function getData(praam) {
+    const res = await fetch('https://api.example.com/...')
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch data')
+    }
+  
+    return res.json()
+  }
+  
+  export default async function Page() {
+    const data = await getData()
+    return <main></main>
+  }
+  ```
+- __Dynamic Fetching__
+```jsx
+    async function getData(id) {
+    const res = await fetch('https://api.example.com/...'+id)
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch data')
+    }
+  
+    return res.json()
+  }
+  
+  export default async function Page({param}) {
+    const data = await getData(param.id)
+    return <main></main>
+  }
+  ```
+
+### 16. API
+- you can create api in next js & connect database using npm package of mysqli, mongo etc
+- create you new folder __"api"_ inside of src directory
+- They are server-side only bundles and won't increase your client-side bundle size.
+- routing like folder directory and filenmae will route.jsx instead of page.js
+- all api write in folder __src/api/*__
+- you can create api in next ,, then use that api to perform the action CRUD operation through fetch() Js method
+
+- Create __GET__  Request
+```jsx
+// src/api/product/route.jsx
+import { NextResponse } from 'next/server'
+export default async function GET(req) {
+  // get the data from database &  send data with get request
+
+  console.log(req); // view the all request headers...
+  const requestHeaders = new Headers(req.headers);
+  
+  // URL Query Params domain.com/?name=sajid
+  const {searchParams} = new URL({req.url}); // {"name":"sajid"}
+  const name = searchParams.get('name');
+
+  // cookies
+  const cook1 = req.cookies; // cookies() or  return array information..
+  
+  return NextResponse.json({ message: 'Hello from Next.js!' })
+}
+```
+- Create __POST__ Request
+```jsx
+// src/api/product/route.jsx
+import { NextResponse } from 'next/server'
+export default async function POST(req) {
+  // get the post request and perform the action like crud or response the data msg
+
+  console.log(req); // view the all request headers...
+  const requestHeaders = new Headers(req.headers);
+  
+  // URL Query Params domain.com/?name=sajid
+  const {searchParams} = new URL({req.url}); // {"name":"sajid"}
+  const name = searchParams.get('name');
+
+  // cookies
+  const cook1 = req.cookies; // cookies() or  return array information..
+
+  // get Body Request
+  const res = await req.json() 
+  const formData = await req.formData()
+  console.log(formData.get("key_name"));
+  
+  return NextResponse.json({ message: 'Hello from Next.js!' },{status:200});
+}
+```
+- __Dynamic Request URL__
+```jsx
+// src/api/product/[id]/route.jsx
+import { NextResponse } from 'next/server'
+export default async function GET(req, context) {
+  // get the dynamic request id & fetch in database &  response status
+  
+  // get the id 
+  console.log(context); // {params{id:'2'}}
+  console.log(context.params.id); // 2
+
+  const requestHeaders = new Headers(req.headers);
+  
+  return NextResponse.json({ message: 'Hello from Next.js!' })
+}
+// OR
+export default async function GET(req, {params}) {
+  console.log(params.id); 
+  const requestHeaders = new Headers(req.headers);
+  
+  return NextResponse.json({ message: 'Hello from Next.js!' })
+}
+```
+- We can create more like DELETE, UPDATE etc reqeust... like that above...
+
+- __Security__
+  - create own api : bought api for get the original server data
+  - then make request to created own api ,,, now i have hide the original api url & key secrete etc...
+
+
+### 8. CRUD Operation
+  - there is two way 
+    - i. create api in next js with npm db library & use that api in next js application using the fetch() method
+    - ii. install the mysql/mongoDB etc library with npm & use in directly in next js application like php language
+  - you can create crud operation in next js without using the external programming backend language
+  - you are doing the job like __full stack developer :)__
+  
+## 7. Middleware : will run each of http request
+- middleware will run before request complete ...
+- use for protect the page like admin dashboard can not access without valid login token
+Example One:
+```jsx
+//src/middleware.js : filename must be same
+import { NextResponse } from 'next/server'
+ 
+export function middleware(request) {
+  var isLogged = false; // if false redirect to admin login page
+  if(!isLogged){
+    return NextResponse.redirect(new URL('/admin', request.url))   
+  }
+}
+
+export const config = {
+  matcher: ['/admin/dashboard', '/admin/profile'] // /admin/:path* match all  admin inside the path
+}
+```
+Example Two : different route name and response folder name different , in this case : 
+```jsx
+import { NextResponse } from 'next/server'
+
+export function middleware(request) {
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    return NextResponse.rewrite(new URL('/admin-construct', request.url))
+  }
+}
+```
+
+Example Three : You Can get incoming Cookies & set , delete etc.
+```jsx
+import { NextResponse } from 'next/server'
+
+export function middleware(request) {
+  // Assume a "Cookie:nextjs=fast" header to be present on the incoming request
+  // Getting cookies from the request using the `RequestCookies` API
+  let cookie = request.cookies.get('nextjs')
+  console.log(cookie) // => { name: 'nextjs', value: 'fast', Path: '/' }
+  const allCookies = request.cookies.getAll()
+  console.log(allCookies) // => [{ name: 'nextjs', value: 'fast' }]
+ 
+  request.cookies.has('nextjs') // => true
+  request.cookies.delete('nextjs')
+  request.cookies.has('nextjs') // => false
+ 
+  // Setting cookies on the response using the `ResponseCookies` API
+  const response = NextResponse.next()
+  response.cookies.set('vercel', 'fast')
+  response.cookies.set({
+    name: 'vercel',
+    value: 'fast',
+    path: '/',
+  })
+  cookie = response.cookies.get('vercel')
+  console.log(cookie) // => { name: 'vercel', value: 'fast', Path: '/' }
+  // The outgoing response will have a `Set-Cookie:vercel=fast;path=/test` header.
+ 
+  return response
+}
+``` 
+Example Four : Procced the function if user authenticated
+```jsx
+import { NextResponse } from 'next/server'
+import { isAuthenticated } from '@lib/auth' // your library determine user authentication or not
+ 
+// Limit the middleware to paths starting with `/api/`
+export const config = {
+  matcher: '/api/:function*',
+}
+export function middleware(request) {
+  // Call our authentication function to check the request
+  if (!isAuthenticated(request)) {
+    return new NextResponse(
+      JSON.stringify({ success: false, message: 'authentication failed' }),
+      { status: 401, headers: { 'content-type': 'application/json' } }
+    )
+  }
+}
 ```

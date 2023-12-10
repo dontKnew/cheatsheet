@@ -1,12 +1,14 @@
-### React JS Toutrial
+### React-Js ^18.2.0
+
 1. Requirements for setup in laptop/computer 
 - install node js for window <a href="https://nodejs.org/dist/v18.16.1/node-v18.16.1-x64.msi"> click here </a>
 - run command in terminal ```npx create-react-app projectName```
 - go to project run cmd ```npm start```
 - Now you successfully run react js project
 - React application in a web browser. By default, it runs on http://localhost:3000.
+- check this project for practically : <a href="https://github.com/dontKnew/react-toutrial">Toutrial Project</a> & <a href="https://www.w3schools.com/react/"> Online Learn & Test</a>
 
-2. Hook
+2. Hooks
 - useState : its return current update value example below : 
     ```jsx
     import React, { useState } from 'react';
@@ -31,40 +33,201 @@
     ```
 
 - useEffect : used to perform __side effects__ in functional components. Side effects refer to any code that interacts with the outside world, such as fetching data from an API, subscribing to events, manipulating the DOM, or setting up timers. __and__ It is similar to the __lifecycle methods__ in class components.
+    - its runs each time when component is __mounted__(inserted into the DOM, the component is said to be mounted & remove then its said unmounted component) and __re-render__ 
+    - when useState change : then useEffect called  in same
     ```jsx 
     import React, { useState, useEffect } from 'react';
 
-    function Example() {
-    const [data, setData] = useState([]);
+    export const Example = ()=>{
+        const [data, setData] = useState([]);
+        const [useEffectData, setUseEffectData] = useState();
 
+        // Example 1- It runs each time when component is mounted and re-render
+        useEffect(() => {
+            console.log("useEffect Called");
+        })
+
+        // Example 2- It runs once when the component is mounted ([] means no dependencies)
+        useEffect(() => {
+            console.log("useEffect Called");
+        })
+
+        
+    // Example 3 - It runs when the component is mounted and whenever dependence changes.
     useEffect(() => {
-        const fetchData = async () => {
-        try {
-            const response = await fetch('https://api.example.com/data');
-            const jsonData = await response.json();
-            setData(jsonData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
+        console.log("useEffect Called");
+    }, [useEffectData])
+
+        
+    // Example 4 - The cleanup function (the function you return from useEffect) runs when the component unmounts or when the dependencies in the dependency array change. Since count is in the dependency array, whenever count changes, the cleanup function is called before the new effect runs.
+    useEffect(() => {
+        console.log("useEffect Called");
+        return () => {
+        console.log("Component will unmount !!");
         }
-        };
+    }, [])
+        return (
+            <h1>hello use effect </h1>
+        );
+    }
+    ```
+- useMemo : this is like useEffect, but its store in cache & get the result from cache
+    ```jsx 
+    import {useMemo, useState} from 'react';
+    export const App = ()=> {
+        const [count, setCount] = useState(0)
+        const handleIncreaseCount = () => {
+            console.log("Increase Count Function");
+            setCount(count + 1)
+        }
+        // Ex 1. : call the useMemo when specific state change..
+        const isCountTen = useMemo(() => {
+            console.log("isCountTen Called");
+            if (count === 10) {
+                return "Yes"
+                }
+            return "No"
+        }, [count]) // define useState
+        return (
+            <h1>is {count} equal to 10 ? --- {isCountTen}</h1>
+            <button onClick={handleIncreaseCount}>Increase Count</button>
+            );
+    }
+    ```
+- useMemo : this is like useEffect, but its store in cache & get the result from cache in second time
+    ```jsx 
+    import {useMemo, useState} from 'react';
+    export const App = ()=> {
+        const [count, setCount] = useState(0)
+        const handleIncreaseCount = () => {
+            console.log("Increase Count Function");
+            setCount(count + 1)
+        }
+        // Ex 1. : call the useMemo when specific state change..
+        const isCountTen = useMemo(() => {
+            console.log("isCountTen Called");
+            if (count === 10) {
+                return "Yes"
+                }
+            return "No"
+        }, [count]) // define useState
+        return (
+            <h1>is {count} equal to 10 ? --- {isCountTen}</h1>
+            <button onClick={handleIncreaseCount}>Increase Count</button>
+            );
+    }
+    ```
+- useCallback : this is similer to useMemo 
+    - The React useCallback Hook returns a memoized callback function & useMemo is  memoized value .
+    -  useCallback is to prevent a component from re-rendering unless its props have changed.      
+    ```jsx
+    //App.jsx
+    import React, { useState, useCallback } from "react";
+    import Name from "./Name";
 
-        fetchData();
-    }, []); //// The empty dependency array ensures that this effect runs only once, on component mount
+    const App = () => {
+    const [inputValue, setInputValue] = useState("");
+    const [name, setName] = useState("");
 
+    // Define a memoized callback function using useCallback
+    const handleInputChange = useCallback((e) => {
+        setInputValue(e.target.value);
+    }, []); // Empty dependency array means the function will not be recreated unless a dependency changes
+
+    const handleButtonClick = useCallback(() => {
+        setName(inputValue);
+    }, [inputValue]); // Include inputValue as a dependency since the function depends on it
+
+    console.log("parent render");
     return (
         <div>
-        <h1>Data:</h1>
-        <ul>
-            {data.map(item => (
-            <li key={item.id}>{item.name}</li>
-            ))}
-        </ul>
+        <h1>Parent Component</h1>
+        <label>
+            Enter Name:{" "}
+            <input type="text" value={inputValue} onChange={handleInputChange} />
+        </label>
+        <button onClick={handleButtonClick}>Set Name</button>
+        <Name name={name} />
         </div>
     );
+    };
+
+    export default App;
+    
+    //Name.jsx
+    import { memo } from "react";
+    const Name = ({ name }) => {
+    console.log("child render");
+    return (
+        <>
+        <h2>My Name</h2>
+            {name}
+        </>
+    );
+    };
+    export default memo(Name);
+    ```  
+- Custom Hooks: When you have component logic that needs to be used by multiple components
+    - Custom Hooks start with __"use"__. Example: useFetch.
+    - for better use.. create folder "hook" name and write all hooks in there folder..
+    ```jsx
+    //Example One : https://www.w3schools.com/react/react_customhooks.asp
+    //useFetch.js
+    import { useState, useEffect } from "react";
+    const useFetch = (url) => {
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        fetch(url)
+        .then((res) => res.json())
+        .then((data) => setData(data));
+    }, [url]);
+
+    return [data];
+    };
+
+    export default useFetch;
+
+    //use of created hook App.jsx
+    import useFetch from "./useFetch";
+    const Home = () => {
+    const [data] = useFetch("https://jsonplaceholder.typicode.com/todos");
+
+    return (
+        <>
+        {data &&
+            data.map((item) => {
+            return <p key={item.id}>{item.title}</p>;
+            })}
+        </>
+    );
+    };
+
+    // Example Two :
+    // useCustomCounter.jsx 
+    import { useState } from 'react'
+        export const useCustomCounter = () => {
+        const [count, setCount] = useState(0)
+        const handleIncrement = () => {
+            setCount(count + 1)
+        }
+        return {
+            count, handleIncrement
+        }
     }
-    export default Example;
+    // App.jsx
+    import { useCustomCounter } from "useCustomCounter"
+    export const LearnCustomHook = () => {
+    const { count, handleIncrement } = useCustomCounter()
+    return (
+        <>
+        <h1>Count: {count}</h1>
+        <button onClick={handleIncrement}>Inc</button>
+        </>
+    )
+    }
     ```
-    - Its usefull for side effect function mean it will run on side way and when data fetched then its return data & display in browser
+
 3. Routes : 
 - To use react router in react application you need to install the react router library using the command ```npm install react-router-dom``` in root project folder of react application
     ```jsx 
@@ -127,11 +290,11 @@
         }
         export default Login;
     ```
-3. Props : sharing data in between component you can pass __data to child components__ using props, allowing them to __render dynamic content__ based on the values provided and you can pass also array object any data type
+3. Props : sharing data in between component you can pass __data to child components__ using props, allowing them to __render dynamic content__ based on the values provided and you can pass also array object any data type __parent to child data pass__
 
     ```jsx
     import React from 'react';
-
+    // function Greeting({name, name2}) {...} 
     function Greeting(props) {
     return <h1>Hello, {props.name}!</h1>;
     }
@@ -147,6 +310,37 @@
     }
     export default App;
     ```
+3. Life State Up : pass data from __child to parent__
+    - you need to use event... 
+    ```jsx
+    // LiftingStateUp.jsx (child component)
+    export const LiftingStateUp = (props) => {
+        const handleClick = (e) => {
+            e.preventDefault()
+            let dt = "I am from Child Data"
+            props.myClick(dt)
+        }
+        return (
+            <>
+            <button onClick={handleClick}>Click 1</button>
+            </>
+        )
+    }
+
+    //ParentLiftingStateUp.jsx
+        export const ParentLiftingStateUp = (props) => {
+            const getData = (data) => {
+                console.log(`this is data from child component ${data}`);
+            }
+        return (
+            <>
+                  <LearnLiftingStateUp myClick={getData} />
+            </>
+        )
+    }
+    ```
+
+
 4. Handling Event
     ```jsx
     import React, { useState } from 'react';
@@ -343,3 +537,73 @@
 - __Note__ : You can use like this above method to used npm js library 
 
     ```
+
+10. CSS <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/next-js.md#11-css">click here </a>
+11. Images 
+    ```jsx
+    import Pic from '/images/pic.png'  /* public/images/pic.png - folder of react js*/
+    import SupaPic from '../assets/images/supapic.png' /* src/assets/images/supaic.png */
+    export const LearnUseOfImage = () => {
+    return (
+        <>
+        <h1>Images</h1>
+        <img src={Pic} alt="" width="400px" />
+        <br />
+        <img src={SupaPic} alt="" width="300px" />
+        </>
+    )
+    }
+    ```
+12. Form 
+    ```jsx
+    import { useState } from "react"
+    export const LearnForm = () => {
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const handleFirstName = (e) => {
+        setFirstName(e.target.value)
+    }
+    const handleLastName = (e) => {
+        setLastName(e.target.value)
+    }
+
+    // const [formData, setFormData] = useState({
+    //   firstName: '',
+    //   lastName: '',
+    // })
+    // const handleChange = (e) => {
+    //   setFormData({ ...formData, [e.target.name]: e.target.value })
+    // }
+
+    // Handle Form on Submit
+    // const handleFormSubmit = (e) => {
+    //   e.preventDefault()
+    //   console.log("Submit Button Clicked", formData);
+    // }
+    return (
+        <>
+        {/* Handle element one by one */}
+        <form action="">
+            First Name: <input type="text" name="firstName" value={firstName} onChange={handleFirstName} /> <br /><br />
+            Last Name: <input type="text" name="lastName" value={lastName} onChange={handleLastName} /> <br /><br />
+        </form>
+
+        {/* Handle all elements at once */}
+        {/* <form action="" onSubmit={handleFormSubmit}>
+            First Name: <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} /> <br /><br />
+            Last Name: <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} /> <br /><br />
+            <button type="submit">Submit</button>
+        </form> */}
+        </>
+    )
+    }
+    ```
+13. envrionment variable for <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/next-js.md#14-envrionment-variable"> click here </a>
+
+14. Library for react js 
+    - material ui (https://mui.com/material-ui/ & material ui can learn from geeky shows)
+    - form library (https://react-hook-form.com/)
+    - redux toolkit (learn from geeky shows, its old but, no updating verion yet..)
+    - react router v6 watch from geekyshows...
+    
+
