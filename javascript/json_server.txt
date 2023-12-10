@@ -1,0 +1,88 @@
+JSON SERVER: this JSON SERVER we can make fake api for testing our application like angular react and other front end frameworks.
+=> Create json server on custom port server : json-server --watch db.json --port 3004
+1. npm install -g json-server // json server will be install in your computer globally.
+2. go to any folder and run command : json-server --watch  // run without file or json-server --watch db.json // run with file
+3. Singular Route : 
+GET    /profile
+POST   /profile
+PUT    /profile
+PATCH  /profile
+
+3.1 Plural Route
+GET    /posts
+GET    /posts/1
+POST   /posts
+PUT    /posts/1
+PATCH  /posts/1
+DELETE /posts/1
+
+learn more about json server for visit  this site : https://github.com/typicode/json-server
+
+3. lets our json server api in postmen, go to chrome extension install postmen
+4. open postmen and lets check start process
+GET => read data from server // mean our json server 
+http://localhost:3000/posts // click send button on postmen app you will see, you got an jsons server data from post section
+POST = > insert data // click raw and insert you data value josn formate data and send data with url  /http://localhost:3000/posts
+PUT AND PATCH => update data // http://localhost:3000/posts/8 , update section post under which have 8 id , and for update go to body section and under raw type ur updatation.
+DELETE = > delete data // http://localhost:3000/posts/8 ,here will be delete id number 8 from json server under section post.
+
+5. Access Properties (Filter)
+GET /posts?title=json-server&author=typicode
+GET /posts?id=1&id=2
+GET /comments?author.name=typicode
+ 
+6. pagination
+=> 10 items are returned by default
+GET /posts?_page=7  : thats mean data will be 10 objects pers page
+GET /posts?_page=7&_limit=20
+
+7. sort
+GET /posts?_sort=views&_order=asc // return ascending order data
+GET /posts/1/comments?_sort=votes&_order=asc // return decending order data
+=> multiple formate : 
+posts?_sort=user,views&_order=desc,asc
+
+8.slice
+=> get data from 100 items under 50 -70, so Example Add _start and _end or _limit, 
+GET posts?_start=50&_end=71, So data will be 20 result...
+GET posts?_start=50&_limit=70, So data will be 20 result...
+
+9. Opeartor 
+	9.1. _gte or _lte
+ GET posts?id_gte=12&id_lte=15 : resul will in range 12 to 15 all ids will be display
+
+	9.2. _ne Excluded Value 
+GET /posts?id_ne=12 , all post will be getting data except 12 id
+
+	9.3. _like
+GET /posts?title_name=Kamina khan, which have object have name equal to kamina khan, result will be whose data.
+
+12.  Full Text Search , by add "q"
+=> Search in posts table of all database which related to internet ( i to t letter) 
+=> search by letter to letter and number to number
+GET /podsts?q=internet 
+
+13. Relationship
+	13.1 Inlcude Children resources GET /posts?_embed=comments & GET /posts/1?_embed=comments
+	13.2 inlcude parent resources GET /comments?_expand=post & GET /comments/1?_expand=post
+	13.3. get or create Nested (children or inside of object) resources,  GET /posts/1/comments & POST /posts/1/comments
+
+14. get ALl json record 
+GET server/db
+
+15. Access data using custom routes
+/api/posts  by  → /posts
+/api/posts/1  by → /posts/1
+/posts/1/show by → /posts/1
+/posts/javascript by  → /posts?category=javascript
+/articles?id=1 by → /posts/1
+
+
+
+
+
+
+
+
+
+

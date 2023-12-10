@@ -1,6 +1,6 @@
 
 
-/*sajid-script*/
+``js
     function includeHTML() {
   var z, i, elmnt, file, xhttp;
   /* Loop through a collection of all HTML elements: */
@@ -28,11 +28,12 @@
     }
   }
 }
+
 includeHTML();
-/*sajid-script*/
         <div w3-include-html="include/c1.html"></div>
+``
 
-
+``js
 function copyLink(link) {
         var tempInput = document.createElement("input");
         tempInput.value = link;
@@ -42,8 +43,9 @@ function copyLink(link) {
         document.body.removeChild(tempInput);
         alert("Link has been copied");
     }
+``
 
-
+``js
 // stop marquee slider on hover
   var slider = document.getElementById('slider_marquee');
     slider.addEventListener('mouseover', function() {
@@ -53,7 +55,9 @@ function copyLink(link) {
       this.start();
     });
 
+``
 
+``js
 // selected attribute
   <select>
     <option id="apple">Apple</option>
@@ -65,7 +69,5 @@ function copyLink(link) {
 function myFunction() {
   document.getElementById("orange").selected = "true";
 }
-</script
+``
 
-
-// modal
