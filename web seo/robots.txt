@@ -1,11 +1,7 @@
 User-agent: * 
 Allow: /  - allow crawl all pages of website 
-
 Disallow: /404.php - deny access to google crawl and bots to crawl the page
-
 Disallow: /admin - deny access to google crawl and bots to admin folder and subfolders 
 Disallow: /testing
-
 Disallow: /assets/resource/ - deny access to google only block the crawl resource folder, but subfolder will crawl
-
 sitemap: https://rapidexworldwide.com/sitemap.xml - tell the google crawl the all page which mentioned in sitemap & make sure in robots.txt : disallow page not include in sitemap otherwise google will still crawl thats mentioned in robost.txt file
