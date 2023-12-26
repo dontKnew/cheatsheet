@@ -1,3 +1,8 @@
+-- Install NVM -- 
+	- manage multiple node js version
+	- nvm install nodeVersion : installing the node js version 18.17.0
+	- npm use versionName : apply to system to use current this version..
+
 What is Nodejs ?
 => Nodejs is a javascript runtime built on chorme v8 javascript engine
 => Nodejs allow you to run javascript on the server

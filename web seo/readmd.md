@@ -1,7 +1,5 @@
 # SEO (Social Engine Optimization)
-![Example Image](https://static.javatpoint.com/seo/images/what-is-seo.png)
-
-## Type of SEO
+![Example Image](https://static.javatpoint.com/seo/images/what-is-seo.png)## Type of SEO
     i. White Hat SEO : 
         - Don`t need to worry about getting penalized or de-indexing of your site.	
         - Focused on providing quality and relevant content to the users.	
@@ -14,7 +12,7 @@
        - It may get your site banned, de-indexed or penalized by search engines.
        - it may be downgrade your ranking and get you blacklisted by search engines
        - It focuses on using hidden texts and links, keyword stuffing and spamming.
-
+       
 ## Keyword Research & Anaylsis
     - Keyword Research is the process of finding the right keywords for your website.
     - 80% keyword should be include in domain name
@@ -27,14 +25,18 @@
 ### Backlinks
      - Backlinks are incoming links to a main webpage.
      - Backlinks are also known as inbound links, incoming links, inlinks, and inward links.
-     - create backlinks in high quality domain
+     - create backlinks in high quality domain (DA & PA > 50) 
+     - create Domain Authority of your site
      - Tips : 
         - create relevant keyword domain name website & post blogs... for main webpage
         - try to link high quality domain 
 
 ## OnPage
+    - social username should be same in all social media accounts
+    - social username should be same as domain name
+    - add schema in site according to business
 
-### Social Media 
-    - username should be same in all social media accounts
-    - username should be same as domain name
-    
+## Technical SEO
+    - increase AMP (Accelerated Mobile Pages) for mobile users
+    - old page indexin shold be redirection to new page url
+    - fix google console error

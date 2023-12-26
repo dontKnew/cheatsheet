@@ -57,4 +57,4 @@ npm ERR! Fix the upstream dependency conflict, or retry
 npm ERR! this command with --force or --legacy-peer-deps
 npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
 
-npm install --legacy-peer-deps
+#npm install --legacy-peer-deps

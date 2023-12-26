@@ -1,9 +1,5 @@
 ## Next JS Toutrial
 
-#### My Learning Purpose For Create Multiple Dynamic Pages for SEO
-  - sitemap
-  - dynamic url.
-
 #### Intro 
 - Next.js is a framework for building web applications.
 - With Next.js, you can build user interfaces using React components. Then, Next.js provides additional structure, features, and optimizations for your application.
@@ -15,6 +11,12 @@
 - if you will ask elint ? used "yes" : its help to indentify the errors :)
 - Learn Carefully __Project Strucutre__ from here <a href="https://nextjs.org/docs/getting-started/
 project-structure"> click here </a>
+
+## Install NVM  (node version manager)
+	- manage multiple node js version
+	- nvm install nodeVersion : installing the node js version 18.17.0
+	- npm use versionName : apply to system to use current this version..
+
 
 ## 1. Pass Props(Variable) to another componet
 ```jsx
