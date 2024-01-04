@@ -17,6 +17,24 @@ project-structure"> click here </a>
 	- nvm install nodeVersion : installing the node js version 18.17.0
 	- npm use versionName : apply to system to use current this version..
 
+### Need To Know
+  - Redirection
+  - custom routes & route name
+  - Rewrite : change the url path name & folder name , ex : admin.html to admin folder
+          - rewrite  create duplicacy , to avoid use meta, canconical tag & redirection does not create duplicacy
+    ```jsx
+    // next.config.js
+  module.exports = {
+  rewrites: async () => [
+      {
+      source: '/about',
+      destination: '/pages/about.js',
+      },
+    ],
+  }
+  ```
+  - Headers
+  - Redirects
 
 ## React Concept 
   - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Custom Hook </a>
@@ -182,6 +200,8 @@ export default function Rahul() {
   ```
 
 
+## 4.2 Custom Routes
+  - <a href="https://github.com/vercel/next.js/discussions/9081">check </a>
 
 ## 5. Link & Navigation 
 ```jsx
