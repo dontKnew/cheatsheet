@@ -1,4 +1,4 @@
-## Next JS Toutrial
+## Next JS Toutrial 13/14 Version
 
 #### Intro 
 - Next.js is a framework for building web applications.
@@ -18,7 +18,22 @@ project-structure"> click here </a>
 	- npm use versionName : apply to system to use current this version..
 
 
+## React Concept 
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Custom Hook </a>
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Conditional Render </a>
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> List & Keys </a>
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> SSR & PHP </a>
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> List & Keys </a>
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> FontAwesome </a>
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Boostrap </a>
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Form </a>
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Envrionment Variable </a>
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Library For React Js </a>
+
+
+
 ## 1. Pass Props(Variable) to another componet
+  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> React  3. Props </a>
 ```jsx
 export default function Home() {
   return (
@@ -35,8 +50,8 @@ function User(props){
   )
 }
 ```
+### send Child to Parent Data
 ```jsx
-## send Child to Parent Data
 export default function Page() {
   const [userData, setUserData] = useState([]);
   const handleUserData = (data) => {
@@ -90,27 +105,7 @@ export default function Home() {
 }
 ```
 ## 3. use state
-```jsx
-import React, { useState } from 'react';
-
-function Counter() {
-const [count, setCount] = useState(0); // setCount for update the value and count for get the current value
-
-const increment = () => {
-    setCount(count + 1);
-    // setCount for update the value
-};
-
-return (
-    {/*when click button, it return current states updated vlaue :)*/}
-    <div>
-    <p>Count: {count}</p> 
-    {/*count for get the current value*/}
-    <button onClick={increment}>Increment</button> 
-    </div>
-);
-
-```
+  - <a href="">## 2. Hooks </a>
 
 ## 4. Routes
 - Basic Folder File Base Routing can be used like home/page.js & about/page.js in src or app directory of root project, Now you can access the localhsot:3000/home or localhost:3000/about page

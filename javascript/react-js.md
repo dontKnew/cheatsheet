@@ -1,6 +1,11 @@
 ### React-Js ^18.2.0
 
-1. Requirements for setup in laptop/computer 
+## Install NVM  (node version manager)
+	- manage multiple node js version
+	- nvm install nodeVersion : installing the node js version 18.17.0
+	- npm use versionName : apply to system to use current this version..
+
+## 1. Requirements for setup in laptop/computer 
 - install node js for window <a href="https://nodejs.org/dist/v18.16.1/node-v18.16.1-x64.msi"> click here </a>
 - run command in terminal ```npx create-react-app projectName```
 - go to project run cmd ```npm start```
@@ -8,7 +13,7 @@
 - React application in a web browser. By default, it runs on http://localhost:3000.
 - check this project for practically : <a href="https://github.com/dontKnew/react-toutrial">Toutrial Project</a> & <a href="https://www.w3schools.com/react/"> Online Learn & Test</a>
 
-2. Hooks
+## 2. Hooks
 - useState : its return current update value example below : 
     ```jsx
     import React, { useState } from 'react';
@@ -228,7 +233,7 @@
     }
     ```
 
-3. Routes : 
+## 3. Routes : 
 - To use react router in react application you need to install the react router library using the command ```npm install react-router-dom``` in root project folder of react application
     ```jsx 
     import React from 'react';
@@ -290,7 +295,8 @@
         }
         export default Login;
     ```
-3. Props : sharing data in between component you can pass __data to child components__ using props, allowing them to __render dynamic content__ based on the values provided and you can pass also array object any data type __parent to child data pass__
+## 3. Props 
+    -  sharing data in between component you can pass __data to child components__ using props, allowing them to __render dynamic content__ based on the values provided and you can pass also array object any data type __parent to child data pass__
 
     ```jsx
     import React from 'react';
@@ -310,7 +316,8 @@
     }
     export default App;
     ```
-3. Life State Up : pass data from __child to parent__
+## 3. Life State Up : 
+    - pass data from __child to parent__
     - you need to use event... 
     ```jsx
     // LiftingStateUp.jsx (child component)
@@ -341,7 +348,7 @@
     ```
 
 
-4. Handling Event
+## 4. Handling Event
     ```jsx
     import React, { useState } from 'react';
 
@@ -381,8 +388,8 @@
     }
     export default FormExample;
     ```
-5. Conditional Rendering : 
-    - if Statement
+## 5. Conditional Rendering : 
+- if Statement
     ```jsx
     import React from 'react';
 

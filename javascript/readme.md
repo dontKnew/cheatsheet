@@ -111,3 +111,36 @@ function myFunction() {
 }
 ``
 
+
+## time countdown function
+``javascript
+function formatTime(minutes, seconds) {
+    return minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
+}
+
+function updateCountdown(seconds) {
+    const targetTime = new Date();
+    targetTime.setSeconds(targetTime.getSeconds() + seconds); 
+    
+    function calculateRemainingTime() {
+        const currentTime = new Date();
+        const timeDifference = targetTime - currentTime;
+
+        if (timeDifference > 0) {
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+            document.getElementById('countdown').innerText = formatTime(minutes, seconds);
+            setTimeout(calculateRemainingTime, 1000);
+        } else {
+            document.getElementById('countdown').innerText = "00:00";
+        }
+    }
+
+    // Initial calculation
+    calculateRemainingTime();
+}
+
+// Set up the initial countdown
+updateCountdown(140);
+```
+
