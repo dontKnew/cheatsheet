@@ -89,8 +89,13 @@ git pull origin branchName
 ## restore from previous changed
 git restore --staged
 
-## git remote remove origin 
-remove origin link from current git file
+## delete a branch
+	- git branch -d {branchName}
+	- git branch -D {branchName} #forcefully removed
+
+## delete remote origin
+	- git remote remove origin
+
 
 ## First fetch data from github then if u run merge command they will apply changes from github.com to locally computer
 	- git fetch and git merge

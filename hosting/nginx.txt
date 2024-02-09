@@ -1,3 +1,6 @@
+goaccess /home/rapidexworldwide/logs/nginx/access.log -o /home/rapidexworldwide/htdocs/rapidexworldwide.com/public/report.html --log-format=COMBINED --real-time-html
+
+
 1. to start nginx & go to folder nginx and run ngnix.exe  
 2. To Stop : use task manager or nginx.exe -s stop
 3. Non Redirect Files in php
