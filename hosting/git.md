@@ -89,13 +89,21 @@ git pull origin branchName
 ## restore from previous changed
 git restore --staged
 
-## delete a branch
+## delete a branch in local
 	- git branch -d {branchName}
 	- git branch -D {branchName} #forcefully removed
+
+## delete a branch in github server
+	- git push origin --delete {branchName}
+	- git branch -D --delete {branchName} #forcefully removed
 
 ## delete remote origin
 	- git remote remove origin
 
+## Rename branch 
+	- 1. git checkout <old_branch_name> 
+	- 2. git branch -m <new_branch_name>
+	- 3. git push origin -u <new_branch_name> # push new branch to server...
 
 ## First fetch data from github then if u run merge command they will apply changes from github.com to locally computer
 	- git fetch and git merge

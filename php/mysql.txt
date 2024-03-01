@@ -4,6 +4,8 @@ MYSQL : lets learn msyql command line
 command : net start // find your mysql word
 2. go to folder : C:\xampp\mysql\bin> and run command : mysql.exe -uroot -p thereafter enter password, if you not set password just enter again. Ok
 
+3. STRICT_TRANS_TABLE ERROR FIXED BY EDIT mysq.cnf file.. & 
+
 => JOIN
  1. INNER JOIN -  
 
