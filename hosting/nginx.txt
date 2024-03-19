@@ -1,5 +1,56 @@
-goaccess /home/rapidexworldwide/logs/nginx/access.log -o /home/rapidexworldwide/htdocs/rapidexworldwide.com/public/report.html --log-format=COMBINED --real-time-html
+-- ERROR --
+i. 504 timeout 
+	go to file /etc/nginx/nginx.conf add this below inside of curl brace 
+	http {
+	  proxy_connect_timeout       600;
+	  proxy_send_timeout          600;
+	  proxy_read_timeout          600;
+	  send_timeout                600;
+	 }
 
+
+
+1. Setup with PHP Ngnix
+	1.1 CONFIG NGNIX
+		- install : apt install nginx
+		- start : sudo service nginx start 
+		- stop : sudo service nginx stop
+		- restart : sudo service nginx restart
+	1.2. config PHPFPM
+		i. install : sudo apt-get install php-fpm php-mysql
+		ii. restart : sudo systemctl restart php7.4-fpm
+		iii. status : sudo systemctl status php{version}-fpm
+		Note : commandline & server browser different config...
+	- /etc/nginx/sites-available/default 
+		server {
+		    listen 80 default_server;
+		    listen [::]:80 default_server;
+		    root /var/www/html;
+		    # Add index.php to the list if you are using PHP
+		    index index.php index.html index.htm index.nginx-debian.html;
+		    location / {
+			try_files $uri $uri/ /index.php?$query_string;
+		    }
+		    # pass PHP scripts to FastCGI server
+		    location ~ \.php$ {
+			include snippets/fastcgi-php.conf;
+			fastcgi_pass unix:/run/php/php8.1-fpm.sock;
+			# Additional FastCGI settings if needed
+		    }
+		}
+	- restart : sudo service nginx restart
+2. MYSQL
+	i. apt install mysql-server
+		- sudo service mysql status
+		- sudo service mysql restart
+		- sudo service mysql stop
+	ii. enter mysql command : sudo mysql
+		- now you can change the passowrd of root or see database using commandline
+	iii. PHPMYAdmin - install phpmyadmin from site & download 
+		note : make sure mysql-server is running
+	
+	 
+== OLD==
 
 1. to start nginx & go to folder nginx and run ngnix.exe  
 2. To Stop : use task manager or nginx.exe -s stop
