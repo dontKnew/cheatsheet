@@ -1,0 +1,40 @@
+## Change Log 
+
+### 06 April 2023
+1. #OK SSH root login Disabled
+2. #check SSH Port Not Changed
+3. #OK Server Recovered 
+4. #OK Admin Site Basic Authentication
+5. #OK SSL install WildCard
+	i. sudo apt-get install certbot
+	ii. sudo certbot --apache or sudo certbot --nginx
+	iii. sudo certbot -d *.sajid.in --manual --preferred-challenges dns certonly 
+		- name & value add in dns record
+	iv. Vhost Code ( NGinx)t
+		server {
+			listen 80;
+			listen [::]:80;
+			listen 443 ssl http2;
+			listen [::]:443 ssl http2;
+
+		    	server_name *.phpmaster.in;
+		    
+			ssl_certificate /etc/letsencrypt/live/phpmaster.in-0001/fullchain.pem;
+			ssl_certificate_key /etc/letsencrypt/live/phpmaster.in-0001/privkey.pem;
+
+		       root /var/www/test-bloggingwebs;
+		       index index.html index.htm;
+
+		    if ($scheme != "https") {
+		    	rewrite ^ https://$host$uri permanent;
+		  	}
+		    location / {
+			try_files $uri $uri/ /index.html?$query_string;
+		    }
+		}
+		
+		
+	
+
+
+ 
