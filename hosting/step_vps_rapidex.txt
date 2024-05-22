@@ -1,5 +1,10 @@
 ## Change Log 
 
+### 07 April 2023
+1. #OK Change Port to 6000 by add line Port 81292 in sudo nano /etc/ssh/sshd_config
+2. #OK 
+
+
 ### 06 April 2023
 1. #OK SSH root login Disabled
 2. #check SSH Port Not Changed
