@@ -1,0 +1,8 @@
+
+1. background:url('img/interview.jpg') no-repeat center center; background-size:cover
+2. object-position: top; 
+    
+2. @media screen and (min-width: 992px) {//css code here}
+
+3. Tell the print browser to exact color which is display on web screen  
+	-webkit-print-color-adjust: exact;

@@ -1,27 +1,29 @@
-https://inguide.in/install-and-configure-mailcow-best-self-hosted-mail-server/
 
-scp -P 22 phpmyadmin.zip root@193.203.161.241:/var/www/html
+## Mail Server Setup : https://inguide.in/install-and-configure-mailcow-best-self-hosted-mail-server/
 
-i. mysqldump -u user_name -p db_name > database_new_file_name.sql
+## Upload to Server
+	1. scp -P 22 phpmyadmin.zip root@193.201.161.241:/var/www/html
+	ii. mysqldump -u user_name -p db_name > database_new_file_name.sql
 
 
-- Snapshort features
+## Hostinger Snapshort features
 1. after setup configuratio software etc in server operatingsystem then create one snapshot 
 2. if feature any setting will occrupt not working , you can use restore snapshot  , go back to time config of  sanpshot created
 
-1. add ssh key in hostinger vps
-	- generate : ssh-keygen -f .ssh/vps_key -t rsa -b 4096
-	- get key go to .ssh folder  & open file  'vps_key.pub
-	- Go to vps hostinger settings -> SSH KEY -> ADD New -> Name : myvpsssh, Value : {vps_key.pub text..}
-	Error :   WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
-	- go to .ssh folder and open hots_known file and remove generate line for vps or server ip...
 
-2. check timezone & set
+## add ssh key in hostinger vps
+- generate : ssh-keygen -f .ssh/vps_key -t rsa -b 4096
+- get key go to .ssh folder  & open file  'vps_key.pub
+- Go to vps hostinger settings -> SSH KEY -> ADD New -> Name : myvpsssh, Value : {vps_key.pub text..}
+Error :   WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!
+- go to .ssh folder and open hots_known file and remove generate line for vps or server ip...
+
+## check timezone & set
 	- timedatectl list-timezones
 	- current timezone : timedatectl
 	- change vps timzoen : timedatectl set-timezone {Asia/Kolkata}	
 
-3. install apache & php & mysql 
+## install apache & php & mysql 
 	i. apt update
 	ii. apt install apache2
 	iii. enable firewarell
@@ -43,7 +45,7 @@ i. mysqldump -u user_name -p db_name > database_new_file_name.sql
 	- install extension using php version if u multiple php version : sudo apt install php7.3-curl
 
 
-3.1 Switch PHP Version
+## Switch PHP Version
 	- install php version   sudo apt install php7.3
 	- enable with apache server : sudo apt install libapache2-mod-php7.3  
 	- enable 7.3 php version : sudo a2enmod php7.3
@@ -51,7 +53,7 @@ i. mysqldump -u user_name -p db_name > database_new_file_name.sql
 	- sudo systemctl restart apache2
 
 
-4. Point Domain to Main VPS Server  & host multiple site
+## Point Domain to Main VPS Server  & host multiple site
 	- After that ip and domain will open same page	
 	- verify the installation cmd : apache2 -v, mysql , php -v 
 	- verify apceh running :  service apache2 status 
@@ -81,13 +83,13 @@ i. mysqldump -u user_name -p db_name > database_new_file_name.sql
 		php_flag display_startup_errors on
 		php_flag display_errors on
 
-5. install ssl certifictate for domain or all domain
+## install ssl certifictate for domain or all domain
 	- pacagek install : apt install certbot python3-certbot-apache
 	- get cerification : certbot --apache
 	- status of certi : systemctl status certbot.timer
 	- certificate auto renewal & then check auto renewal working or not : certbot renew --dry-run
 
-6. Easy : https://github.com/geekyshow1/GeekyShowsNotes/blob/main/Disable_Dir_Browsing_Apache.md
+## Easy : https://github.com/geekyshow1/GeekyShowsNotes/blob/main/Disable_Dir_Browsing_Apache.md
 	- nano /etc/apache2/apache2.conf
 		<Directory /var/www/>
         Options FollowSymLinks #removed indexes..
@@ -102,21 +104,20 @@ i. mysqldump -u user_name -p db_name > database_new_file_name.sql
 </Directory>
 	- cmd : service apache2 restart
 
-7. MYSQL
+## MYSQL
 	-apt update && upgarde then apt install mysql-server
 	- set password securely cmd : mysql_secure_installation
 	- Login as Root User : mysql -u root -p
 	- exit from mysql : exit
-7.1 Install PHPMYADMIN
 
-8. Deploy PHP Project
+## Deploy PHP Project
 	- debug error : erro_reporting(E_ALL);ini_set('display_errors',1);
 	- ele go to var/logs/apache2/error_log withroot user 
-9. rapidex Server Configuration 	
-	- ExpiresByType image/png "access plus 1 month" : sudo a2enmod expires 
-	- Header set Cache-Control "max-age=31536000, public" : sudo a2enmod headers
+
+## rapidex Server Configuration 	
 	- variable sql_mode : remove STRICT_TRANS_TABLE (default value not set table error)
 	= Note : After that all restart the apache2 : sudo systemctl restart apache2
+
 
 
 i. 80 : for https & 443 for http
