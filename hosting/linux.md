@@ -1,6 +1,5 @@
 1.  httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website --robots=0 "+*.html" "+*.css" "+*.js" "+*.jpg" "+*.jpeg" "+*.png" "+*.gif" "+*.svg" "+*.ico" "+*.woff*" "+*.ttf" "+*.otf" "+*.eot"
 
-
 => Role Management
 	1. Run sudo user as root user : sudo -i
 		 back to current sudo user : logout from root user
