@@ -7,3 +7,7 @@
   - **Spring MVC:** Part of the Spring framework, it is used for building web applications in a model-view-controller pattern.
   - **JavaServer Faces (JSF):** A component-based web framework used for building user interfaces for Java web applications.
   - **Play Framework:** A reactive web application framework that is lightweight and used for building scalable applications.
+## Deployment Servers
+  - **Tomcat**: A widely used open-source Java Servlet Container that can run Java Servlets and JSPs.
+  - **Jetty**: Another web server and Java servlet container that is often used for embedding web servers in Java applications.
+  - **WildFly/JBoss**: Full-featured Java EE application servers supporting enterprise features such as distributed transactions, messaging, and more.
