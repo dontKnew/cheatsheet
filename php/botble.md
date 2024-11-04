@@ -1,4 +1,4 @@
-## source : https://docs.botble.com/
+## Botble CMS Docs : https://docs.botble.com/
 ## ADD SEO META & PARAM LINKS 
 ```
 //src/Providers/BlogServiceProvider in boot function
