@@ -1,5 +1,5 @@
 ## Botble CMS Docs : https://docs.botble.com/
-## ADD SEO META & PARAM LINKS 
+## ADD SEO META & PARAM LINKS  https://docs.botble.com/cms/slug-field.html
 ```
 //src/Providers/BlogServiceProvider in boot function
 
