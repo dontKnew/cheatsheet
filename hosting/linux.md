@@ -1,6 +1,6 @@
-1.  httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website --robots=0 "+*.html" "+*.css" "+*.js" "+*.jpg" "+*.jpeg" "+*.png" "+*.gif" "+*.svg" "+*.ico" "+*.woff*" "+*.ttf" "+*.otf" "+*.eot"
+## httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website --robots=0 "+*.html" "+*.css" "+*.js" "+*.jpg" "+*.jpeg" "+*.png" "+*.gif" "+*.svg" "+*.ico" "+*.woff*" "+*.ttf" "+*.otf" "+*.eot"
 
-=> Role Management
+## Role Management
 	1. Run sudo user as root user : sudo -i
 		 back to current sudo user : logout from root user
 	2. user
@@ -19,7 +19,7 @@
 		i. nano /etc/ssh/sshd_config
 		ii. change permitRootLogin = yes to permitRootLogin = no
 	
-=>Basic Linux Commands : 
+## Basic Linux Commands : 
        1. Move File : sudo mv file/foldernName localtionofMoveFile/opt/lampp/htdocs 
        2.  sudo chmod -R 777 filedirectory/file.php // -R : may be used for subfolder and file permissioin 
 	     	7 is for all permissions read, write and execute.
