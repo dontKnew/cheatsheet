@@ -86,6 +86,13 @@ sudo service mysql restart
 sudo service mysql stop
 ```
 
+### Secure MySQL & set root password
+```bash
+mysql_secure_installation
+#if root password not set, you can use alter command to set password
+```
+
+
 ### Access MySQL Command Line
 ```bash
 sudo mysql
