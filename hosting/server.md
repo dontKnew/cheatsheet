@@ -70,9 +70,18 @@ sudo systemctl status certbot.timer
 	1. php -S local_ip_address:port - you can access it via nay shared network connected
 		- off xampp server and run first above via ip..
 	2. by default xamppp server : 0.0.0.0 which is can access by localhost, local ip network and via 127.0.0.1 
-	1. DDoods attack
+	3. DDoods attack
 		- add cloudfare  & add extra security layer..
-	2. use secure ..
 
+## Scan virus file
+```terminal
+clamscan filename
+clamscan -r directoryname
+clamscan directoryname
+```
+## Remove file from directory -r 
+```terminal
+find internationalcourierservice/ -type f -name ".htaccess" -exec rm -f {} \;
+```
 
 
