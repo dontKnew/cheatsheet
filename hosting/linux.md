@@ -19,9 +19,11 @@
 	4. Disable Root Login
 		i. nano /etc/ssh/sshd_config
 		ii. change permitRootLogin = yes to permitRootLogin = no
-  	5. check folders owner 
+  	5. check folders ownernship
    		i. ls -l 
      		ii. ls -ld 
+        6. give permission to user for execution of file for website run
+		i. sudo chmod +x /home/digitechsolution
 	
 ## Basic Linux Commands : 
        1. Move File : sudo mv file/foldernName localtionofMoveFile/opt/lampp/htdocs 
