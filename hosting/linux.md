@@ -1,4 +1,4 @@
-## httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website --robots=0 "+*.html" "+*.css" "+*.js" "+*.jpg" "+*.jpeg" "+*.png" "+*.gif" "+*.svg" "+*.ico" "+*.woff*" "+*.ttf" "+*.otf" "+*.eot"
+### httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website --robots=0 "+*.html" "+*.css" "+*.js" "+*.jpg" "+*.jpeg" "+*.png" "+*.gif" "+*.svg" "+*.ico" "+*.woff*" "+*.ttf" "+*.otf" "+*.eot"
 
 ## Role Management
 	1. Run sudo user as root user : sudo -i
@@ -18,6 +18,9 @@
 	4. Disable Root Login
 		i. nano /etc/ssh/sshd_config
 		ii. change permitRootLogin = yes to permitRootLogin = no
+  	5. check folders owner 
+   		i. ls -l 
+     		ii. ls -ld 
 	
 ## Basic Linux Commands : 
        1. Move File : sudo mv file/foldernName localtionofMoveFile/opt/lampp/htdocs 
