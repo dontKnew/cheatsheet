@@ -5,6 +5,7 @@
 		 back to current sudo user : logout from root user
 	2. user
 		i. create user : useradd username 
+  		   create user with directory : useradd -m username 
 		ii. create sudo user : useradd rekha && useradd -aG sudo rekha
 		iii.delete user : userdel rekha
 			- along directory : userdel -r rekha
