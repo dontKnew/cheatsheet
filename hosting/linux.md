@@ -43,12 +43,13 @@
 	6: Read and write (rw-)
 	7: Read, write, and execute (rwx)
    ### Website Direcotry Permission 
-   	-  www-data By default nginx/apache 
-    	-  www-data is group, not user 
-     	-  if run website, give permission to www-data
-        -  if directory does not have group/owner -> www-data, then it will include in *other*
-	-  www-data group should give permission read and exection thats number 5
- 	-  you can set 750 , thats mean owner has full control and group has read and execution, others does not have permission
+	1. www-data By default nginx/apache 
+	2. www-data is group, not user 
+	3. if run website, give permission to www-data
+	3. if directory does not have group/owner -> www-data, then it will include in *other*
+	4. www-data group should give permission read and exection thats number 5
+	5. you can set 750 , thats mean owner has full control and group has read and execution which can be www-data
+ 	6. and 0 for others does not have permission
    
 1.1. Software Installation in Linux 
     1. Xampp Installtion : sudo dpkg -i xampp-linux-x64-8.1.2-0-installer.run
