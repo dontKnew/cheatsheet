@@ -24,6 +24,9 @@
      		ii. ls -ld 
         6. give permission to user for execution of file for website run
 		i. sudo chmod +x /home/digitechsolution
+  	7. set default bash command all user
+   		- sudo nano /etc/default/useradd 
+     		- change from SHELL=/bin/sh  to SHELL=/bin/bash
 	
 ## Basic Linux Commands : 
        1. Move File : sudo mv file/foldernName localtionofMoveFile/opt/lampp/htdocs 
