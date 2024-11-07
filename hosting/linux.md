@@ -32,8 +32,24 @@
 		6 is used for read and write.
 		5 is used for read and execute.
 		4 is used for read only
-		
-    
+##  Permission
+  ### 1 to 7 Numeric Values and Their Meanings (owner group other)
+	0: No permissions (---)
+	1: Execute only (--x)
+	2: Write only (-w-)
+	3: Write and execute (-wx)
+	4: Read only (r--)
+	5: Read and execute (r-x)
+	6: Read and write (rw-)
+	7: Read, write, and execute (rwx)
+   ### Website Direcotry Permission 
+   	-  www-data By default nginx/apache 
+    	-  www-data is group, not user 
+     	-  if run website, give permission to www-data
+        -  if directory does not have group/owner -> www-data, then it will include in *other*
+	-  www-data group should give permission read and exection thats number 5
+ 	-  you can set 750 , thats mean owner has full control and group has read and execution, others does not have permission
+   
 1.1. Software Installation in Linux 
     1. Xampp Installtion : sudo dpkg -i xampp-linux-x64-8.1.2-0-installer.run
     2. visual studio :  sudo dpkg -i visual.deb.
