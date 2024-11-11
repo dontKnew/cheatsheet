@@ -1,4 +1,11 @@
 
+## Allow All Users to run software command like node, composer
+	i. setup : which <software >
+ 		- Ex. which node // output : /run/user/0/fnm_multishells/7030_1731325824849/bin/node
+ 	ii. move thats path to /usr/local/bin , Ex . mv /run/user/0/fnm_multishells/7030_1731325824849/bin/node /usr/local/bin
+  	iii. now all user can access nodejs
+	
+
 ## Mail Server Setup : https://inguide.in/install-and-configure-mailcow-best-self-hosted-mail-server/
 
 ## Upload to Server
