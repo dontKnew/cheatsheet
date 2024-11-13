@@ -6,7 +6,8 @@
    	iv.  success enable 
     	v. Now Run WEb Server firewall status like http, https 
 #### Method Two : if logout while ufw enable and cant login again through ssh  
-	0. reset server firewall 
+	- ping ip -> if not response mean ufw firewall blocked 
+ 	0. reset server firewall 
  	1. apt install ufw
 	2. ufw allow 22/tcp
 	3. nano /etc/ufw/ufw.conf -> enable -> yes
