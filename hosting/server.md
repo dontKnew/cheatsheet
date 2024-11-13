@@ -1,5 +1,22 @@
-
-## Allow All Users to run software command like node, composer
+## UFW Enable
+### Method One 
+	i. apt install ufw
+ 	ii. ufw allow 22/tcp
+  	iii. ufw enable  (*if you get logout and cant login try Method Two*)
+   	iv.  success enable 
+    	v. Now Run WEb Server firewall status like http, https 
+### Method Two : if logout while ufw enable and cant login again through ssh  
+	0. reset server firewall 
+ 	1. apt install ufw
+	2. ufw allow 22/tcp
+	3. nano /etc/ufw/ufw.conf -> enable -> yes
+	4. do not run enable ufw yet
+	4. reboot vps server
+	5. login again and ufw status if not enable , run command for  enable :  ufw status enable
+	6. now success enable
+	7. Now Run WEb Server firewall status like http, https 
+ 
+## Allow All linux Users to run software command like node, composer
 	i. setup : which <software >
  		- Ex. which node // output : /run/user/0/fnm_multishells/7030_1731325824849/bin/node
  	ii. move thats path to /usr/local/bin , Ex . mv /run/user/0/fnm_multishells/7030_1731325824849/bin/node /usr/local/bin
