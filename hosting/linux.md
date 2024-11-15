@@ -5,9 +5,11 @@
 		 back to current sudo user : logout from root user
 	2. user
 		i. create user : useradd username 
-  		   create user with directory : useradd -m username 
+  		   	- create user with directory : useradd -m username 
+			- group name + directory :   sudo useradd -m -g www-data newusername
+       		
 		ii. create sudo user : useradd rekha && useradd -aG sudo rekha
-		iii.delete user : userdel rekha
+		iii. delete user : userdel rekha
 			- along directory : userdel -r rekha
 		iv. change password : passwd rekha	
 		v. change password for own : passwd
@@ -17,6 +19,7 @@
 	3. group
 		i. create group : groupadd website
 		ii. add user to group : usermod -aG website rekha1, rekha2, rekha3
+  	
 
 	4. Disable Root Login
 		i. nano /etc/ssh/sshd_config
