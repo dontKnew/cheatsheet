@@ -12,7 +12,7 @@
 		iv. change password : passwd rekha	
 		v. change password for own : passwd
 		v. transfer ownership folder to user :  chown -R username:group folderName
-  		v. newly created file/folder set parent group[www-data] sudo chmod g+s /path/to/your/directory
+  		v. newly created file/folder set parent group[www-data] : sudo chmod g+s /path/to/your/directory
   	
 	3. group
 		i. create group : groupadd website
