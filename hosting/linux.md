@@ -11,7 +11,9 @@
 			- along directory : userdel -r rekha
 		iv. change password : passwd rekha	
 		v. change password for own : passwd
-		v. transfer ownership folder to user :  chown username:group folderName
+		v. transfer ownership folder to user :  chown -R username:group folderName
+  		v. newly created file/folder set parent group[www-data] sudo chmod g+s /path/to/your/directory
+  	
 	3. group
 		i. create group : groupadd website
 		ii. add user to group : usermod -aG website rekha1, rekha2, rekha3
@@ -23,10 +25,11 @@
    		i. ls -l 
      		ii. ls -ld 
         6. give permission to user for execution of file for website run
-		i. sudo chmod +x /home/digitechsolution
-  	7. set default bash command all user
+		i. sudo chmod +x /home/digitechsolution 
+  	7. set default bash command all user (root required)
    		- sudo nano /etc/default/useradd 
      		- change from SHELL=/bin/sh  to SHELL=/bin/bash
+       8. 
 	
 ## Basic Linux Commands : 
        1. Move File : sudo mv file/foldernName localtionofMoveFile/opt/lampp/htdocs 
