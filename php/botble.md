@@ -13,4 +13,6 @@ $theme->composer(['index', 'page', 'post'], function(View $view) {
         $view->withShortcodes();
     });
 ```
-    
+
+## Botble Plugin Structure 
+        - Providers/
