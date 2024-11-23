@@ -6,4 +6,11 @@
 SeoHelper::registerModule([Post::class, Category::class, Tag::class]);
 SlugHelper::registerModule(Post::class, 'Blog Posts');
 ```
+
+## add shortcode in new theme/config.php 
+```
+$theme->composer(['index', 'page', 'post'], function(View $view) {
+        $view->withShortcodes();
+    });
+```
     
