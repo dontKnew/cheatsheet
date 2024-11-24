@@ -14,5 +14,8 @@ $theme->composer(['index', 'page', 'post'], function(View $view) {
     });
 ```
 
+## New Crud Operation
+        php artisan cms:plugin:make:curd plugin_name curd_name
+
 ## Botble Plugin Structure 
         - Providers/
