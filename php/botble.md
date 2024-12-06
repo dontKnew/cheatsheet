@@ -7,9 +7,9 @@ SeoHelper::registerModule([Post::class, Category::class, Tag::class]);
 SlugHelper::registerModule(Post::class, 'Blog Posts');
 ```
 ## Sitemap Generator or Add Sitemap        
-        1. Register Keys in src/[Name]ServiceProvider
-        2. Create Siteamp Rendering Listener
-        3. Generate Pages Urls & Generate New Sitemap  
+- Register Keys in src/[Name]ServiceProvider
+- Create Siteamp Rendering Listener
+- Generate Pages Urls & Generate New Sitemap  
 ```
 ## src/Listeners
 <?php
