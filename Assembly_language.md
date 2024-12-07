@@ -101,3 +101,29 @@ _start:
 
 ```
 This is a simple assembly program that prints "Hello, World!" to the console using window32 Api calls.
+
+**12. An assembly program can be divided into three sections**
+  - **Data Section** : The data section is used for declaring initialized data or constants. This data does not change at runtime. You can declare various constant values, file names, or buffer size, etc., in this section
+      ```asm 
+        section.data
+      ```
+ - **The Bass Section** : The bss section is used for declaring variables.
+      ```asm
+      section.bss
+      ```
+  - **The text Section** : The text section is used for keeping the actual code. This section must begin with the declaration global _start, which tells the kernel where the program execution begins.
+    ```asm
+    section.text
+       global _start
+    _start:
+    ```
+    
+**13. Comments in Assembly Language**
+  Assembly language comment begins with a semicolon (;). It may contain any printable character including blank.
+  ```asm 
+    ;This program displays a message on screen 
+  ```
+
+
+
+
