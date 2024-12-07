@@ -102,26 +102,52 @@ _start:
 ```
 This is a simple assembly program that prints "Hello, World!" to the console using window32 Api calls.
 
-**12. An assembly program can be divided into three sections**
+**12. Assembly Program divided into three sections**
+  - Example of Sum of two digits for 1 byts...
   - **Data Section** : The data section is used for declaring initialized data or constants. This data does not change at runtime. You can declare various constant values, file names, or buffer size, etc., in this section
       ```asm 
-        section.data
+        section .data  
+        msg db 'Sum of two numbers is: ', 0   ; comment : 0 is used for end of string 
       ```
  - **The Bass Section** : The bss section is used for declaring variables.
       ```asm
       section.bss
+      sum resb 1  ; Reserve a byte for the sum, 1 byt = 8 bits, So 2^8 = 255 [00000000, 11111111 -> 8 times], so can store sum value upto 0 to 255 numbers
+      sum resb 2  ; Reserve 2 byte for the sum, 2 byt = 16 bits, So 2^16 = 65535 [0000000000000000, 1111111111111111 -> 16 times] , so can store sum value upto 0 to 65535 numbers
       ```
   - **The text Section** : The text section is used for keeping the actual code. This section must begin with the declaration global _start, which tells the kernel where the program execution begins.
     ```asm
-    section.text
-       global _start
+    section .text  
+    global _start  
+
     _start:
+        ; Initialize variables
+        mov al, 5        ; Load value 5 into AL register
+        add al, 3        ; Add value 3 to AL (sum = 5 + 3)
+    
+        ; Store the result in the sum variable
+        mov [sum], al    ; Store the value in sum
+    
+        ; Print the message
+        mov edx, len     ; Message length
+        mov ecx, msg     ; Message to display
+        mov ebx, 1       ; File descriptor (stdout)
+        mov eax, 4       ; Syscall number (sys_write)
+        int 0x80         ; Call kernel
+    
+        ; Exit the program
+        mov eax, 1       ; Syscall number (sys_exit)
+        xor ebx, ebx     ; Return code 0
+        int 0x80         ; Call kernel
+    
+    len equ $ - msg
     ```
     
 **13. Comments in Assembly Language**
   Assembly language comment begins with a semicolon (;). It may contain any printable character including blank.
   ```asm 
-    ;This program displays a message on screen 
+    ;This program displays a message on screen
+    add eax, ebx     ; adds ebx to eax
   ```
 
 
