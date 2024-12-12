@@ -1,8 +1,7 @@
 ## Botble CMS Docs : https://docs.botble.com/
 ## ADD SEO META & PARAM LINKS  https://docs.botble.com/cms/slug-field.html
-```
+```php
 //src/Providers/BlogServiceProvider in boot function
-
 SeoHelper::registerModule([Post::class, Category::class, Tag::class]);
 SlugHelper::registerModule(Post::class, 'Blog Posts');
 ```
@@ -10,8 +9,8 @@ SlugHelper::registerModule(Post::class, 'Blog Posts');
 - Register Keys in src/[Name]ServiceProvider
 - Create Siteamp Rendering Listener
 - Generate Pages Urls & Generate New Sitemap  
-```
-## src/Listeners
+```php
+// src/Listeners
 <?php
 namespace Botble\Portfolio\Listeners;
 
@@ -53,9 +52,8 @@ class RenderingSiteMapListener
         }
     }
 }
-## src/Providers/[Name]ServiceProvider
+// src/Providers/[Name]ServiceProvider
 public function boot(){
-// sitemap 
         $this->app['events']->listen(ThemeRoutingBeforeEvent::class, function () {
             $categories = (new ServiceCategory())->orderByRaw('sorting IS NULL, sorting ASC')->get();
             foreach($categories as $category){
@@ -66,7 +64,7 @@ public function boot(){
         });
 }
 
-## src/HookServiceProvider
+// src/HookServiceProvider
 namespace Botble\Portfolio\Providers;
 use Botble\Theme\Events\RenderingSiteMapEvent;
 use Botble\Portfolio\Listeners\RenderingSiteMapListener;
@@ -84,14 +82,36 @@ class EventServiceProvider extends ServiceProvider
 ```
 
 ## add shortcode in new theme/config.php 
-```
+```php
 $theme->composer(['index', 'page', 'post'], function(View $view) {
         $view->withShortcodes();
     });
 ```
 
 ## New Crud Operation
-        php artisan cms:plugin:make:curd plugin_name curd_name
+```
+php artisan cms:plugin:make:curd plugin_name curd_name
+```
 
-## Botble Plugin Structure 
-        - Providers/
+## Form Builder
+```php
+// Learn More Resouces : https://docs.botble.com/cms/form-builder-input-fields.html
+//Select Builder
+->add('csc', 'customSelect', [
+            'label' => "CSC Type",
+            'required' => true,
+            'choices' => [
+                 null => 'Select CSC Type',
+                'country' => 'Country',
+                'state' => 'State',
+                'city' => 'City',
+            ]
+        ]
+    )
+// onOff Builder
+->add('generate_pages', 'onOff', [
+        'label' => "Want to Generate Pages ?",
+        'required' => true,
+        'selected' => 0,
+    ])
+```
