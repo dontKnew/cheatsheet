@@ -115,3 +115,13 @@ php artisan cms:plugin:make:curd plugin_name curd_name
         'selected' => 0,
     ])
 ```
+## Serial Number Add in Table
+```php
+FormattedColumn::make('id')
+    ->title('S.No.')
+    ->getValueUsing(function (Column $column) {
+        $index = request()->get('start', 0) + $this->tableIndex;
+        $this->tableIndex++;
+        return '<span class="badge text-dark">'.number_format($index).'</span>';
+    }),
+```
