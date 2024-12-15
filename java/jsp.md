@@ -17,6 +17,34 @@
   - `jspInit()`: Called once during JSP initialization.
   - `jspService()`: Handles requests, called multiple times.
   - `jspDestroy()`: Called once before the JSP is destroyed.
+    
+### 3. **JSP Run**
+  - Install JDK, & Xmpp Server Watch video for configuration <a href="https://youtu.be/i7jJ7aN30fM?si=UwlDNir9S1yN-ee3"> click here</a>
+  - Basic Project Strucutre
+  ```
+    MyFirstJSP/
+    ├── WEB-INF/
+    │   ├── web.xml
+    │   └── lib/         (optional: contains libraries like JAR files)
+    ├── META-INF/        (optional: contains metadata about the application)
+    ├── index.jsp        (main JSP file)
+    ├── css/             (optional: contains CSS files for styling)
+    ├── js/              (optional: contains JavaScript files)
+    └── images/          (optional: contains image files)
+  ```
+```
+//web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+    <display-name>MyFirstJSP2</display-name> <!-- In this case, it's called MyFirstJSP, and this name can appear in server administration panels or logs. -->
+    <!-- set default file serve by root instead of index.jsp file -->
+    <welcome-file-list>
+        <welcome-file>about.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
+```  
 
 ---
 
