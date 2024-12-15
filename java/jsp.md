@@ -1,7 +1,4 @@
-Here’s a comprehensive summary of **JSP (JavaServer Pages)** notes, covering all major topics. I'll structure it to provide a quick overview of each topic, including key points and explanations. These notes aim to help you quickly revise JSP concepts. You can expand on each section later as needed.
----
-
-## **JavaServer Pages (JSP) Notes**
+# **JavaServer Pages (JSP) Notes**
 
 ### 1. **Introduction to JSP**
 - **Definition**: JSP is a server-side technology that helps in creating dynamic web pages. It allows embedding Java code in HTML.
