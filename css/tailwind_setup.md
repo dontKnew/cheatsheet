@@ -1,4 +1,6 @@
 => SETUP
+$ npm install -D tailwindcss@3 postcss autoprefixer : to fix tailwindcss command not exe.
+
 1.Tailwind CLI or without postcss:
 
 	i. npm init -y or npm init
