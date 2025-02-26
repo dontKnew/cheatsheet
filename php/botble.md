@@ -2,13 +2,21 @@
 
 ## Topic for Botble  --
 ### Plugin Development
+    0. Plugin Structure : [https://docs.botble.com/cms/plugin-structure.html]
     1. Plugin Creation
     2. Event Listener 
     3. Table Data Modification
     4. Form Creation
     5. Sitemap modification
     6. CRUD Generator
+    7. Serial Number in Table
+    8. Vue.js (Used)
+    9. Display Plugin Data in Front Views [https://www.youtube.com/watch?v=5PC6mzssZ70]
+    10. SEO Helper [https://www.youtube.com/watch?v=S0tlbt0K44c]
 ### Theme Development
+    1. Add Shortcode in Views or Specific Page
+    2. Shortcode Creation
+    3. 
 ## END Topic for Botble  --
     
     
