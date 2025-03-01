@@ -20,7 +20,40 @@
 ## END Topic for Botble  --
     
     
-     - 
+## Add Stats in Admin Dashbord
+```php
+//src\Providers\HookServiceProvider.php
+use Illuminate\Support\Collection;
+use Botble\Dashboard\Supports\DashboardWidgetInstance;
+use Botble\Dashboard\Events\RenderingDashboardWidgets;
+class HookServiceProvider extends ServiceProvider
+{
+    public function boot(): void
+    {
+         $this->app['events']->listen(RenderingDashboardWidgets::class, function () {
+              add_filter(DASHBOARD_FILTER_ADMIN_LIST, [$this, 'addCityStats'], 1, 3);
+                // add_filter(DASHBOARD_FILTER_ADMIN_LIST, [$this, 'addStateStats'], 2, 3);
+            });
+
+    }
+    public function addCityStats(array $widgets, Collection $widgetSettings): array
+    {
+        $cities = City::query()->wherePublished()->count();
+
+        return (new DashboardWidgetInstance())
+            ->setType('stats')
+            ->setPermission('cities.index')
+            ->setTitle("Total Published  Cities")
+            ->setKey('widget_total_cities') // its should be unique to display in admin dashbord
+            ->setIcon('ti ti-files')
+            ->setColor('pink')
+            ->setStatsTotal($cities)
+            ->setRoute(route('city.index'))
+            ->setColumn('col-12 col-md-6 col-lg-3')
+            ->init($widgets, $widgetSettings);
+    }
+}
+```
 ## ADD SEO META & PARAM LINKS  https://docs.botble.com/cms/slug-field.html
 ```php
 //src/Providers/BlogServiceProvider in boot function
