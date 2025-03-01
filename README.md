@@ -36,7 +36,7 @@
 - If **budget is low → PHP (CI/Laravel) + MySQL** is the best choice.  
 - If **performance & real-time features are crucial → Node.js + Next.js + MySQL/PostgreSQL** is better.  
 
-✅ **For Courier & Logistics** (like RapidexWorldwide):  
+✅ **For Courier & Logistics** 
 - **Admin Panel & CRUD operations** → Laravel / CI + MySQL  
 - **Real-time tracking, notifications** → Node.js + WebSockets  
 
