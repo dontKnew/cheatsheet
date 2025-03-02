@@ -12,8 +12,8 @@
         2. By Port Binding You access mysql server in your computer or outside of docker
         
      -  Save MYSQL Database on Stop Container or Restart or newly create new container mysql
-          1. For Linux : docker run --name=[mysql] -e MYSQL_ROOT_PASSWORD=[root] -v  /local/user/path:/var/lib/mysql -d mysql:[tag]
-          2. For Window : docker run --name=[mysql] -e MYSQL_ROOT_PASSWORD=[root] -v /c/Users/Aman/Desktop:/var/lib/mysql -d mysql:[tag]
+          1. For Linux : docker run --name=[mysql] -e MYSQL_ROOT_PASSWORD=[root] -v  /local/user/path:/var/lib/mysql -d -p 3306:3306 mysql:[tag]
+          2. For Window : docker run --name=[mysql] -e MYSQL_ROOT_PASSWORD=[root] -v /c/Users/Aman/Desktop:/var/lib/mysql -d -p 3306:3306 mysql:[tag]
 3. check running mysql container : docker ps -a
 4. Access MYSQL Server : docker exec -it [mysql] mysql -u root -p
 5. Stop MYSQL Container : docker [mysql] stop
