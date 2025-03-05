@@ -1,5 +1,12 @@
 ### httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website --robots=0 "+*.html" "+*.css" "+*.js" "+*.jpg" "+*.jpeg" "+*.png" "+*.gif" "+*.svg" "+*.ico" "+*.woff*" "+*.ttf" "+*.otf" "+*.eot"
-
+## PHP-FPM installation 
+	1. install extension : sudo apt install php8.2-[extensionName]
+ 		or : sudo apt install php8.2 php8.2-fpm php8.2-cli php8.2-mbstring php8.2-xml php8.2-zip
+ 	2. composer with different php version :  php8.2 /usr/local/bin/composer require hermawan/codeigniter4-datatables
+  	3. php[version]-fpm package not found : 
+   		- sudo add-apt-repository ppa:ondrej/php
+     		- sudo apt update
+       		- sudo apt install php[version] php[version]-fpm
 ## Role Management
 	1. Run sudo user as root user : sudo -i
 		 back to current sudo user : logout from root user
