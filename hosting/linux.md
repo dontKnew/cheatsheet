@@ -1,4 +1,9 @@
 ### httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website --robots=0 "+*.html" "+*.css" "+*.js" "+*.jpg" "+*.jpeg" "+*.png" "+*.gif" "+*.svg" "+*.ico" "+*.woff*" "+*.ttf" "+*.otf" "+*.eot"
+## Server Monitering
+	1. get resources used by username 
+ 		- ps -u[username] -o %cpu,%mem | awk '{cpu+=$1; mem+=$2} END {print "CPU Usage: " cpu "%, Memory Usage: " mem "%"}'
+   		- htop -u [username]
+ 	2. 
 ## PHP-FPM installation 
 	1. install extension : sudo apt install php8.2-[extensionName]
  		or : sudo apt install php8.2 php8.2-fpm php8.2-cli php8.2-mbstring php8.2-xml php8.2-zip
