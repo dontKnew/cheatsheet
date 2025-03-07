@@ -64,6 +64,39 @@ try {
 	1. Dashbord > Under Attack : no one bots can crawled  the site even google
  	2. Security>Bots > Bot Flight Mode : verified bots can crawl the page
   	3. 
+#### Limit CPU on PID 
+	i. sudo apt-get install cpulimit
+ 	ii. sudo nano /usr/local/bin/limit_mysql_cpu.sh
+```sh
+#!/bin/bash
+service_PID=$(pgrep mysqld) # change this line of to get PID of process that you wnat to limit that
+sudo cpulimit -p $MYSQL_PID -l 50 &
+```
+	iii. sudo chmod +x /usr/local/bin/limit_mysql_cpu.sh
+ 	vi. sudo nano /etc/systemd/system/limit_mysql_cpu.service : for restart automatically 
+  ```sh
+[Unit]
+Description=Limit MySQL CPU Usage
+After=mysql.service
+
+[Service]
+ExecStart=/usr/local/bin/limit_mysql_cpu.sh
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+```
+	v. sudo systemctl daemon-reload
+	vi. sudo systemctl enable limit_mysql_cpu.service
+ 	v. sudo systemctl status limit_mysql_cpu.service 
+  	vi. sudo systemctl restart limit_mysql_cpu.service
+   	v. reboot server and check its start auto or not...
+
+
+
+  			
+
 
 ## UFW Enable
 #### Method One 
