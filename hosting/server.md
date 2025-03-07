@@ -1,3 +1,64 @@
+## Redis Cache with PHP
+	i. sudo apt install redis-server
+ 	ii. sudo systemctl start redis-server
+	iii. sudo systemctl enable redis-server
+ 	iv. sudo systemctl status redis-server
+  	v. Define Port & Password
+   		- sudo nano /etc/redis/redis.conf
+     		- search port : enter port whatever by default its used : 6379 
+			- Make sure its allow in port 6379 in Firewall
+	   		By UFW - sudo ufw allow 6379/tcp
+       				- sudo ufw status
+       				- sudo ufw reload
+	   		BY IPtalble
+				- sudo iptables -A INPUT -p tcp --dport 6379 -j ACCEPT
+    				- sudo apt install iptables-persistent
+				- sudo netfilter-persistent save
+    				- sudo iptables -L : verify the rules exits 6379...
+
+
+       		- search requirepass : enter password (optional) 
+  	vi. Testing redis server in cli
+   		- redis-cli
+     		- PING  : output should PONG
+  	vii. sudo apt install php8.3-redis
+   	viii. enable extension in php.in  file : /etc/php/8.3/fpm/php.ini & /etc/php/8.3/cli/php.ini
+    		- extension=redis.so
+        xi. Verify Redis Extension installed or not
+		-  php8.3 -i | grep extension_dir 
+  			Output : extension_dir => /usr/lib/php/20230831 => /usr/lib/php/20230831
+  		- cd /usr/lib/php/20230831 
+    			Find the redis.so , then ok
+       x. Testing Code : 
+```php
+// Enable error reporting
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$redis = new Redis();
+try {
+    // Connect to Redis server at localhost on default port 6379
+    $redis->connect('127.0.0.1', 6379);
+
+    // Authenticate with the Redis server if a password is set
+    $redis->auth('your_redis_password'); 
+
+    $redis->set('test_key', 'Hello Redis');
+    echo "Stored value: " . $redis->get('test_key'); // Outputs: Hello Redis
+} catch (RedisException $e) {
+    echo "Couldn't connect to Redis: " . $e->getMessage();
+}
+```
+
+
+## Install PHP FPM Version
+	i. sudo add-apt-repository ppa:ondrej/php ( if need)
+ 	ii. sudo apt update
+  	iii. sudo apt install php8.3-fpm
+   	iv. sudo apt install php8.3-cli php8.3-common php8.3-json php8.3-opcache php8.3-mbstring php8.3-xml php8.3-curl php8.3-zip php8.3-redis
+    	v. 
+
 ## Server Monitering..
 #### Cloudflare
 	1. Dashbord > Under Attack : no one bots can crawled  the site even google
