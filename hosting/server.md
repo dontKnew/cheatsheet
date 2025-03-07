@@ -1,3 +1,9 @@
+## Server Monitering..
+#### Cloudflare
+	1. Dashbord > Under Attack : no one bots can crawled  the site even google
+ 	2. Security>Bots > Bot Flight Mode : verified bots can crawl the page
+  	3. 
+
 ## UFW Enable
 #### Method One 
 	i. apt install ufw
