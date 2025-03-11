@@ -14,6 +14,10 @@ splits {
         }
     }
 ```
+5. Android  Dependecies
+   - implementation (project(":mobilertc"))
+6. setting.gradle.kts
+   - include (":mobilertc")
 ```java
 package com.phpmaster.zoommeeting;
 import androidx.annotation.NonNull;
