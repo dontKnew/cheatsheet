@@ -59,6 +59,12 @@ try {
    			- SET mytestkey "persistent_data"  : set new key
       			- systemctl restart redis : restart or reboot the system
 	 		- GET mytestkey : get your key data..
+    			- FLUSHALL  : remove all keys from redis...
+       			- DEL [key_name] : 
+	  	- OUTSIDE CLI :
+    			- redis-cli --scan --pattern "digitech*" :  List of Keys Pattenr Base
+       			- redis-cli EVAL "for _,k in ipairs(redis.call('keys', ARGV[1])) do redis.call('del', k) end" 0 "digitech*" : Delete pattern base keys for large database
+
 
       		
    			
