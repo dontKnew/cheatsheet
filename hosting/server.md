@@ -29,7 +29,7 @@
   			Output : extension_dir => /usr/lib/php/20230831 => /usr/lib/php/20230831
   		- cd /usr/lib/php/20230831 
     			Find the redis.so , then ok
-       x. Testing Code : 
+	x. Testing Code : 
 ```php
 // Enable error reporting
 ini_set('display_errors', 1);
@@ -50,6 +50,22 @@ try {
     echo "Couldn't connect to Redis: " . $e->getMessage();
 }
 ```
+	xi. Store Redis Data Permanently
+		- nano /etc/redis/redis.conf
+  		- Search & Change From appendonly no to  appendonly yes
+    		- systemctl restart redis
+      		- redis-cli 
+			- CONFIG GET appendonly  : verify its enable & output "yes"
+   			- SET mytestkey "persistent_data"  : set new key
+      			- systemctl restart redis : restart or reboot the system
+	 		- GET mytestkey : get your key data..
+
+      		
+   			
+ 
+
+    		
+   		
 
 
 ## Install PHP FPM Version
