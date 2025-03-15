@@ -1,3 +1,10 @@
+== Check PHP/MYSQL/NGINX/APACHE speed test.. == 
+1. curl -s -o /dev/null -w "%{time_starttransfer} s -> TTFB, %{time_total} s -> Total\n" https://yourdomain.com
+- If TTFB (Time to First Byte) is low (~0.1s) but Total Time is high (~2s) → Check frontend issues.
+- If TTFB is high (>0.5s) → Check PHP/MySQL performance.
+
+
+
 => PHP Library thats can help for
 
 Minify - a PHP library for minifying HTML, CSS, and JavaScript code.
