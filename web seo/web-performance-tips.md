@@ -2,7 +2,12 @@
 1. curl -s -o /dev/null -w "%{time_starttransfer} s -> TTFB, %{time_total} s -> Total\n" https://yourdomain.com
 - If TTFB (Time to First Byte) is low (~0.1s) but Total Time is high (~2s) → Check frontend issues.
 - If TTFB is high (>0.5s) → Check PHP/MySQL performance.
-
+== Server Side Compression ==
+- Enable the gzip compress for CSS, IMAGE, DOCS, ETC
+- nginx server
+ 	gzip on;
+ 	gzip_comp_level 6; # 9 for best
+ 	gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
 
 => PHP Library thats can help for
