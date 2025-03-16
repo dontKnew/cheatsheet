@@ -16,6 +16,7 @@ sudo nano /etc/redis/redis.conf
 
 - Search for `port` and set your preferred port (default is `6379`).
 - Ensure the port is allowed in the firewall.
+- search ' requirepass ' & add set your password
 
 #### Allow Port 6379 in the Firewall
 ##### Using UFW:
