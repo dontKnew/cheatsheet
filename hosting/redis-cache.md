@@ -36,6 +36,9 @@ sudo iptables -L  # Verify rule for port 6379
 
 - Search for `requirepass` in the `redis.conf` file and set a password (optional).
 
+#### Restart Redis Cache Server After Make Chnages 
+     'sudo systemctl restart redis-server'
+     
 ### 3. Test Redis Server via CLI
 ```bash
 redis-cli
@@ -66,6 +69,13 @@ php8.3 -i | grep extension_dir
 - Output should show: `extension_dir => /usr/lib/php/20230831`
 - Check for `redis.so` in `/usr/lib/php/20230831`.
 
+### Restart Server NGINX/APache/php
+- if you chnage anyting, you need to restart the services..
+```
+sudo systemctl restart redis-server
+sudo systemctl restart php8.3-fpm
+sudo systemctl restart nginx
+```
 ### 7. Testing PHP Code with Redis
 ```php
 <?php
