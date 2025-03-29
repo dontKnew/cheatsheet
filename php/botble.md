@@ -2,7 +2,7 @@
 
 ## Topic for Botble  -- 
 ### Plugin Development
-    0. Plugin Structure : [https://docs.botble.com/cms/plugin-structure.html]
+    0. Basic Plugin Structure : [https://docs.botble.com/cms/plugin-structure.html]
     1. Plugin Creation
     2. Event Listener 
     3. Table Data Modification
@@ -18,7 +18,9 @@
     2. Shortcode Creation
     3. 
 ## END Topic for Botble  --
-    
+
+## Basic Plugin Structure
+    1. 
     
 ## Add Stats in Admin Dashbord
 ```php
