@@ -34,6 +34,14 @@
       		- iptables : sudo iptables -A INPUT -p tcp --dport 3333 -j ACCEPT
 	7. sudo systemctl restart sshd
  	8. verify port allow : sudo netstat -tuln | grep :3333
+### Allow SSH Key Authencation Only
+	1. Set Below Config  in /etc/ssh/sshd_config
+	- PasswordAuthentication no # denied even correct pass
+	- PermitRootLogin  prohibit-password # permit with key only
+	- ChallengeResponseAuthentication no # off to ask password prompt
+	- AuthenticationMethods publickey # allow with only ssh public key
+ 	2. sudo systemctl restart sshd
+
 ### Disable SSH Root Login
 	i. nano /etc/ssh/sshd_config
 	ii. change permitRootLogin = yes to permitRootLogin = no
