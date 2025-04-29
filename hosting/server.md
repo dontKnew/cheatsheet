@@ -24,9 +24,15 @@
   	iii. sudo apt install php8.3-fpm
    	iv. sudo apt install php8.3-cli php8.3-common php8.3-json php8.3-opcache php8.3-mbstring php8.3-xml php8.3-curl php8.3-zip php8.3-redis
 ### MYSQL
+	1. Installation
 	- sudo apt update
  	- sudo apt install mysql-server -y
-  	- sudo mysql_secure_installation # secure your mysql server...
+  	- sudo mysql_secure_installation # it will prompt new password for enter if you did not login as root user
+	2. Set MYSQL Password with logged Root User
+ 	- sudo mysql
+  	- SELECT user, authentication_string, plugin, host FROM mysql.user;  #If u see auth_socket for root user, thats why not ask for pass
+   	- ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'YourPasswordBro';  FLUSH PRIVILEGES; #Change PasswordNow 
+
 	
 
 ## Server Security
