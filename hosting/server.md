@@ -1,11 +1,8 @@
 # Table of Contents
-
-1. [Install PHP FPM Version](#install-php-fpm-version)
 2. [Server Monitoring](#server-monitering)
    - [Cloudflare Configuration](#cloudflare)
    - [Limit CPU Usage on PID](#limit-cpu-on-pid)
 3. [UFW Firewall](#ufw-enable)
-5. [Apache + PHP + MySQL Server](#install-apache--php--mysql)
 6. [PHP](#php)
    - [1. Switch between multiple PHP Versions](#1-switch-between-multiple-php-versions)
    - [2. Check PHP Modules](#2-check-php-modules)
@@ -21,6 +18,18 @@
 	-  
 
 ## Redis Cache with PHP - <a href="redis-cache.md">View Docs </a>
+
+## PHP & MYSQL
+### Install PHP FPM Version
+	i. sudo add-apt-repository ppa:ondrej/php ( if need)
+ 	ii. sudo apt update
+  	iii. sudo apt install php8.3-fpm
+   	iv. sudo apt install php8.3-cli php8.3-common php8.3-json php8.3-opcache php8.3-mbstring php8.3-xml php8.3-curl php8.3-zip php8.3-redis
+### MYSQL
+	- sudo apt update
+ 	- sudo apt install mysql-server -y
+  	- sudo mysql_secure_installation # secure your mysql server...
+	
 
 ## Server Security
 ### Change SSH Port 
@@ -71,12 +80,6 @@ findtime       = 600           # look back 10 minutes for failures ( count maxtr
 ### Disable SSH Root Login
 	i. nano /etc/ssh/sshd_config
 	ii. change permitRootLogin = yes to permitRootLogin = no
-## Install PHP FPM Version
-	i. sudo add-apt-repository ppa:ondrej/php ( if need)
- 	ii. sudo apt update
-  	iii. sudo apt install php8.3-fpm
-   	iv. sudo apt install php8.3-cli php8.3-common php8.3-json php8.3-opcache php8.3-mbstring php8.3-xml php8.3-curl php8.3-zip php8.3-redis
-    	v. 
 
 ## Server Monitering..
 #### Cloudflare
@@ -112,16 +115,6 @@ WantedBy=multi-user.target
   	vi. sudo systemctl restart limit_mysql_cpu.service
    	v. reboot server and check its start auto or not...
 
-
-
-## PHP-FPM installation 
-	1. install extension : sudo apt install php8.2-[extensionName]
- 		or : sudo apt install php8.2 php8.2-fpm php8.2-cli php8.2-mbstring php8.2-xml php8.2-zip
- 	2. composer with different php version :  php8.2 /usr/local/bin/composer require hermawan/codeigniter4-datatables
-  	3. php[version]-fpm package not found : 
-   		- sudo add-apt-repository ppa:ondrej/php
-     		- sudo apt update
-       		- sudo apt install php[version] php[version]-fpm  		
 ## Role Management
 	1. Run sudo user as root user : sudo -i
 		 back to current sudo user : logout from root user
@@ -253,27 +246,6 @@ sudo systemctl status certbot.timer
 	- timedatectl list-timezones
 	- current timezone : timedatectl
 	- change vps timzoen : timedatectl set-timezone {Asia/Kolkata}	
-
-## install apache & php & mysql 
-	i. apt update
-	ii. apt install apache2
-	iii. enable firewarell
-			- apt install ufw && ufw enable 
-			-  fw status 
-			more infor : https://github.com/geekyshow1/GeekyShowsNotes/blob/main/ufw_firewall_setup.md
-	iv. ufw allow "Apache Full"
-		-80 for https & 443 for http  enabled for check : ufw status
-		**Important cmd for do not lose the ssh access : ufw ssh **
-		- add 22 port in firewall for ssh access & if u changed ssh port you should change as well then add ufw ssh .. port..etc.
-		- Check Server IP on Web Browser You will see Apache Default Page
-	v. apt install mysql-server 
-	vi. apt install php libapache2-mod-php php-mysql
-		- The above command includes three packages:-
-		php -  To Install PHP
-		libapache2-mod-php - It is Used by apache to handle PHP files
-		php-mysql - It is a PHP module that allows PHP to connect to MySQL 
-	v. service apache2 restart
-	- install extension using php version if u multiple php version : sudo apt install php7.3-curl
 
 
 ## Switch PHP Version
