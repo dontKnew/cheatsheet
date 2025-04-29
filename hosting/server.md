@@ -10,6 +10,7 @@
     - [Nginx installation](#nginx-installation) 	
     - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
     - [Install SSL ](#ssl-renew-or-installation-in-nginx)
+    - [Block Bots](#block-bots)
 9. [Role Management](#role-management)
 10. [Basic Linxu Command](#basic-linux-commands).
 	- [Permission](#permission)
@@ -212,6 +213,29 @@ WantedBy=multi-user.target
 
 
 ## NGINX
+### Block Bots
+```
+1. FIle :  /etc/nginx/nginx.cn
+httpd {
+map $http_user_agent $block_bots {
+    default                          0;
+    "~*SiteCheckerBotCrawler/1.0"    1;
+    "~*MJ12bot"                      1;
+    "~*AhrefsBot"                    1;
+    "~*Barkrowler/0.9"		     1;
+    "~*DataForSeoBot/1.0"	     1;
+}
+2. Add below line site level...
+server {
+...
+location / {
+	if ($block_bots) {
+	    return 403;
+	}
+}
+...
+}
+```
 ### NGINX SETUP
 	1. Install
 	- sudo apt update
