@@ -5,19 +5,19 @@
    - [Cloudflare Configuration](#cloudflare)
    - [Limit CPU Usage on PID](#limit-cpu-on-pid)
 3. [UFW Firewall](#ufw-enable)
-4. [Nginx](#nginx)
 5. [Apache + PHP + MySQL Server](#install-apache--php--mysql)
 6. [PHP](#php)
    - [1. Switch between multiple PHP Versions](#1-switch-between-multiple-php-versions)
    - [2. Check PHP Modules](#2-check-php-modules)
-7. [NGNINX SSL](#ssl-nginx)
+7. [NGNINX](#nginx)
+    - [Nginx installation](#nginx-installation) 	
     - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
     - [Install SSL ](#ssl-renew-or-installation-in-nginx)
-8. [Role Management](#role-management)
-9. [Basic Linxu Command](#basic-linux-commands).
+9. [Role Management](#role-management)
+10. [Basic Linxu Command](#basic-linux-commands).
 	- [Permission](#permission)
  	- etc.
-10. Server Security
+11. Server Security
 	-  
 
 ## Redis Cache with PHP - <a href="redis-cache.md">View Docs </a>
@@ -214,7 +214,21 @@ WantedBy=multi-user.target
 	ii. mysqldump -u user_name -p db_name > database_new_file_name.sql
 
 
-## SSL NGINX 
+## NGINX
+### NGINX SETUP
+	1. Install
+	- sudo apt update
+ 	- sudo apt install nginx -y
+  	- sudo systemctl enable nginx
+   	- sudo systemctl start nginx
+    	- sudo systemctl status nginx
+     	2. Allow Firewall
+	 i. UFW : sudo ufw allow 'Nginx Full'
+	 ii. iptables 
+ 		- sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+		- sudo iptables -I INPUT -p tcp --dport 443 -j ACCEPT
+  		- sudo netfilter-persistent save # save changes, install it if not found
+
 ###  Dynamic Subdomain SSL Renew or Installation in NGINX
 ```bash
 sudo apt install python3-certbot-nginx
