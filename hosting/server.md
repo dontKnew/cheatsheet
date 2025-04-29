@@ -21,8 +21,22 @@
 	-  
 
 ## Redis Cache with PHP - <a href="redis-cache.md">View Docs </a>
-	
 
+## Server Security
+### Change SSH Port 
+	1. Ex. change ssh port to 3333
+ 	2. check 3333 already in used or not : sudo netstat -tuln | grep :3333
+  	3. if in used, use another port
+ 	4. open file :  sudo nano /etc/ssh/sshd_config
+  	5. Find Line = #Port 22 & and remove hashtag from starting & replace to Port 3333  
+   	6. Allow 3333 Port in Firewall 
+    		- UFW : sudo ufw allow 2222/tcp
+      		- iptables : sudo iptables -A INPUT -p tcp --dport 3333 -j ACCEPT
+	7. sudo systemctl restart sshd
+ 	8. verify port allow : sudo netstat -tuln | grep :3333
+### Disable SSH Root Login
+	i. nano /etc/ssh/sshd_config
+	ii. change permitRootLogin = yes to permitRootLogin = no
 ## Install PHP FPM Version
 	i. sudo add-apt-repository ppa:ondrej/php ( if need)
  	ii. sudo apt update
@@ -94,10 +108,6 @@ WantedBy=multi-user.target
 		i. create group : groupadd website
 		ii. add user to group : usermod -aG website rekha1, rekha2, rekha3
   	
-
-	4. Disable Root Login
-		i. nano /etc/ssh/sshd_config
-		ii. change permitRootLogin = yes to permitRootLogin = no
   	5. check folders ownernship
    		i. ls -l 
      		ii. ls -ld 
