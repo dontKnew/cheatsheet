@@ -10,10 +10,11 @@
 6. [PHP](#php)
    - [1. Switch between multiple PHP Versions](#1-switch-between-multiple-php-versions)
    - [2. Check PHP Modules](#2-check-php-modules)
-11. [NGNINX SSL](#ssl)
-    - [1. Certbot Install SSL](#1-certbot-install-ssl)
-    - [2. Test SSL Renewal](#2-test-ssl-renewal)
-
+7. [NGNINX SSL](#ssl-nginx)
+    - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
+    - [Install SSL ](#ssl-renew-or-installation-in-nginx)
+8. [Role Management](#role-management)
+9. [Directory/Linux Permission](#permission)
 
 ## Redis Cache with PHP - <a href="redis-cache.md">View Docs </a>
 	
@@ -109,8 +110,8 @@ WantedBy=multi-user.target
 		6 is used for read and write.
 		5 is used for read and execute.
 		4 is used for read only
-##  Permission
-  ### 1 to 7 Numeric Values and Their Meanings (owner group other)
+###  Permission
+  #### 1 to 7 Numeric Values and Their Meanings (owner group other)
 	0: No permissions (---)
 	1: Execute only (--x)
 	2: Write only (-w-)
@@ -119,7 +120,7 @@ WantedBy=multi-user.target
 	5: Read and execute (r-x)
 	6: Read and write (rw-)
 	7: Read, write, and execute (rwx)
-   ### Website Direcotry Permission 
+   #### Website Direcotry Permission 
 	1. www-data By default nginx/apache 
 	2. www-data is group, not user 
 	3. if run website, give permission to www-data
