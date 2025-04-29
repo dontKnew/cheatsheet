@@ -31,9 +31,14 @@
   	5. Find Line = #Port 22 & and remove hashtag from starting & replace to Port 3333  
    	6. Allow 3333 Port in Firewall 
     		- UFW : sudo ufw allow 2222/tcp
-      		- iptables : sudo iptables -A INPUT -p tcp --dport 3333 -j ACCEPT
-	7. sudo systemctl restart sshd
- 	8. verify port allow : sudo netstat -tuln | grep :3333
+      		- iptables 
+			- sudo apt install iptables-persistent
+			- sudo iptables -A INPUT -p tcp --dport 3333 -j ACCEPT
+   			- sudo netfilter-persistent save
+      			- sudo systemctl enable netfilter-persistent
+ 	7. sudo systemctl daemon-reload
+  	8. sudo systemctl restart sshd
+ 	9. verify port allow : sudo netstat -tuln | grep :3333
 ### Allow SSH Key Authencation Only
 	1. Set Below Config  in /etc/ssh/sshd_config
 	- PasswordAuthentication no # denied even correct pass
@@ -41,6 +46,27 @@
 	- ChallengeResponseAuthentication no # off to ask password prompt
 	- AuthenticationMethods publickey # allow with only ssh public key
  	2. sudo systemctl restart sshd
+### Fail2ban 
+	1. Install 
+	- sudo apt update
+	- sudo apt install fail2ban
+ 	2. Create Jail
+	- /etc/fail2ban/jail.d/sshd.local
+```bash
+[sshd]
+enabled        = true
+port           = 3333
+filter         = sshd
+logpath        = /var/log/fail2ban-auth.log
+maxretry       = 4
+bantime        = 7200          # ban for 2 hour (in seconds)
+findtime       = 600           # look back 10 minutes for failures ( count maxtry)
+```
+	3. sudo systemctl restart fail2ban
+	4. sudo systemctl enable fail2ban
+ 	5. sudo fail2ban-client status sshd ## check status of banned ip...
+
+ 	
 
 ### Disable SSH Root Login
 	i. nano /etc/ssh/sshd_config
