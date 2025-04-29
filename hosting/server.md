@@ -1,3 +1,20 @@
+# Table of Contents
+
+1. [Install PHP FPM Version](#install-php-fpm-version)
+2. [Server Monitoring](#server-monitering)
+   - [Cloudflare Configuration](#cloudflare)
+   - [Limit CPU Usage on PID](#limit-cpu-on-pid)
+3. [UFW Firewall](#ufw-enable)
+4. [Nginx](#nginx)
+5. [Apache + PHP + MySQL Server](#install-apache--php--mysql)
+6. [PHP](#php)
+   - [1. Switch between multiple PHP Versions](#1-switch-between-multiple-php-versions)
+   - [2. Check PHP Modules](#2-check-php-modules)
+11. [NGNINX SSL](#ssl)
+    - [1. Certbot Install SSL](#1-certbot-install-ssl)
+    - [2. Test SSL Renewal](#2-test-ssl-renewal)
+
+
 ## Redis Cache with PHP - <a href="redis-cache.md">View Docs </a>
 	
 
@@ -148,7 +165,8 @@ WantedBy=multi-user.target
 	ii. mysqldump -u user_name -p db_name > database_new_file_name.sql
 
 
-##  Dynamic Subdomain SSL Renew or Installation in NGINX
+## SSL NGINX 
+###  Dynamic Subdomain SSL Renew or Installation in NGINX
 ```bash
 sudo apt install python3-certbot-nginx
 certbot --version # if output certbot version then run next command 
@@ -157,8 +175,7 @@ sudo certbot certonly --manual --preferred-challenges dns -d "yourdomain.com" -d
 # NOW YOU HAVE DISPLAY FULLCHAIN AND PUBLIC KEY NOW GO TO CONFIG IN NGINX.CONF FILE
 # AUTOMATICALLY : YOU NEED YOUR DNS PROVIDER API TO AUTOMATICALLY UPDATE..
 ```
-
-##  SSL Renew or Installation in NGINX
+###  SSL Renew or Installation in NGINX
 ```bash
 sudo apt install python3-certbot-nginx
 certbot --version # if output certbot version then run next command 
@@ -167,7 +184,6 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 
 #RUN THIS COMMAND TO RENEW AUTOM
 sudo systemctl status certbot.timer
-
 ```
 
 ## check timezone & set
