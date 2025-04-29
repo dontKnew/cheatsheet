@@ -14,10 +14,8 @@
 10. [Basic Linxu Command](#basic-linux-commands).
 	- [Permission](#permission)
  	- etc.
-11. Server Security
-	-  
-
-## Redis Cache with PHP - <a href="redis-cache.md">View Docs </a>
+11. [Server Security](#server-security)
+12. <a href="redis-cache.md">Redis Cache PHP</a>
 
 ## PHP & MYSQL
 ### Install PHP FPM Version
