@@ -14,7 +14,10 @@
     - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
     - [Install SSL ](#ssl-renew-or-installation-in-nginx)
 8. [Role Management](#role-management)
-9. [Directory/Linux Permission](#permission)
+9. [Basic Linxu Command](#basic-linux-commands).
+	- [Permission](#permission)
+ 	- etc.
+  
 
 ## Redis Cache with PHP - <a href="redis-cache.md">View Docs </a>
 	
