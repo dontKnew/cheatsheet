@@ -17,7 +17,8 @@
 9. [Basic Linxu Command](#basic-linux-commands).
 	- [Permission](#permission)
  	- etc.
-  
+10. Server Security
+	-  
 
 ## Redis Cache with PHP - <a href="redis-cache.md">View Docs </a>
 	
