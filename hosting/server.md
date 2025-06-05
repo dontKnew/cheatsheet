@@ -17,7 +17,7 @@
  	- etc.
 11. [Server Security](#server-security)
 12. <a href="redis-cache.md">Redis Cache PHP</a>
-13. [Websocket Setup in VPS](#websocket-setup-in-vps)
+13. [Websocket Setup in VPS](##websocket-setup-in-vps-nginx)
 
 ## PHP & MYSQL
 ### Install PHP FPM Version
@@ -314,7 +314,7 @@ httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website 
 # Websocket Setup in VPS Nginx
 - Setup websocket server like link : wss://hook.courierdunia.in:1111
 - Point subdomain to server ip in dns
-- create nginx site with ssl
+- create nginx site with ssl & restart nginx : service nginx restart
 ```bash
 server {
     listen 443 ssl;
@@ -355,3 +355,23 @@ sudo systemctl enable netfilter-persistent
 ```
 - Now You can start websocket server  & you can connect it
 - It will Works!
+- Now Stop Server & create automation for start websocket
+- create file  /etc/systemd/system/yoursitename.service
+```
+[Unit]
+Description=Websocket Server
+
+[Service]
+ExecStart=/usr/bin/php8.3 /home/courierdunia/main/admin/source/spark start:websocket
+Restart=always
+User=root
+Group=root
+StandardOutput=append:/var/log/websocket_cd.log
+StandardError=append:/var/log/websocket_cd_error.log
+
+[Install]
+WantedBy=multi-user.target
+```
+- sudo systemctl daemon-reload
+- systemctl enable courierdunia.service # for auto start in reboot system
+
