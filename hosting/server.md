@@ -17,7 +17,7 @@
  	- etc.
 11. [Server Security](#server-security)
 12. <a href="redis-cache.md">Redis Cache PHP</a>
-13. [Websocket Setup in VPS](##websocket-setup-in-vps-nginx)
+13. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
 
 ## PHP & MYSQL
 ### Install PHP FPM Version
