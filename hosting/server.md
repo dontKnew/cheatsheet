@@ -17,6 +17,7 @@
  	- etc.
 11. [Server Security](#server-security)
 12. <a href="redis-cache.md">Redis Cache PHP</a>
+13. [Websocket Setup in VPS](#websocket-setup-in-vps)
 
 ## PHP & MYSQL
 ### Install PHP FPM Version
@@ -310,4 +311,47 @@ find internationalcourierservice/ -type f -name ".htaccess" -exec rm -f {} \;
 httrack https://bootstrapdemos.wrappixel.com/ample/dist/main/ -O cloned_website --robots=0 "+*.html" "+*.css" "+*.js" "+*.jpg" "+*.jpeg" "+*.png" "+*.gif" "+*.svg" "+*.ico" "+*.woff*" "+*.ttf" "+*.otf" "+*.eot"
 ```
 
+# Websocket Setup in VPS Nginx
+- Setup websocket server like link : wss://hook.courierdunia.in:1111
+- Point subdomain to server ip in dns
+- create nginx site with ssl
+```bash
+server {
+    listen 443 ssl;
+    server_name hook.courierdunia.in;
+    ssl_certificate /etc/letsencrypt/live/hook.courierdunia.in/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/hook.courierdunia.in/privkey.pem;
 
+
+    location / {
+        proxy_pass http://127.0.0.1:1111;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Increase timeout settings if necessary
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+}
+```
+- Allow port 6069
+```bash
+sudo apt install iptables-persistent
+
+# Allow incoming traffic to port 6069 from localhost only (for reverse proxy)
+iptables -A INPUT -p tcp -s 127.0.0.1 --dport 1111 -j ACCEPT
+
+# Drop all other incoming traffic to 1111 for security
+iptables -A INPUT -p tcp --dport 1111 -j DROP
+
+sudo netfilter-persistent save
+sudo systemctl enable netfilter-persistent
+```
+- Now You can start websocket server  & you can connect it
+- It will Works!
