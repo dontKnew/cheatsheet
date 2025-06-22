@@ -1,3 +1,14 @@
+## Wireless Pair Device 
+- If you cant connect wireless device to android with android studio QR code or pair code, then follow below method
+- Method One with adb command line
+  - Install Adb tools
+  - Go to Phone Developer Setting -> Wireless Debugging
+  - click paire with code & you will see ip address:port and code
+  - open temrinal in window : adb pair 192.168.1.5:44809
+  - after successfully likh ke ayega
+  - Go to Phone Developer Setting -> Wireless Debugging & you will see ip  address & port on screen 
+  - terminal window : adb connect ip:port 
+
 ## Error 
 Q1. java.lang.IllegalStateException: Could not find method giveSMSPermission(View) in a parent or ancestor Context for android:onClick attribute defined on view class com.google.android.material.button.MaterialButton with id 'login'
 - **Solution :** private void giveSMSPermission()  to public void giveSMSPermission(View givePermissionButton)  
