@@ -1,5 +1,14 @@
-### Do you want to install Haxm in Android Studio ?
-#### Follo below step carefully
+## Error 
+Q1. java.lang.IllegalStateException: Could not find method giveSMSPermission(View) in a parent or ancestor Context for android:onClick attribute defined on view class com.google.android.material.button.MaterialButton with id 'login'
+- **Solution :** private void giveSMSPermission()  to public void giveSMSPermission(View givePermissionButton)  
+
+Q2. Recommended action: Update this project's version of the Android Gradle plugin to one that supports 34, then update this project to use compileSdkVerion of at least 34.
+- **Solution :** build.gradile : compileSdk 33 to 34 & deafultConfig.targetSDK 33 to 342
+
+    
+
+## Do you want to install Haxm in Android Studio ?
+### Follow below step carefully
 - if you have  already installed haxm manualy, first uninstall, can be found namely  - "Intel Hardware Access..." or "haxm_xv_xv"
 - Hyper Must Be Disabled in Your Laptop/Computer for check verify : 
     - Run the command in terminal ``
