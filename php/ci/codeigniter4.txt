@@ -1,5 +1,12 @@
-Error there is not data to update : check model protected coloumn is true 
+## How Session Works in Codeingiter 4
+- CI generate session id , and store in cookies 
+- everytime browser visit, ci4 get session id from cookies 
+- then return the values...
+- all data store in writable/session
+- session will work only if session id == file base & cookie session id should same..
 
+
+Error there is not data to update : check model protected coloumn is true 
 
 => Installation via command Line
     1. composer should be installed in your computer 
