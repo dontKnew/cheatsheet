@@ -88,6 +88,13 @@ findtime       = 600           # look back 10 minutes for failures ( count maxtr
 	ii. change permitRootLogin = yes to permitRootLogin = no
 
 ## Server Monitering..
+#### Nginx Block IP with Fail2ban 
+	1. Temp Block ip if trying to access dotfile (.env, .git) etc.
+ 	2. apt install fail2ban
+  	3. 
+ 
+ 
+ 
 #### Cloudflare
 	1. Dashbord > Under Attack : no one bots can crawled  the site even google
  	2. Security>Bots > Bot Flight Mode : verified bots can crawl the page
