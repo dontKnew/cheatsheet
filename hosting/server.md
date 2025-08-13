@@ -88,13 +88,124 @@ findtime       = 600           # look back 10 minutes for failures ( count maxtr
 	ii. change permitRootLogin = yes to permitRootLogin = no
 
 ## Server Monitering..
-#### Nginx Block IP with Fail2ban 
-	1. Temp Block ip if trying to access dotfile (.env, .git) etc.
- 	2. apt install fail2ban
-  	3. 
- 
- 
- 
+#### CPU High Alert to Mail
+	1. Create Scripts given below 
+ 	2. Give File Permission  : chmod +x filename.py
+  	3. run script : python3 filename.py or filename
+```py
+#!/usr/bin/env python3
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import time
+import logging
+import os
+
+# ====== CONFIG ======
+SMTP_SERVER = "smtp.gmail.com"
+SMTP_PORT = 587
+SMTP_USER = ""
+SMTP_PASS = ""  # Gmail App Password
+TO_EMAIL = ""
+FROM_EMAIL = ""
+
+MAX_CPU_ALERT = 50  # percentage threshold
+MAX_CPU_ALERT_STAYED_SECONDS = 30  # how long it must stay above threshold
+CHECK_INTERVAL = 5  # seconds between checks
+LOG_FILE = "/root/send_email.log"
+# ====================
+
+# ===== Logging Setup =====
+os.makedirs(os.path.dirname(LOG_FILE), exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler(LOG_FILE),
+        logging.StreamHandler()  # This ensures logs also appear in systemd/journalctl
+    ]
+)
+# =========================
+
+
+def send_email(cpu_usage):
+    """Send a styled HTML email when CPU usage exceeds threshold."""
+    html_content = f"""
+    <html>
+    <body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+        <div style="max-width: 500px; background: white; border-radius: 8px; padding: 20px; border: 1px solid #ddd;">
+            <h2 style="color: #d9534f; text-align: center;">⚠ High CPU Usage Alert</h2>
+            <p style="font-size: 14px; color: #333;">
+                The CPU usage on your server has been above <b>{MAX_CPU_ALERT}%</b>
+                for the last {MAX_CPU_ALERT_STAYED_SECONDS} seconds.
+            </p>
+            <p style="font-size: 16px; font-weight: bold; color: #d9534f; text-align: center;">
+                Current Usage: {cpu_usage:.2f}%
+            </p>
+            <hr style="border: none; border-top: 1px solid #eee; margin: 15px 0;">
+            <p style="font-size: 12px; color: #888; text-align: center;">
+                This is an automated alert from your monitoring system.
+            </p>
+        </div>
+    </body>
+    </html>
+    """
+
+    msg = MIMEMultipart("alternative")
+    msg['Subject'] = "⚠ High CPU Usage Alert"
+    msg['From'] = FROM_EMAIL
+    msg['To'] = TO_EMAIL
+    msg.attach(MIMEText(html_content, "html"))
+
+    try:
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASS)
+            server.sendmail(FROM_EMAIL, TO_EMAIL, msg.as_string())
+        logging.info(f"✅ Alert email sent. CPU usage: {cpu_usage:.2f}%")
+    except Exception as e:
+        logging.error(f"❌ Failed to send email: {e}")
+
+
+def get_cpu_usage():
+    """Get idle and total CPU times from /proc/stat."""
+    with open("/proc/stat", "r") as f:
+        fields = f.readline().strip().split()[1:]
+        fields = list(map(int, fields))
+    idle_time = fields[3]
+    total_time = sum(fields)
+    return idle_time, total_time
+
+
+# ===== Main Monitoring Loop =====
+high_cpu_start = None
+prev_idle, prev_total = get_cpu_usage()
+
+logging.info("🚀 CPU monitoring started.")
+
+while True:
+    time.sleep(CHECK_INTERVAL)
+
+    idle, total = get_cpu_usage()
+    idle_delta = idle - prev_idle
+    total_delta = total - prev_total
+    cpu_usage = 100.0 * (1.0 - idle_delta / total_delta) if total_delta > 0 else 0.0
+
+    prev_idle, prev_total = idle, total
+    logging.info(f"CPU Usage: {cpu_usage:.2f}%")
+
+    if cpu_usage > MAX_CPU_ALERT:
+        if high_cpu_start is None:
+            high_cpu_start = time.time()
+            logging.warning(f"⚠ CPU usage above {MAX_CPU_ALERT}%, monitoring for {MAX_CPU_ALERT_STAYED_SECONDS}s...")
+        elif time.time() - high_cpu_start >= MAX_CPU_ALERT_STAYED_SECONDS:
+            send_email(cpu_usage)
+            high_cpu_start = None  # Reset so we don't spam
+    else:
+        high_cpu_start = None
+```
+ 	
+
 #### Cloudflare
 	1. Dashbord > Under Attack : no one bots can crawled  the site even google
  	2. Security>Bots > Bot Flight Mode : verified bots can crawl the page
