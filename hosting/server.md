@@ -93,6 +93,7 @@ findtime       = 600           # look back 10 minutes for failures ( count maxtr
 	1. Create Scripts given below 
  	2. Give File Permission  : chmod +x filename.py
   	3. run script : python3 filename.py or filename
+    4. use systemd or cronjob to listen scripts continuously to send alert
 ```py
 #!/usr/bin/env python3
 import smtplib
