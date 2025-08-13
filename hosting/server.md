@@ -1,24 +1,24 @@
 # Table of Contents
-2. [Server Monitoring](#server-monitering)
+1. [Server Monitoring](#server-monitering)
    - [CPU High Alert To Mail](#cpu-high-alert-to-mail)
    - [Cloudflare Configuration](#cloudflare)
    - [Limit CPU Usage on PID](#limit-cpu-on-pid)
-4. [UFW Firewall](#ufw-enable)
-6. [PHP](#php--mysql)
+2. [UFW Firewall](#ufw-enable)
+3. [PHP](#php--mysql)
    - [PHP FPM Installation](#install-php-fpm-version)
    - [MYSQL Installation](#mysql)
-7. [NGNINX](#nginx)
+4. [NGNINX](#nginx)
     - [Nginx installation](#nginx-installation) 	
     - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
     - [Install SSL ](#ssl-renew-or-installation-in-nginx)
     - [Block Bots](#block-bots)
-9. [Role Management](#role-management)
-10. [Basic Linxu Command](#basic-linux-commands).
+5. [Role Management](#role-management)
+6. [Basic Linxu Command](#basic-linux-commands).
 	- [Permission](#permission)
  	- etc.
-11. [Server Security](#server-security)
-12. <a href="redis-cache.md">Redis Cache PHP</a>
-13. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
+7. [Server Security](#server-security)
+8. <a href="redis-cache.md">Redis Cache PHP</a>
+9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
 
 ## PHP & MYSQL
 ### Install PHP FPM Version
