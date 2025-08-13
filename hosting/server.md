@@ -1,8 +1,9 @@
 # Table of Contents
 2. [Server Monitoring](#server-monitering)
+   - [CPU High Alert To Mail](#cpu-high-alert-to-mail)
    - [Cloudflare Configuration](#cloudflare)
    - [Limit CPU Usage on PID](#limit-cpu-on-pid)
-3. [UFW Firewall](#ufw-enable)
+4. [UFW Firewall](#ufw-enable)
 6. [PHP](#php--mysql)
    - [PHP FPM Installation](#install-php-fpm-version)
    - [MYSQL Installation](#mysql)
