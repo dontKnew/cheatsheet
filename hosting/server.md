@@ -20,6 +20,21 @@
 8. <a href="redis-cache.md">Redis Cache PHP</a>
 9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
 
+## Server Web Optimization 
+	### GZIP Compression
+ ```shell
+#/etc/nginx/nginx.conf  > in http block
+	 gzip on; 
+	 gzip_vary on;
+	 gzip_proxied any;
+	 gzip_comp_level 6;
+	 gzip_buffers 16 8k;
+	 gzip_http_version 1.1;
+	 gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+	 gzip_min_length 1000;
+```
+ 
+
 ## PHP & MYSQL
 ### Install PHP FPM Version
 	i. sudo add-apt-repository ppa:ondrej/php ( if need)
@@ -407,7 +422,6 @@ sudo systemctl status certbot.timer
 ## rapidex Server Configuration 	
 	- variable sql_mode : remove STRICT_TRANS_TABLE (default value not set table error)
 	= Note : After that all restart the apache2 : sudo systemctl restart apache2
-
 ## Security 
 	1. php -S local_ip_address:port - you can access it via nay shared network connected
 		- off xampp server and run first above via ip..
