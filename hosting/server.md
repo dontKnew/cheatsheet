@@ -20,6 +20,7 @@
 7. [Server Security](#server-security)
 8. <a href="redis-cache.md">Redis Cache PHP</a>
 9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
+10. [NodejDeployment](#nodejsdeployment)
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -543,4 +544,17 @@ WantedBy=multi-user.target
 ```
 - sudo systemctl daemon-reload
 - systemctl enable courierdunia.service # for auto start in reboot system
+
+## NodjsDeployment
+- npm install -g pm2
+- pm2 start "npm run dev -- --host 0.0.0.0 --port 5173" --name myAppName
+- AutoRestart on Reboot : pm2 save && pm2 startup
+- stop app : pm2 stop appName/NumericId
+- delete app : pm2 delete appName/NumericId
+- view running app : pm2 list
+- stop all app : pm2 stop all
+- delete all app : pm2 delete all
+- moinitor : pm2 monitor
+- remove AutoStart : pm2 unstartup systemd
+- for more info :  http://pm2.io/
 
