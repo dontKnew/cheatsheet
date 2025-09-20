@@ -7,6 +7,7 @@
 3. [PHP](#php--mysql)
    - [PHP FPM Installation](#install-php-fpm-version)
    - [MYSQL Installation](#mysql)
+   - [PHP FPM PER SITE CONFIG](#php-fpm-per-site-config)
 4. [NGNINX](#nginx)
     - [Nginx installation](#nginx-installation) 	
     - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
@@ -33,6 +34,8 @@
 	 gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 	 gzip_min_length 1000;
 ```
+	### PHP FPM PER SITE CONFIG
+ 		- check table of content
  
 
 ## PHP & MYSQL
@@ -50,6 +53,38 @@
  	- sudo mysql
   	- SELECT user, authentication_string, plugin, host FROM mysql.user;  #If u see auth_socket for root user, thats why not ask for pass
    	- ALTER USER 'root'@'localhost' IDENTIFIED WITH caching_sha2_password BY 'YourPasswordBro';  FLUSH PRIVILEGES; #Change PasswordNow 
+### PHP-FPM Per Site Config
+	i. create file /etc/php/8.3/fpm/pool.d/site_name.conf
+ 	ii. add below code in site_name.conf :
+  ```
+	[site_name] #filename
+	user = www-data
+	group = www-data
+	listen = /run/php/php8.3-fpm-site_name.sock #filename
+	
+	pm = dynamic
+	pm.max_children = 30 # number of process thats can handle the child
+	pm.start_servers = 8 # on start : start the worker
+	pm.min_spare_servers = 6 
+	pm.max_spare_servers = 8
+	pm.max_requests = 500
+	pm.process_idle_timeout = 10s # if worker busy, then one request wait seconds 
+	
+	listen.owner = www-data
+	listen.group = www-data
+	listen.mode = 0660
+```
+	ii. Config in Nginx Conf for PHP
+```
+  	location ~ \.php$ {
+        try_files $uri =404;
+        include fastcgi_params;
+        fastcgi_pass unix:/run/php/php8.3-fpm-site_name.sock; # filename
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+```
+	iii. now restart the nginx & php-fpm : systemctl restart nginx && systemctl restart php8.3-fpm
+	iv. now Done
 
 	
 
