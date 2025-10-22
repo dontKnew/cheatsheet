@@ -16,6 +16,9 @@ Q1. java.lang.IllegalStateException: Could not find method giveSMSPermission(Vie
 Q2. Recommended action: Update this project's version of the Android Gradle plugin to one that supports 34, then update this project to use compileSdkVerion of at least 34.
 - **Solution :** build.gradile : compileSdk 33 to 34 & deafultConfig.targetSDK 33 to 342
 
+Q3. Cpp folder not showing but cpp showing 
+-- **Solution:** refresh linking c++ project - run this from menu
+
     
 
 ## Do you want to install Haxm in Android Studio ?
