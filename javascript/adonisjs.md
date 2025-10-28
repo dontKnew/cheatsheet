@@ -6,7 +6,8 @@
 - VS Code Syntax Highliter : Edge templates syntax highlighter
 - npm run dev : it will start your server
 
-## Config File
+## Basic 
+- Config File
 -import config from '@adonisjs/core/services/config'
 ```
 config.get('app.appKey')
@@ -43,6 +44,14 @@ env.get('PORT')
 // Returns 3333 when PORT is undefined
 env.get('PORT', 3333)
 ```
+- Share Env Varible in Edge/Html View
+```
+#file : start/view.ts
+import env from '#start/env'
+import edge from 'edge.js'
+edge.global('env', env)
+```
+
 
 
 
