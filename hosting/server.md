@@ -21,7 +21,7 @@
 8. <a href="redis-cache.md">Redis Cache PHP</a>
 9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
 10. [NodejDeployment](#nodejsdeployment)
-11. [Reset File/FolderPermissinos By PHP](#ResetFile/FolderPermissinosByPHP)
+11. [Reset File/FolderPermissinos By PHP](#reset-filefolderpermissinos-by-php)
 
 ## Server Web Optimization 
 	### GZIP Compression
