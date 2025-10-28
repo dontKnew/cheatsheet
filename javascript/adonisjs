@@ -4,6 +4,9 @@
 - WebStarterKit :  npm init adonisjs@latest -- -K=web 
 - WebStarterKit+Myssql :  npm init adonisjs@latest -- -K=web --db=mysql
 - VS Code Syntax Highliter : Edge templates syntax highlighter
+- npm run dev : it will start your server
+
+##
 
 
 
