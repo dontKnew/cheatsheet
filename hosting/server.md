@@ -13,7 +13,7 @@
     - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
     - [Install SSL ](#ssl-renew-or-installation-in-nginx)
     - [Block Bots](#block-bots)
-5. [Role Management](#role-management)
+5. [Linux Roles/Permissions](#role-management)
 6. [Basic Linxu Command](#basic-linux-commands).
 	- [Permission](#permission)
  	- etc.
@@ -21,6 +21,7 @@
 8. <a href="redis-cache.md">Redis Cache PHP</a>
 9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
 10. [NodejDeployment](#nodejsdeployment)
+11. [Reset File/FolderPermissinos By PHP](#ResetFile/FolderPermissinosByPHP)
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -545,7 +546,7 @@ WantedBy=multi-user.target
 - sudo systemctl daemon-reload
 - systemctl enable courierdunia.service # for auto start in reboot system
 
-## NodjsDeployment
+## NodejsDeployment
 - npm install -g pm2
 - pm2 start "npm run dev -- --host 0.0.0.0 --port 5173" --name myAppName
 - AutoRestart on Reboot : pm2 save && pm2 startup
@@ -557,4 +558,26 @@ WantedBy=multi-user.target
 - moinitor : pm2 monitor
 - remove AutoStart : pm2 unstartup systemd
 - for more info :  http://pm2.io/
+  
+## Reset File/FolderPermissinos By PHP
+```
+<?php
+$path = "/home/globalkingexpress";
+$userGroup = "globalkingexpress:www-data";      // main project owner
+$writableGroup = "www-data:www-data"; // webserver-writable dirs
 
+// set secure ownership & base permissions
+shell_exec("chown -R {$userGroup} " . escapeshellarg($path));
+shell_exec("chmod -R 750 " . escapeshellarg($path));
+
+$writable_path = [
+    // "$path/assets/images/banner/dynamic",
+];
+
+foreach ($writable_path as $dir) {
+    if (is_dir($dir)) {
+        shell_exec("chown -R {$writableGroup} " . escapeshellarg($dir));
+        shell_exec("chmod -R 770 " . escapeshellarg($dir));
+    }
+}
+```
