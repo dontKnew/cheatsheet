@@ -1,2 +1,10 @@
 # Adonisjs
-- This is node js framework
+
+## Installation 
+- WebStarterKit :  npm init adonisjs@latest -- -K=web 
+- WebStarterKit+Myssql :  npm init adonisjs@latest -- -K=web --db=mysql
+- VS Code Syntax Highliter : Edge templates syntax highlighter
+
+
+
+
