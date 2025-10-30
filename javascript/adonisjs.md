@@ -2,18 +2,19 @@
 
 ## Installation 
 - WebStarterKit :  npm init adonisjs@latest -- -K=web 
-- WebStarterKit+Myssql :  npm init adonisjs@latest -- -K=web --db=mysql
+- WebStarterKit+Myssql :  npm init adonisjs@latest  -- -K=web --db=mysql
 - VS Code Syntax Highliter : Edge templates syntax highlighter
 - npm run dev : it will start your server
 
+
 ## Basic 
-1. Config File
+- Config File
 -import config from '@adonisjs/core/services/config'
 ```
 config.get('app.appKey')
 config.get('app.http.cookie')
 ```
-2. In Edge Tempalte Views
+- In Edge Tempalte Views
 ```
 @if(config.has('app.appUrl'))
   <a href="{{ config('app.appUrl') }}"> Home </a>
@@ -21,7 +22,7 @@ config.get('app.http.cookie')
   <a href="/"> Home </a>
 @end
 ```
-3. Change config at runtime
+- Change config at runtime
 ```
 import env from '#start/env'
 import config from '@adonisjs/core/services/config'
@@ -31,7 +32,7 @@ const PORT = env.get('PORT')
 
 config.set('app.appUrl', `http://${HOST}:${PORT}`)
 ```
-4. Read Env Variable : 
+- Read Env Variable : 
 ```
 1. process.env.NODE_ENV
 Or 
@@ -44,7 +45,7 @@ env.get('PORT')
 // Returns 3333 when PORT is undefined
 env.get('PORT', 3333)
 ```
-5. Share Env Varible in Edge/Html View
+- Share Env Varible in Edge/Html View
 ```
 #file : start/view.ts
 import env from '#start/env'
@@ -52,6 +53,38 @@ import edge from 'edge.js'
 edge.global('env', env)
 ```
 
+## Routing 
+```
+import router from '@adonisjs/core/services/router'
+
+router.get('/', () => {
+  return 'Hello world from the home page.'
+})
+router.get('/posts/:id', ({ params }) => {
+  return `This is post with id ${params.id}`
+})
+// optional paramsmeter
+router.get('/posts/:id?', ({ params }) => { 
+  return `This is post with id ${params.id}`
+})
+
+
+// wildcard or Any :  
+router.get('/docs/:category/*', ({ params }) => {
+  console.log(params.category)
+  console.log(params['*'])
+})
+// path : /docs/api/sql/orm   : api is cateogry  & patterns ['sql', 'orm']
+// path2 : /docs/http/context   : http is cateogry  & patterns ['context']
+
+```
+## Debugging
+- use dd() function anywhere in code except views/edge file
+- @dd() , you can use in views/edge file,   
+
+## Views/Edge
+- Components like cell in ci4
+- slots use with components, for render titel data
 
 
 
