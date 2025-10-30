@@ -7,13 +7,13 @@
 - npm run dev : it will start your server
 
 ## Basic 
-- Config File
+1. Config File
 -import config from '@adonisjs/core/services/config'
 ```
 config.get('app.appKey')
 config.get('app.http.cookie')
 ```
-- In Edge Tempalte Views
+2. In Edge Tempalte Views
 ```
 @if(config.has('app.appUrl'))
   <a href="{{ config('app.appUrl') }}"> Home </a>
@@ -21,7 +21,7 @@ config.get('app.http.cookie')
   <a href="/"> Home </a>
 @end
 ```
-- Change config at runtime
+3. Change config at runtime
 ```
 import env from '#start/env'
 import config from '@adonisjs/core/services/config'
@@ -31,7 +31,7 @@ const PORT = env.get('PORT')
 
 config.set('app.appUrl', `http://${HOST}:${PORT}`)
 ```
-- Read Env Variable : 
+4. Read Env Variable : 
 ```
 1. process.env.NODE_ENV
 Or 
@@ -44,7 +44,7 @@ env.get('PORT')
 // Returns 3333 when PORT is undefined
 env.get('PORT', 3333)
 ```
-- Share Env Varible in Edge/Html View
+5. Share Env Varible in Edge/Html View
 ```
 #file : start/view.ts
 import env from '#start/env'
