@@ -1,4 +1,4 @@
-# Adonisjs
+# Adonisjs V6
 
 ## Installation 
 - WebStarterKit :  npm init adonisjs@latest -- -K=web 
