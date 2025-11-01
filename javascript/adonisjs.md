@@ -100,5 +100,75 @@ edge.global('base_url', env.get('APP_URL'))
 import './edge.js'
 ```
 
+## Edge Template Engine
+i. include
+```ts
+@include('partials/some-file')
+@includeIf(post.comments.length, 'partials/comments')
+```
+ii. Inline String
+```ts
+Hello
+@let(username = 'virk')~
+ {{ username }}
+// output
+Hello virk
+```
+iii. comments : {{-- Your Code that not display in browser --}}
+iv. stacks : use to push content from components 
+- @pushOnceTo: mean that it will not render again if you use it two or more times in different components..
+```ts
+// Main app.edge
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @stack('js')
+  </head>
+  <body>
+    <main>
+      @!dialog()
+    </main>
+  </body>
+</html>
+// compontents/modal.edge
+<dialog x-data="alpineModal">
+</dialog>
+@pushOnceTo('js')
+  <script>
+    Alpine.data('alpineModal', function () {
+      return {
+        show() {},
+        hide() {},
+      }
+    })
+  </script>
+@end
+
+// Output :
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      Alpine.data('alpineModal', function () {
+        return {
+          show() {},
+          hide() {},
+        }
+      })
+    </script>
+  </head>
+  <body>
+    <main>
+      <dialog x-data="alpineModal">
+      </dialog>
+    </main>
+  </body>
+</html>
+```
+
 
 
