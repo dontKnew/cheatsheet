@@ -82,10 +82,6 @@ router.get('/docs/:category/*', ({ params }) => {
 - use dd() function anywhere in code except views/edge file
 - @dd() , you can use in views/edge file,   
 
-## Views/Edge
-- Components like cell in ci4
-- slots use with components, for render titel data
-
 ## Global Helper 
 ### import use in middleware/controller etc.
 ### For Resources/View Files Edges
@@ -117,6 +113,7 @@ Hello virk
 iii. comments : {{-- Your Code that not display in browser --}}
 iv. stacks : use to push content from components 
 - @pushOnceTo: mean that it will not render again if you use it two or more times in different components..
+- @pushTo : it will push multiple times, with different js if you wrote, it usesfull for that!
 ```ts
 // Main app.edge
 <!DOCTYPE html>
@@ -135,7 +132,7 @@ iv. stacks : use to push content from components
 // compontents/modal.edge
 <dialog x-data="alpineModal">
 </dialog>
-@pushOnceTo('js')
+@@pushTo('js')
   <script>
     Alpine.data('alpineModal', function () {
       return {
@@ -169,6 +166,87 @@ iv. stacks : use to push content from components
   </body>
 </html>
 ```
+v. Components  : re-usable code
+- no support, css, js : check it..
+- Filename to tagName conversion
+```ts
+form/input.edge : 	@form.input
+tool_tip.edge :	@toolTip
+checkout_form/input.edge :	@checkoutForm.input
+modal/index.edge :	@modal
+```
+```ts
+//file: components/button.edge
+<button type="{{ type || 'submit' }}"> {{ text }} </button>
+
+// use it anywhere in edge file :
+<form>
+  @!component('components/button', { text: 'Login' })
+  @!component('components/button', { text: 'Cancel', type: 'reset' })
+</form>
+
+// output :
+<form>
+  <button type="submit"> Login </button>
+  <button type="reset"> Cancel </button>
+</form>
+```
+vi. Slots
+- slots use with components, for render title data
+```ts
+// main slot : use for render the rest of data in specific area in components or inlucde
+// file : card.edge
+<div {{ attributes }}>
+  <div class="card_header">
+    {{ title }}
+  </div>
+
+  <div class="card_contents">
+    {{{ await $slots.main() }}}
+  </div>
+</div>
+
+// using the card components
+@card({ title: 'Quick start' })
+  <p> Start building your next project in minutes </p>
+@end
+
+// output:
+<div>
+  <div class="card_header">
+    Quick start
+  </div>
+  <div class="card_contents">
+    <p> Start building your next project in minutes </p>
+  </div>
+</div>
+```
+- using slot another way without main
+```ts
+// file : card.edge
+<div>
+  <div class="card_header">
+    {{{ await $slots.header() }}}
+  </div>
+  <div class="card_contents">
+    {{{ await $slots.content() }}}
+  </div>
+</div>
+
+// file : using the card components
+@card()
+  @slot('header')
+    <strong> Quick start </strong>
+  @end  
+  @slot('content')
+    <p> I am a card </p>
+  @end
+@end
+```
+
+vii. Layout
+
+
 
 
 
