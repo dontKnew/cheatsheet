@@ -10,12 +10,12 @@
 ## Basic 
 - Config File
 -import config from '@adonisjs/core/services/config'
-```
+```ts
 config.get('app.appKey')
 config.get('app.http.cookie')
 ```
 - In Edge Tempalte Views
-```
+```ts
 @if(config.has('app.appUrl'))
   <a href="{{ config('app.appUrl') }}"> Home </a>
 @else
@@ -23,7 +23,7 @@ config.get('app.http.cookie')
 @end
 ```
 - Change config at runtime
-```
+```ts
 import env from '#start/env'
 import config from '@adonisjs/core/services/config'
 
@@ -33,7 +33,7 @@ const PORT = env.get('PORT')
 config.set('app.appUrl', `http://${HOST}:${PORT}`)
 ```
 - Read Env Variable : 
-```
+```ts
 1. process.env.NODE_ENV
 Or 
 2. --
@@ -46,7 +46,7 @@ env.get('PORT')
 env.get('PORT', 3333)
 ```
 - Share Env Varible in Edge/Html View
-```
+```ts
 #file : start/view.ts
 import env from '#start/env'
 import edge from 'edge.js'
@@ -54,7 +54,7 @@ edge.global('env', env)
 ```
 
 ## Routing 
-```
+```ts
 import router from '@adonisjs/core/services/router'
 
 router.get('/', () => {
@@ -86,6 +86,17 @@ router.get('/docs/:category/*', ({ params }) => {
 - Components like cell in ci4
 - slots use with components, for render titel data
 
+## Global Helper for View/Edge File
+```ts
+//1. Make file : start/edge.ts
+import edge from 'edge.js'
+import env from '#start/env'
+edge.global('base_url', env.get('APP_URL'))
+
+// 2. register helper : start/kerne.ts
+//at the bottom or top, dos not matter
+import './edge.js'
+```
 
 
 
