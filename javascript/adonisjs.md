@@ -86,7 +86,9 @@ router.get('/docs/:category/*', ({ params }) => {
 - Components like cell in ci4
 - slots use with components, for render titel data
 
-## Global Helper for View/Edge File
+## Global Helper 
+### import use in middleware/controller etc.
+### For Resources/View Files Edges
 ```ts
 //1. Make file : start/edge.ts
 import edge from 'edge.js'
