@@ -1,3 +1,14 @@
+## Android Activity Lifecycle
+- App open -> OnCreate
+- -> OnStart  : When Activity Visible 
+- -> OnStop : When Activity No Visible : It will  when sleep mode, call mode,
+- -> onPause: if user minimize the app 
+- -> OnResume : when user come after minimize
+- -> onRestart : when user restar the app Or come from onStop
+- ->onDestory: when system or user killed the app
+<img width="1200" height="675" alt="image" src="https://github.com/user-attachments/assets/dc1b07f8-7faf-4bc6-b69a-d09a465f8ffc" />
+
+
 ## Wireless Pair Device 
 - If you cant connect wireless device to android with android studio QR code or pair code, then follow below method
 - Method One with adb command line
