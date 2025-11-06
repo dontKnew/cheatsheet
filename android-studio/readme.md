@@ -1,11 +1,11 @@
 ## Android Activity Lifecycle
 - App open -> OnCreate
-- -> OnStart  : When Activity Visible 
-- -> OnStop : When Activity No Visible : It will  when sleep mode, call mode,
-- -> onPause: if user minimize the app 
-- -> OnResume : when user come after minimize
+- -> OnStart  : When Activity Visible : Ex come from sleep mode, 
+- -> OnStop : Call When Activity No Visible OR Minimize the App Ex.  It will  when sleep mode,
+- -> onPause: call if user minimize the app 
+- -> OnResume : Call if Called OnStart And  When User Go 2nd  Actiity ,, then come back 1st Activity then it will || Or
 - -> onRestart : when user restar the app Or come from onStop
-- ->onDestory: when system or user killed the app
+- ->onDestory: When App Fully Closed or Removed from minimize or System killed, or User Killed
 <img width="1200" height="675" alt="image" src="https://github.com/user-attachments/assets/dc1b07f8-7faf-4bc6-b69a-d09a465f8ffc" />
 
 
