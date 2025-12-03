@@ -1,3 +1,24 @@
+## GIF Render
+```kts
+implementation ("com.github.bumptech.glide:glide:4.16.0")
+annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+```
+```xml
+<ImageView
+    android:id="@+id/gifView"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    android:scaleType="centerCrop"
+    android:layout_gravity="center"/>
+```
+```java
+ImageView gifView = findViewById(R.id.gifView);
+Glide.with(this)
+    .asGif()
+    .load(R.drawable.loading_animation) // your gif in res/drawable/
+    .into(gifView);
+```
+
 ## Android Activity Lifecycle
 - App open -> OnCreate
 - -> OnStart  : When Activity Visible : Ex come from sleep mode, 
