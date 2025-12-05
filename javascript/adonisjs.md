@@ -1,5 +1,13 @@
 # Adonisjs V6
 
+## Table of Contents
+1. [Installation](#installation)
+2. [Basic](#basic)
+3. [Routing](#routing)
+4. [Debugging](#debugging)
+5. [GlobalHelper](#global-helper)
+6. [Edge Template Engine](#edge-template-engine)
+
 ## Installation 
 - WebStarterKit :  npm init adonisjs@latest -- -K=web 
 - WebStarterKit+Myssql :  npm init adonisjs@latest  -- -K=web --db=mysql
@@ -243,10 +251,9 @@ vi. Slots
   @end
 @end
 ```
-
 vii. Layout
 
-
-
-
-
+# Test Run
+- create test inside the test folder..
+- node ace test : run all test
+- node ace test --folderName 
