@@ -1,5 +1,8 @@
 # Git Cheatsheet
 
+# Change Git Auth for Commit
+- git commit --amend --author="dontKnew <sajid.phpmaster@gmail.com>"
+  
 # SSH KEY SETUP on git bash window
 	1. git config --global user.email "israfil123.sa@gmail.com" : set email
 	2. git config --global user.name "Dont Knew" : set name
