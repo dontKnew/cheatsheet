@@ -1,6 +1,6 @@
 # Git Cheatsheet
 
-# Change Git Auth for Commit
+# Change Git Author for Commit
 - git commit --amend --author="dontKnew <sajid.phpmaster@gmail.com>"
   
 # SSH KEY SETUP on git bash window
