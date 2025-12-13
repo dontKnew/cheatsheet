@@ -22,7 +22,7 @@
 9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
 10. [NodejDeployment](#nodejsdeployment)
 11. [Reset File/FolderPermissinos By PHP](#reset-filefolderpermissinos-by-php)
-12. NodeJs Deployment Multi Core
+12. [NodeJs Deployment Multi Core](##nextjs--pm2--socketio--server)
 
 ## Server Web Optimization 
 	### GZIP Compression
