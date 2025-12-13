@@ -22,6 +22,7 @@
 9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
 10. [NodejDeployment](#nodejsdeployment)
 11. [Reset File/FolderPermissinos By PHP](#reset-filefolderpermissinos-by-php)
+12. NodeJs Deployment Multi Core
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -610,4 +611,108 @@ foreach ($writable_path as $dir) {
         shell_exec("chmod -R 770 " . escapeshellarg($dir));
     }
 }
+```
+## Nextjs + PM2 + Socket.io + Server  
+```jsx
+//primary.mjs
+import cluster from "cluster";
+import { availableParallelism } from "os";
+import stickyPkg from "@socket.io/sticky";
+import adapterPkg from "@socket.io/cluster-adapter";
+import { createServer } from "http";
+
+const setupMaster = stickyPkg.setupMaster || stickyPkg.default?.setupMaster;
+const createAdapter = adapterPkg.createAdapter || adapterPkg.default?.createAdapter;
+
+if (cluster.isPrimary) {
+  const numCPUs = 8;
+  console.log(`🧠 Primary ${process.pid} managing ${numCPUs} workers`);
+  const httpServer = createServer();
+  setupMaster(httpServer, { loadBalancingMethod: "least-connection" });
+  createAdapter();
+
+  // Fork workers
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  // ✅ Only the primary listens on the port
+  const port = process.env.APP_PORT || 3000;
+  httpServer.listen(port, () => {
+    console.log(`🚀 Primary listening on port ${port}`);
+  });
+
+  cluster.on("exit", (worker) => {
+    console.log(`❌ Worker ${worker.process.pid} died`);
+    // Optional: auto-restart worker
+    cluster.fork();
+  });
+} else {
+  await import("./server.mjs");
+}
+```
+```jsx
+// secondary.mjs & no need to listen server here...
+import { createServer } from "http";
+import { parse } from "url";
+import next from "next";
+import { Server } from "socket.io";
+import pkg from "@next/env";
+import adapterPkg from "@socket.io/cluster-adapter";
+import stickyPkg from "@socket.io/sticky";
+import mysql from "mysql2/promise";
+
+const createAdapter = adapterPkg.createAdapter || adapterPkg.default?.createAdapter;
+const setupWorker = stickyPkg.setupWorker || stickyPkg.default?.setupWorker;
+
+const { loadEnvConfig } = pkg;
+loadEnvConfig(process.cwd());
+
+process.env.TZ = "Asia/Kolkata";
+
+// 🗄️ Database pool
+const db = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+});
+
+// 🌍 Environment
+const port = parseInt(process.env.APP_PORT || "3000", 10);
+const dev = process.env.NODE_ENV !== "production";
+
+// console.warn("Starting Worker At ", port, process.env.NODE_ENV=="production" ? "prod" : "dev", process.pid);
+
+const app = next({ dev });
+const handle = app.getRequestHandler();
+
+app.prepare().then(() => {
+  const server = createServer((req, res) => {
+    const parsedUrl = parse(req.url, true);
+    handle(req, res, parsedUrl);
+  });
+
+  const io = new Server(server, { cors: { origin: "*" } });
+
+  // ✅ integrate worker with cluster/sticky sessions
+  io.adapter(createAdapter());
+  setupWorker(io);
+  global.io = io;
+io.on('connection', (socket) => {
+// sockett connection..
+)}
+
+//  No Need to Call This
+// server.listen(port, () => {
+//   console.log(`🚀 Server running at ${port} - ${process.env.NODE_ENV}`);
+// });
+```
+
+```bash
+// install pm2
+// nextjs command
+pm2 start NODE_ENV=production node primary.mjs
+// node  command
+pm2 start  node primary.mjs
 ```
