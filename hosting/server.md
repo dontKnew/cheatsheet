@@ -445,10 +445,12 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 sudo systemctl status certbot.timer
 ```
 
-## check timezone & set
+## VPS Server TimeZone + MYSQL
 	- timedatectl list-timezones
 	- current timezone : timedatectl
 	- change vps timzoen : timedatectl set-timezone {Asia/Kolkata}	
+	- open file /etc/mysql/conf.d/mysql.cof  : default-time-zone = '+05:30'
+
 
 
 ## Switch PHP Version
