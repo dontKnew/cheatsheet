@@ -3,7 +3,7 @@
    - [CPU High Alert To Mail](#cpu-high-alert-to-mail)
    - [Cloudflare Configuration](#cloudflare)
    - [Limit CPU Usage on PID](#limit-cpu-on-pid)
-   - [VPS Server Timeonze](#check-timezone--set)
+   - [VPS Server Timeonze](#vps-server-timezone--mysql)
 2. [UFW Firewall](#ufw-enable)
 3. [PHP](#php--mysql)
    - [PHP FPM Installation](#install-php-fpm-version)
