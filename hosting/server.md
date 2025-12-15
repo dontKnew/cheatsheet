@@ -24,6 +24,7 @@
 10. [NodejDeployment](#nodejsdeployment)
 11. [Reset File/FolderPermissinos By PHP](#reset-filefolderpermissinos-by-php)
 12. [NodeJs Deployment Multi Core](##nextjs--pm2--socketio--server)
+13. [Remote MYSQL Database](#remote-mysql-database)
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -718,4 +719,15 @@ io.on('connection', (socket) => {
 pm2 start NODE_ENV=production node primary.mjs
 // node  command
 pm2 start  node primary.mjs
+```
+
+
+# Remote MYSQL Database 
+```
+1. open file sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+2. find bind-address and change from 127.0.0.1 to 0.0.0.0
+3. service  mysql restart
+4. Allow 3306 to ip :  iptables -A INPUT -p tcp -s [allowServerIp] --dport 3306 -j ACCEPT
+5. create database : username, host[allowServerIP], password, database
+6. use that credentials : username, permitServerIp , password, database
 ```
