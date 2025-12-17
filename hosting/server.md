@@ -449,8 +449,8 @@ sudo systemctl status certbot.timer
 ## VPS Server TimeZone + MYSQL
 	- timedatectl list-timezones
 	- current timezone : timedatectl
-	- change vps timzoen : timedatectl set-timezone {Asia/Kolkata}	
-	- open file /etc/mysql/conf.d/mysql.cof  : default-time-zone = '+05:30'
+	- change vps timzoen : timedatectl set-timezone Asia/Kolkata	
+	- open file /etc/mysql/conf.d/mysql.cnf  : default-time-zone = '+05:30'
 
 
 
