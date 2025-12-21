@@ -718,7 +718,7 @@ const io = new Server(server, {
 
 ## NodeJs + Nextjs + NodejsCluster + RedisAdapter
 - by using redis , we can connect multi server to one domain
-- you need to setup the #redis_server
+- you need to setup the <a href="redis-cache.md">Redis Cache</a>
 ```jsx
 //primary.mjs
 import cluster from "cluster";
