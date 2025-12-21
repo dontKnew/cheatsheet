@@ -14,6 +14,7 @@
     - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
     - [Install SSL ](#ssl-renew-or-installation-in-nginx)
     - [Block Bots](#block-bots)
+    - [Load Balancer](#load-balancer)
 5. [Linux Roles/Permissions](#role-management)
 6. [Basic Linxu Command](#basic-linux-commands).
 	- [Permission](#permission)
@@ -826,7 +827,13 @@ io.on('connection', async (socket)  => {
 "redis": "^5.10.0",
 "@socket.io/sticky": "^1.0.4",
 ```
-# Remote MYSQL Database 
+
+## Load Balancer
+```conf
+
+```
+
+## Remote MYSQL Database 
 ```
 1. open file sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 2. find bind-address and change from 127.0.0.1 to 0.0.0.0
