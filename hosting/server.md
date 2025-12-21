@@ -23,8 +23,9 @@
 9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
 10. [NodejDeployment](#nodejsdeployment)
 11. [Reset File/FolderPermissinos By PHP](#reset-filefolderpermissinos-by-php)
-12. [NodeJs Deployment Multi Core](##nextjs--pm2--socketio--server)
-13. [Remote MYSQL Database](#remote-mysql-database)
+12. [NodeJs+Nextjs+NodeCulster](#nodejs--nextjs--nodeculster)
+13. [NodeJs+Nextjs+RedisCulster](#nodejs--nextjs--redisculster)
+14. [Remote MYSQL Database](#remote-mysql-database)
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -616,39 +617,36 @@ foreach ($writable_path as $dir) {
     }
 }
 ```
-## Nextjs + PM2 + Socket.io + Server  
+## NodeJs + Nextjs + NodeCulster
 ```jsx
 //primary.mjs
 import cluster from "cluster";
-import { availableParallelism } from "os";
-import stickyPkg from "@socket.io/sticky";
-import adapterPkg from "@socket.io/cluster-adapter";
+import { setupMaster } from "@socket.io/sticky";
+import { setupPrimary } from "@socket.io/cluster-adapter";
 import { createServer } from "http";
+import pkg from "@next/env";
 
-const setupMaster = stickyPkg.setupMaster || stickyPkg.default?.setupMaster;
-const createAdapter = adapterPkg.createAdapter || adapterPkg.default?.createAdapter;
+const { loadEnvConfig } = pkg;
+loadEnvConfig(process.cwd());
 
-if (cluster.isPrimary) {
-  const numCPUs = 8;
-  console.log(`🧠 Primary ${process.pid} managing ${numCPUs} workers`);
+if (cluster.isMaster) {
+  const numCPUs = 4
   const httpServer = createServer();
   setupMaster(httpServer, { loadBalancingMethod: "least-connection" });
-  createAdapter();
-
-  // Fork workers
+  setupPrimary();
+  
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
 
   // ✅ Only the primary listens on the port
-  const port = process.env.APP_PORT || 3000;
+  const port = process.env.APP_PORT;
   httpServer.listen(port, () => {
-    console.log(`🚀 Primary listening on port ${port}`);
+    console.log(`🚀 Listen https://${process.env.APP_DOMAIN} with cpu ${numCPUs}`);
   });
 
   cluster.on("exit", (worker) => {
-    console.log(`❌ Worker ${worker.process.pid} died`);
-    // Optional: auto-restart worker
+7    console.log(`❌ Worker ${worker.process.pid} died`);
     cluster.fork();
   });
 } else {
@@ -662,17 +660,14 @@ import { parse } from "url";
 import next from "next";
 import { Server } from "socket.io";
 import pkg from "@next/env";
-import adapterPkg from "@socket.io/cluster-adapter";
-import stickyPkg from "@socket.io/sticky";
+import { createAdapter } from "@socket.io/cluster-adapter";
+import { setupWorker } from "@socket.io/sticky";
 import mysql from "mysql2/promise";
+import { error } from "console";
 
-const createAdapter = adapterPkg.createAdapter || adapterPkg.default?.createAdapter;
-const setupWorker = stickyPkg.setupWorker || stickyPkg.default?.setupWorker;
 
 const { loadEnvConfig } = pkg;
 loadEnvConfig(process.cwd());
-
-process.env.TZ = "Asia/Kolkata";
 
 // 🗄️ Database pool
 const db = mysql.createPool({
@@ -681,14 +676,10 @@ const db = mysql.createPool({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
 });
-
-// 🌍 Environment
-const port = parseInt(process.env.APP_PORT || "3000", 10);
+const port = process.env.APP_PORT;
 const dev = process.env.NODE_ENV !== "production";
-
-// console.warn("Starting Worker At ", port, process.env.NODE_ENV=="production" ? "prod" : "dev", process.pid);
-
 const app = next({ dev });
+console.warn("2Starting Worker At ", port, process.env.NODE_ENV == "production" ? "prod" : "dev", process.pid);
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -697,29 +688,35 @@ app.prepare().then(() => {
     handle(req, res, parsedUrl);
   });
 
-  const io = new Server(server, { cors: { origin: "*" } });
+  
+const io = new Server(server, {
+  cors: {
+    origin: "*", // ✅ frontend domain
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
   // ✅ integrate worker with cluster/sticky sessions
   io.adapter(createAdapter());
   setupWorker(io);
   global.io = io;
-io.on('connection', (socket) => {
-// sockett connection..
-)}
+  io.on('connection', async (socket)  => {
+        // socket conection
+    });
+});
 
-//  No Need to Call This
-// server.listen(port, () => {
-//   console.log(`🚀 Server running at ${port} - ${process.env.NODE_ENV}`);
-// });
+// package.json
+"dev": "nodemon primary.mjs",
+"build": "next build",
+"start": "NODE_ENV=production node primary.mjs",
+
+"@socket.io/cluster-adapter": "^0.3.0",
+"@socket.io/sticky": "^1.0.4",
 ```
 
-```bash
-// install pm2
-// nextjs command
-pm2 start NODE_ENV=production node primary.mjs
-// node  command
-pm2 start  node primary.mjs
-```
+
+## NodeJs + Nextjs + RedisCulster
 
 
 # Remote MYSQL Database 
