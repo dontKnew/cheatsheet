@@ -23,8 +23,8 @@
 9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
 10. [NodejDeployment](#nodejsdeployment)
 11. [Reset File/FolderPermissinos By PHP](#reset-filefolderpermissinos-by-php)
-12. [NodeJs+Nextjs+NodeCulster](#nodejs--nextjs--nodeculster)
-13. [NodeJs+Nextjs+RedisCulster](#nodejs--nextjs--redisculster)
+12. [NodeJs + Nextjs + NodeCulster](#nodejs--nextjs--nodeculster)
+13. [NodeJs + Nextjs + NodejsCluster + RedisAdapter](#nodejs--nextjs--nodejscluster--redisadapter)
 14. [Remote MYSQL Database](#remote-mysql-database)
 
 ## Server Web Optimization 
@@ -716,9 +716,116 @@ const io = new Server(server, {
 ```
 
 
-## NodeJs + Nextjs + RedisCulster
+## NodeJs + Nextjs + NodejsCluster + RedisAdapter
+- by using redis , we can connect multi server to one domain
+- you need to setup the #redis_server
+```jsx
+//primary.mjs
+import cluster from "cluster";
+import { setupMaster } from "@socket.io/sticky";
+import { createServer } from "http";
+import pkg from "@next/env";
+
+const { loadEnvConfig } = pkg;
+loadEnvConfig(process.cwd());
+
+if (cluster.isPrimary) {
+  const numCPUs = 4;
+  const httpServer = createServer();
+
+  setupMaster(httpServer, {
+    loadBalancingMethod: "least-connection",
+  });
+
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  const port = process.env.APP_PORT;
+  httpServer.listen(port, () => {
+    console.log(`🚀 Listening https://${process.env.APP_DOMAIN} on ${port} with ${numCPUs} workers`);
+  });
+
+  cluster.on("exit", (worker) => {
+    console.error(`❌ Worker ${worker.process.pid} died`);
+    cluster.fork();
+  });
+} else {
+  await import("./server.mjs");
+}
+// server.mjs
+import { createServer } from "http";
+import { parse } from "url";
+import next from "next";
+import { Server } from "socket.io";
+import pkg from "@next/env";
+import mysql from "mysql2/promise";
+
+// 🔴 cuslter
+import { createClient } from "redis";
+import { createAdapter } from "@socket.io/redis-adapter";
+import { setupWorker } from "@socket.io/sticky";
+
+const { loadEnvConfig } = pkg;
+loadEnvConfig(process.cwd());
+
+// 🗄️ Database pool
+const db = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
+});
+const port = process.env.APP_PORT;
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev });
+console.warn("2Starting Worker At ", port, process.env.NODE_ENV == "production" ? "prod" : "dev", process.pid);
+const handle = app.getRequestHandler();
+
+app.prepare().then(async () => {
+  const server = createServer((req, res) => {
+    const parsedUrl = parse(req.url, true);
+    handle(req, res, parsedUrl);
+  });
+
+  
+const io = new Server(server, {
+  cors: {
+    origin: "*", // ✅ frontend domain
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
 
+const pubClient = createClient({
+  url: process.env.REDIS_URL,
+});
+const subClient = pubClient.duplicate();
+
+await Promise.all([
+  pubClient.connect(),
+  subClient.connect(),
+]);
+
+io.adapter(createAdapter(pubClient, subClient));
+setupWorker(io);
+
+io.on('connection', async (socket)  => {
+	// socket conection
+});
+})
+
+// package.json
+"scripts": {
+    "dev": "nodemon primary.mjs",
+    "build": "next build",
+    "start": "NODE_ENV=production node primary.mjs",
+  },
+"@socket.io/redis-adapter": "^8.3.0",
+"redis": "^5.10.0",
+"@socket.io/sticky": "^1.0.4",
+```
 # Remote MYSQL Database 
 ```
 1. open file sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
