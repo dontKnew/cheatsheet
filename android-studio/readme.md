@@ -1,3 +1,81 @@
+## Card Design
+- add gradile.kits : implementation("androidx.cardview:cardview:1.0.0")
+```xml
+<androidx.cardview.widget.CardView
+    android:layout_margin="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="20dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="#fff">
+    <LinearLayout
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <!-- YOUR DESIGN LAYOUT -->
+   </LinearLayou>
+</androidx.cardview.widget.CardView>
+```
+
+## Input Box
+### Input Box With Border & Label Outof input box
+```xml
+<!-- res/layout/mainLayout.xml -->
+<EditText
+    android:id="@+id/fullname"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Enter your full name"
+    android:background="@drawable/edit_input_box"
+    android:padding="12dp"
+    android:layout_marginBottom="12dp" />
+
+<!-- res/drawable/edit_input_box.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <stroke android:width="2dp" android:color="#97144d" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <stroke android:width="1dp" android:color="@color/primary" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+</selector>
+```
+
+## Background React + Redis Color
+- gradient background color drawable
+```
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/primary1"
+                android:endColor="@color/primary1"
+                android:angle="0" /> <corners android:radius="16dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/primary"
+                android:endColor="@color/primary"
+                android:angle="0" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+</selector>
+```
 ## Text Sliding
 1. Method First
 ```xml
