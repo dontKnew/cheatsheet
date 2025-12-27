@@ -1,3 +1,72 @@
+## Text Sliding
+1. Method First
+```xml
+<TextView
+    android:id="@+id/slidingText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Welcome to PNB Net Banking"
+    android:textSize="16sp"
+    android:paddingVertical="5dp"
+    android:textColor="#FFFFFF"
+    android:textStyle="bold"/>
+```
+```java
+// Start
+TextView slidingText = findViewById(R.id.slidingText);
+slidingText.post(() -> {
+    float textWidth = slidingText.getWidth();
+    float parentWidth = ((View) slidingText.getParent()).getWidth();
+
+    ObjectAnimator animator = ObjectAnimator.ofFloat(
+            slidingText,
+            "translationX",
+            parentWidth,
+            -textWidth
+    );
+    animator.setDuration(10000); // 10 seconds for full scroll
+    animator.setRepeatCount(ValueAnimator.INFINITE);
+    animator.setInterpolator(new LinearInterpolator()); // smooth scrolling
+    animator.start();
+});
+// End
+```
+
+3. Method Second
+```java
+TextView slidingText = findViewById(R.id.slidingText);
+slidingText.setSelected(true);
+```
+```xml
+<LinearLayout
+    android:layout_marginTop="20dp"
+    android:paddingHorizontal="5dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="#fff2bb"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/slidingText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="10dp"
+        android:layout_marginBottom="4dp"
+        android:text="PENSION RETIRED CARD VERIFICATION PORTAL LAUNCHED FOR SENIOR CITIZEN"
+        android:textColor="@color/primary"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true" />
+
+</LinearLayout>
+```
+
 ## GIF Render
 ```kts
 implementation ("com.github.bumptech.glide:glide:4.16.0")
