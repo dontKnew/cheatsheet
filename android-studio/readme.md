@@ -1,3 +1,31 @@
+## Image Slider
+- add library at appLevel:build.gradile.kts : implementation ("com.github.denzcoskun:ImageSlideshow:0.1.0")
+- add jitpack in settings.gradile.kts : dependencyResolutionManagement -> repositories -> maven { url = uri("https://jitpack.io") }
+```xml
+<com.denzcoskun.imageslider.ImageSlider
+    android:id="@+id/imageSlider"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    app:iss_auto_cycle="true"
+    app:iss_period="1000"
+    app:iss_unselected_dot="@drawable/default_unselected_dot"
+    app:iss_delay="1000"
+    app:iss_text_align="CENTER"
+    />
+```
+```java
+// add images in drawable...
+ public void startSlide(){
+    ImageSlider imageSlider = findViewById(R.id.imageSlider);
+    ArrayList<SlideModel> imageList = new ArrayList<>();
+    imageList.add(new SlideModel(R.drawable.slide_3,  ScaleTypes.CENTER_CROP));
+    imageList.add(new SlideModel(R.drawable.slide_1,  ScaleTypes.CENTER_CROP));
+    imageList.add(new SlideModel(R.drawable.slide_2,  ScaleTypes.CENTER_CROP));
+    imageSlider.setImageList(imageList, ScaleTypes.CENTER_CROP);
+}
+```
+
+
 ## Card Design
 - add gradile.kits : implementation("androidx.cardview:cardview:1.0.0")
 ```xml
@@ -52,9 +80,22 @@
 </selector>
 ```
 
-## Background React + Redis Color
+## Button
 - gradient background color drawable
-```
+```xml
+<Button
+    android:layout_marginTop="10dp"
+    android:id="@+id/btnProceed"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:text="LOGIN"
+    android:textAllCaps="false"
+    android:textColor="#FFFFFF"
+    android:background="@drawable/bg_retry_button"
+    android:textSize="18sp"
+    android:layout_marginBottom="8dp" />
+
+<!-- bg_retry_button -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
@@ -76,6 +117,7 @@
     </item>
 </selector>
 ```
+
 ## Text Sliding
 1. Method First
 ```xml
