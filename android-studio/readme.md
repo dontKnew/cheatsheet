@@ -1,3 +1,7 @@
+## Design Page OverLay to Status Bar 
+- android:paddingTop="?attr/actionBarSize" this code to parent container 
+
+
 ## Image Slider
 - add library at appLevel:build.gradile.kts : implementation ("com.github.denzcoskun:ImageSlideshow:0.1.0")
 - add jitpack in settings.gradile.kts : dependencyResolutionManagement -> repositories -> maven { url = uri("https://jitpack.io") }
