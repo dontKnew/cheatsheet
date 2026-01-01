@@ -1,3 +1,80 @@
+## Fragments
+- Fragment **Activity ka part** hota hai
+- Fragment Screen ka reusable UI part  
+- Activity ke bina exist nahi karta
+- `onCreateView()` me layout inflate hota hai  
+- Lifecycle
+```bash
+onAttach()
+onCreate()
+onCreateView()
+onViewCreated()
+onStart()
+onResume() ← user interact
+
+onPause()
+onStop()
+onDestroyView()
+onDestroy()
+onDetach()
+```
+- Exmaple Code : First Fragment
+```java
+// -------- MainActivity.java --------
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        // Fragment load
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, new SampleFragment())
+                .commit();
+    }
+}
+// -------- SampleFragment.java --------
+public class SampleFragment extends Fragment {
+
+    @Override
+    public View onCreateView(
+            LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState) {
+
+        // Fragment ka layout inflate
+        return inflater.inflate(R.layout.fragment_sample, container, false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Fragment visible & interactive
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Fragment hidden
+    }
+}
+```
+```xml
+<!-- activity_main.xml -->
+<FrameLayout
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
+
+<!-- fragment_sample.xml -->
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Hello Fragment"/>
+
+```
+
 ## Page Slider With ViewerPage
 - MainActivity.java : main java
 ```java
