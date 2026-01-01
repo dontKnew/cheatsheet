@@ -1,3 +1,168 @@
+## Page Slider With ViewerPage
+- MainActivity.java : main java
+```java
+public class MainActivity2 extends AppCompatActivity {
+    ViewPager2 viewPager;
+    TabLayout tabLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.acitivity_main2);
+
+        viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabDots);
+
+        MeetingPagerAdapter adapter = new MeetingPagerAdapter(this);
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL); // 🔥 IMPORTANT: only left-right swipe
+        viewPager.setCurrentItem(2, false); // Current Page Active
+        viewPager.setUserInputEnabled(true);
+        viewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
+
+        // 🔹 Setup dots
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            View dot = new View(this);
+
+            int size = dp(8);
+            int margin = dp(6);
+
+            TabLayout.LayoutParams params =
+                    new TabLayout.LayoutParams(size, size);
+            params.setMargins(margin, margin, margin, margin);
+            dot.setLayoutParams(params);
+
+            dot.setBackgroundResource(R.drawable.dot_inactive);
+            tab.setCustomView(dot);
+        }).attach();
+
+        // 🔹 Update dots on swipe
+        viewPager.registerOnPageChangeCallback(
+                new ViewPager2.OnPageChangeCallback() {
+                    @Override
+                    public void onPageSelected(int position) {
+                        updateDots(position);
+                    }
+                });
+
+        // 🔹 Activate default dot
+        tabLayout.post(() -> updateDots(viewPager.getCurrentItem()));
+    }
+
+    private void updateDots(int position) {
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            View dot = tabLayout.getTabAt(i).getCustomView();
+            if (dot == null) continue;
+
+            dot.setBackgroundResource(
+                    i == position
+                            ? R.drawable.dot_active
+                            : R.drawable.dot_inactive
+            );
+        }
+    }
+
+    private int dp(int value) {
+        return (int) (value * getResources().getDisplayMetrics().density);
+    }
+}
+```
+- activity_main.xml 
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabDots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="20dp"
+
+        app:tabIndicatorHeight="0dp"
+        app:tabRippleColor="@null"
+        app:tabMinWidth="0dp"
+        app:tabPadding="0dp"/>
+    
+</FrameLayout>
+```
+- MeetingPagerAdapter.java : for manager slider page
+```java
+public class MeetingPagerAdapter extends FragmentStateAdapter {
+
+    public MeetingPagerAdapter(@NonNull FragmentActivity fa) {
+        super(fa);
+    }
+
+    @NonNull
+    @Override
+    public Fragment createFragment(int position) {
+        switch (position) {
+            case 0:
+                return new DndFragment();
+            case 1:
+                return new PinnedFragment();
+            case 2:
+            default:
+                return new GalleryFragment(); // DEFAULT
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return 3;
+    }
+}
+```
+- Create Java File Fragments : dnd, gallery, pinned 
+```java
+public class DndFragment extends Fragment {
+
+    @Nullable
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+
+        return inflater.inflate(
+                R.layout.fragment_dnd,
+                container,
+                false
+        );
+    }
+}
+```
+- Create XML File Fragments : dnd, gallery, pinned
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#C10000">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DND View"
+        android:textColor="#FFFFFF"
+        android:textSize="24sp"
+        android:layout_gravity="center"/>
+
+</FrameLayout>
+```
+
+
 ## Design Page OverLay to Status Bar 
 - android:paddingTop="?attr/actionBarSize" this code to parent container 
 
