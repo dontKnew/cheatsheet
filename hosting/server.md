@@ -27,6 +27,8 @@
 12. [NodeJs + Nextjs + NodeCulster](#nodejs--nextjs--nodeculster)
 13. [NodeJs + Nextjs + NodejsCluster + RedisAdapter](#nodejs--nextjs--nodejscluster--redisadapter)
 14. [Remote MYSQL Database](#remote-mysql-database)
+15. [Cloudflare SSL](#cloudflare-ssl)
+16. [Cloudflare HSTS](#cloudflare-hsts)
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -841,4 +843,47 @@ io.on('connection', async (socket)  => {
 4. Allow 3306 to ip :  iptables -A INPUT -p tcp -s [allowServerIp] --dport 3306 -j ACCEPT
 5. create database : username, host[allowServerIP], password, database
 6. use that credentials : username, permitServerIp , password, database
+```
+
+## Cloudflare SSL 
+- Origin Server (Your Server) : where you ip pointed the domain
+- Full(Strict)  : its required to install the SSL Certificate in origin server
+```bash
+Visitor -> Https[Cloudflare SSL] -> Cloudflare -> Https(Trusted SSL) -> Origin Server
+❌ Always Use HTTPS → OFF
+❌ Automatic HTTPS Rewrites → OFF
+❌ Opportunistic Encryption → OFF
+```
+-Full : if my server has not trusted SSL certificate like self signed SSL
+```bash
+Visitor -> Https[Cloudflare SSL] -> Cloudflare -> Https(Self Signed SSL) -> Your Server
+```bash
+- Flexible : if my server has not any ssl certificate
+```bash
+Visitor -> Https[Cloudflare SSL] -> Cloudflare -> Http -> Your Server
+```bash
+- Off Not Secure : is there is no ssl between cloudflare and origin server
+```bash
+Visitor -> Http  -> Cloudflare -> Http -> Your Server
+```
+
+### Cloudflare HSTS 
+- its force to use https and site will be unavailable to visitors if without http!
+- ✅ When you SHOULD enable HSTS ?
+```bash
+You are in a good position only if all these are true:
+✔ Cloudflare SSL = Full (Strict)
+✔ Origin server has valid Certbot SSL
+✔ HTTPS works directly on origin
+✔ No more 307 / redirect loops
+✔ You are sure HTTPS will NEVER be removed
+If all ✔ → safe to enable
+```
+- ❌ When you should NOT enable HSTS
+```bash
+❌ If HTTP is still needed
+❌ If HTTPS sometimes breaks
+❌ If you’re still debugging redirects
+❌ If using Flexible SSL
+❌ If origin SSL is not reliable
 ```
