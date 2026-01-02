@@ -14,7 +14,6 @@
       - [Text Sliding](#text-sliding)
       - [GIF Render](#gif-render)
 11. [Material Design](#material-desgin)
-     - 
 
 ## Material Design
 ### Buttons
