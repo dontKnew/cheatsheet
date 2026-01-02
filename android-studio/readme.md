@@ -13,7 +13,7 @@
       - [Input Box](#input-box)
       - [Text Sliding](#text-sliding)
       - [GIF Render](#gif-render)
-11. [Material Design](#material-desgin)
+11. [Material Design](#material-design)
 
 ## Material Design
 ### Buttons
