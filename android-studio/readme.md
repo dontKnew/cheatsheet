@@ -75,9 +75,9 @@ onDestroyView()
 onDestroy()
 onDetach()
 ```
-- Exmaple Code : First Fragment
+- Exmaple Code : First Fragment       
 ```java
-// -------- MainActivity.java --------
+//MainActivity.java
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 }
-// -------- SampleFragment.java --------
+//SampleFragments.java
 public class SampleFragment extends Fragment {
 
     @Override
@@ -103,13 +103,11 @@ public class SampleFragment extends Fragment {
         // Fragment ka layout inflate
         return inflater.inflate(R.layout.fragment_sample, container, false);
     }
-
     @Override
     public void onResume() {
         super.onResume();
         // Fragment visible & interactive
     }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -131,6 +129,30 @@ public class SampleFragment extends Fragment {
     android:text="Hello Fragment"/>
 
 ```
+### Pass Data From Fragments to Fragments
+```java
+//SenderFragments.java
+Bundle bundle = new Bundle();
+bundle.putString("name", "Ali");
+Fragment fragment = new ProfileFragment();
+fragment.setArguments(bundle);
+requireActivity()
+    .getSupportFragmentManager()
+    .beginTransaction()
+    .replace(R.id.fragment_container, fragment)
+    .addToBackStack(null)
+    .commit();
+
+//ReceiverFragments.java
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (getArguments() != null) {
+        String name = getArguments().getString("name");
+    }
+}
+```
+### Start Fragments From Inside Fragments
 
 ## Page Slider With ViewerPage
 - MainActivity.java : main java
