@@ -14,6 +14,28 @@
       - [Text Sliding](#text-sliding)
       - [GIF Render](#gif-render)
 11. [Material Design](#material-design)
+12. [Basic](#basic)
+
+## Basic
+### Change Activity
+```java
+//1. Start Activity From Activity
+Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+intent.putExtra("name", "Ali"); // Pass Data & Receiver Activity : String name = getIntent().getStringExtra("name");
+startActivity(intent);
+
+//2. Start Activity From Fragments
+Intent intent = new Intent(requireActivity(), SecondActivity.class);
+startActivity(intent);
+
+//2. Restricated Previous Back Activity Ex. After Login to Home
+Intent intent = new Intent(this, HomeActivity.class);
+intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // close currentActivity & clear the backStack , if user back app will close
+startActivity(intent);
+finish(); // close currentActivity
+
+
+```
 
 ## Material Design
 ### Buttons
