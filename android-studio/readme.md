@@ -7,13 +7,14 @@
 8. [Page Slider](#page-slider-with-viewerpage)
 9. [Activty Overlay to StatusBar](#design-page-overlay-to-status-bar)
 10. [Core Design](#core-design)
-   - [Button](#button)
-   - [Image Slider](#image-slider)
-   - [Card Design](#card-design)
-   - [Input Box](#input-box)
-   - [Text Sliding](#text-sliding)
-   -  [GIF Render](#gif-render)
+      - [Button](#button)
+      - [Image Slider](#image-slider)
+      - [Card Design](#card-design)
+      - [Input Box](#input-box)
+      - [Text Sliding](#text-sliding)
+      - [GIF Render](#gif-render)
 11. [Material Design](#material-desgin)
+     - 
 
 ## Material Design
 ### Buttons
