@@ -6,6 +6,13 @@
    - [Pass Data to Child  Components] (#pass-data-to-child-component)
    - [Pass Data From Child to Parent Component](#pass-data-from-child-to-parent-component)
 4. [Routes](#routes)
+5. (External Library)(#external-library)
+   - [MySQL Database](mysql-database)
+
+
+## External Library
+### MYSQL Database
+
 
 ## Introduction (13/14)
 - Next.js is a framework for building web applications.
@@ -487,7 +494,7 @@ export default function Page() {
 //  Wildcard, path matching For here : https://nextjs.org/docs/app/api-reference/next-config-js/redirects
 ```
 
-## External Library
+## External Library2
 ### Google Font
 - Go to <a href="https://fonts.google.com/"> click here </a>, get the font link add in root layout.js file
 - CSS Variable & Normal Apply & NEXT JS Feature Font Exmaple : 
