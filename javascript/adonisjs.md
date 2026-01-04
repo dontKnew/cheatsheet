@@ -1,12 +1,24 @@
 # Adonisjs V6
-
-## Table of Contents
+## Table of Contents 
 1. [Installation](#installation)
 2. [Basic](#basic)
+    - [Config File](#config-file)
+    - [Change config at runtime](#change-config-at-runtime)
+    - [Read Env Variable](#read-env-variable)
+    - [Env in View](#env-in-view)
+    - [HTML Render in Views](#html-render-in-views)
 3. [Routing](#routing)
-4. [Debugging](#debugging)
-5. [GlobalHelper](#global-helper)
+4. [Debugging](#debuggin)
+5. [Global Helper](#global-helper)
 6. [Edge Template Engine](#edge-template-engine)
+    - [include](#include)
+    - [Inline String](#inline-string)
+    - [Comments](#comments)
+    - [Stacks](#stacks)
+    - [Components](#components)
+    - [Slots](#slots)
+7. [Test Case](#test-case)
+
 
 ## Installation 
 - WebStarterKit :  npm init adonisjs@latest -- -K=web 
@@ -16,7 +28,16 @@
 
 
 ## Basic 
-- Config File
+### HTML Render in Views
+```ts
+// html is global function
+{{
+  html.safe(
+    '<span style="color: red">This should be red.</span>'
+  )
+}}
+```
+### Config File
 -import config from '@adonisjs/core/services/config'
 ```ts
 config.get('app.appKey')
@@ -30,7 +51,7 @@ config.get('app.http.cookie')
   <a href="/"> Home </a>
 @end
 ```
-- Change config at runtime
+### Change config at runtime
 ```ts
 import env from '#start/env'
 import config from '@adonisjs/core/services/config'
@@ -40,7 +61,7 @@ const PORT = env.get('PORT')
 
 config.set('app.appUrl', `http://${HOST}:${PORT}`)
 ```
-- Read Env Variable : 
+### Read Env Variable
 ```ts
 1. process.env.NODE_ENV
 Or 
@@ -53,7 +74,7 @@ env.get('PORT')
 // Returns 3333 when PORT is undefined
 env.get('PORT', 3333)
 ```
-- Share Env Varible in Edge/Html View
+### Env in View
 ```ts
 #file : start/view.ts
 import env from '#start/env'
@@ -105,12 +126,12 @@ import './edge.js'
 ```
 
 ## Edge Template Engine
-i. include
+### include
 ```ts
 @include('partials/some-file')
 @includeIf(post.comments.length, 'partials/comments')
 ```
-ii. Inline String
+### Inline String
 ```ts
 Hello
 @let(username = 'virk')~
@@ -118,8 +139,12 @@ Hello
 // output
 Hello virk
 ```
-iii. comments : {{-- Your Code that not display in browser --}}
-iv. stacks : use to push content from components 
+### Comments 
+```edge
+{{-- Your Code that not display in browser --}}
+```
+### Stacks 
+- use to push content from components 
 - @pushOnceTo: mean that it will not render again if you use it two or more times in different components..
 - @pushTo : it will push multiple times, with different js if you wrote, it usesfull for that!
 ```ts
@@ -174,7 +199,8 @@ iv. stacks : use to push content from components
   </body>
 </html>
 ```
-v. Components  : re-usable code
+### Components  
+- re-usable code
 - no support, css, js : check it..
 - Filename to tagName conversion
 ```ts
@@ -199,7 +225,7 @@ modal/index.edge :	@modal
   <button type="reset"> Cancel </button>
 </form>
 ```
-vi. Slots
+### Slots
 - slots use with components, for render title data
 ```ts
 // main slot : use for render the rest of data in specific area in components or inlucde
@@ -251,9 +277,9 @@ vi. Slots
   @end
 @end
 ```
-vii. Layout
+### Layout
 
-# Test Run
+# Test Case
 - create test inside the test folder..
 - node ace test : run all test
 - node ace test --folderName 
