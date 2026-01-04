@@ -1,6 +1,67 @@
-## Next JS Toutrial 13/14 Version
+## Table of Contents
+1. [Intro](#intro)
+- [Installation](#installation)
+- [Install NVM (Node Version Manager)](#install-nvm--node-version-manager)
+- [Need To Know](#need-to-know)
 
-#### Intro 
+- [React Concept](#react-concept)
+
+- [1. Pass Props (Variable) to Another Component](#1-pass-propsvariable-to-another-component)
+  - [Send Child to Parent Data](#send-child-to-parent-data)
+
+- [2. Call Event](#2-call-event)
+
+- [3. useState](#3-usestate)
+
+- [4. Routes](#4-routes)
+  - [Dynamic Routes](#dynamic-routes)
+  - [Optional Routes](#optional-routes)
+  - [Catch All Routes](#catch-all-routes)
+  - [Route Group](#route-group)
+  - [Parallel Routes](#parallel-routes)
+
+- [4.2 Custom Routes](#42-custom-routes)
+
+- [5. Link & Navigation](#5-link--navigation)
+
+- [5. Layout](#5-layout)
+  - [Common Layout](#common-layout)
+  - [Admin Layout](#admin-layout)
+
+- [6. 404 Page](#6-404-page)
+
+- [8. Project Organization](#8-project-organization)
+
+- [10. Component Type](#10-component-type)
+  - [Client Component](#client-component)
+  - [Server Component](#server-component)
+  - [Use Server & Client Component Together](#use-server--client-component-together)
+
+- [11. CSS](#11-css)
+
+- [12. Optimizing](#12-optimizing)
+  - [Images](#images)
+  - [12.2 Google Font](#122-google-font)
+  - [12.3 Script](#123-script)
+  - [12.4 Metadata](#124-metadata)
+  - [12.5 Static Assets](#125-static-assets)
+  - [12.6 Pure HTML Code Generator](#126-pure-html-code-generator)
+
+- [13. Redirecting](#13-redirecting)
+
+- [14. Environment Variable](#14-environment-variable)
+
+- [15. Import Function](#15-import-function)
+
+- [16. Data Fetching](#16-data-fetching)
+
+- [16. API](#16-api)
+
+- [8. CRUD Operation](#8-crud-operation)
+
+- [7. Middleware](#7-middleware)
+- 
+#### Intro (13/14)
 - Next.js is a framework for building web applications.
 - With Next.js, you can build user interfaces using React components. Then, Next.js provides additional structure, features, and optimizations for your application.
 - Next.js can help you build interactive, dynamic, and fast web applications.
