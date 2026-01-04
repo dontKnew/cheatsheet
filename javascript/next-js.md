@@ -1,135 +1,40 @@
+# NEXT JS (13/14) / REACT JS
 ## Table of Contents
-1. [Intro](#intro)
-- [Installation](#installation)
-- [Install NVM (Node Version Manager)](#install-nvm--node-version-manager)
-- [Need To Know](#need-to-know)
+1. [Introduction](#Introduction)
+2. [React Concept](#react-concept)
+3. [Basic](#basci)
+   - [Pass Data to Child  Components] (#pass-data-to-child-component)
+   - [Pass Data From Child to Parent Component](#pass-data-from-child-to-parent-component)
+4. [Routes](#routes)
 
-- [React Concept](#react-concept)
-
-- [1. Pass Props (Variable) to Another Component](#1-pass-propsvariable-to-another-component)
-  - [Send Child to Parent Data](#send-child-to-parent-data)
-
-- [2. Call Event](#2-call-event)
-
-- [3. useState](#3-usestate)
-
-- [4. Routes](#4-routes)
-  - [Dynamic Routes](#dynamic-routes)
-  - [Optional Routes](#optional-routes)
-  - [Catch All Routes](#catch-all-routes)
-  - [Route Group](#route-group)
-  - [Parallel Routes](#parallel-routes)
-
-- [4.2 Custom Routes](#42-custom-routes)
-
-- [5. Link & Navigation](#5-link--navigation)
-
-- [5. Layout](#5-layout)
-  - [Common Layout](#common-layout)
-  - [Admin Layout](#admin-layout)
-
-- [6. 404 Page](#6-404-page)
-
-- [8. Project Organization](#8-project-organization)
-
-- [10. Component Type](#10-component-type)
-  - [Client Component](#client-component)
-  - [Server Component](#server-component)
-  - [Use Server & Client Component Together](#use-server--client-component-together)
-
-- [11. CSS](#11-css)
-
-- [12. Optimizing](#12-optimizing)
-  - [Images](#images)
-  - [12.2 Google Font](#122-google-font)
-  - [12.3 Script](#123-script)
-  - [12.4 Metadata](#124-metadata)
-  - [12.5 Static Assets](#125-static-assets)
-  - [12.6 Pure HTML Code Generator](#126-pure-html-code-generator)
-
-- [13. Redirecting](#13-redirecting)
-
-- [14. Environment Variable](#14-environment-variable)
-
-- [15. Import Function](#15-import-function)
-
-- [16. Data Fetching](#16-data-fetching)
-
-- [16. API](#16-api)
-
-- [8. CRUD Operation](#8-crud-operation)
-
-- [7. Middleware](#7-middleware)
-- 
-#### Intro (13/14)
+## Introduction (13/14)
 - Next.js is a framework for building web applications.
 - With Next.js, you can build user interfaces using React components. Then, Next.js provides additional structure, features, and optimizations for your application.
 - Next.js can help you build interactive, dynamic, and fast web applications.
 - all components are __server side rendering__ by default, and you check console.log('hello in terminal, not in browser console log')
-
+  
 ### Installation
 - npx create-next-app@latest 
 - if you will ask elint ? used "yes" : its help to indentify the errors :)
-- Learn Carefully __Project Strucutre__ from here <a href="https://nextjs.org/docs/getting-started/
-project-structure"> click here </a>
-
-## Install NVM  (node version manager)
-	- manage multiple node js version
-	- nvm install nodeVersion : installing the node js version 18.17.0
-	- npm use versionName : apply to system to use current this version..
-
-### Need To Know
-  - Redirection
-  - custom routes & route name
-  - Rewrite : change the url path name & folder name , ex : admin.html to admin folder
-          - rewrite  create duplicacy , to avoid use meta, canconical tag & redirection does not create duplicacy
-    ```jsx
-    // next.config.js
-  module.exports = {
-  rewrites: async () => [
-      {
-      source: '/about',
-      destination: '/pages/about.js',
-      },
-    ],
-  }
-  ```
-  - Headers
-  - Redirects
+- Learn Carefully __Project Strucutre__ from here <a href="https://nextjs.org/docs/getting-started/project-structure"> click here </a>
 
 ## React Concept 
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Custom Hook </a>
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Conditional Render </a>
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> List & Keys </a>
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> SSR & PHP </a>
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> List & Keys </a>
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> FontAwesome </a>
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Boostrap </a>
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Form </a>
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Envrionment Variable </a>
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Library For React Js </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Custom Hook </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Conditional Render </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> List & Keys </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> SSR & PHP </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> List & Keys </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> FontAwesome </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Boostrap </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Form </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Envrionment Variable </a>
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Library For React Js </a>
 
 
-
-## 1. Pass Props(Variable) to another componet
-  - <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> React  3. Props </a>
-```jsx
-export default function Home() {
-  return (
-    <>
-      <User name="Sajid" />
-      <User name="Kamina" />
-      <User name="Krishna" />
-    </>
-  );
-}
-function User(props){
-  return (
-    <h1> Hello {props.name}</h1>
-  )
-}
-```
-### send Child to Parent Data
+## BASIC
+### Pass Data to Child Component
+- <a href="https://github.com/dontKnew/cheatsheet/blob/master/javascript/react-js.md"> Props </a>
+### Pass Data from Child to Parent Component
 ```jsx
 export default function Page() {
   const [userData, setUserData] = useState([]);
@@ -168,10 +73,9 @@ function User(props) {
 }
 ```
 
-## 2. call event 
-### we used 'use client' because this is client side can be render :) but by default all component will be server componennt   
+### Client/Server Side Rendering
 ```jsx
-'use client'
+'use client' // remove it then it will server sider renddering
 export default function Home() {
   const noti= (hello) =>{
     alert(`Hello ${hello}`);
@@ -183,10 +87,8 @@ export default function Home() {
   );
 }
 ```
-## 3. use state
-  - <a href="">## 2. Hooks </a>
 
-## 4. Routes
+## Routes
 - Basic Folder File Base Routing can be used like home/page.js & about/page.js in src or app directory of root project, Now you can access the localhsot:3000/home or localhost:3000/about page
 - __Dynamic Routes__ : you should use folder name Ex.  student_list/`[student_details]`
 ```jsx
@@ -261,10 +163,10 @@ export default function Rahul() {
   ```
 
 
-## 4.2 Custom Routes
+### Custom Routes
   - <a href="https://github.com/vercel/next.js/discussions/9081">check </a>
 
-## 5. Link & Navigation 
+### Link & Navigation 
 ```jsx
 import Link from "next/link"
 import { useRouter } from "next/navigation"; // in client component
@@ -285,7 +187,7 @@ export default function Menu(){
     )
 }
 ```
-## 5. Layout
+## Layout
 - __Common Layout__
   - its get the all component/routes code as children/props (any name)
   - if you dont create layout.js file in inside of folder , it will take as default layout in from root app or src
@@ -322,7 +224,7 @@ export default function Menu(){
     }
   ```
 
-## 6. 404 Page
+## 404 Page
 - For Global Used 404 Page create not-found.js file in src or app directory: 
 ```jsx
 // name spell must be same : not-found.js 
@@ -346,7 +248,7 @@ export default function NotFound(){
 }
 ```
 
-## 8. Project Organization
+## Private Folder
 - Private folders can be created by prefixing a folder with an underscore: *_folderName* & This is  indicates the folder should not be considered by the routing system
 - Import Alias @
 ```json
@@ -376,7 +278,7 @@ export default function HomePage() {
   )
 }
 ``` 
-## 10. Component type
+## Component type
 - __Client component__
   - You can use event, use hook, use state and interactive userterface
   - __console_log()__ function work in browser console
@@ -422,7 +324,7 @@ export default function HomePage() {
   - create external client component with top line "user client" and import to server component, it will work!
 - Fore more information <a href="https://nextjs.org/docs/app/building-your-application/rendering/composition-patterns"> click here </a>
 
-## 11. CSS
+## CSS
 - __moudle css__  specific css code for componnent & useful when project to big
 ```css
 // file : mycss.module.css
@@ -479,7 +381,8 @@ const divStyle = {
   );
 ```
 
-## 12. Optimzing
+## SEO 
+### Optimzing
 - __Images__ : you can use quality, blur etc with next/image ,, <a href="https://nextjs.org/docs/app/building-your-application/optimizing/images"> click here for learn more </a>
 
 ```jsx
@@ -524,7 +427,68 @@ export default function Page() {
 }
 ```
 
-## 12.2. Google Font
+
+
+### MetaData
+- static metadata
+```jsx
+import { Metadata } from 'next'
+export const metadata: Metadata = {
+  title: '...',
+  description: '...',
+}
+export default function Page() {}
+```
+- dynamic metadata you can use funtion of next js  generateMetaTag({title:"", description:""})
+
+### Static Assets
+- you can put your all assets like css, js image, sitemap robotsx.txt file in the public folder then you can simply use them in your project via next js __<Image> Component__ or __<img>__ , __<Script> Component__ or <script> tag etc.
+```jsx
+import Image from 'next/image'
+export function Avatar() {
+  return <Image src="@public/me.png" alt="me" width="64" height="64" />
+}
+```
+
+
+
+
+### Redirecting...
+- Component
+```jsx
+import { redirect } from "next/navigation"
+export default function Page() {
+  let isLogin = false;
+  if(!isLogin){
+      redirect("/"); // if user not logged, redirect to home page
+  }
+  return (
+    <>
+      <h1> User Page </h1>
+    </>
+  )
+}
+```
+- if page does or removed paged then redirect all traffic from remvoed page to next page 
+```js
+// file : next.config.js
+ module.exports = {
+  redirects:async()=>{
+    return [
+      {
+        source:"/user",
+        destination:"/",
+        permanent:false 
+      }
+      
+    ]
+  }
+}
+//  Wildcard, path matching For here : https://nextjs.org/docs/app/api-reference/next-config-js/redirects
+```
+
+## External Library
+### Google Font
 - Go to <a href="https://fonts.google.com/"> click here </a>, get the font link add in root layout.js file
 - CSS Variable & Normal Apply & NEXT JS Feature Font Exmaple : 
 ```jsx
@@ -607,7 +571,7 @@ h1 {
 }
 ```
 
-### 12.3 Script 
+## Script 
 -  commponent of next js that can apply current component js code
 ```jsx
 import Script from 'next/script'
@@ -625,28 +589,7 @@ export default function DashboardLayout({
 }
 ```
 
-### 12.4 MetaData
-- static metadata
-```jsx
-import { Metadata } from 'next'
-export const metadata: Metadata = {
-  title: '...',
-  description: '...',
-}
-export default function Page() {}
-```
-- dynamic metadata you can use funtion of next js  generateMetaTag({title:"", description:""})
-
-### 12.5 Static Assets
-- you can put your all assets like css, js image, sitemap robotsx.txt file in the public folder then you can simply use them in your project via next js __<Image> Component__ or __<img>__ , __<Script> Component__ or <script> tag etc.
-```jsx
-import Image from 'next/image'
-export function Avatar() {
-  return <Image src="@public/me.png" alt="me" width="64" height="64" />
-}
-```
-
-### 12.6 Pure HTML Code Generator
+### Pure HTML Code Generator
 - with next js you can generate the pure html code 
 ```js
 //file : next.config.js
@@ -657,40 +600,8 @@ export function Avatar() {
 - After above configuration in next.config.js file, simply you can genereate the static html code page :)
 - run command : npm run build ; see the output in __out__ folder
 
-### 13 Redirecting...
-- Component
-```jsx
-import { redirect } from "next/navigation"
-export default function Page() {
-  let isLogin = false;
-  if(!isLogin){
-      redirect("/"); // if user not logged, redirect to home page
-  }
-  return (
-    <>
-      <h1> User Page </h1>
-    </>
-  )
-}
-```
-- if page does or removed paged then redirect all traffic from remvoed page to next page 
-```js
-// file : next.config.js
- module.exports = {
-  redirects:async()=>{
-    return [
-      {
-        source:"/user",
-        destination:"/",
-        permanent:false 
-      }
-      
-    ]
-  }
-}
-//  Wildcard, path matching For here : https://nextjs.org/docs/app/api-reference/next-config-js/redirects
-```
-### 14. Envrionment Variable
+
+## Envrionment Variable
 - you can access env variable anywhere in next js component without import anything
 - may be env variable like your system envrionment variable
 ```js
@@ -709,13 +620,13 @@ export default function Page() {
 // you can see all env variable which is in your system just put : console.log(process.env)
 ```
 
-### 15. Import function : 
+## Rendering HTML Text Content
 i. dangerouslySetInnerHTML
 ```jsx
 	<div className={'blog-body mt-10'} dangerouslySetInnerHTML={{ __html: post.body }}  />
 ```
 
-### 16. Data Fetching
+## Data Fetching
 - You can Make GET, POST, DELETE  AND UPDATE
 - __Server Component__
   ```jsx
@@ -752,7 +663,7 @@ i. dangerouslySetInnerHTML
   }
   ```
 
-### 16. API
+## API
 - you can create api in next js & connect database using npm package of mysqli, mongo etc
 - create you new folder __"api"_ inside of src directory
 - They are server-side only bundles and won't increase your client-side bundle size.
@@ -760,7 +671,7 @@ i. dangerouslySetInnerHTML
 - all api write in folder __src/api/*__
 - you can create api in next ,, then use that api to perform the action CRUD operation through fetch() Js method
 
-- Create __GET__  Request
+### Create __GET__  Request
 ```jsx
 // src/api/product/route.jsx
 import { NextResponse } from 'next/server'
@@ -780,7 +691,7 @@ export default async function GET(req) {
   return NextResponse.json({ message: 'Hello from Next.js!' })
 }
 ```
-- Create __POST__ Request
+### Create __POST__ Request
 ```jsx
 // src/api/product/route.jsx
 import { NextResponse } from 'next/server'
@@ -805,7 +716,7 @@ export default async function POST(req) {
   return NextResponse.json({ message: 'Hello from Next.js!' },{status:200});
 }
 ```
-- __Dynamic Request URL__
+### __Dynamic Request URL__
 ```jsx
 // src/api/product/[id]/route.jsx
 import { NextResponse } from 'next/server'
@@ -835,14 +746,14 @@ export default async function GET(req, {params}) {
   - then make request to created own api ,,, now i have hide the original api url & key secrete etc...
 
 
-### 8. CRUD Operation
+## CRUD Operation
   - there is two way 
     - i. create api in next js with npm db library & use that api in next js application using the fetch() method
     - ii. install the mysql/mongoDB etc library with npm & use in directly in next js application like php language
   - you can create crud operation in next js without using the external programming backend language
   - you are doing the job like __full stack developer :)__
   
-## 7. Middleware : will run each of http request
+## Middleware : will run each of http request
 - middleware will run before request complete ...
 - use for protect the page like admin dashboard can not access without valid login token
 Example One:
