@@ -12,6 +12,11 @@
 
 ## External Library
 ### MYSQL Database
+- install below library & use it 
+```
+npm install mysql2
+```
+
 
 
 ## Introduction (13/14)
