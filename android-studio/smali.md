@@ -1,165 +1,99 @@
-## 📌 Smali Kya Hai?
-**Smali** Android ka **assembly-level language** hai jo **DEX bytecode** ko human-readable banata hai. Mostly **Android APK reverse engineering** me use hota hai.
-## 🧱 Basic Class Structure
-```smali
-.class public Lcom/example/app/MainActivity;
-.super Landroid/app/Activity;
+# Smali Language Notes
+## Data Types
+V - Void  
+Z - Boolean  
+B - Byte  
+S - Short  
+C - Char  
+F - Float  
+I - Int  
+J - Long (64-bit)  
+D - Double (64-bit)  
+[ - Array (e.g., [B → byte[])  
+L - Fully qualified class name  
+
+## Registers / Variables
+### Local Registers
+v0, v1, v2, v3, v4 ...
+
+### Function Parameter Registers
+p0, p1, p2, p3 ...
+
+## Instructions
+### move – Copy Register Value
+**Syntax**
+```
+move vx, vy
+````
+**Java**
+```java
+int a = 12;
+````
+**Smali**
+```
+move v0, 0xc
+```
+**Explanation**
+0x means HEX
+c = 12 in decimal
+HEX table: 0123456789ABCDEF
+
+### const – Assign Immediate Value
+
+#### Integer
+**Syntax**
+```
+const/<bit-size> vx, 0xHEX_VALUE
+```
+**Java**
+```java
+int level = 3;
 ```
 
----
-## 🔧 Method Declaration
-```smali
-.method public onCreate(Landroid/os/Bundle;)V
-    .locals 1
-    return-void
-.end method
+**Smali**
+```
+const/4 v0, 0x3
 ```
 
-### Access Modifiers
+**Notes**
+const/4 → 4-bit signed value
+Range: -8 to +7
 
-* `public`
-* `private`
-* `protected`
-* `static`
-* `final`
-
----
-
-## 📦 Registers
-
-* `v0, v1, v2` → **local registers**
-* `p0, p1` → **method parameters**
-* `p0` → usually **this**
-
-```smali
-.locals 2
+**Larger Value Example**
 ```
-
----
-
-## 🔢 Data Types
-
-| Type                 | Meaning   |
-| -------------------- | --------- |
-| `I`                  | int       |
-| `Z`                  | boolean   |
-| `V`                  | void      |
-| `Ljava/lang/String;` | String    |
-| `Lpkg/Class;`        | Object    |
-| `[I`                 | int array |
-
----
-
-## ✏️ Constant Values
-
-```smali
-const/4 v0, 0x1
-const-string v1, "Hello"
+const/16 v0, 0x64
 ```
-
+0x64 = 100 (decimal)
+Range: -32768 to +32767
 ---
-
-## 🔄 Method Call
-
-```smali
-invoke-virtual {v0}, Ljava/lang/String;->length()I
-move-result v1
+#### String
+**Java**
+```java
+String name = "Player";
 ```
-
----
-
-## 🏗 Object Create
-
-```smali
-new-instance v0, Ljava/lang/String;
-invoke-direct {v0}, Ljava/lang/String;-><init>()V
+**Smali**
 ```
-
----
-
-## 🔁 If / Condition
-
-```smali
-if-eq v0, v1, :label_true
+const-string v0, "Player"
 ```
-
-### Conditions
-
-* `if-eq`  ==
-* `if-ne`  !=
-* `if-lt`  <
-* `if-gt`  >
-* `if-le`  <=
-* `if-ge`  >=
-
 ---
-
-## 🔂 Goto / Loop
-
-```smali
-:loop
-goto :loop
+### iget – Read Instance Field
+i = instance
+get = read value
+For static fields use `sget`
+**Syntax**
 ```
-
----
-
-## 📤 Return Types
-
-```smali
-return-void
+iget vx, vy, LclassName;->fieldName:Type
+```
+**Java**
+```java
+return this.highScore;
+```
+**Smali**
+```
+iget v0, p0, Lde/fgerbig/spacepeng/services/Profile;->highScore:I
 return v0
 ```
 
----
+## Reference
+[https://github.com/h0tak88r/Sec-88/blob/main/android-appsec/smali/smali-cheat-sheet.md](https://github.com/h0tak88r/Sec-88/blob/main/android-appsec/smali/smali-cheat-sheet.md)
 
-## 📜 Fields
-
-```smali
-.field public static isPremium:Z
-```
-
----
-
-## 🛠 Common Modding Tricks
-
-### Boolean true force karna
-
-```smali
-const/4 v0, 0x1
-return v0
-```
-
-### Ads remove logic
-
-```smali
-return-void
-```
-
----
-
-## 🧰 Useful Tools
-
-* **apktool**
-* **jadx**
-* **smali / baksmali**
-* **Android Studio**
-
----
-
-## ⚠️ Tips
-
-* Register limit ka dhyaan rakho
-* `move-result` hamesha `invoke-*` ke baad
-* Wrong register = **crash**
-
----
-
-Agar tum chaho to main:
-
-* 🔐 **License bypass example**
-* 💰 **In-app purchase patch**
-* 🧪 **Real app smali sample**
-* 📄 **PDF cheatsheet**
-
-bhi bana sakta hoon 👍
-Bas batao next kya chahiye?
