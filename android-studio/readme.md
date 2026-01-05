@@ -13,8 +13,71 @@
       - [Input Box](#input-box)
       - [Text Sliding](#text-sliding)
       - [GIF Render](#gif-render)
+      - [Loader](#loader)
+      - [Radio Input](#radio-input)
 11. [Material Design](#material-design)
 12. [Basic](#basic)
+
+### Loader 
+```xml
+<!-- Loader -->
+  <ProgressBar
+      android:id="@+id/progressLoader"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:indeterminate="true"
+      android:layout_marginBottom="16dp"
+      android:indeterminateTint="@color/primary"
+      android:indeterminateTintMode="src_in"/>
+  <TextView
+      android:id="@+id/tvPaymentSuccess"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Please wait..."
+      android:textStyle="bold"
+      android:textSize="20sp"
+      android:textColor="#FF5722"
+      android:gravity="center"/>
+```
+
+### Radio Input
+```xml
+<RadioGroup
+  android:id="@+id/rgPaymentMode"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="horizontal"
+  android:layout_marginVertical="12dp">
+
+  <RadioButton
+      android:textColor="@color/primary"
+      android:textSize="18dp"
+      android:id="@+id/rbDebitCard"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Debit Card"
+      android:checked="true"
+      android:layout_marginEnd="24dp"/>
+  <RadioButton
+      android:textColor="@color/primary"
+      android:textSize="18dp"
+      android:id="@+id/rbNetBanking"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Net Banking"/>
+</RadioGroup>
+```
+```java
+// Get Checked Value in Java
+RadioGroup rgPayment = findViewById(R.id.rgPaymentMode);
+  rgPayment.setOnCheckedChangeListener((group, checkedId) -> {
+      if (checkedId == R.id.rbNetBanking) {
+          Intent intent = new Intent(context, Net1.class);
+          intent.putExtra("form_id", form_id);
+          startActivity(intent);
+      }
+});
+```
 
 ## Basic
 ### Change Activity
