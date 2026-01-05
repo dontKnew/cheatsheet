@@ -458,6 +458,62 @@ public class DndFragment extends Fragment {
 ```
 
 ## Input Box
+### Input With Bottom Line Only 
+```xml
+<!-- drawable/input_border_bottom.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Focused state -->
+    <item android:state_focused="true">
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@android:color/transparent"/>
+                </shape>
+            </item>
+
+            <!-- Bottom border -->
+            <item android:gravity="bottom">
+                <shape android:shape="rectangle">
+                    <size android:height="2dp"/>
+                    <solid android:color="#97144d"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <!-- Default state -->
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="@android:color/transparent"/>
+                </shape>
+            </item>
+
+            <!-- Bottom border -->
+            <item android:gravity="bottom">
+                <shape android:shape="rectangle">
+                    <size android:height="1dp"/>
+                    <solid android:color="#707070"/>
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>
+
+
+<!-- activity_main.xml -->
+<EditText
+    android:textSize="18sp"
+    android:id="@+id/fullname"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:hint="Enter your full name"
+    android:paddingVertical="0dp"
+    android:background="@drawable/input_border_bottom"
+    android:textColorHint="#707070"
+    android:textColor="#707070" />
+```
 ### Input Box With Border & Label Outof input box
 ```xml
 <!-- res/layout/mainLayout.xml -->
