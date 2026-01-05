@@ -428,6 +428,79 @@ public class DndFragment extends Fragment {
 ```
 
 ## Button
+- Button BG Outlline
+```xml
+<!-- drawable/bg_outline_button.xmnl -->
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Pressed state -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/primary"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/primary"/>
+            <corners android:radius="16dp"/>
+        </shape>
+    </item>
+
+    <!-- Default state -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent"/>
+            <stroke
+                android:width="2dp"
+                android:color="@color/primary"/>
+            <corners android:radius="16dp"/>
+        </shape>
+    </item>
+
+</selector>
+
+<!-- activity_main.xmnl -->
+<Button
+      android:id="@+id/btnProceed"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:text="Submit"
+      android:textAllCaps="false"
+      android:textColor="@color/primary"
+      android:background="@drawable/bg_outline_button"
+      android:textSize="18sp"
+      android:layout_marginBottom="8dp" />
+```
+- Button
+```xml
+<!-- drawable/bg_button.xmnl -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/primary" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/primary" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+</selector>
+
+<!-- activity_main.xmnl -->
+<Button
+android:id="@+id/btnProceed"
+android:layout_width="match_parent"
+android:layout_height="50dp"
+android:text="Submit"
+android:textAllCaps="false"
+android:textColor="#FFFFFF"
+android:background="@drawable/bg_button"
+android:textSize="18sp"
+android:layout_marginBottom="8dp" />
+```
 - gradient background color drawable
 ```xml
 <Button
