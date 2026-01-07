@@ -16,7 +16,11 @@
       - [Loader](#loader)
       - [Radio Input](#radio-input)
 11. [Material Design](#material-design)
-12. [Basic](#basic)
+    - [Select Option](#select-option)
+    - [Buttons](#buttons)
+    - [Dvivder Line](#dvivder-line)
+    - [Input](#input)
+13. [Basic](#basic)
 
 ### Loader 
 ```xml
