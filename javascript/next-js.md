@@ -688,7 +688,7 @@ i. dangerouslySetInnerHTML
 ```jsx
 // src/api/product/route.jsx
 import { NextResponse } from 'next/server'
-export default async function GET(req) {
+export async function GET(req) {
   // get the data from database &  send data with get request
 
   console.log(req); // view the all request headers...
@@ -708,7 +708,7 @@ export default async function GET(req) {
 ```jsx
 // src/api/product/route.jsx
 import { NextResponse } from 'next/server'
-export default async function POST(req) {
+export async function POST(req) {
   // get the post request and perform the action like crud or response the data msg
 
   console.log(req); // view the all request headers...
