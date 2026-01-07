@@ -8,7 +8,7 @@
 4. [Routes](#routes)
 5. (External Library)(#external-library)
    - [MySQL Database](mysql-database)
-6. [Nextjs API] (#nextjs-api)
+6. [Nextjs API](#nextjs-api)
 
 
 ## External Library
