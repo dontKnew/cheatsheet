@@ -8,6 +8,7 @@
 4. [Routes](#routes)
 5. (External Library)(#external-library)
    - [MySQL Database](mysql-database)
+6. [Nextjs API] (#nextjs-api)
 
 
 ## External Library
@@ -675,7 +676,7 @@ i. dangerouslySetInnerHTML
   }
   ```
 
-## API
+## Nextjs API
 - you can create api in next js & connect database using npm package of mysqli, mongo etc
 - create you new folder __"api"_ inside of src directory
 - They are server-side only bundles and won't increase your client-side bundle size.
