@@ -101,6 +101,44 @@ finish(); // close currentActivity
 ```
 
 ## Material Design
+### Select Option
+```java
+String[] items = {"Block Card", "Active Card", "Set Limit", "International Off"};
+ArrayAdapter<String> adapter =
+    new ArrayAdapter<>(this,
+            android.R.layout.simple_dropdown_item_1line,
+            items);
+
+AutoCompleteTextView autoCompleteTextView = findViewById(R.id.selectOption);
+autoCompleteTextView.setAdapter(adapter);
+
+//OnClick get the value
+String selectedValue = autoCompleteTextView.getText().toString();
+```
+```xml
+<com.google.android.material.textfield.TextInputLayout
+      android:layout_marginTop="15dp"
+      style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="Select Account Type"
+      android:textColorHint="#05ACE2"
+      app:boxStrokeColor="@color/primary"
+      app:boxStrokeWidth="2dp"
+      android:paddingStart="-15dp"
+      app:boxStrokeWidthFocused="3dp"
+      app:boxBackgroundColor="@android:color/white">
+
+      <AutoCompleteTextView
+          android:textColor="@color/primary"
+          android:id="@+id/selectOption"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:inputType="none"
+          android:textSize="18sp"
+          android:background="@android:color/transparent"/>
+  </com.google.android.material.textfield.TextInputLayout>
+```
 ### Buttons
 ```xml
 <com.google.android.material.button.MaterialButton
