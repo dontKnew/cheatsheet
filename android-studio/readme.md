@@ -116,6 +116,15 @@ android:layout_marginStart="8dp"
 app:cornerRadius="28dp"
 app:backgroundTint="#9B2601"/>
 ```
+### Dvivder Line
+- [More Info](https://github.com/material-components/material-components-android/blob/master/docs/components/Divider.md)
+```
+<com.google.android.material.divider.MaterialDivider
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+```
+### Bottom Sheet
+- <a href="https://github.com/material-components/material-components-android/blob/master/docs/components/BottomSheet.md">Follow</a>
 
 ### Input
 1. Botton Line Input with Floating Input
