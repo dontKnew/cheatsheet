@@ -9,6 +9,8 @@
 5. (External Library)(#external-library)
    - [MySQL Database](mysql-database)
 6. [Nextjs API](#nextjs-api)
+7. [Global State](#global-state)
+
 
 
 ## External Library
@@ -846,3 +848,69 @@ export function middleware(request) {
   }
 }
 ```
+
+## Global State
+### Zustand 
+- Zustand is lightweight state management library for React/Nextjs
+- Zustand **support persist data store**  with Middleware
+- Zustand is alternative of Redux
+- Zustand is client side **"use client"** is mandatory
+#### Example One : GlobalState Without Persist
+```bash
+npm install zustand
+```
+- Example Create GlobalState Without Persist: data will gone, if user refresh the page
+```jsx
+// useGlboalState.jsx
+"use client";
+import { create } from "zustand";
+export const useGlobalState = create((set) => ({
+  cartAddress: null,
+  isLoggedIn: false,
+  user: null,
+
+  setCartAddress: (cartAddress) => set({ cartAddress }),
+  clearCartAddress: () => set({ cartAddress: null }),
+
+  setLoggedIn: (user) => set({ isLoggedIn: true, user }),
+  clearAuth: () => set({ isLoggedIn: false, user: null }),
+}));
+```
+- Usages Example : 
+```jsx
+//1.  AuthClass.jx
+import { useGlobalState } from "@/store/useGlobalState";
+class AuthClass {
+	 logout() {
+	  const state = useGlobalState.getState();
+	  state.clearAuth();
+	  state.clearCartAddress();
+	}
+}
+
+//2. ClientComponents.jsx : Bad Version
+"use client";
+import { useGlobalState } from "@/store/useGlobalState";
+const state = useGlobalState();  // it will listen all state, performance issue
+const checkout = () =>{
+   state.setCartAddress({name:"Sajid", Pincode:110037})
+   if(state.isLoggedIn){
+		// Update UI
+   }
+}
+
+//3. ClientComponents.jsx : Excellent Version
+"use client";
+import { useGlobalState } from "@/store/useGlobalState";
+const { setCartAddress, isLoggedIn } = useGlobalState();
+const checkout = () => {
+  setCartAddress({ name: "Sajid", pincode: 110037 });
+  if (isLoggedIn) {
+    // Update UI
+  }
+};
+```
+
+### Example Two 
+
+
