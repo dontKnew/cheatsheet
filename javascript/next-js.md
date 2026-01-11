@@ -877,12 +877,12 @@ export const useGlobalState = create((set) => ({
 ```
 - Usages Example : 
 ```jsx
-//1.  AuthClass.jx
+//1.  AuthClass.jx : Not Never used this.state 
 import { useGlobalState } from "@/store/useGlobalState";
 class AuthClass {
 	 logout() {
 	  const state = useGlobalState.getState();
-	  state.clearAuth();
+	  state.clearAuth(); / 
 	  state.clearCartAddress();
 	}
 }
