@@ -10,6 +10,7 @@
    - [MySQL Database](mysql-database)
 6. [Nextjs API](#nextjs-api)
 7. [Global State](#global-state)
+8. [Error Solutions](#error-solutions)
 
 
 
@@ -910,6 +911,12 @@ const checkout = () => {
 };
 ```
 
-### Example Two 
-
-
+## Error Solutions
+### Erorr : object is not iterable (cannot read property Symbol(Symbol.iterator))
+- Erorr : object is not iterable (cannot read property Symbol(Symbol.iterator))
+```
+Tum kisi OBJECT ko array ki tarah use kar rahe ho
+👉 Usually ye error tab aata hai jab:
+Error Code : [a, b] = object 
+Correct Code : {a, b} = object
+```
