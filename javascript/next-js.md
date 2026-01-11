@@ -855,11 +855,10 @@ export function middleware(request) {
 - Zustand **support persist data store**  with Middleware
 - Zustand is alternative of Redux
 - Zustand is client side **"use client"** is mandatory
-#### Example One : GlobalState Without Persist
 ```bash
 npm install zustand
 ```
-- Example Create GlobalState Without Persist: data will gone, if user refresh the page
+#### Example One : GlobalState Without Persist
 ```jsx
 // useGlboalState.jsx
 "use client";
