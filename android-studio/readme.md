@@ -22,6 +22,7 @@
     - [Input](#input)
 13. [Basic](#basic)
 14. [View Model](#view-model)
+    - [Trigger Method via ViewModel](#trigger-method-via-viewmodel)       
 
 
 ## View Model
