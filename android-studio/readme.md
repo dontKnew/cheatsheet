@@ -21,6 +21,93 @@
     - [Dvivder Line](#dvivder-line)
     - [Input](#input)
 13. [Basic](#basic)
+14. [View Model](#view-model)
+
+
+## View Model
+### Introduction
+- Data is not destroyed when the screen rotates, language changes, or dark mode toggles
+- ViewModel is a data holder that lives longer than your UI
+- Multiple Fragments can store data & share this same ViewModel for reterive
+- If activity will be destory then ViewModel cleared,
+- ViewModel data is not for all activities.. but for fragments its supported
+```bash
+Rotation change  → ViewModel SURVIVES ✅
+Activity change  → ViewModel DESTROYED ❌
+Fragments same Activity → ViewModel SHARED ✅
+```
+
+### Trigger Method via ViewModel
+- SidebarViewModel.java : create ViewModel , define SidebarAction
+- MainActivity.java : Observe the sidebarViewModel.java & call method close(), open() 
+- PageFragment.java : onClick Button in fragment call closeSidebar() method
+- Flow : PageFragment.java onButtonClicked() ->  SidebarViewModel.java closeSidebar() -> Listen/Observe By MainActivity.java call closeSidebar()
+```java
+// SidebarViewModel.java
+public class SidebarViewModel extends ViewModel {
+    public enum SidebarAction {
+        OPEN,
+        CLOSE
+    }
+    private final MutableLiveData<SidebarAction> action = new MutableLiveData<>();
+    public LiveData<SidebarAction> getAction() {
+        return action;
+    }
+    public void openSidebar() {
+        action.setValue(SidebarAction.OPEN);
+    }
+    public void closeSidebar() {
+        action.setValue(SidebarAction.CLOSE);
+    }
+}
+```
+```java
+// MainActivity.java
+public class MainActivity extends AppCompatActivity {
+
+    private SidebarViewModel viewModel;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        viewModel = new ViewModelProvider(this)
+                .get(SidebarViewModel.class);
+
+        viewModel.getAction().observe(this, action -> {
+            if (action == SidebarViewModel.SidebarAction.OPEN) {
+                openSidebar();
+            } else if (action == SidebarViewModel.SidebarAction.CLOSE) {
+                closeSidebar();
+            }
+        });
+    }
+
+    private void openSidebar() {
+        // open drawer / sidebar
+    }
+
+    private void closeSidebar() {
+        // close drawer / sidebar
+    }
+}
+```
+```java
+//PageFragment.java
+public class PageFragment extends Fragment {
+    private SidebarViewModel viewModel;
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel = new ViewModelProvider(requireActivity())
+                .get(SidebarViewModel.class);
+    }
+
+    private void onButtonClicked() {
+        viewModel.closeSidebar(); // 🔥 THIS triggers MainActivity
+    }
+}
+```
 
 ### Loader 
 ```xml
