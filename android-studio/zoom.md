@@ -1,4 +1,18 @@
 # Zoom Meeting Custom UI
+## Methods
+- MobileRTCVideoView : its used for render video & manage like add, remove, replace, update etc.
+- We can create gallery view by multiple using MobileRTCVideoView as Adapter (Render Multiple)
+```java
+MobileRTCVideoView videoViewId  = view.findViewById(R.id.fullScreenVideoView);
+MobileRTCVideoViewManager videoViewMangerId = videoViewId.getVideoViewManager();
+// xml
+<us.zoom.sdk.MobileRTCVideoView
+   android:visibility="gone"
+   android:id="@+id/fullScreenVideoView"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"/>
+```
+
 ## SDK Init
 ```java
 public void initializeSdk(Context context) {
@@ -31,6 +45,7 @@ public void initializeSdk(Context context) {
      sdk.initialize(context, listener, initParams);
  }
 ```
+
 ## SDK Meeting Status Listner
 - Remove listner to by code sdk.getMeetingService().removeListener(this);  onDestroy(),  onPause()[when user change the activity]
 ```java
@@ -57,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements MeetingServiceLis
     }
 }
 ```
+
 ## Join Meeting
 ```java
   JoinMeetingParams params = new JoinMeetingParams();
