@@ -21,7 +21,9 @@
     - [Dvivder Line](#dvivder-line)
     - [Input](#input)
 13. [Basic](#basic)
-14. [View Model](#view-model)
+    -[On Back Press](#on-back-press)
+    -[Change Activity](#change-activity)
+15. [View Model](#view-model)
     - [Trigger Method via ViewModel](#trigger-method-via-viewmodel)       
 
 
@@ -172,6 +174,15 @@ RadioGroup rgPayment = findViewById(R.id.rgPaymentMode);
 ```
 
 ## Basic
+### On Back Press
+```java
+getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+      @Override
+      public void handleOnBackPressed() {
+          Helper.show("Please click Leave Meeting to Exit", context);
+      }
+});
+```
 ### Change Activity
 ```java
 //1. Start Activity From Activity
