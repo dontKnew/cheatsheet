@@ -1,4 +1,78 @@
-# Zoom Meeting Setup (Version 6.0) 
+# Zoom Meeting Custom UI
+## SDK Init
+```java
+public void initializeSdk(Context context) {
+     sdk = ZoomSDK.getInstance();
+     ZoomSDKInitParams initParams = new ZoomSDKInitParams();
+     initParams.jwtToken = this.sdktoken;
+     initParams.enableLog = false;
+     initParams.enableGenerateDump = true;
+     initParams.logSize = 5;
+     initParams.domain = "zoom.us";
+
+     ZoomSDKInitializeListener listener = new ZoomSDKInitializeListener() {
+         @Override
+         public void onZoomSDKInitializeResult(int errorCode, int internalErrorCode) {
+             ZoomSDK.getInstance().getZoomUIService().disablePIPMode(false);
+             ZoomSDK.getInstance().getMeetingSettingsHelper().enable720p(true);
+             ZoomSDK.getInstance().getMeetingSettingsHelper().enableShowMyMeetingElapseTime(true);
+             ZoomSDK.getInstance().getMeetingService().addListener(MainActivity.this);
+             ZoomSDK.getInstance().getMeetingSettingsHelper().setCustomizedMeetingUIEnabled(true); // For Custom UI Meeting
+             setContentView(R.layout.acitivity_main);
+             afterZoomSDK();
+         }
+
+         @Override
+         public void onZoomAuthIdentityExpired() {
+             Helper.alertBox(context, "SDK Not Initialized - 270", "Something wrong, try again!");
+         }
+     };
+
+     sdk.initialize(context, listener, initParams);
+ }
+```
+## SDK Meeting Status Listner
+- Remove listner to by code sdk.getMeetingService().removeListener(this);  onDestroy(),  onPause()[when user change the activity]
+```java
+public class MainActivity extends AppCompatActivity implements MeetingServiceListener {
+   @Override
+    public void onMeetingStatusChanged(MeetingStatus meetingStatus, int errorCode, int internalErrorCode) {
+        Log.d(Helper.TAG, "onMeetingStatusChanged: " + meetingStatus);
+        switch (meetingStatus) {
+            case MEETING_STATUS_CONNECTING:
+                Helper.alertBox(context, "Meeting Connecting...");
+                break;
+            case MEETING_STATUS_WAITINGFORHOST:
+                Helper.alertBox(context, "You Are in Waiting Room");
+                break;
+            case MEETING_STATUS_FAILED:
+            case MEETING_STATUS_UNKNOWN:
+                Helper.alertBox(context, "Error Code " + errorCode + " & InError " + internalErrorCode);
+                break;
+            case MEETING_STATUS_INMEETING:
+//                Helper.alertBox(this, "Verson " + sdk.getVersion(this));
+                startMeeting();
+                break;
+        }
+    }
+}
+```
+## Join Meeting
+```java
+  JoinMeetingParams params = new JoinMeetingParams();
+  params.displayName = "Tester2";
+  params.meetingNo = "88932215743";
+  params.password = "0001";
+  MeetingService meetingService = ZoomSDK.getInstance().getMeetingService();
+  JoinMeetingOptions option = new JoinMeetingOptions();
+  int result1 = meetingService.joinMeetingWithParams(context, params, option);
+  if (result1 != ZoomError.ZOOM_ERROR_SUCCESS) {
+      Helper.alertBox(context, "Join Meeting Failed ", "Error ");
+  }
+```
+
+**************** OLD **************
+## Zoom Meeting Setup (Version 6.0) 
 1. Download Zoom SDK Android
 2. mobilertc folder move to project root folder of android app
 3. Android CompileSDK = 35 Must be
