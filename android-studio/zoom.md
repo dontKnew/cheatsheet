@@ -1,10 +1,18 @@
 # Zoom Meeting Custom UI
 ## Methods
+### MobileRTCVideoView
 - MobileRTCVideoView : its used for render video & manage like add, remove, replace, update etc.
 - We can create gallery view by multiple using MobileRTCVideoView as Adapter (Render Multiple)
 ```java
+// Render Single or Pin Video
+MobileRTCVideoUnitRenderInfo renderInfo = new MobileRTCVideoUnitRenderInfo(0, 0, 100, 100);;
+renderInfo.aspect_mode = MobileRTCVideoUnitAspectMode.VIDEO_ASPECT_ORIGINAL;
+renderInfo.enableGalleryMode = false // For increase video quality
+
 MobileRTCVideoView videoViewId  = view.findViewById(R.id.fullScreenVideoView);
 MobileRTCVideoViewManager videoViewMangerId = videoViewId.getVideoViewManager();
+videoViewMangerId.addAttendeeVideoUnit(userId, renderInfo);
+
 // xml
 <us.zoom.sdk.MobileRTCVideoView
    android:visibility="gone"
@@ -13,6 +21,7 @@ MobileRTCVideoViewManager videoViewMangerId = videoViewId.getVideoViewManager();
    android:layout_height="match_parent"/>
 ```
 
+### 
 ## SDK Init
 ```java
 public void initializeSdk(Context context) {
