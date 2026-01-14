@@ -23,6 +23,7 @@
 13. [Basic](#basic)
     -[On Back Press](#on-back-press)
     -[Change Activity](#change-activity)
+    -[Network Tab](#network-tab)
 15. [View Model](#view-model)
     - [Trigger Method via ViewModel](#trigger-method-via-viewmodel)       
 
@@ -174,6 +175,10 @@ RadioGroup rgPayment = findViewById(R.id.rgPaymentMode);
 ```
 
 ## Basic
+### Network Tab
+- View -> Tool Window -> App Inspection
+- Click App Inspection -> Select Device
+  
 ### On Back Press
 ```java
 getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
