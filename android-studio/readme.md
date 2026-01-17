@@ -42,76 +42,51 @@ Fragments same Activity → ViewModel SHARED ✅
 ```
 
 ### Trigger Method via ViewModel
-- SidebarViewModel.java : create ViewModel , define SidebarAction
-- MainActivity.java : Observe the sidebarViewModel.java & call method close(), open() 
-- PageFragment.java : onClick Button in fragment call closeSidebar() method
 - Flow : PageFragment.java onButtonClicked() ->  SidebarViewModel.java closeSidebar() -> Listen/Observe By MainActivity.java call closeSidebar()
+- Define MeetingSharedViewModel
 ```java
-// SidebarViewModel.java
-public class SidebarViewModel extends ViewModel {
-    public enum SidebarAction {
-        OPEN,
-        CLOSE
+// MeetingSharedViewModel.java
+package com.phpmaster.zoommeeting_core.model;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
+
+public class MeetingSharedViewModel extends ViewModel {
+
+    private final MutableLiveData<Boolean> destroyGalleryClickEvent = new MutableLiveData<>();
+    public LiveData<Boolean> getDestroyGalleryClickEvent() {
+        return destroyGalleryClickEvent;
     }
-    private final MutableLiveData<SidebarAction> action = new MutableLiveData<>();
-    public LiveData<SidebarAction> getAction() {
-        return action;
-    }
-    public void openSidebar() {
-        action.setValue(SidebarAction.OPEN);
-    }
-    public void closeSidebar() {
-        action.setValue(SidebarAction.CLOSE);
+    public void triggerDestoryGallery() {
+        destroyGalleryClickEvent.setValue(true);
     }
 }
 ```
+#### Call Method From GalleryFragment Method in MainActivity
 ```java
-// MainActivity.java
-public class MainActivity extends AppCompatActivity {
-
-    private SidebarViewModel viewModel;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        viewModel = new ViewModelProvider(this)
-                .get(SidebarViewModel.class);
-
-        viewModel.getAction().observe(this, action -> {
-            if (action == SidebarViewModel.SidebarAction.OPEN) {
-                openSidebar();
-            } else if (action == SidebarViewModel.SidebarAction.CLOSE) {
-                closeSidebar();
-            }
-        });
-    }
-
-    private void openSidebar() {
-        // open drawer / sidebar
-    }
-
-    private void closeSidebar() {
-        // close drawer / sidebar
-    }
+//GalleryFragment.java : define method here & observe for call via ViewModel 
+public class GalleryFragment {
+      public void onViewCreated(...){
+            MeetingSharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(MeetingSharedViewModel.class);
+            viewModel.getDestroyGalleryClickEvent().observe(getViewLifecycleOwner(), isClicked -> {
+                  if (Boolean.TRUE.equals(isClicked)) {
+                      destroyGallery();
+                  }
+              });
+      }
+      private void destroyGallery(){...}
 }
 ```
 ```java
-//PageFragment.java
-public class PageFragment extends Fragment {
-    private SidebarViewModel viewModel;
-    @Override
-    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+//MainActivity.java : call Method of GalleryFragments/
+MeetingSharedViewModel viewModel = new ViewModelProvider(this).get(MeetingSharedViewModel.class);
+viewModel.triggerDestoryGallery();
 
-        viewModel = new ViewModelProvider(requireActivity())
-                .get(SidebarViewModel.class);
-    }
-
-    private void onButtonClicked() {
-        viewModel.closeSidebar(); // 🔥 THIS triggers MainActivity
-    }
-}
+//OtherFragmetns.java : call Method of GalleryFragments/
+MeetingSharedViewModel viewModel = new ViewModelProvider(requireActivity()).get(MeetingSharedViewModel.class);
+viewModel.triggerDestoryGallery();
 ```
+
 
 ### Loader 
 ```xml
