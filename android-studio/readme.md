@@ -25,7 +25,93 @@
     -[Change Activity](#change-activity)
     -[Network Tab](#network-tab)
 15. [View Model](#view-model)
-    - [Trigger Method via ViewModel](#trigger-method-via-viewmodel)       
+    - [Trigger Method via ViewModel](#trigger-method-via-viewmodel)
+16. JavaScript And Android Java Bridge
+    - Call Android Method in Javascript
+    - Call Javascript Method in Java
+
+
+## JavaScript And Android Java Bridge via WebView
+### Call Android Method in Javascript
+- 🔄 Execution Flow (Very Important)
+1. App loads WebView
+2. WebView loads HTML
+3. User clicks button
+4. JS executes:
+5. window.Android.showToast("Hello from JavaScript!");
+6. Android Java method runs
+7. Toast appears
+```html
+// index.html 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JS to Android</title>
+</head>
+<body>
+<button onclick="callAndroid()">Call Android</button>
+<script>
+    function callAndroid() {
+        // This calls Android Java
+        window.Android.showToast("Hello from JavaScript!");
+    }
+</script>
+</body>
+</html>
+```
+```java
+// MainActivity.java
+package com.service.installer;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+    @SuppressLint("SetJavaScriptEnabled")
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        WebView webView = new WebView(this);
+        setContentView(webView);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        webView.addJavascriptInterface( new WebAppInterface(this), "Android");
+        webView.loadUrl("file:///android_asset/index.html");
+    }
+}
+```
+```java
+//WebAppInterface
+package com.service.installer;
+import android.content.Context;
+import android.webkit.JavascriptInterface;
+import android.widget.Toast;
+/*
+Method MUST be public
+Method MUST have @JavascriptInterface
+Only primitive / String parameters
+ */
+public class WebAppInterface {
+
+    private final Context context;
+
+    public WebAppInterface(Context context) {
+        this.context = context;
+    }
+
+    @JavascriptInterface
+    public void showToast(String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+}
+```
+### Call Javascript Method in Java
+
+      
 
 
 ## View Model
