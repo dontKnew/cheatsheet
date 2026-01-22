@@ -1,6 +1,9 @@
 
+0. To create a responsive website, add the following <meta> tag to all your web pages:
+ - <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
 1. Important CSS
-```
+```css
 `background:url('img/interview.jpg') no-repeat center center; background-size:cover
 object-position: top;
 
@@ -64,7 +67,7 @@ object-position: top;
 @media (min-width: 768px) and (max-width: 1023px) {
 }
 
-/* Desktop */
+/* Desktop or Default CSS*/
 @media (min-width: 1024px) {
 }
 ```
