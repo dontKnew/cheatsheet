@@ -26,12 +26,12 @@
     -[Network Tab](#network-tab)
 15. [View Model](#view-model)
     - [Trigger Method via ViewModel](#trigger-method-via-viewmodel)
-16. JavaScript And Android Java Bridge
-    - Call Android Method in Javascript
-    - Call Javascript Method in Java
+16. [WebView:JavaScript <->Android Bridge](#webviewjavascript--android-bridge)
+    - [Call Android Method in Javascript](#call-android-method-in-javascript)
+    - [Call Javascript Method in Java](#call-javascript-method-in-java)
 
 
-## JavaScript And Android Java Bridge via WebView
+## WebView:JavaScript <->Android Bridge
 ### Call Android Method in Javascript
 - 🔄 Execution Flow (Very Important)
 1. App loads WebView
