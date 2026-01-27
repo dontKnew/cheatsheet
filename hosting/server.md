@@ -29,6 +29,7 @@
 14. [Remote MYSQL Database](#remote-mysql-database)
 15. [Cloudflare SSL](#cloudflare-ssl)
 16. [Cloudflare HSTS](#cloudflare-hsts)
+17. [Install Google Fonts in System](#install-google-fonts-in-system)
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -886,4 +887,19 @@ If all ✔ → safe to enable
 ❌ If you’re still debugging redirects
 ❌ If using Flexible SSL
 ❌ If origin SSL is not reliable
+```
+### Install Google Fonts in System
+```bash
+# 1. Create a directory for Rubik
+sudo mkdir -p /usr/share/fonts/truetype/rubik
+
+# 2. Download the Regular and Bold weights directly from Google's repo
+sudo wget -O /usr/share/fonts/truetype/rubik/Rubik-Regular.ttf https://github.com/google/fonts/raw/main/ofl/rubik/Rubik%5Bwght%5D.ttf
+sudo wget -O /usr/share/fonts/truetype/rubik/Rubik-Italic.ttf https://github.com/google/fonts/raw/main/ofl/rubik/Rubik-Italic%5Bwght%5D.ttf
+
+# 3. Refresh the system font cache
+sudo fc-cache -f -v
+
+# 4. Verify it's installed
+fc-list | grep "Rubik"
 ```
