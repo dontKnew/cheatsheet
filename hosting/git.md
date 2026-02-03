@@ -1,5 +1,18 @@
 # Git Cheatsheet
 
+# Change Current Repo auth
+```
+// set
+git config user.name "Dont Knew"
+git config user.email "sajid.phpmaster@gmail.com"
+
+// check the info
+git config user.name
+git config user.email
+git config --show-origin user.name
+
+```
+
 # Change Git Author for Commit
 - git commit --amend --author="dontKnew <sajid.phpmaster@gmail.com>"
   
