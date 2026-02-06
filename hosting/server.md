@@ -9,6 +9,7 @@
    - [PHP FPM Installation](#install-php-fpm-version)
    - [MYSQL Installation](#mysql)
    - [PHP FPM PER SITE CONFIG](#php-fpm-per-site-config)
+   - [Terminal PHP Version Change](terminal-php-version-change)
 4. [NGNINX](#nginx)
     - [Nginx installation](#nginx-installation) 	
     - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
@@ -47,7 +48,17 @@
 	### PHP FPM PER SITE CONFIG
  		- check table of content
  
-
+### Terminal PHP Version Change
+```
+sudo update-alternatives --config php
+Selection    Path
+--------------------------------
+1            /usr/bin/php7.4
+2            /usr/bin/php8.1
+3            /usr/bin/php8.2
+👉 Enter the number you want and press Enter
+php -v
+```
 ## PHP & MYSQL
 ### Install PHP FPM Version
 	i. sudo add-apt-repository ppa:ondrej/php ( if need)
