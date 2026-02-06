@@ -9,7 +9,7 @@
    - [PHP FPM Installation](#install-php-fpm-version)
    - [MYSQL Installation](#mysql)
    - [PHP FPM PER SITE CONFIG](#php-fpm-per-site-config)
-   - [Terminal PHP Version Change](terminal-php-version-change)
+   - [Terminal PHP Version Change](#terminal-php-version-change)
 4. [NGNINX](#nginx)
     - [Nginx installation](#nginx-installation) 	
     - [Dynamic SubDomain SSL](##dynamic-subdomain-ssl-renew-or-installation-in-nginx)
