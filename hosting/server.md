@@ -31,6 +31,7 @@
 15. [Cloudflare SSL](#cloudflare-ssl)
 16. [Cloudflare HSTS](#cloudflare-hsts)
 17. [Install Google Fonts in System](#install-google-fonts-in-system)
+18. [Tar File Compression](#tar-file-compression)
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -913,4 +914,37 @@ sudo fc-cache -f -v
 
 # 4. Verify it's installed
 fc-list | grep "Rubik"
+```
+
+### Tar File Compression
+#### Backup Creation
+```bash
+i. Create Backup Folder
+	tar -czf site-backup.tar.gz /var/www/site
+	c → create archive
+	z → gzip compression
+	f → filenam
+ii. 🧹 Exclude Unwanted Folders While Create Backup
+	tar -czf site-backup.tar.gz \
+	  --exclude=node_modules \
+	  --exclude=storage/logs \
+	  /var/www/site
+iii. Create backup with current datetime and timezone 
+	sudo tar -czpf site-$(date +%F).tar.gz /var/www/site
+	output : site-2026-02-09.tar.gz
+
+	sudo tar -czpf site-$(date +%F_%H-%M-%S).tar.gz /var/www/site
+	output:site-2026-02-09_14-32-08.tar.gz
+
+	sudo tar -czpf site-$(TZ=Asia/Kolkata date +%Y%m%d_%H%M%S).tar.gz /var/www/site
+```
+#### Restore Backup
+```bash
+i. Restore Backup Folder in Current Place
+	tar -xzf site-backup.tar.gz 
+	x → extract
+	z → gzip decompression
+	f → file name
+ii. Restore Backup in Specific Folder
+	tar -xzf site-backup.tar.gz -C /var/www/
 ```
