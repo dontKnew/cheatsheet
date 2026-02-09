@@ -920,23 +920,24 @@ fc-list | grep "Rubik"
 #### Backup Creation
 ```bash
 i. Create Backup Folder
-	tar -czf site-backup.tar.gz /var/www/site
+	tar -cvzf site-backup.tar.gz /var/www/site
 	c → create archive
+	v -> verbose : termial processing info show
 	z → gzip compression
 	f → filenam
 ii. 🧹 Exclude Unwanted Folders While Create Backup
-	tar -czf site-backup.tar.gz \
+	tar -cvzf site-backup.tar.gz \
 	  --exclude=node_modules \
 	  --exclude=storage/logs \
 	  /var/www/site
 iii. Create backup with current datetime and timezone 
-	sudo tar -czpf site-$(date +%F).tar.gz /var/www/site
+	sudo tar -cvzpf site-$(date +%F).tar.gz /var/www/site
 	output : site-2026-02-09.tar.gz
 
-	sudo tar -czpf site-$(date +%F_%H-%M-%S).tar.gz /var/www/site
+	sudo tar -cvzpf site-$(date +%F_%H-%M-%S).tar.gz /var/www/site
 	output:site-2026-02-09_14-32-08.tar.gz
 
-	sudo tar -czpf site-$(TZ=Asia/Kolkata date +%Y%m%d_%H%M%S).tar.gz /var/www/site
+	sudo tar -cvzpf site-$(TZ=Asia/Kolkata date +%Y%m%d_%H%M%S).tar.gz /var/www/site
 ```
 #### Restore Backup
 ```bash
