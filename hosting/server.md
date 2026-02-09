@@ -941,11 +941,12 @@ iii. Create backup with current datetime and timezone
 ```
 #### Restore Backup
 ```bash
-i. Restore Backup Folder in Current Place
-	tar -xzf site-backup.tar.gz 
+i. Restore Backup in Specific Folder
+	tar -xzf site-backup.tar.gz -C /var/www/
+	C → restore destination
+ii. Restore Backup Folder in Current Place
+	tar -xvzf site_backup.tar.gz 
 	x → extract
 	z → gzip decompression
 	f → file name
-ii. Restore Backup in Specific Folder
-	tar -xzf site-backup.tar.gz -C /var/www/
 ```
