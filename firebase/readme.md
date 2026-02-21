@@ -38,12 +38,14 @@
 - Offline Support : app work without internet
 - Regular Updates & Long Term Support By Google
   
-### Firebase Topic 
-1. Realtime Database
-2. Firestore Database
-3. Web Hosting
-4. Push Notification
-5. Authentication
+### Firebase Topic Series
+1. Firebase Introduction
+2. Realtime Database
+3. Firebase Authentication
+4. Firestore Databas
+5. Web Hostings
+6. Push Notification
+7. Firebase Storage
 
 ## Firebase Realtime Database
 ### Introduction
