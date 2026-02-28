@@ -1,78 +1,419 @@
-# Git Cheatsheet
+# Git Cheatsheet (Lightweight & Simple)
 
-# Change Current Repo auth
+A practical guide for a solo developer. Short commands, clear meaning, and when to use.
+
+---
+
+## Table of Contents
+
+1. First‑time Setup
+2. SSH Key (GitHub login without password)
+3. Start a Project & Push to GitHub
+4. Daily Workflow (what you run every day)
+5. Branches (feature work safely)
+6. Merge & Conflicts (how to fix)
+7. Tags & Versions (releases)
+8. Hotfix from a Tag (fix old version)
+9. Undo Changes (restore/reset)
+10. Files & .gitignore
+11. Remote URL & Multiple PCs
+12. Useful Logs & Search
+13. Common Errors & Fixes
+
+---
+
+## 1) First‑time Setup (one time only)
+
+Set your identity (used in commits):
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
 ```
-// set
-git config user.name "Dont Knew"
-git config user.email "sajid.phpmaster@gmail.com"
 
-// check the info
-git config user.name
-git config user.email
-git config --show-origin user.name
+Check:
 
+```bash
+git config --global --list
 ```
 
-# Change Git Author for Commit
-- git commit --amend --author="dontKnew <sajid.phpmaster@gmail.com>"
-  
-# SSH KEY SETUP on git bash window
-	1. git config --global user.email "israfil123.sa@gmail.com" : set email
-	2. git config --global user.name "Dont Knew" : set name
-	3. open command prompt
-		 - ssh-keygen -t ed25519 -C "israfil123.sa@gmail.com"
-			or 
-		- ssh-keygen -t rsa -b 4096 -C "your_email@example.com"  // for legay system
-	4. cat ~/.ssh/id_ed25519.pub 
-	5. get the key and paste into ur github account https://github.com/settings/ssh/new
-	6. first push git@github.com:dontKnew/auth-providers.git ask for first time authentication
-	7. Testing for SSH Connection
-		1. ssh -vT git@github.com  #for debuging..
-		2. ssh -T git@github.com #msg ur github username if connected to github account
+Per‑repo (override for current project only):
 
+```bash
+git config user.name "Project Name"
+git config user.email "project@example.com"
+```
 
-## push to project in github
-	1. git init : create git file 
-	2. git add . : add all file and folders
-	3. git add fileName.extension
-	4. git commit -m "Your comment"
-	5. git branch -M branchName : default branch is master or main 
-	5. git remote add origin https://github.com/dontKnew/food-devliery.git
-	6. git remote -v : verify for url where's you are pushing..
-	7. git push -u push origin branchname 
-		-  git push push origin branchname  : assume already setup
+Change author of last commit:
 
-## Below Errors to solve with command : 	
-	- fatal: refusing to merge unrelated histories : git pull origin master --allow-unrelated-histories
+```bash
+git commit --amend --author="Your Name <you@example.com>"
+```
 
-## Remove Specfic Folder after before commit	   
-	  git add .
-	  git reset foldername OR git add --all :!foldername
+---
 
-## Restore From Specific Comment : 
-	I. git log : get the comment hash..id
-	git checkout <commit_hash> -- path/to/deleted/file & 
-	Latest : git checkout HEAD -- path/to/deleted/file	
+## 2) SSH Key (GitHub login without password)
 
-## changed remote origin 
-	 -  git remote set-url origin git@github.com:dontKnew/rapidexin.git
+1. Generate key:
 
-## before commit remove the files modification or back to last modification or discard modification : 
-	- git reset --hard
+```bash
+ssh-keygen -t ed25519 -C "you@example.com"
+```
 
-## Git Branching & hide and show file/folder, 
-	1. first create the branch and enter the branch 
-	2. thereafter create file/folderd
-	3. git add filename/folderName
-	4. git commit "Your comment"
-	4. now you will exits from branch, your file/folder will be invisible
-	
-##  Push All Branches together
-	- git push --all origin
+(press Enter for defaults) 2. Show public key:
 
-## fetch all branches together to local computer.
-	- git pull --all
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
 
-## remove the folder/file after git add and bofore commit from github trace  
-	- git rm -r --cached path/filename 
- 
+3. Copy output → GitHub → Settings → SSH and GPG keys → New SSH key
+4. Test connection:
+
+```bash
+ssh -T git@github.com
+```
+
+You should see a welcome message.
+
+---
+
+## 3) Start a Project & Push to GitHub
+
+Inside project folder:
+
+```bash
+git init
+git add .
+git commit -m "initial commit"
+```
+
+Connect to GitHub repo:
+
+```bash
+git branch -M main
+git remote add origin git@github.com:USERNAME/REPO.git
+git remote -v
+```
+
+First push:
+
+```bash
+git push -u origin main
+```
+
+---
+
+## 4) Daily Workflow (use this every day)
+
+Check status:
+
+```bash
+git status
+```
+
+See changes:
+
+```bash
+git diff
+```
+
+Save work (small commits!):
+
+```bash
+git add .
+git commit -m "feat: add login form"
+```
+
+Backup to GitHub:
+
+```bash
+git push
+```
+
+Pull updates (second computer / fresh clone):
+
+```bash
+git pull
+```
+
+---
+
+## 5) Branches (feature work safely)
+
+Create a feature branch:
+
+```bash
+git checkout -b feature-login
+```
+
+Work, commit as usual. Switch back:
+
+```bash
+git checkout main
+```
+
+Merge feature into main:
+
+```bash
+git merge feature-login
+```
+
+Delete branch after merge:
+
+```bash
+git branch -d feature-login
+```
+
+Push a branch to GitHub:
+
+```bash
+git push origin feature-login
+```
+
+**Rule:** main = stable app, features = branches
+
+---
+
+## 6) Merge & Conflicts (how to fix)
+
+Conflict happens when the same lines changed in both branches. Git shows markers in file:
+
+```
+<<<<<<< HEAD
+your code
+=======
+other code
+>>>>>>> feature-branch
+```
+
+Steps to fix:
+
+1. Edit file → keep correct code
+2. Remove markers
+3. Save
+4. Run:
+
+```bash
+git add .
+git commit
+```
+
+Tip: preview differences before merge:
+
+```bash
+git diff main feature-login
+```
+
+---
+
+## 7) Tags & Versions (releases)
+
+Use Semantic Versioning: `MAJOR.MINOR.PATCH`
+
+* Patch (1.0.1): bug fix
+* Minor (1.1.0): new feature
+* Major (2.0.0): breaking change
+
+Create annotated tag:
+
+```bash
+git tag -a v1.0.0 -m "Initial release"
+```
+
+Push tag:
+
+```bash
+git push origin v1.0.0
+```
+
+Push all tags:
+
+```bash
+git push --tags
+```
+
+List tags:
+
+```bash
+git tag
+```
+
+Branch vs Tag:
+
+* Branch = moving development
+* Tag = frozen release snapshot
+
+---
+
+## 8) Hotfix from a Tag (fix old version)
+
+Create branch from tag:
+
+```bash
+git checkout -b hotfix-v1.0 v1.0.0
+```
+
+Fix bug → commit → new tag:
+
+```bash
+git add .
+git commit -m "fix: crash on login"
+git tag -a v1.0.1 -m "Bug fix"
+```
+
+Push:
+
+```bash
+git push origin hotfix-v1.0
+git push origin v1.0.1
+```
+
+Also merge fix into main:
+
+```bash
+git checkout main
+git merge hotfix-v1.0
+git push
+```
+
+---
+
+## 9) Undo Changes (restore/reset)
+
+### Unstaged changes (edited but not added):
+
+```bash
+git restore .
+```
+
+### Remove from staging (after `git add`):
+
+```bash
+git restore --staged .
+```
+
+### Undo last commit but keep code:
+
+```bash
+git reset --soft HEAD~1
+```
+
+### Undo last commit and unstage:
+
+```bash
+git reset --mixed HEAD~1
+```
+
+### Dangerous: delete commits + code:
+
+```bash
+git reset --hard HEAD~1
+```
+
+### View old version safely:
+
+```bash
+git checkout <commit_id>
+```
+
+---
+
+## 10) Files & .gitignore
+
+Create `.gitignore` to skip private/build files:
+
+```
+node_modules/
+.env
+build/
+dist/
+*.log
+__pycache__/
+```
+
+Remove tracked file but keep locally:
+
+```bash
+git rm -r --cached path/file
+```
+
+---
+
+## 11) Remote URL & Multiple PCs
+
+Check remote:
+
+```bash
+git remote -v
+```
+
+Change remote URL:
+
+```bash
+git remote set-url origin git@github.com:USERNAME/REPO.git
+```
+
+Clone on another computer:
+
+```bash
+git clone git@github.com:USERNAME/REPO.git
+```
+
+---
+
+## 12) Useful Logs & Search
+
+Short history:
+
+```bash
+git log --oneline --graph --decorate
+```
+
+See who changed a line:
+
+```bash
+git blame filename
+```
+
+Show a commit:
+
+```bash
+git show <commit_id>
+```
+
+---
+
+## 13) Common Errors & Fixes
+
+**Refusing to merge unrelated histories**
+
+```bash
+git pull origin main --allow-unrelated-histories
+```
+
+**Forgot to push tags**
+
+```bash
+git push --tags
+```
+
+**Accidentally added secrets (.env)**
+
+1. Add to .gitignore
+2. Remove from tracking:
+
+```bash
+git rm --cached .env
+git commit -m "remove .env from repo"
+```
+
+---
+
+### Safe Rules to Remember
+
+* Commit small and often
+* Never force push to shared history unless you understand it
+* Avoid `git reset --hard` unless you accept data loss
+* After hotfix, always merge into main
+
+End of cheatsheet.
