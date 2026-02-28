@@ -3,22 +3,20 @@
 A practical guide for a solo developer. Short commands, clear meaning, and when to use.
 
 ---
-
 ## Table of Contents
-
-1. First‑time Setup
-2. SSH Key (GitHub login without password)
-3. Start a Project & Push to GitHub
-4. Daily Workflow (what you run every day)
-5. Branches (feature work safely)
-6. Merge & Conflicts (how to fix)
-7. Tags & Versions (releases)
-8. Hotfix from a Tag (fix old version)
-9. Undo Changes (restore/reset)
-10. Files & .gitignore
-11. Remote URL & Multiple PCs
-12. Useful Logs & Search
-13. Common Errors & Fixes
+1. [First-time Setup](#1-firsttime-setup-one-time-only)
+2. [SSH Key (GitHub login without password)](#ssh-key-github-login-without-password)
+3. [Start a Project & Push to GitHub](#start-a-project--push-to-github)
+4. [Daily Workflow (what you run every day)](#daily-workflow-what-you-run-every-day)
+5. [Branches (feature work safely)](#branches-feature-work-safely)
+6. [Merge & Conflicts (how to fix)](#merge--conflicts-how-to-fix)
+7. [Tags & Versions (releases)](#tags--versions-releases)
+8. [Hotfix from a Tag (fix old version)](#hotfix-from-a-tag-fix-old-version)
+9. [Undo Changes (restore/reset)](#undo-changes-restorereset)
+10. [Files & .gitignore](#files--gitignore)
+11. [Remote URL & Multiple PCs](#remote-url--multiple-pcs)
+12. [Useful Logs & Search](#useful-logs--search)
+13. [Common Errors & Fixes](#common-errors--fixes)
 
 ---
 
