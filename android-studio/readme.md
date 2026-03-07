@@ -30,7 +30,8 @@
     - [Call Android Method in Javascript](#call-android-method-in-javascript)
     - [Call Javascript Method in Java](#call-javascript-method-in-java)
 17. Local VPN
-    
+18. [Worker Manager](#worker-manager)
+
 
 ## Local VPN
 
@@ -1017,3 +1018,5 @@ Q3. Cpp folder not showing but cpp showing
 
 - if You still could not installed haxm, check your laptop or system supported or not for haxm , if supported, ping me, I will help you to for installation haxm through remote andesk :)
   -  Video Link : <a href="link">somethig</a> 
+
+
