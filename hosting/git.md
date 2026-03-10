@@ -85,6 +85,7 @@ Inside project folder:
 
 ```bash
 git init
+git ls-files --others --exclude-standard | xargs du -ch # check the size of untracked files and folder or before commit
 git add .
 git commit -m "initial commit"
 ```
