@@ -317,20 +317,47 @@ git checkout <commit_id>
 ---
 
 ## 10) Files & .gitignore
-
-Create `.gitignore` to skip private/build files:
+### Important Poins
+- if slash added in start : then its apply only root folder instead of ignore recursive, if found in node_modules in subfolder, then it will not ignore..
+```
+# Root Folder Ignore
+/node_modules
+/.env
+/config.php
+```
+- Folder Ignore
+```
+/node_modules/  # root folder ignore with only folder
+vendor/ # recursive ignore with only folder 
+/logs # root file/folder ignore with same name
 
 ```
-node_modules/
-.env
-build/
-dist/
-*.log
-__pycache__/
+- File Type Ignore 
+```
+*.log # root and recursive ignore 
+*.cache # root and recursive ignore
+/*.log # root only ignore
+```
+- Exception Rule (!)  : ignore one folder & keep one file from that folder
+```
+logs/* # recursive ignore folder of files 
+!logs/.gitkeep #logs folder all files ignore hoga lekin .gitkeep track hoga.
 ```
 
-Remove tracked file but keep locally:
+- SubFolder Ignore
+```
+/src/cache/ # ignore cache folder with from root folder
+src/cache/ # ignore cache folder with recursive src/cache found anywhere in project
+```
+- Write Comments 
+```
+#this is my node_modules folder
+node_modules
+```
+- multiple .gitignore files # git will combine the all .gitignore and create one rules, if parent fodler ignore folder "src" and subfolder keep the src folder, then it will overrite by the parent .gitignore
+- 
 
+- Remove tracked file but keep locally:
 ```bash
 git rm -r --cached path/file
 ```
