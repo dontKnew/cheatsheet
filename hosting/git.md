@@ -23,16 +23,20 @@ A practical guide for a solo developer. Short commands, clear meaning, and when 
 ## 1) First‑time Setup (one time only)
 
 Set your identity (used in commits):
-
 ```bash
 git config --global user.name "Your Name"
 git config --global user.email "you@example.com"
+git config --global init.defaultBranch main # set the default branch name
+git config --global --add safe.directory /home/website/htdocs  # set safe directory to use directy in git
 ```
-
 Check:
-
 ```bash
 git config --global --list
+#output
+safe.directory=/home/gbs/htdocs
+user.email=israfil123.sa@gmail.com
+user.name=Dont Knew
+init.defaultbranch=main
 ```
 
 Per‑repo (override for current project only):
