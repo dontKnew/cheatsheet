@@ -15,6 +15,7 @@
       - [GIF Render](#gif-render)
       - [Loader](#loader)
       - [Radio Input](#radio-input)
+      - [Select input)(#select-input)
 11. [Material Design](#material-design)
     - [Select Option](#select-option)
     - [Buttons](#buttons)
@@ -116,7 +117,39 @@ public class WebAppInterface {
 ### Call Javascript Method in Java
 
       
+## Select Input
+```java
+  Spinner bankSpinner = findViewById(R.id.spinnerBank);
+        List<String> banks = Arrays.asList(
+                "State Bank of India (SBI)",
+                "HDFC Bank",
+                "ICICI Bank",
+                "Axis Bank",
+                "Punjab National Bank (PNB)",
+                "Bank of Baroda",
+                "Canara Bank",
+                "Union Bank of India",
+                "Kotak Mahindra Bank",
+                "Indian Bank",
+                "IDBI Bank",
+                "Yes Bank",
+                "Other Bank"
+        );
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, banks);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bankSpinner.setAdapter(adapter);
+       String selectedBank = bankSpinner.getSelectedItem().toString();
+```
+```xml
+   <Spinner
+        android:id="@+id/spinnerBank"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/input_border"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp" />
+```
 
 ## View Model
 ### Introduction
