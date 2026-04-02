@@ -15,7 +15,7 @@
       - [GIF Render](#gif-render)
       - [Loader](#loader)
       - [Radio Input](#radio-input)
-      - [Select input)(#select-input)
+      - [Select input](#select-input)
 11. [Material Design](#material-design)
     - [Select Option](#select-option)
     - [Buttons](#buttons)
