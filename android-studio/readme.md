@@ -16,6 +16,7 @@
       - [Loader](#loader)
       - [Radio Input](#radio-input)
       - [Select input](#select-input)
+      - [SVG to Drawable](#svg-to-drawable)
 11. [Material Design](#material-design)
     - [Select Option](#select-option)
     - [Buttons](#buttons)
@@ -32,6 +33,10 @@
     - [Call Javascript Method in Java](#call-javascript-method-in-java)
 17. Local VPN
 18. [Worker Manager](worker-manager.md)
+
+
+## SVG to Drawable
+- Right Click -> Vector Assets -> Choose SVG File Path
 
 
 ## Local VPN
