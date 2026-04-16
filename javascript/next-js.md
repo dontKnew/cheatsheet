@@ -11,6 +11,28 @@
 6. [Nextjs API](#nextjs-api)
 7. [Global State](#global-state)
 8. [Error Solutions](#error-solutions)
+9. Cache (#cache)
+
+
+## Cache
+### Server Side Data Level
+- cacheLife : days, minutes, hours,
+- cacheTags : use to remove the cache or fresh it mannual
+- updateTag : data has expired, need to fresh data through mannual
+- revalidateTag : first request : old data, then again request, fresh data show, because its refresh the data on reqeust on next demand reqeust!
+```
+import { cacheLife, cacheTag } from 'next/cache'
+export async function getUsers() {
+  'use cache'
+  cacheLife('hours')
+  cacheTag('users') 
+  return db.query('SELECT * FROM users')
+}
+```
+#### Cache Life
+- stale:      300 seconds (5 minutes)
+- revalidate: 900 seconds (15 minutes)
+- expire:     never
 
 
 
