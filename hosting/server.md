@@ -33,6 +33,7 @@
 17. [Cloudflare HSTS](#cloudflare-hsts)
 18. [Install Google Fonts in System](#install-google-fonts-in-system)
 19. [Tar File Compression](#tar-file-compression)
+20. [Mysql Remote Import](#mysql-remote-import)
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -965,3 +966,7 @@ ii. Restore Backup Folder in Current Place
 	z → gzip decompression
 	f → file name
 ```
+
+## MYSQL Remote Import
+- scp C:\Users\sajid\Downloads\localhost.sql sshConfigHostName:/root/localhost.sql
+- MakeSure SSH Connected & Enter Mysql Password Import it :  ssh -t sshConfigHostName "mysql -u username -p --verbose --show-warnings -e 'SOURCE /root/localhost.sql;'"
