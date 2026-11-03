@@ -21,17 +21,18 @@
 	- [Permission](#permission)
  	- etc.
 7. [Server Security](#server-security)
-8. <a href="redis-cache.md">Redis Cache PHP</a>
-9. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
-10. [NodejDeployment](#nodejsdeployment)
-11. [Reset File/FolderPermissinos By PHP](#reset-filefolderpermissinos-by-php)
-12. [NodeJs + Nextjs + NodeCulster](#nodejs--nextjs--nodeculster)
-13. [NodeJs + Nextjs + NodejsCluster + RedisAdapter](#nodejs--nextjs--nodejscluster--redisadapter)
-14. [Remote MYSQL Database](#remote-mysql-database)
-15. [Cloudflare SSL](#cloudflare-ssl)
-16. [Cloudflare HSTS](#cloudflare-hsts)
-17. [Install Google Fonts in System](#install-google-fonts-in-system)
-18. [Tar File Compression](#tar-file-compression)
+   	- [SSH Login Without Password](#ssh-login-without-password)
+9. <a href="redis-cache.md">Redis Cache PHP</a>
+10. [Websocket Setup in VPS](#websocket-setup-in-vps-nginx)
+11. [NodejDeployment](#nodejsdeployment)
+12. [Reset File/FolderPermissinos By PHP](#reset-filefolderpermissinos-by-php)
+13. [NodeJs + Nextjs + NodeCulster](#nodejs--nextjs--nodeculster)
+14. [NodeJs + Nextjs + NodejsCluster + RedisAdapter](#nodejs--nextjs--nodejscluster--redisadapter)
+15. [Remote MYSQL Database](#remote-mysql-database)
+16. [Cloudflare SSL](#cloudflare-ssl)
+17. [Cloudflare HSTS](#cloudflare-hsts)
+18. [Install Google Fonts in System](#install-google-fonts-in-system)
+19. [Tar File Compression](#tar-file-compression)
 
 ## Server Web Optimization 
 	### GZIP Compression
@@ -111,6 +112,12 @@ php -v
 	
 
 ## Server Security
+### SSH Login Without Password
+	1. ssh-keygen -t ed25519 -C "personal-vps"
+	2. go to c drive & open the file personal-vps.pub copy the code
+	3. go to your vps server & open file /root/.ssh/authorized_keys 
+	4. paste the personal-vps.pub copied text to file /root/.ssh/authorized_keys & save it
+	6. now access via  ssh -i ~/.ssh/personal-vps root@ipAddress
 ### Change SSH Port 
 	1. Ex. change ssh port to 3333
  	2. check 3333 already in used or not : sudo netstat -tuln | grep :3333
