@@ -63,7 +63,8 @@ php -v
 ```
 ## PHP & MYSQL
 ### Install PHP FPM Version
-	i. sudo add-apt-repository ppa:ondrej/php ( if need)
+	i. sudo add-apt-repository ppa:ondrej/php ( if need) 
+		- this is old Version Now recommend to install via : [https://packages.sury.org/php/Readme.txt](https://packages.sury.org/php/README.txt)
  	ii. sudo apt update
   	iii. sudo apt install php8.3-fpm
    	iv. sudo apt install php8.3-cli php8.3-common php8.3-json php8.3-opcache php8.3-mbstring php8.3-xml php8.3-curl php8.3-zip php8.3-redis
