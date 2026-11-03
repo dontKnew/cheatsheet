@@ -118,6 +118,13 @@ php -v
 	3. go to your vps server & open file /root/.ssh/authorized_keys 
 	4. paste the personal-vps.pub copied text to file /root/.ssh/authorized_keys & save it
 	6. now access via  ssh -i ~/.ssh/personal-vps root@ipAddress
+	7. Simple Command to Login Ex. ssh personal-vps , it will logged your server
+		- Go to C Drive & open file .ssh/config  & paste below code
+		Host personal-vps
+		    HostName ipAddress
+		    User root
+		    IdentityFile ~/.ssh/personal-vps
+		    IdentitiesOnly yes
 ### Change SSH Port 
 	1. Ex. change ssh port to 3333
  	2. check 3333 already in used or not : sudo netstat -tuln | grep :3333
