@@ -970,3 +970,12 @@ ii. Restore Backup Folder in Current Place
 ## MYSQL Remote Import
 - scp C:\Users\sajid\Downloads\localhost.sql sshConfigHostName:/root/localhost.sql
 - MakeSure SSH Connected & Enter Mysql Password Import it :  ssh -t sshConfigHostName "mysql -u username -p --verbose --show-warnings -e 'SOURCE /root/localhost.sql;'"
+
+## Upload File to VPS Server via SSH Connection
+### File Upload
+- linux :
+- window : scp "C:\Users\sajid\Downloads\localhost.sql" sshConfigHostName:/root/
+### Folder Upload
+- window :  scp -r "C:\Users\sajid\Downloads\backup" sshConfigHostName:/root/
+### Upload Verification
+- window: ssh sshConfigHostName "ls -lh /root/localhost.sql"
